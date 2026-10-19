@@ -1,0 +1,7 @@
+[package]
+name = "dcs-bios-codegen"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+dcs-bios-rs-lib = { path = "../lib" }

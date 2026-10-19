@@ -2,6 +2,7 @@
 members = [
     "crates/lib",
     "crates/std-bin",
+    "crates/dcs-bios-codegen"
 ]
 resolver = "3"
 
