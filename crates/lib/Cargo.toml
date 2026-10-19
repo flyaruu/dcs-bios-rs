@@ -1,0 +1,10 @@
+[package]
+name = "dcs-bios-rs-lib"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+heapless = "0.8"

@@ -1,0 +1,7 @@
+[package]
+name = "dcs-bios-rs-std-bin"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+dcs-bios-rs-lib = { path = "../lib" }
