@@ -1,3 +1,452 @@
-fn main() {
-    println!("Hello, world!");
+use std::collections::BTreeMap;
+use std::env;
+use std::fmt::Write as _;
+use std::fs;
+use std::path::{Path, PathBuf};
+
+use serde::Deserialize;
+
+#[derive(Debug, Deserialize)]
+struct ControlDefinition {
+    identifier: String,
+    control_type: String,
+    description: Option<String>,
+    #[serde(default)]
+    inputs: Vec<InputDefinition>,
+    #[serde(default)]
+    outputs: Vec<OutputDefinition>,
+}
+
+#[derive(Debug, Deserialize)]
+struct InputDefinition {
+    description: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct OutputDefinition {
+    address: u16,
+    description: Option<String>,
+    #[serde(rename = "type")]
+    output_type: String,
+    mask: Option<u16>,
+    shift_by: Option<u8>,
+    max_length: Option<usize>,
+    suffix: Option<String>,
+}
+
+type Model = BTreeMap<String, BTreeMap<String, ControlDefinition>>;
+
+struct GeneratedControl {
+    name: String,
+    description: String,
+    base: String,
+    callback: &'static str,
+    constructor: String,
+    accessor: &'static str,
+}
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let workspace_dir = manifest_dir
+        .parent()
+        .and_then(Path::parent)
+        .ok_or("could not determine workspace directory")?;
+
+    let mut input_dir = workspace_dir.join("model-definitions");
+    let mut output_dir = workspace_dir.join("crates/generated/src");
+    let mut args = env::args().skip(1);
+    while let Some(arg) = args.next() {
+        match arg.as_str() {
+            "--input-dir" => {
+                input_dir = PathBuf::from(args.next().ok_or("missing --input-dir value")?)
+            }
+            "--output-dir" => {
+                output_dir = PathBuf::from(args.next().ok_or("missing --output-dir value")?)
+            }
+            "-h" | "--help" => {
+                println!("Usage: dcs-bios-codegen [--input-dir DIR] [--output-dir DIR]");
+                return Ok(());
+            }
+            other => return Err(format!("unknown argument: {other}").into()),
+        }
+    }
+
+    fs::create_dir_all(&output_dir)?;
+    for entry in fs::read_dir(&output_dir)? {
+        let path = entry?.path();
+        if path.extension().and_then(|extension| extension.to_str()) == Some("rs") {
+            fs::remove_file(path)?;
+        }
+    }
+    let mut modules = Vec::new();
+    for entry in fs::read_dir(&input_dir)? {
+        let entry = entry?;
+        let path = entry.path();
+        if path.extension().and_then(|extension| extension.to_str()) != Some("json") {
+            continue;
+        }
+        let model_name = path
+            .file_stem()
+            .and_then(|stem| stem.to_str())
+            .ok_or("model definition has no valid file name")?;
+        let module_name = module_case(model_name);
+        let source = generate_model(&fs::read_to_string(&path)?, model_name)?;
+        fs::write(output_dir.join(format!("{module_name}.rs")), source)?;
+        modules.push(module_name);
+    }
+    modules.sort();
+
+    let mut lib = String::from("#![no_std]\n\n//! Generated DCS-BIOS aircraft bindings.\n\n");
+    for module in modules {
+        writeln!(lib, "pub mod {module};")?;
+    }
+    fs::write(output_dir.join("lib.rs"), lib)?;
+    Ok(())
+}
+
+fn generate_model(json: &str, model_name: &str) -> Result<String, Box<dyn std::error::Error>> {
+    let model: Model = serde_json::from_str(json)?;
+    let mut controls = Vec::new();
+    for group in model.values() {
+        for definition in group.values() {
+            for (index, output) in definition.outputs.iter().enumerate() {
+                if let Some(control) = generated_control(definition, output, index)? {
+                    controls.push(control);
+                }
+            }
+        }
+    }
+    controls.sort_by(|left, right| left.name.cmp(&right.name));
+
+    let aircraft_name = pascal_case(model_name);
+    let mut source = String::new();
+    writeln!(
+        source,
+        "//! Generated from model-definitions/{model_name}.json."
+    )?;
+    writeln!(
+        source,
+        "//! Do not edit manually; rerun dcs-bios-codegen instead.\n"
+    )?;
+    source.push_str("#![allow(unused_imports)]\n\n");
+    source.push_str(
+        "use core::marker::PhantomData;\n\
+         use heapless::Vec;\n\
+         use dcs_bios_rs_lib::{AnalogDial, AnalogGauge, Control, Display, FeedError, FixedStepDial,\n\
+         Led, LimitedDial, Metadata, Packet, ProtocolParser, Selector, Sink};\n\
+         \n",
+    );
+    source.push_str("pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);\n");
+    source.push_str("pub type LedCallback<'a> = &'a mut dyn FnMut(bool);\n");
+    source.push_str("pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);\n\n");
+
+    for control in &controls {
+        for line in control.description.lines() {
+            writeln!(source, "/// {line}")?;
+        }
+        writeln!(source, "pub struct {}({});", control.name, control.base)?;
+        writeln!(source, "impl {} {{", control.name)?;
+        writeln!(
+            source,
+            "    pub const fn new() -> Self {{ Self({}) }}",
+            control.constructor
+        )?;
+        match control.accessor {
+            "value" => writeln!(
+                source,
+                "    pub const fn value(&self) -> u16 {{ self.0.value() }}"
+            )?,
+            "is_on" => writeln!(
+                source,
+                "    pub const fn is_on(&self) -> bool {{ self.0.is_on() }}"
+            )?,
+            "display" => writeln!(
+                source,
+                "    pub fn value(&self) -> &[u8] {{ self.0.value() }}"
+            )?,
+            _ => unreachable!(),
+        }
+        source.push_str("}\n");
+        writeln!(source, "impl Default for {} {{", control.name)?;
+        source.push_str("    fn default() -> Self { Self::new() }\n}\n");
+        writeln!(source, "impl Control for {} {{", control.name)?;
+        source
+            .push_str("    fn accept(&mut self, packet: Packet<'_>) { self.0.accept(packet); }\n");
+        source.push_str("    fn commit(&mut self) -> bool { self.0.commit() }\n}\n\n");
+    }
+
+    source.push_str("pub enum RegisteredControl<'a> {\n");
+    for control in &controls {
+        writeln!(
+            source,
+            "    {} {{ control: {}, callback: {}<'a> }},",
+            control.name, control.name, control.callback
+        )?;
+    }
+    source.push_str("}\n\nimpl RegisteredControl<'_> {\n");
+    source.push_str("    fn accept(&mut self, packet: Packet<'_>) {\n        match self {\n");
+    for control in &controls {
+        writeln!(
+            source,
+            "            Self::{} {{ control, .. }} => control.accept(packet),",
+            control.name
+        )?;
+    }
+    source.push_str("        }\n    }\n\n    fn commit(&mut self) {\n        match self {\n");
+    for control in &controls {
+        let callback_value = match control.accessor {
+            "value" | "display" => "control.value()",
+            "is_on" => "control.is_on()",
+            _ => unreachable!(),
+        };
+        writeln!(
+            source,
+            "            Self::{} {{ control, callback }} => if control.commit() {{ callback({callback_value}); }},",
+            control.name
+        )?;
+    }
+    source.push_str("        }\n    }\n}\n\n");
+
+    writeln!(
+        source,
+        "pub struct {aircraft_name}Builder<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize> {{"
+    )?;
+    source.push_str("    controls: Vec<RegisteredControl<'a>, MAX_CONTROLS>,\n    _packet_capacity: PhantomData<ProtocolParser<MAX_PACKET_DATA>>,\n}\n\n");
+    writeln!(
+        source,
+        "impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize> {aircraft_name}Builder<'a, MAX_CONTROLS, MAX_PACKET_DATA> {{"
+    )?;
+    source.push_str("    pub fn new() -> Self { Self { controls: Vec::new(), _packet_capacity: PhantomData } }\n\n");
+    for control in &controls {
+        writeln!(
+            source,
+            "    pub fn register_{}<F>(&mut self, control: {}, callback: &'a mut F) -> Result<&mut Self, &'static str>",
+            snake_case(&control.name),
+            control.name
+        )?;
+        writeln!(
+            source,
+            "    where F: FnMut({}) + 'a {{",
+            callback_type(control.callback)
+        )?;
+        writeln!(
+            source,
+            "        self.controls.push(RegisteredControl::{} {{ control, callback }}).map_err(|_| \"aircraft control capacity exceeded\")?;",
+            control.name
+        )?;
+        source.push_str("        Ok(self)\n    }\n\n");
+    }
+    writeln!(
+        source,
+        "    pub fn build(self) -> {aircraft_name}<'a, MAX_CONTROLS, MAX_PACKET_DATA> {{"
+    )?;
+    source.push_str("        ");
+    writeln!(
+        source,
+        "{aircraft_name} {{ parser: ProtocolParser::new(), controls: self.controls, saw_frame: false }}"
+    )?;
+    source.push_str("    }\n}\n\n");
+    writeln!(
+        source,
+        "impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize> Default for {aircraft_name}Builder<'a, MAX_CONTROLS, MAX_PACKET_DATA> {{"
+    )?;
+    source.push_str("    fn default() -> Self { Self::new() }\n}\n\n");
+    source.push_str("struct Dispatcher<'bus, 'callback, const MAX_CONTROLS: usize> {\n    controls: &'bus mut Vec<RegisteredControl<'callback>, MAX_CONTROLS>,\n    saw_frame: &'bus mut bool,\n}\n\n");
+    source.push_str("impl<'bus, 'callback, const MAX_CONTROLS: usize> Sink for Dispatcher<'bus, 'callback, MAX_CONTROLS> {\n");
+    source.push_str("    fn on_write(&mut self, packet: Packet<'_>) { for control in self.controls.iter_mut() { control.accept(packet); } }\n");
+    source.push_str("    fn on_frame_sync(&mut self) { if *self.saw_frame { for control in self.controls.iter_mut() { control.commit(); } } else { *self.saw_frame = true; } }\n}\n\n");
+    writeln!(
+        source,
+        "pub struct {aircraft_name}<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize> {{"
+    )?;
+    source.push_str("    parser: ProtocolParser<MAX_PACKET_DATA>,\n    controls: Vec<RegisteredControl<'a>, MAX_CONTROLS>,\n    saw_frame: bool,\n}\n\n");
+    writeln!(
+        source,
+        "impl<const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize> {aircraft_name}<'_, MAX_CONTROLS, MAX_PACKET_DATA> {{"
+    )?;
+    source.push_str("    pub fn feed(&mut self, bytes: &[u8]) -> Result<(), FeedError> {\n        let mut dispatcher = Dispatcher { controls: &mut self.controls, saw_frame: &mut self.saw_frame };\n        self.parser.feed(bytes, &mut dispatcher).map_err(FeedError::Parse)\n    }\n}\n");
+    Ok(source)
+}
+
+fn generated_control(
+    definition: &ControlDefinition,
+    output: &OutputDefinition,
+    output_index: usize,
+) -> Result<Option<GeneratedControl>, Box<dyn std::error::Error>> {
+    let name = if definition.outputs.len() == 1 {
+        pascal_case(&definition.identifier)
+    } else {
+        let suffix = output
+            .suffix
+            .as_deref()
+            .filter(|suffix| !suffix.is_empty())
+            .map(str::to_owned)
+            .unwrap_or_else(|| format!("_OUTPUT{}", output_index + 1));
+        pascal_case(&format!("{}{}", definition.identifier, suffix))
+    };
+    let integer_base = match definition.control_type.as_str() {
+        "selector"
+        | "discrete_dial"
+        | "electrically_held_switch"
+        | "action"
+        | "3Pos_2Command_Switch"
+        | "3Pos_2Command_Switch_OpenClose" => "Selector",
+        "analog_gauge" => "AnalogGauge",
+        "led" => "Led",
+        "limited_dial" => "LimitedDial",
+        "analog_dial" | "variable_step_dial" => "AnalogDial",
+        "fixed_step_dial" => "FixedStepDial",
+        "metadata" => "Metadata",
+        "display" => "Display",
+        other => {
+            return Err(format!(
+                "unsupported control_type {other:?} for {}",
+                definition.identifier
+            )
+            .into());
+        }
+    };
+    let (base, callback, constructor, accessor) = match output.output_type.as_str() {
+        "integer" => {
+            let mask = output.mask.ok_or(format!(
+                "integer output for {} has no mask",
+                definition.identifier
+            ))?;
+            let shift = output.shift_by.ok_or(format!(
+                "integer output for {} has no shift_by",
+                definition.identifier
+            ))?;
+            (
+                integer_base.to_string(),
+                if definition.control_type == "led" {
+                    "LedCallback"
+                } else {
+                    "IntegerCallback"
+                },
+                format!(
+                    "{integer_base}::new({}, {}, {})",
+                    output.address, mask, shift
+                ),
+                if definition.control_type == "led" {
+                    "is_on"
+                } else {
+                    "value"
+                },
+            )
+        }
+        "string" => {
+            let length = output.max_length.ok_or(format!(
+                "string output for {} has no max_length",
+                definition.identifier
+            ))?;
+            (
+                format!("Display<{length}>"),
+                "DisplayCallback",
+                format!("Display::<{length}>::new({}, {length})", output.address),
+                "display",
+            )
+        }
+        other => {
+            return Err(format!(
+                "unsupported output type {other:?} for {}",
+                definition.identifier
+            )
+            .into());
+        }
+    };
+    let mut description = String::new();
+    if let Some(control_description) = &definition.description {
+        description.push_str(control_description);
+    }
+    for input in &definition.inputs {
+        if let Some(input_description) = &input.description {
+            if !description.is_empty() {
+                description.push('\n');
+            }
+            description.push_str("Input: ");
+            description.push_str(input_description);
+        }
+    }
+    if let Some(output_description) = &output.description {
+        if !description.is_empty() {
+            description.push('\n');
+        }
+        description.push_str("Output: ");
+        description.push_str(output_description);
+    }
+
+    Ok(Some(GeneratedControl {
+        name,
+        description,
+        base,
+        callback,
+        constructor,
+        accessor,
+    }))
+}
+
+fn callback_type(callback: &str) -> &'static str {
+    match callback {
+        "IntegerCallback" => "u16",
+        "LedCallback" => "bool",
+        "DisplayCallback" => "&[u8]",
+        _ => unreachable!(),
+    }
+}
+
+fn pascal_case(value: &str) -> String {
+    let mut result: String = value
+        .split(|character: char| !character.is_ascii_alphanumeric())
+        .filter(|part| !part.is_empty())
+        .map(|part| {
+            let mut chars = part.chars();
+            match chars.next() {
+                Some(first) => {
+                    let mut result = first.to_uppercase().collect::<String>();
+                    result.extend(chars.map(|character| character.to_ascii_lowercase()));
+                    result
+                }
+                None => String::new(),
+            }
+        })
+        .collect();
+    if result
+        .chars()
+        .next()
+        .is_some_and(|character| character.is_ascii_digit())
+    {
+        result.insert_str(0, "Control");
+    }
+    result
+}
+
+fn module_case(value: &str) -> String {
+    let mut result: String = value
+        .chars()
+        .filter(|character| character.is_ascii_alphanumeric())
+        .map(|character| character.to_ascii_lowercase())
+        .collect();
+    if result
+        .chars()
+        .next()
+        .is_some_and(|character| character.is_ascii_digit())
+    {
+        result.insert(0, '_');
+    }
+    result
+}
+
+fn snake_case(value: &str) -> String {
+    let mut result = String::new();
+    for (index, character) in value.chars().enumerate() {
+        if character.is_ascii_alphanumeric() {
+            if character.is_ascii_uppercase() && index != 0 {
+                result.push('_');
+            }
+            result.push(character.to_ascii_lowercase());
+        } else if !result.ends_with('_') {
+            result.push('_');
+        }
+    }
+    result.trim_matches('_').to_string()
 }

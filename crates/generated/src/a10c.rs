@@ -1,0 +1,36190 @@
+//! Generated from model-definitions/A-10C.json.
+//! Do not edit manually; rerun dcs-bios-codegen instead.
+
+#![allow(unused_imports)]
+
+use core::marker::PhantomData;
+use dcs_bios_rs_lib::{
+    AnalogDial, AnalogGauge, Control, Display, FeedError, FixedStepDial, Led, LimitedDial,
+    Metadata, Packet, ProtocolParser, Selector, Sink,
+};
+use heapless::Vec;
+
+pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
+pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
+pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+
+/// Scorpion HMCS Power BAT/OFF/ON (A-10C II only)
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct A102HmcsPw(Selector);
+impl A102HmcsPw {
+    pub const fn new() -> Self {
+        Self(Selector::new(4818, 384, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for A102HmcsPw {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for A102HmcsPw {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CDU Power
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct AapCdupwr(Selector);
+impl AapCdupwr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4346, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AapCdupwr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AapCdupwr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// EGI Power
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct AapEgipwr(Selector);
+impl AapEgipwr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4346, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AapEgipwr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AapEgipwr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// PAGE OTHER - POSITION - STEER - WAYPT
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct AapPage(Selector);
+impl AapPage {
+    pub const fn new() -> Self {
+        Self(Selector::new(4346, 12288, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AapPage {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AapPage {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Toggle Steerpoint
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct AapSteer(Selector);
+impl AapSteer {
+    pub const fn new() -> Self {
+        Self(Selector::new(4346, 3072, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AapSteer {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AapSteer {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// STEERPT FLTPLAN - MARK - MISSION
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct AapSteerpt(Selector);
+impl AapSteerpt {
+    pub const fn new() -> Self {
+        Self(Selector::new(4346, 768, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AapSteerpt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AapSteerpt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// G Load
+/// Output: gauge position
+pub struct AccelG(AnalogGauge);
+impl AccelG {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4208, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AccelG {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AccelG {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Accelerometer Max Pointer
+/// Output: gauge position
+pub struct AccelMax(AnalogGauge);
+impl AccelMax {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4212, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AccelMax {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AccelMax {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Accelerometer Min Pointer
+/// Output: gauge position
+pub struct AccelMin(AnalogGauge);
+impl AccelMin {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4210, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AccelMin {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AccelMin {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Push to Set
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct AccelPts(Selector);
+impl AccelPts {
+    pub const fn new() -> Self {
+        Self(Selector::new(4538, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AccelPts {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AccelPts {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ADI Attitude Warning Flag
+/// Output: gauge position
+pub struct AdiAttwarnFlag(AnalogGauge);
+impl AdiAttwarnFlag {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4154, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AdiAttwarnFlag {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AdiAttwarnFlag {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ADI Bank
+/// Output: gauge position
+pub struct AdiBank(AnalogGauge);
+impl AdiBank {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4148, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AdiBank {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AdiBank {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ADI Course Warning Flag
+/// Output: gauge position
+pub struct AdiCrswarnFlag(AnalogGauge);
+impl AdiCrswarnFlag {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4156, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AdiCrswarnFlag {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AdiCrswarnFlag {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ADI Glide Slope Indicator
+/// Output: gauge position
+pub struct AdiGs(AnalogGauge);
+impl AdiGs {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4164, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AdiGs {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AdiGs {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ADI Glide Slope Warning Flag
+/// Output: gauge position
+pub struct AdiGswarnFlag(AnalogGauge);
+impl AdiGswarnFlag {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4158, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AdiGswarnFlag {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AdiGswarnFlag {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ADI Pitch
+/// Output: gauge position
+pub struct AdiPitch(AnalogGauge);
+impl AdiPitch {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4146, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AdiPitch {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AdiPitch {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ADI Pitch Trim
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct AdiPitchTrim(LimitedDial);
+impl AdiPitchTrim {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4446, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AdiPitchTrim {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AdiPitchTrim {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ADI Slipball Position
+/// Output: gauge position
+pub struct AdiSlip(AnalogGauge);
+impl AdiSlip {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4150, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AdiSlip {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AdiSlip {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ADI Bank Steering Bar
+/// Output: gauge position
+pub struct AdiSteerBank(AnalogGauge);
+impl AdiSteerBank {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4160, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AdiSteerBank {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AdiSteerBank {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ADI Pitch Steering Bar
+/// Output: gauge position
+pub struct AdiSteerPitch(AnalogGauge);
+impl AdiSteerPitch {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4162, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AdiSteerPitch {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AdiSteerPitch {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ADI Turn Needle
+/// Output: gauge position
+pub struct AdiTurn(AnalogGauge);
+impl AdiTurn {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4152, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AdiTurn {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AdiTurn {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Altimeter Source RADAR - DELTA - BARO
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct AhcpAltSce(Selector);
+impl AhcpAltSce {
+    pub const fn new() -> Self {
+        Self(Selector::new(4328, 1536, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AhcpAltSce {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AhcpAltSce {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CICU OFF - ON
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct AhcpCicu(Selector);
+impl AhcpCicu {
+    pub const fn new() -> Self {
+        Self(Selector::new(4328, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AhcpCicu {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AhcpCicu {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// GUN/PAC GUNARM - SAFE - ARM
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct AhcpGunpac(Selector);
+impl AhcpGunpac {
+    pub const fn new() -> Self {
+        Self(Selector::new(4328, 48, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AhcpGunpac {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AhcpGunpac {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Hud Mode NIGHT - DAY
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct AhcpHudDaynight(Selector);
+impl AhcpHudDaynight {
+    pub const fn new() -> Self {
+        Self(Selector::new(4328, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AhcpHudDaynight {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AhcpHudDaynight {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Hud Mode STBY - NORM
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct AhcpHudMode(Selector);
+impl AhcpHudMode {
+    pub const fn new() -> Self {
+        Self(Selector::new(4328, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AhcpHudMode {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AhcpHudMode {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// IFFCC OFF - TEST - ON
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct AhcpIffcc(Selector);
+impl AhcpIffcc {
+    pub const fn new() -> Self {
+        Self(Selector::new(4334, 3, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AhcpIffcc {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AhcpIffcc {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// JTRS OFF - ON
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct AhcpJtrs(Selector);
+impl AhcpJtrs {
+    pub const fn new() -> Self {
+        Self(Selector::new(4328, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AhcpJtrs {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AhcpJtrs {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Laser Arm TRAIN - SAFE - ARM
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct AhcpLaserArm(Selector);
+impl AhcpLaserArm {
+    pub const fn new() -> Self {
+        Self(Selector::new(4328, 192, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AhcpLaserArm {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AhcpLaserArm {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Master Arm TRAIN - SAFE - ARM
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct AhcpMasterArm(Selector);
+impl AhcpMasterArm {
+    pub const fn new() -> Self {
+        Self(Selector::new(4328, 12, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AhcpMasterArm {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AhcpMasterArm {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TGP OFF - ON
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct AhcpTgp(Selector);
+impl AhcpTgp {
+    pub const fn new() -> Self {
+        Self(Selector::new(4328, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AhcpTgp {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AhcpTgp {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Air Refuel DISCONNECT Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct AirRefuelDisconnect(Led);
+impl AirRefuelDisconnect {
+    pub const fn new() -> Self {
+        Self(Led::new(4134, 512, 9))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for AirRefuelDisconnect {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AirRefuelDisconnect {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Air Refuel LATCHED Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct AirRefuelLatched(Led);
+impl AirRefuelLatched {
+    pub const fn new() -> Self {
+        Self(Led::new(4134, 256, 8))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for AirRefuelLatched {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AirRefuelLatched {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Air Refuel READY Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct AirRefuelReady(Led);
+impl AirRefuelReady {
+    pub const fn new() -> Self {
+        Self(Led::new(4114, 32768, 15))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for AirRefuelReady {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AirRefuelReady {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Airspeed Dial
+/// Output: gauge position
+pub struct AirspeedDial(AnalogGauge);
+impl AirspeedDial {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4220, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AirspeedDial {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AirspeedDial {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Airspeed Max IAS Dial
+/// Output: gauge position
+pub struct AirspeedMaxIas(AnalogGauge);
+impl AirspeedMaxIas {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4800, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AirspeedMaxIas {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AirspeedMaxIas {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Airspeed Needle
+/// Output: gauge position
+pub struct AirspeedNeedle(AnalogGauge);
+impl AirspeedNeedle {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4218, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AirspeedNeedle {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AirspeedNeedle {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Fire Detect Bleed Air Test
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct AlcpFdbaTest(Selector);
+impl AlcpFdbaTest {
+    pub const fn new() -> Self {
+        Self(Selector::new(4440, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AlcpFdbaTest {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AlcpFdbaTest {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HARS-SAS Override/Norm
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct AlcpHarssas(Selector);
+impl AlcpHarssas {
+    pub const fn new() -> Self {
+        Self(Selector::new(4420, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AlcpHarssas {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AlcpHarssas {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Nightvision Lights
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct AlcpNvisLts(Selector);
+impl AlcpNvisLts {
+    pub const fn new() -> Self {
+        Self(Selector::new(4420, 24576, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AlcpNvisLts {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AlcpNvisLts {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Refueling Lighting Dial
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct AlcpRcvrLts(LimitedDial);
+impl AlcpRcvrLts {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4438, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AlcpRcvrLts {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AlcpRcvrLts {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Refuel Status Indexer Lights
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct AlcpRsil(LimitedDial);
+impl AlcpRsil {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4434, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AlcpRsil {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AlcpRsil {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Weapon Station Lights (No Function)
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct AlcpWpnsta(LimitedDial);
+impl AlcpWpnsta {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4436, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AlcpWpnsta {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AlcpWpnsta {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 10000 FT Counter
+/// Output: gauge position
+pub struct Alt10000ftCnt(AnalogGauge);
+impl Alt10000ftCnt {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4224, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Alt10000ftCnt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Alt10000ftCnt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 1000 FT Counter
+/// Output: gauge position
+pub struct Alt1000ftCnt(AnalogGauge);
+impl Alt1000ftCnt {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4226, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Alt1000ftCnt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Alt1000ftCnt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 100 ft Pointer
+/// Output: gauge position
+pub struct Alt100ft(AnalogGauge);
+impl Alt100ft {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4222, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Alt100ft {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Alt100ft {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 100 FT Counter
+/// Output: gauge position
+pub struct Alt100ftCnt(AnalogGauge);
+impl Alt100ftCnt {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4228, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Alt100ftCnt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Alt100ftCnt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ELECT / PNEU
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct AltElectPneu(Selector);
+impl AltElectPneu {
+    pub const fn new() -> Self {
+        Self(Selector::new(4420, 3, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AltElectPneu {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AltElectPneu {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// PNEU Flag
+/// Output: gauge position
+pub struct AltPneuFlag(AnalogGauge);
+impl AltPneuFlag {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4808, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AltPneuFlag {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AltPneuFlag {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Barometric Pressure Digit 0
+/// Output: gauge position
+pub struct AltPressure0(AnalogGauge);
+impl AltPressure0 {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4230, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AltPressure0 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AltPressure0 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Barometric Pressure Digit 1
+/// Output: gauge position
+pub struct AltPressure1(AnalogGauge);
+impl AltPressure1 {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4232, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AltPressure1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AltPressure1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Barometric Pressure Digit 2
+/// Output: gauge position
+pub struct AltPressure2(AnalogGauge);
+impl AltPressure2 {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4234, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AltPressure2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AltPressure2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Barometric Pressure Digit 3
+/// Output: gauge position
+pub struct AltPressure3(AnalogGauge);
+impl AltPressure3 {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4236, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AltPressure3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AltPressure3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Set Pressure
+/// Input: turn the dial left or right
+/// Output: the rotation of the knob in the cockpit (not the value that is controlled by this knob!)
+pub struct AltSetPressure(AnalogDial);
+impl AltSetPressure {
+    pub const fn new() -> Self {
+        Self(AnalogDial::new(4418, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AltSetPressure {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AltSetPressure {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// EGI HQ TOD Switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct AntEgihqtod(Selector);
+impl AntEgihqtod {
+    pub const fn new() -> Self {
+        Self(Selector::new(4540, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AntEgihqtod {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AntEgihqtod {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// IFF Antenna Switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct AntIff(Selector);
+impl AntIff {
+    pub const fn new() -> Self {
+        Self(Selector::new(4538, 12288, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AntIff {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AntIff {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF Antenna Switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct AntUhf(Selector);
+impl AntUhf {
+    pub const fn new() -> Self {
+        Self(Selector::new(4538, 49152, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AntUhf {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AntUhf {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Anti-Skid Switch
+/// Input: set the switch position -- 0 = off, 1 = try to turn it on
+/// Output: switch position -- 0 = off, 1 = on
+pub struct AntiSkidSwitch(Selector);
+impl AntiSkidSwitch {
+    pub const fn new() -> Self {
+        Self(Selector::new(4368, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AntiSkidSwitch {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AntiSkidSwitch {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AOA Indexer High (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct AoaIndexerHigh(Led);
+impl AoaIndexerHigh {
+    pub const fn new() -> Self {
+        Self(Led::new(4114, 4096, 12))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for AoaIndexerHigh {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AoaIndexerHigh {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AOA Indexer Low (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct AoaIndexerLow(Led);
+impl AoaIndexerLow {
+    pub const fn new() -> Self {
+        Self(Led::new(4114, 16384, 14))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for AoaIndexerLow {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AoaIndexerLow {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AOA Indexer Normal (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct AoaIndexerNormal(Led);
+impl AoaIndexerNormal {
+    pub const fn new() -> Self {
+        Self(Led::new(4114, 8192, 13))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for AoaIndexerNormal {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AoaIndexerNormal {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AOA Poweroff Flag
+/// Output: gauge position
+pub struct AoaPwroff(AnalogGauge);
+impl AoaPwroff {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4214, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AoaPwroff {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AoaPwroff {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AOA Units
+/// Output: gauge position
+pub struct AoaUnits(AnalogGauge);
+impl AoaUnits {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4216, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AoaUnits {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AoaUnits {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// APU Fire Indicator (yellow)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ApuFire(Led);
+impl ApuFire {
+    pub const fn new() -> Self {
+        Self(Led::new(4314, 16, 4))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ApuFire {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ApuFire {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// APU RPM Gauge
+/// Output: gauge position
+pub struct ApuRpm(AnalogGauge);
+impl ApuRpm {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4286, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ApuRpm {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ApuRpm {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// APU Temperature Gauge
+/// Output: gauge position
+pub struct ApuTemp(AnalogGauge);
+impl ApuTemp {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4288, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ApuTemp {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ApuTemp {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Auxiliary Landing Gear Handle
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct AuxGear(Selector);
+impl AuxGear {
+    pub const fn new() -> Self {
+        Self(Selector::new(4536, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AuxGear {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AuxGear {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Auxiliary Landing Gear Handle Lock Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct AuxGearLock(Selector);
+impl AuxGearLock {
+    pub const fn new() -> Self {
+        Self(Selector::new(4536, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for AuxGearLock {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for AuxGearLock {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Cabin Pressure Altitude
+/// Output: gauge position
+pub struct CabinPressAlt(AnalogGauge);
+impl CabinPressAlt {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4404, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CabinPressAlt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CabinPressAlt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Canopy actuator disengage lever
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CanopyDisengage(Selector);
+impl CanopyDisengage {
+    pub const fn new() -> Self {
+        Self(Selector::new(4538, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CanopyDisengage {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CanopyDisengage {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Canopy Jettison
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CanopyJtsn(Selector);
+impl CanopyJtsn {
+    pub const fn new() -> Self {
+        Self(Selector::new(4538, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CanopyJtsn {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CanopyJtsn {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Canopy Jettison Unlock
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CanopyJtsnUnlock(Selector);
+impl CanopyJtsnUnlock {
+    pub const fn new() -> Self {
+        Self(Selector::new(4538, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CanopyJtsnUnlock {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CanopyJtsnUnlock {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Canopy Open Switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct CanopyOpen(Selector);
+impl CanopyOpen {
+    pub const fn new() -> Self {
+        Self(Selector::new(4508, 24576, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CanopyOpen {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CanopyOpen {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CANOPY UNLOCKED Indicator (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct CanopyUnlocked(Led);
+impl CanopyUnlocked {
+    pub const fn new() -> Self {
+        Self(Led::new(4314, 4, 2))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for CanopyUnlocked {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CanopyUnlocked {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Canopy Position
+/// Output: gauge position
+pub struct CanopyValue(AnalogGauge);
+impl CanopyValue {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4816, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CanopyValue {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CanopyValue {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AILERON DISC L Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpAileronDiscL(Selector);
+impl CbpAileronDiscL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4408, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpAileronDiscL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpAileronDiscL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AILERON DISC R Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpAileronDiscR(Selector);
+impl CbpAileronDiscR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4408, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpAileronDiscR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpAileronDiscR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AILERON TAB L Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpAileronTabL(Selector);
+impl CbpAileronTabL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4408, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpAileronTabL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpAileronTabL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AILERON TAB R Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpAileronTabR(Selector);
+impl CbpAileronTabR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpAileronTabR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpAileronTabR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// APU CONT Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpApuCont(Selector);
+impl CbpApuCont {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpApuCont {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpApuCont {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AUX ESS BUS 0A Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpAuxEssBus0a(Selector);
+impl CbpAuxEssBus0a {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpAuxEssBus0a {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpAuxEssBus0a {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AUX ESS BUS 0B Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpAuxEssBus0b(Selector);
+impl CbpAuxEssBus0b {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpAuxEssBus0b {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpAuxEssBus0b {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AUX ESS BUS 0C Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpAuxEssBus0c(Selector);
+impl CbpAuxEssBus0c {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpAuxEssBus0c {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpAuxEssBus0c {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AUX ESS BUS TIE Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpAuxEssBusTie(Selector);
+impl CbpAuxEssBusTie {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpAuxEssBusTie {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpAuxEssBusTie {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// BAT BUS TRANS Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpBatBusTrans(Selector);
+impl CbpBatBusTrans {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpBatBusTrans {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpBatBusTrans {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// BLEED AIR CONT L Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpBleedAirContL(Selector);
+impl CbpBleedAirContL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpBleedAirContL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpBleedAirContL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// BLEED AIR CONT R Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpBleedAirContR(Selector);
+impl CbpBleedAirContR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpBleedAirContR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpBleedAirContR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CONVERTER L Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpConverterL(Selector);
+impl CbpConverterL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpConverterL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpConverterL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// DC FUEL PUMP Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpDcFuelPump(Selector);
+impl CbpDcFuelPump {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpDcFuelPump {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpDcFuelPump {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ELEVATION DISC L Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpElevationDiscL(Selector);
+impl CbpElevationDiscL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4408, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpElevationDiscL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpElevationDiscL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ELEVATION DISC R Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpElevationDiscR(Selector);
+impl CbpElevationDiscR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4408, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpElevationDiscR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpElevationDiscR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// EMER FLAP Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpEmerFlap(Selector);
+impl CbpEmerFlap {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpEmerFlap {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpEmerFlap {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// EMER TRIM Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpEmerTrim(Selector);
+impl CbpEmerTrim {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpEmerTrim {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpEmerTrim {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ENG IGNITOR 1 Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpEngIgnitor1(Selector);
+impl CbpEngIgnitor1 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpEngIgnitor1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpEngIgnitor1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ENG IGNITOR 2 Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpEngIgnitor2(Selector);
+impl CbpEngIgnitor2 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpEngIgnitor2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpEngIgnitor2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ENG START L Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpEngStartL(Selector);
+impl CbpEngStartL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 16, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpEngStartL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpEngStartL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ENG START R Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpEngStartR(Selector);
+impl CbpEngStartR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 32, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpEngStartR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpEngStartR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// EXT STORES JETT 1 Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpExtStoresJett1(Selector);
+impl CbpExtStoresJett1 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpExtStoresJett1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpExtStoresJett1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// EXT STORES JETT 2 Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpExtStoresJett2(Selector);
+impl CbpExtStoresJett2 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpExtStoresJett2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpExtStoresJett2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// FUEL SHUTOFF L Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpFuelShutoffL(Selector);
+impl CbpFuelShutoffL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpFuelShutoffL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpFuelShutoffL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// FUEL SHUTOFF R Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpFuelShutoffR(Selector);
+impl CbpFuelShutoffR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpFuelShutoffR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpFuelShutoffR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// GEAR Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpGear(Selector);
+impl CbpGear {
+    pub const fn new() -> Self {
+        Self(Selector::new(4414, 8, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpGear {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpGear {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// GEN CONT L Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpGenContL(Selector);
+impl CbpGenContL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpGenContL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpGenContL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// GEN CONT R Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpGenContR(Selector);
+impl CbpGenContR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpGenContR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpGenContR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// IFF Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpIff(Selector);
+impl CbpIff {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 8, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpIff {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpIff {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// INTERCOM Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpIntercom(Selector);
+impl CbpIntercom {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 32, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpIntercom {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpIntercom {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// INVERTER CONT Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpInverterCont(Selector);
+impl CbpInverterCont {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpInverterCont {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpInverterCont {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// INVERTER PWR Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpInverterPwr(Selector);
+impl CbpInverterPwr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpInverterPwr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpInverterPwr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// MASTER CAUTION Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpMasterCaution(Selector);
+impl CbpMasterCaution {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpMasterCaution {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpMasterCaution {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// PITOT HEAT AC Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpPitotHeatAc(Selector);
+impl CbpPitotHeatAc {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpPitotHeatAc {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpPitotHeatAc {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SPS RUDDER AUTH LIM Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpSpsRudderAuthLim(Selector);
+impl CbpSpsRudderAuthLim {
+    pub const fn new() -> Self {
+        Self(Selector::new(4408, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpSpsRudderAuthLim {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpSpsRudderAuthLim {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// STBY ATT IND Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpStbyAttInd(Selector);
+impl CbpStbyAttInd {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpStbyAttInd {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpStbyAttInd {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF Circuit Breaker
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CbpUhf(Selector);
+impl CbpUhf {
+    pub const fn new() -> Self {
+        Self(Selector::new(4416, 16, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CbpUhf {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CbpUhf {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 0
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Cdu0(Selector);
+impl Cdu0 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Cdu0 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Cdu0 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 1
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Cdu1(Selector);
+impl Cdu1 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 8, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Cdu1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Cdu1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 2
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Cdu2(Selector);
+impl Cdu2 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 16, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Cdu2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Cdu2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 3
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Cdu3(Selector);
+impl Cdu3 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 32, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Cdu3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Cdu3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 4
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Cdu4(Selector);
+impl Cdu4 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Cdu4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Cdu4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 5
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Cdu5(Selector);
+impl Cdu5 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Cdu5 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Cdu5 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 6
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Cdu6(Selector);
+impl Cdu6 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Cdu6 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Cdu6 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 7
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Cdu7(Selector);
+impl Cdu7 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Cdu7 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Cdu7 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 8
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Cdu8(Selector);
+impl Cdu8 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Cdu8 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Cdu8 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 9
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Cdu9(Selector);
+impl Cdu9 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Cdu9 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Cdu9 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// A
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduA(Selector);
+impl CduA {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduA {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduA {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// B
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduB(Selector);
+impl CduB {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduB {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduB {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// BCK
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduBck(Selector);
+impl CduBck {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduBck {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduBck {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CDU Display Brightness Adjustment
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct CduBrt(Selector);
+impl CduBrt {
+    pub const fn new() -> Self {
+        Self(Selector::new(4346, 3, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduBrt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduBrt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// C
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduC(Selector);
+impl CduC {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduC {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduC {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CLR
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduClr(Selector);
+impl CduClr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduClr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduClr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// D
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduD(Selector);
+impl CduD {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduD {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduD {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// +/- Rocker
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct CduData(Selector);
+impl CduData {
+    pub const fn new() -> Self {
+        Self(Selector::new(4346, 192, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduData {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduData {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// E
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduE(Selector);
+impl CduE {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 8, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduE {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduE {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// F
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduF(Selector);
+impl CduF {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 16, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduF {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduF {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// FA
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduFa(Selector);
+impl CduFa {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduFa {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduFa {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// FPM
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduFpm(Selector);
+impl CduFpm {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduFpm {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduFpm {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// G
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduG(Selector);
+impl CduG {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 32, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduG {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduG {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// H
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduH(Selector);
+impl CduH {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduH {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduH {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// I
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduI(Selector);
+impl CduI {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduI {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduI {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// J
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduJ(Selector);
+impl CduJ {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduJ {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduJ {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// K
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduK(Selector);
+impl CduK {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduK {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduK {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// L
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduL(Selector);
+impl CduL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CDU Line 1
+/// Output: CDU Line 1
+pub struct CduLine0(Display<24>);
+impl CduLine0 {
+    pub const fn new() -> Self {
+        Self(Display::<24>::new(4544, 24))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for CduLine0 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLine0 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CDU Line 2
+/// Output: CDU Line 2
+pub struct CduLine1(Display<24>);
+impl CduLine1 {
+    pub const fn new() -> Self {
+        Self(Display::<24>::new(4568, 24))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for CduLine1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLine1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CDU Line 3
+/// Output: CDU Line 3
+pub struct CduLine2(Display<24>);
+impl CduLine2 {
+    pub const fn new() -> Self {
+        Self(Display::<24>::new(4592, 24))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for CduLine2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLine2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CDU Line 4
+/// Output: CDU Line 4
+pub struct CduLine3(Display<24>);
+impl CduLine3 {
+    pub const fn new() -> Self {
+        Self(Display::<24>::new(4616, 24))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for CduLine3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLine3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CDU Line 5
+/// Output: CDU Line 5
+pub struct CduLine4(Display<24>);
+impl CduLine4 {
+    pub const fn new() -> Self {
+        Self(Display::<24>::new(4640, 24))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for CduLine4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLine4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CDU Line 6
+/// Output: CDU Line 6
+pub struct CduLine5(Display<24>);
+impl CduLine5 {
+    pub const fn new() -> Self {
+        Self(Display::<24>::new(4664, 24))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for CduLine5 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLine5 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CDU Line 7
+/// Output: CDU Line 7
+pub struct CduLine6(Display<24>);
+impl CduLine6 {
+    pub const fn new() -> Self {
+        Self(Display::<24>::new(4688, 24))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for CduLine6 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLine6 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CDU Line 8
+/// Output: CDU Line 8
+pub struct CduLine7(Display<24>);
+impl CduLine7 {
+    pub const fn new() -> Self {
+        Self(Display::<24>::new(4712, 24))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for CduLine7 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLine7 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CDU Line 9
+/// Output: CDU Line 9
+pub struct CduLine8(Display<24>);
+impl CduLine8 {
+    pub const fn new() -> Self {
+        Self(Display::<24>::new(4736, 24))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for CduLine8 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLine8 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CDU Line 10
+/// Output: CDU Line 10
+pub struct CduLine9(Display<24>);
+impl CduLine9 {
+    pub const fn new() -> Self {
+        Self(Display::<24>::new(4760, 24))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for CduLine9 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLine9 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// LSK 3L
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduLsk3l(Selector);
+impl CduLsk3l {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 32, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduLsk3l {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLsk3l {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// LSK 3R
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduLsk3r(Selector);
+impl CduLsk3r {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduLsk3r {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLsk3r {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// LSK 5L
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduLsk5l(Selector);
+impl CduLsk5l {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduLsk5l {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLsk5l {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// LSK 5R
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduLsk5r(Selector);
+impl CduLsk5r {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduLsk5r {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLsk5r {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// LSK 7L
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduLsk7l(Selector);
+impl CduLsk7l {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduLsk7l {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLsk7l {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// LSK 7R
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduLsk7r(Selector);
+impl CduLsk7r {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduLsk7r {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLsk7r {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// LSK 9L
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduLsk9l(Selector);
+impl CduLsk9l {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduLsk9l {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLsk9l {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// LSK 9R
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduLsk9r(Selector);
+impl CduLsk9r {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduLsk9r {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduLsk9r {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// M
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduM(Selector);
+impl CduM {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduM {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduM {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// MK
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduMk(Selector);
+impl CduMk {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduMk {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduMk {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// N
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduN(Selector);
+impl CduN {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduN {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduN {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// No Function 1
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduNa1(Selector);
+impl CduNa1 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduNa1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduNa1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// No Function 2
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduNa2(Selector);
+impl CduNa2 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduNa2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduNa2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// NAV
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduNav(Selector);
+impl CduNav {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduNav {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduNav {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// O
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduO(Selector);
+impl CduO {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduO {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduO {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSET
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduOset(Selector);
+impl CduOset {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduOset {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduOset {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// P
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduP(Selector);
+impl CduP {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduP {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduP {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// PG Rocker
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct CduPg(Selector);
+impl CduPg {
+    pub const fn new() -> Self {
+        Self(Selector::new(4346, 12, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduPg {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduPg {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Decimal Point
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduPoint(Selector);
+impl CduPoint {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduPoint {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduPoint {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// PREV
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduPrev(Selector);
+impl CduPrev {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduPrev {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduPrev {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Q
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduQ(Selector);
+impl CduQ {
+    pub const fn new() -> Self {
+        Self(Selector::new(4342, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduQ {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduQ {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// R
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduR(Selector);
+impl CduR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// S
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduS(Selector);
+impl CduS {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduS {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduS {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Scroll Waypoint Names (Blank Rocker)
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct CduScroll(Selector);
+impl CduScroll {
+    pub const fn new() -> Self {
+        Self(Selector::new(4346, 48, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduScroll {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduScroll {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Slash
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduSlash(Selector);
+impl CduSlash {
+    pub const fn new() -> Self {
+        Self(Selector::new(4340, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduSlash {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduSlash {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SPC
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduSpc(Selector);
+impl CduSpc {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduSpc {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduSpc {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SYS
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduSys(Selector);
+impl CduSys {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduSys {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduSys {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// T
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduT(Selector);
+impl CduT {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduT {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduT {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// U
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduU(Selector);
+impl CduU {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 8, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduU {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduU {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// V
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduV(Selector);
+impl CduV {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 16, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduV {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduV {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// W
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduW(Selector);
+impl CduW {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 32, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduW {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduW {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// WP
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduWp(Selector);
+impl CduWp {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduWp {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduWp {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// X
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduX(Selector);
+impl CduX {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduX {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduX {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Y
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduY(Selector);
+impl CduY {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduY {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduY {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Z
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CduZ(Selector);
+impl CduZ {
+    pub const fn new() -> Self {
+        Self(Selector::new(4344, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CduZ {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CduZ {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ENG START CYCLE Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClA1(Led);
+impl ClA1 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 1, 0))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClA1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClA1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// L-HYD PRESS Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClA2(Led);
+impl ClA2 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 2, 1))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClA2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClA2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// R-HYD PRESS Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClA3(Led);
+impl ClA3 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 4, 2))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClA3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClA3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// GUN UNSAFE Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClA4(Led);
+impl ClA4 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 8, 3))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClA4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClA4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ANTI-SKID Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClB1(Led);
+impl ClB1 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 16, 4))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClB1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClB1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// L-HYD RES Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClB2(Led);
+impl ClB2 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 32, 5))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClB2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClB2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// R-HYD RES Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClB3(Led);
+impl ClB3 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 64, 6))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClB3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClB3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OXY LOW Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClB4(Led);
+impl ClB4 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 128, 7))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClB4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClB4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ELEV DISENG Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClC1(Led);
+impl ClC1 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 256, 8))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClC1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClC1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// VOID1 Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClC2(Led);
+impl ClC2 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 512, 9))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClC2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClC2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SEAT NOT ARMED Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClC3(Led);
+impl ClC3 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 1024, 10))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClC3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClC3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// BLEED AIR LEAK Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClC4(Led);
+impl ClC4 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 2048, 11))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClC4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClC4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AIL DISENG Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClD1(Led);
+impl ClD1 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 4096, 12))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClD1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClD1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// L-AIL TAB Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClD2(Led);
+impl ClD2 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 8192, 13))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClD2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClD2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// R-AIL TAB Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClD3(Led);
+impl ClD3 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 16384, 14))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClD3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClD3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SERVICE AIR HOT Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClD4(Led);
+impl ClD4 {
+    pub const fn new() -> Self {
+        Self(Led::new(4308, 32768, 15))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClD4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClD4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// PITCH SAS Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClE1(Led);
+impl ClE1 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 1, 0))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClE1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClE1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// L-ENG HOT Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClE2(Led);
+impl ClE2 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 2, 1))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClE2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClE2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// R-ENG HOT Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClE3(Led);
+impl ClE3 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 4, 2))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClE3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClE3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// WINDSHIELD HOT Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClE4(Led);
+impl ClE4 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 8, 3))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClE4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClE4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// YAW SAS Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClF1(Led);
+impl ClF1 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 16, 4))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClF1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClF1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// L-ENG OIL PRESS Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClF2(Led);
+impl ClF2 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 32, 5))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClF2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClF2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// R-ENG OIL PRESS Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClF3(Led);
+impl ClF3 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 64, 6))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClF3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClF3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CICU Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClF4(Led);
+impl ClF4 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 128, 7))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClF4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClF4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// GCAS Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClG1(Led);
+impl ClG1 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 256, 8))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClG1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClG1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// L-MAIN PUMP Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClG2(Led);
+impl ClG2 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 512, 9))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClG2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClG2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// R-MAIN PUMP Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClG3(Led);
+impl ClG3 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 1024, 10))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClG3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClG3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// VOID2 Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClG4(Led);
+impl ClG4 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 2048, 11))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClG4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClG4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// LASTE Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClH1(Led);
+impl ClH1 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 4096, 12))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClH1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClH1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// L-WING PUMP Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClH2(Led);
+impl ClH2 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 8192, 13))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClH2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClH2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// R-WING PUMP Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClH3(Led);
+impl ClH3 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 16384, 14))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClH3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClH3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HARS Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClH4(Led);
+impl ClH4 {
+    pub const fn new() -> Self {
+        Self(Led::new(4310, 32768, 15))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClH4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClH4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// IFF MODE-4 Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClI1(Led);
+impl ClI1 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 1, 0))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClI1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClI1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// L-MAIN FUEL LOW Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClI2(Led);
+impl ClI2 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 2, 1))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClI2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClI2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// R-MAIN FUEL LOW Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClI3(Led);
+impl ClI3 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 4, 2))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClI3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClI3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// L-R TKS UNEQUAL Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClI4(Led);
+impl ClI4 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 8, 3))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClI4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClI4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// EAC Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClJ1(Led);
+impl ClJ1 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 16, 4))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClJ1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClJ1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// L-FUEL PRESS Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClJ2(Led);
+impl ClJ2 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 32, 5))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClJ2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClJ2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// R-FUEL PRESS Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClJ3(Led);
+impl ClJ3 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 64, 6))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClJ3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClJ3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// NAV Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClJ4(Led);
+impl ClJ4 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 128, 7))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClJ4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClJ4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// STALL SYS Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClK1(Led);
+impl ClK1 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 256, 8))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClK1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClK1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// L-CONV Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClK2(Led);
+impl ClK2 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 512, 9))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClK2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClK2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// R-CONV Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClK3(Led);
+impl ClK3 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 1024, 10))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClK3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClK3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CADC Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClK4(Led);
+impl ClK4 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 2048, 11))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClK4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClK4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// APU GEN Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClL1(Led);
+impl ClL1 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 4096, 12))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClL1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClL1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// L-GEN Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClL2(Led);
+impl ClL2 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 8192, 13))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClL2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClL2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// R-GEN Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClL3(Led);
+impl ClL3 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 16384, 14))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClL3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClL3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// INST INV Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct ClL4(Led);
+impl ClL4 {
+    pub const fn new() -> Self {
+        Self(Led::new(4312, 32768, 15))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for ClL4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClL4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Clock CTRL
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct ClockCtrl(Selector);
+impl ClockCtrl {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ClockCtrl {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClockCtrl {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Clock ETC display ('ET ', '  C', or three spaces)
+/// Output: Clock ETC display ('ET ', '  C', or three spaces)
+pub struct ClockEtc(Display<3>);
+impl ClockEtc {
+    pub const fn new() -> Self {
+        Self(Display::<3>::new(4356, 3))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for ClockEtc {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClockEtc {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Clock Hours (or two spaces)
+/// Output: Clock Hours (or two spaces)
+pub struct ClockHh(Display<2>);
+impl ClockHh {
+    pub const fn new() -> Self {
+        Self(Display::<2>::new(4350, 2))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for ClockHh {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClockHh {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Clock Minutes (or two spaces)
+/// Output: Clock Minutes (or two spaces)
+pub struct ClockMm(Display<2>);
+impl ClockMm {
+    pub const fn new() -> Self {
+        Self(Display::<2>::new(4352, 2))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for ClockMm {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClockMm {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Clock SET
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct ClockSet(Selector);
+impl ClockSet {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ClockSet {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClockSet {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Clock Seconds (or two spaces)
+/// Output: Clock Seconds (or two spaces)
+pub struct ClockSs(Display<2>);
+impl ClockSs {
+    pub const fn new() -> Self {
+        Self(Display::<2>::new(4354, 2))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for ClockSs {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ClockSs {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Adjust Display Brightness
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct CmscBrt(LimitedDial);
+impl CmscBrt {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4330, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmscBrt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmscBrt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Select Jammer Program
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CmscJmr(Selector);
+impl CmscJmr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4324, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmscJmr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmscJmr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Missile Launch Indicator (red)
+/// Output: 0 if light is off, 1 if light is on
+pub struct CmscLaunch(Led);
+impl CmscLaunch {
+    pub const fn new() -> Self {
+        Self(Led::new(4114, 256, 8))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for CmscLaunch {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmscLaunch {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Select MWS Programs (No Function)
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CmscMws(Selector);
+impl CmscMws {
+    pub const fn new() -> Self {
+        Self(Selector::new(4324, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmscMws {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmscMws {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Toggle between 5 and 16 Priority Threats Displayed
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CmscPri(Selector);
+impl CmscPri {
+    pub const fn new() -> Self {
+        Self(Selector::new(4328, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmscPri {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmscPri {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Priority Status Indicator (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct CmscPrio(Led);
+impl CmscPrio {
+    pub const fn new() -> Self {
+        Self(Led::new(4114, 512, 9))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for CmscPrio {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmscPrio {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Adjust RWR Volume
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct CmscRwrVol(LimitedDial);
+impl CmscRwrVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4332, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmscRwrVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmscRwrVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Separate RWR Symbols
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CmscSep(Selector);
+impl CmscSep {
+    pub const fn new() -> Self {
+        Self(Selector::new(4328, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmscSep {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmscSep {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Chaff / Flare Amount Display
+/// Output: Chaff / Flare Amount Display
+pub struct CmscTxtChaffFlare(Display<8>);
+impl CmscTxtChaffFlare {
+    pub const fn new() -> Self {
+        Self(Display::<8>::new(4238, 8))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for CmscTxtChaffFlare {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmscTxtChaffFlare {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// JMR Status Display
+/// Output: JMR Status Display
+pub struct CmscTxtJmr(Display<8>);
+impl CmscTxtJmr {
+    pub const fn new() -> Self {
+        Self(Display::<8>::new(4246, 8))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for CmscTxtJmr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmscTxtJmr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// MWS Status Display
+/// Output: MWS Status Display
+pub struct CmscTxtMws(Display<8>);
+impl CmscTxtMws {
+    pub const fn new() -> Self {
+        Self(Display::<8>::new(4784, 8))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for CmscTxtMws {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmscTxtMws {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Display Unknown Threats
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CmscUnk(Selector);
+impl CmscUnk {
+    pub const fn new() -> Self {
+        Self(Selector::new(4818, 32, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmscUnk {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmscUnk {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Unknown Status Indicator (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct CmscUnkn(Led);
+impl CmscUnkn {
+    pub const fn new() -> Self {
+        Self(Led::new(4114, 1024, 10))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for CmscUnkn {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmscUnkn {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CMSP Display Line 1
+/// Output: CMSP Display Line 1 (19 characters)
+pub struct Cmsp1(Display<19>);
+impl Cmsp1 {
+    pub const fn new() -> Self {
+        Self(Display::<19>::new(4096, 19))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for Cmsp1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Cmsp1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CMSP Display Line 2
+/// Output: CMSP Display Line 2 (19 characters)
+pub struct Cmsp2(Display<19>);
+impl Cmsp2 {
+    pub const fn new() -> Self {
+        Self(Display::<19>::new(4116, 19))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for Cmsp2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Cmsp2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SET Button 1
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CmspArw1(Selector);
+impl CmspArw1 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmspArw1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmspArw1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SET Button 2
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CmspArw2(Selector);
+impl CmspArw2 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4322, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmspArw2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmspArw2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SET Button 3
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CmspArw3(Selector);
+impl CmspArw3 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4322, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmspArw3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmspArw3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SET Button 4
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CmspArw4(Selector);
+impl CmspArw4 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4322, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmspArw4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmspArw4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Brightness
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct CmspBrt(LimitedDial);
+impl CmspBrt {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4326, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmspBrt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmspBrt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Countermeasure Dispenser OFF - ON - (MENU)
+/// Input: set the switch position -- 0 = down, 1 = centered, 2 = held up
+/// Output: switch position: 0 - down, 1 - center, 2 - up
+pub struct CmspDisp(Selector);
+impl CmspDisp {
+    pub const fn new() -> Self {
+        Self(Selector::new(4324, 1536, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmspDisp {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmspDisp {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Jammer OFF - ON - (MENU)
+/// Input: set the switch position -- 0 = down, 1 = centered, 2 = held up
+/// Output: switch position: 0 - down, 1 - center, 2 - up
+pub struct CmspJmr(Selector);
+impl CmspJmr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4324, 96, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmspJmr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmspJmr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// JTSN / OFF
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CmspJtsn(Selector);
+impl CmspJtsn {
+    pub const fn new() -> Self {
+        Self(Selector::new(4324, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmspJtsn {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmspJtsn {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CMSP Mode Select
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct CmspMode(Selector);
+impl CmspMode {
+    pub const fn new() -> Self {
+        Self(Selector::new(4324, 14336, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmspMode {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmspMode {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Missile Warning System OFF - ON - (MENU)
+/// Input: set the switch position -- 0 = down, 1 = centered, 2 = held up
+/// Output: switch position: 0 - down, 1 - center, 2 - up
+pub struct CmspMws(Selector);
+impl CmspMws {
+    pub const fn new() -> Self {
+        Self(Selector::new(4324, 24, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmspMws {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmspMws {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// RTN
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct CmspRtn(Selector);
+impl CmspRtn {
+    pub const fn new() -> Self {
+        Self(Selector::new(4322, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmspRtn {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmspRtn {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Radar Warning Receiver OFF - ON - (MENU)
+/// Input: set the switch position -- 0 = down, 1 = centered, 2 = held up
+/// Output: switch position: 0 - down, 1 - center, 2 - up
+pub struct CmspRwr(Selector);
+impl CmspRwr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4324, 384, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmspRwr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmspRwr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Cycle Program or Value Up/Down
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct CmspUpdn(Selector);
+impl CmspUpdn {
+    pub const fn new() -> Self {
+        Self(Selector::new(4324, 3, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CmspUpdn {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CmspUpdn {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Compass Bank
+/// Output: gauge position
+pub struct CompassBank(AnalogGauge);
+impl CompassBank {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4806, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CompassBank {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CompassBank {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Compass Heading
+/// Output: gauge position
+pub struct CompassHdg(AnalogGauge);
+impl CompassHdg {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4802, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CompassHdg {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CompassHdg {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Compass Pitch
+/// Output: gauge position
+pub struct CompassPitch(AnalogGauge);
+impl CompassPitch {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4804, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for CompassPitch {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for CompassPitch {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Downlock Override Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct DownlockOverride(Selector);
+impl DownlockOverride {
+    pub const fn new() -> Self {
+        Self(Selector::new(4368, 16, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for DownlockOverride {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for DownlockOverride {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// DVADR End of Tape Indicator Light (yellow)
+/// Output: 0 if light is off, 1 if light is on
+pub struct DvadrEot(Led);
+impl DvadrEot {
+    pub const fn new() -> Self {
+        Self(Led::new(4538, 64, 6))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for DvadrEot {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for DvadrEot {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// DVADR End of Tape Remote Panel Indicator Light
+/// Output: 0 if light is off, 1 if light is on
+pub struct DvadrEotRemote(Led);
+impl DvadrEotRemote {
+    pub const fn new() -> Self {
+        Self(Led::new(4818, 8, 3))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for DvadrEotRemote {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for DvadrEotRemote {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Function Control Toggle Switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct DvadrFunction(Selector);
+impl DvadrFunction {
+    pub const fn new() -> Self {
+        Self(Selector::new(4538, 12, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for DvadrFunction {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for DvadrFunction {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// DVADR Record (On) Indicator Light
+/// Output: 0 if light is off, 1 if light is on
+pub struct DvadrRec(Led);
+impl DvadrRec {
+    pub const fn new() -> Self {
+        Self(Led::new(4818, 16, 4))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for DvadrRec {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for DvadrRec {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// DVADR Record (On) Remote Panel Indicator Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct DvadrRecRemote(Led);
+impl DvadrRecRemote {
+    pub const fn new() -> Self {
+        Self(Led::new(4538, 128, 7))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for DvadrRecRemote {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for DvadrRecRemote {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Video Selector Toggle Switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct DvadrVideo(Selector);
+impl DvadrVideo {
+    pub const fn new() -> Self {
+        Self(Selector::new(4538, 48, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for DvadrVideo {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for DvadrVideo {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Aileron Emergency Disengage LEFT - OFF - RIGHT
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct EfcpAileronEmerDisengage(Selector);
+impl EfcpAileronEmerDisengage {
+    pub const fn new() -> Self {
+        Self(Selector::new(4364, 192, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EfcpAileronEmerDisengage {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EfcpAileronEmerDisengage {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Elevator Emergency Disengage LEFT - OFF - RIGHT
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct EfcpElevatorEmerDisengage(Selector);
+impl EfcpElevatorEmerDisengage {
+    pub const fn new() -> Self {
+        Self(Selector::new(4364, 768, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EfcpElevatorEmerDisengage {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EfcpElevatorEmerDisengage {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Emergency Trim CENTER - NOSE DN - RWD - NOSE UP - LWD
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct EfcpEmerTrim(Selector);
+impl EfcpEmerTrim {
+    pub const fn new() -> Self {
+        Self(Selector::new(4364, 56, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EfcpEmerTrim {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EfcpEmerTrim {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Flaps Emergency Retract
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EfcpFlapsEmerRetr(Selector);
+impl EfcpFlapsEmerRetr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4364, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EfcpFlapsEmerRetr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EfcpFlapsEmerRetr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Manual Reversion Flight Control System MAN REVERSION - NORM
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EfcpMrfcs(Selector);
+impl EfcpMrfcs {
+    pub const fn new() -> Self {
+        Self(Selector::new(4364, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EfcpMrfcs {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EfcpMrfcs {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Speed Brake Emergency Retract
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EfcpSpdbkEmerRetr(Selector);
+impl EfcpSpdbkEmerRetr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4364, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EfcpSpdbkEmerRetr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EfcpSpdbkEmerRetr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Pitch/Roll Trim Override EMER - NORM
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EfcpTrimOverride(Selector);
+impl EfcpTrimOverride {
+    pub const fn new() -> Self {
+        Self(Selector::new(4364, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EfcpTrimOverride {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EfcpTrimOverride {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Emergency Brake
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EmerBrake(Selector);
+impl EmerBrake {
+    pub const fn new() -> Self {
+        Self(Selector::new(4494, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EmerBrake {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EmerBrake {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Engine Throttle
+/// Output: gauge position
+pub struct EngThrottleL(AnalogGauge);
+impl EngThrottleL {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4820, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EngThrottleL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EngThrottleL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Engine Throttle
+/// Output: gauge position
+pub struct EngThrottleR(AnalogGauge);
+impl EngThrottleR {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4822, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EngThrottleR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EngThrottleR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// APU START
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EngineApuStart(Selector);
+impl EngineApuStart {
+    pub const fn new() -> Self {
+        Self(Selector::new(4358, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EngineApuStart {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EngineApuStart {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Fuel Flow L
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EngineFuelFlowL(Selector);
+impl EngineFuelFlowL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4358, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EngineFuelFlowL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EngineFuelFlowL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Fuel Flow R
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EngineFuelFlowR(Selector);
+impl EngineFuelFlowR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4358, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EngineFuelFlowR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EngineFuelFlowR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ENG OPER L
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct EngineOperL(Selector);
+impl EngineOperL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4360, 3, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EngineOperL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EngineOperL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ENG OPER R
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct EngineOperR(Selector);
+impl EngineOperR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4360, 12, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EngineOperR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EngineOperR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TEMS Data
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EngineTemsData(Selector);
+impl EngineTemsData {
+    pub const fn new() -> Self {
+        Self(Selector::new(4360, 16, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EngineTemsData {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EngineTemsData {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Friction Control
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct EngineThrottleFriction(LimitedDial);
+impl EngineThrottleFriction {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4362, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EngineThrottleFriction {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EngineThrottleFriction {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Air Conditioner MAN/AUTO/COLD/HOT
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct EnvcpAcOper(Selector);
+impl EnvcpAcOper {
+    pub const fn new() -> Self {
+        Self(Selector::new(4408, 768, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EnvcpAcOper {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EnvcpAcOper {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Main Air Supply
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EnvcpAirSupply(Selector);
+impl EnvcpAirSupply {
+    pub const fn new() -> Self {
+        Self(Selector::new(4408, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EnvcpAirSupply {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EnvcpAirSupply {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Bleed Air
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EnvcpBleedAir(Selector);
+impl EnvcpBleedAir {
+    pub const fn new() -> Self {
+        Self(Selector::new(4408, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EnvcpBleedAir {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EnvcpBleedAir {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Canopy Defog
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct EnvcpCanopyDefog(LimitedDial);
+impl EnvcpCanopyDefog {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4406, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EnvcpCanopyDefog {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EnvcpCanopyDefog {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Flow Level
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct EnvcpFlowLevel(LimitedDial);
+impl EnvcpFlowLevel {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4410, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EnvcpFlowLevel {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EnvcpFlowLevel {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Oxygen Indicator Test
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EnvcpOxyTest(Selector);
+impl EnvcpOxyTest {
+    pub const fn new() -> Self {
+        Self(Selector::new(4394, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EnvcpOxyTest {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EnvcpOxyTest {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Pitot Heat
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EnvcpPitotHeat(Selector);
+impl EnvcpPitotHeat {
+    pub const fn new() -> Self {
+        Self(Selector::new(4408, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EnvcpPitotHeat {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EnvcpPitotHeat {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Temp Level Control
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct EnvcpTempLevel(LimitedDial);
+impl EnvcpTempLevel {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4412, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EnvcpTempLevel {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EnvcpTempLevel {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Temperature/Pressure Control
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct EnvcpTempPress(Selector);
+impl EnvcpTempPress {
+    pub const fn new() -> Self {
+        Self(Selector::new(4408, 12, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EnvcpTempPress {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EnvcpTempPress {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Windshield Defog/Deice
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EnvcpWindshieldDefog(Selector);
+impl EnvcpWindshieldDefog {
+    pub const fn new() -> Self {
+        Self(Selector::new(4394, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EnvcpWindshieldDefog {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EnvcpWindshieldDefog {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Windshield Rain Removal/Wash
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct EnvcpWrrw(Selector);
+impl EnvcpWrrw {
+    pub const fn new() -> Self {
+        Self(Selector::new(4394, 49152, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EnvcpWrrw {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EnvcpWrrw {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AC GEN PWR Left
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EppAcGenPwrL(Selector);
+impl EppAcGenPwrL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4364, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EppAcGenPwrL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EppAcGenPwrL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AC GEN PWR Right
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EppAcGenPwrR(Selector);
+impl EppAcGenPwrR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4368, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EppAcGenPwrR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EppAcGenPwrR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// APU GEN PWR
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EppApuGenPwr(Selector);
+impl EppApuGenPwr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4364, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EppApuGenPwr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EppApuGenPwr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Battery Power
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EppBatteryPwr(Selector);
+impl EppBatteryPwr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4368, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EppBatteryPwr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EppBatteryPwr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Emergency Flood Light
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct EppEmerFlood(Selector);
+impl EppEmerFlood {
+    pub const fn new() -> Self {
+        Self(Selector::new(4368, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EppEmerFlood {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EppEmerFlood {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Inverter TEST - OFF - STBY
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct EppInverter(Selector);
+impl EppInverter {
+    pub const fn new() -> Self {
+        Self(Selector::new(4364, 24576, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for EppInverter {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for EppInverter {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Formation Lights
+/// Output: Formation Lights
+pub struct ExtFormationLights(Metadata);
+impl ExtFormationLights {
+    pub const fn new() -> Self {
+        Self(Metadata::new(4814, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ExtFormationLights {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ExtFormationLights {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Position Light (red)
+/// Output: Left Position Light (red)
+pub struct ExtPositionLightLeft(Metadata);
+impl ExtPositionLightLeft {
+    pub const fn new() -> Self {
+        Self(Metadata::new(4540, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ExtPositionLightLeft {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ExtPositionLightLeft {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Position Light (green)
+/// Output: Right Position Light (green)
+pub struct ExtPositionLightRight(Metadata);
+impl ExtPositionLightRight {
+    pub const fn new() -> Self {
+        Self(Metadata::new(4540, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ExtPositionLightRight {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ExtPositionLightRight {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Speed Brake
+/// Output: Left Speed Brake
+pub struct ExtSpeedBrakeLeft(Metadata);
+impl ExtSpeedBrakeLeft {
+    pub const fn new() -> Self {
+        Self(Metadata::new(4812, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ExtSpeedBrakeLeft {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ExtSpeedBrakeLeft {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Speed Brake
+/// Output: Right Speed Brake
+pub struct ExtSpeedBrakeRight(Metadata);
+impl ExtSpeedBrakeRight {
+    pub const fn new() -> Self {
+        Self(Metadata::new(4810, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ExtSpeedBrakeRight {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ExtSpeedBrakeRight {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// External Stores Jettison Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct ExtStoresJettison(Selector);
+impl ExtStoresJettison {
+    pub const fn new() -> Self {
+        Self(Selector::new(4374, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ExtStoresJettison {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ExtStoresJettison {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Strobe Light
+/// Output: Left Strobe Light
+pub struct ExtStrobeLeft(Metadata);
+impl ExtStrobeLeft {
+    pub const fn new() -> Self {
+        Self(Metadata::new(4540, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ExtStrobeLeft {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ExtStrobeLeft {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Strobe Light
+/// Output: Right Strobe Light
+pub struct ExtStrobeRight(Metadata);
+impl ExtStrobeRight {
+    pub const fn new() -> Self {
+        Self(Metadata::new(4540, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ExtStrobeRight {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ExtStrobeRight {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Tail Strobe Light
+/// Output: Tail Strobe Light
+pub struct ExtStrobeTail(Metadata);
+impl ExtStrobeTail {
+    pub const fn new() -> Self {
+        Self(Metadata::new(4540, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ExtStrobeTail {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ExtStrobeTail {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Weight ON Wheels Left Gear
+/// Output: Weight ON Wheels Left Gear
+pub struct ExtWowLeft(Metadata);
+impl ExtWowLeft {
+    pub const fn new() -> Self {
+        Self(Metadata::new(4798, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ExtWowLeft {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ExtWowLeft {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Weight ON Wheels Nose Gear
+/// Output: Weight ON Wheels Nose Gear
+pub struct ExtWowNose(Metadata);
+impl ExtWowNose {
+    pub const fn new() -> Self {
+        Self(Metadata::new(4798, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ExtWowNose {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ExtWowNose {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Weight ON Wheels Right Gear
+/// Output: Weight ON Wheels Right Gear
+pub struct ExtWowRight(Metadata);
+impl ExtWowRight {
+    pub const fn new() -> Self {
+        Self(Metadata::new(4798, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ExtWowRight {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ExtWowRight {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// APU Fire T-Handle
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FireApuPull(Selector);
+impl FireApuPull {
+    pub const fn new() -> Self {
+        Self(Selector::new(4440, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FireApuPull {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FireApuPull {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Fire Extinguisher Discharge Left/Off/Right
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct FireExtDisch(Selector);
+impl FireExtDisch {
+    pub const fn new() -> Self {
+        Self(Selector::new(4440, 48, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FireExtDisch {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FireExtDisch {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Engine Fire T-Handle
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FireLengPull(Selector);
+impl FireLengPull {
+    pub const fn new() -> Self {
+        Self(Selector::new(4440, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FireLengPull {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FireLengPull {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Engine Fire T-Handle
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FireRengPull(Selector);
+impl FireRengPull {
+    pub const fn new() -> Self {
+        Self(Selector::new(4440, 8, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FireRengPull {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FireRengPull {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Flap Position Indicator
+/// Output: gauge position
+pub struct FlapPos(AnalogGauge);
+impl FlapPos {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4256, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FlapPos {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FlapPos {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Flaps Setting DN - MVR - UP
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct FlapsSwitch(Selector);
+impl FlapsSwitch {
+    pub const fn new() -> Self {
+        Self(Selector::new(4368, 96, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FlapsSwitch {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FlapsSwitch {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Fuel Display Selector
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct FqisSelect(Selector);
+impl FqisSelect {
+    pub const fn new() -> Self {
+        Self(Selector::new(4358, 7168, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FqisSelect {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FqisSelect {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Fuel Gauge Test
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FqisTest(Selector);
+impl FqisTest {
+    pub const fn new() -> Self {
+        Self(Selector::new(4358, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FqisTest {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FqisTest {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Signal Amplifier NORM - OVERRIDE
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FscpAmpl(Selector);
+impl FscpAmpl {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FscpAmpl {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FscpAmpl {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Boost Pumps Main Fuselage Left
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FscpBoostMainL(Selector);
+impl FscpBoostMainL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FscpBoostMainL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FscpBoostMainL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Boost Pumps Main Fuselage Right
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FscpBoostMainR(Selector);
+impl FscpBoostMainR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FscpBoostMainR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FscpBoostMainR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Boost Pumps Left Wing
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FscpBoostWingL(Selector);
+impl FscpBoostWingL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FscpBoostWingL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FscpBoostWingL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Boost Pumps Right Wing
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FscpBoostWingR(Selector);
+impl FscpBoostWingR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FscpBoostWingR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FscpBoostWingR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Crossfeed
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FscpCrossfeed(Selector);
+impl FscpCrossfeed {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 32, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FscpCrossfeed {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FscpCrossfeed {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// External Fuselage Tanks Boost Pumps
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FscpExtTanksFus(Selector);
+impl FscpExtTanksFus {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 8, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FscpExtTanksFus {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FscpExtTanksFus {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// External Wing Tanks Boost Pumps
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FscpExtTanksWing(Selector);
+impl FscpExtTanksWing {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FscpExtTanksWing {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FscpExtTanksWing {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Fill Disable Main Left
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FscpFdMainL(Selector);
+impl FscpFdMainL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FscpFdMainL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FscpFdMainL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Fill Disable Main Right
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FscpFdMainR(Selector);
+impl FscpFdMainR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FscpFdMainR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FscpFdMainR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Fill Disable Wing Left
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FscpFdWingL(Selector);
+impl FscpFdWingL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FscpFdWingL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FscpFdWingL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Fill Disable Wing Right
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FscpFdWingR(Selector);
+impl FscpFdWingR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FscpFdWingR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FscpFdWingR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Line Check
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FscpLineCheck(Selector);
+impl FscpLineCheck {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FscpLineCheck {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FscpLineCheck {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Aerial Refueling Slipway Control Lever
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FscpRcvrLever(Selector);
+impl FscpRcvrLever {
+    pub const fn new() -> Self {
+        Self(Selector::new(4358, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FscpRcvrLever {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FscpRcvrLever {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TK Gate
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct FscpTkGate(Selector);
+impl FscpTkGate {
+    pub const fn new() -> Self {
+        Self(Selector::new(4348, 16, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FscpTkGate {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FscpTkGate {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Fuel Quantity Counter 100
+/// Output: gauge position
+pub struct FuelQty100(AnalogGauge);
+impl FuelQty100 {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4306, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FuelQty100 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FuelQty100 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Fuel Quantity Counter 1000
+/// Output: gauge position
+pub struct FuelQty1000(AnalogGauge);
+impl FuelQty1000 {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4304, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FuelQty1000 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FuelQty1000 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Fuel Quantity Counter 10000
+/// Output: gauge position
+pub struct FuelQty10000(AnalogGauge);
+impl FuelQty10000 {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4302, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FuelQty10000 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FuelQty10000 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Fuel Qty Left
+/// Output: gauge position
+pub struct FuelQtyL(AnalogGauge);
+impl FuelQtyL {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4298, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FuelQtyL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FuelQtyL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Fuel Qty Right
+/// Output: gauge position
+pub struct FuelQtyR(AnalogGauge);
+impl FuelQtyR {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4300, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for FuelQtyR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for FuelQtyR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Landing Gear Horn Silence
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct GearHornSilence(Selector);
+impl GearHornSilence {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 16, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for GearHornSilence {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for GearHornSilence {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Gear Safe (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct GearLSafe(Led);
+impl GearLSafe {
+    pub const fn new() -> Self {
+        Self(Led::new(4134, 4096, 12))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for GearLSafe {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for GearLSafe {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Gear Lever DOWN - UP
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct GearLever(Selector);
+impl GearLever {
+    pub const fn new() -> Self {
+        Self(Selector::new(4368, 8, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for GearLever {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for GearLever {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Nose Gear Safe (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct GearNSafe(Led);
+impl GearNSafe {
+    pub const fn new() -> Self {
+        Self(Led::new(4134, 2048, 11))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for GearNSafe {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for GearNSafe {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Gear Safe (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct GearRSafe(Led);
+impl GearRSafe {
+    pub const fn new() -> Self {
+        Self(Led::new(4134, 8192, 13))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for GearRSafe {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for GearRSafe {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Ground Safety Override
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct GndSafeOverride(Selector);
+impl GndSafeOverride {
+    pub const fn new() -> Self {
+        Self(Selector::new(4378, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for GndSafeOverride {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for GndSafeOverride {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Ground Safety Override Switch Cover
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct GndSafeOverrideCover(Selector);
+impl GndSafeOverrideCover {
+    pub const fn new() -> Self {
+        Self(Selector::new(4374, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for GndSafeOverrideCover {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for GndSafeOverrideCover {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// GUN READY Indicator (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct GunReady(Led);
+impl GunReady {
+    pub const fn new() -> Self {
+        Self(Led::new(4134, 32768, 15))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for GunReady {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for GunReady {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Handle Gear Warning Light (red)
+/// Output: 0 if light is off, 1 if light is on
+pub struct HandleGearWarning(Led);
+impl HandleGearWarning {
+    pub const fn new() -> Self {
+        Self(Led::new(4134, 16384, 14))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for HandleGearWarning {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HandleGearWarning {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HARS Fast Erect Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct HarsFastErect(Selector);
+impl HarsFastErect {
+    pub const fn new() -> Self {
+        Self(Selector::new(4518, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HarsFastErect {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HarsFastErect {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HARS Heading
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct HarsHdg(LimitedDial);
+impl HarsHdg {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4534, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HarsHdg {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HarsHdg {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HARS Latitude Dial
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct HarsLatitude(LimitedDial);
+impl HarsLatitude {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4532, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HarsLatitude {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HarsLatitude {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HARS MAG VAR
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct HarsMagvar(Selector);
+impl HarsMagvar {
+    pub const fn new() -> Self {
+        Self(Selector::new(4518, 49152, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HarsMagvar {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HarsMagvar {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HARS N/S toggle switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct HarsNs(Selector);
+impl HarsNs {
+    pub const fn new() -> Self {
+        Self(Selector::new(4518, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HarsNs {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HarsNs {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HARS Push-to-Sync
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct HarsPts(Selector);
+impl HarsPts {
+    pub const fn new() -> Self {
+        Self(Selector::new(4536, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HarsPts {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HarsPts {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HARS SLAVE-DG Mode
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct HarsSlaveDg(Selector);
+impl HarsSlaveDg {
+    pub const fn new() -> Self {
+        Self(Selector::new(4518, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HarsSlaveDg {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HarsSlaveDg {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HARS Sync
+/// Output: gauge position
+pub struct HarsSync(AnalogGauge);
+impl HarsSync {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4204, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HarsSync {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HarsSync {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI Bearing Pointer 1
+/// Output: gauge position
+pub struct HsiBearing1(AnalogGauge);
+impl HsiBearing1 {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4174, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiBearing1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiBearing1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI Bearing Pointer 2
+/// Output: gauge position
+pub struct HsiBearing2(AnalogGauge);
+impl HsiBearing2 {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4176, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiBearing2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiBearing2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI Bearing Flag
+/// Output: gauge position
+pub struct HsiBearingFlag(AnalogGauge);
+impl HsiBearingFlag {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4170, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiBearingFlag {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiBearingFlag {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI Course Counter A
+/// Output: gauge position
+pub struct HsiCcA(AnalogGauge);
+impl HsiCcA {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4182, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiCcA {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiCcA {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI Course Counter B
+/// Output: gauge position
+pub struct HsiCcB(AnalogGauge);
+impl HsiCcB {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4184, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiCcB {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiCcB {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI Course
+/// Output: gauge position
+pub struct HsiCrs(AnalogGauge);
+impl HsiCrs {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4180, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiCrs {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiCrs {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Course Select Knob
+/// Input: rotate the knob
+/// Output: rotation of the knob (not the value being manipulated!)
+pub struct HsiCrsKnob(AnalogDial);
+impl HsiCrsKnob {
+    pub const fn new() -> Self {
+        Self(AnalogDial::new(4442, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiCrsKnob {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiCrsKnob {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI Deviation
+/// Output: gauge position
+pub struct HsiDeviation(AnalogGauge);
+impl HsiDeviation {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4194, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiDeviation {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiDeviation {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI Heading
+/// Output: gauge position
+pub struct HsiHdg(AnalogGauge);
+impl HsiHdg {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4172, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiHdg {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiHdg {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI Heading Bug
+/// Output: gauge position
+pub struct HsiHdgBug(AnalogGauge);
+impl HsiHdgBug {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4178, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiHdgBug {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiHdgBug {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Heading Select Knob
+/// Input: rotate the knob
+/// Output: rotation of the knob (not the value being manipulated!)
+pub struct HsiHdgKnob(AnalogDial);
+impl HsiHdgKnob {
+    pub const fn new() -> Self {
+        Self(AnalogDial::new(4444, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiHdgKnob {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiHdgKnob {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI Poweroff Flag
+/// Output: gauge position
+pub struct HsiPwroffFlag(AnalogGauge);
+impl HsiPwroffFlag {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4166, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiPwroffFlag {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiPwroffFlag {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI Range Flag
+/// Output: gauge position
+pub struct HsiRangeFlag(AnalogGauge);
+impl HsiRangeFlag {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4168, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiRangeFlag {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiRangeFlag {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI Range Counter A
+/// Output: gauge position
+pub struct HsiRcA(AnalogGauge);
+impl HsiRcA {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4186, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiRcA {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiRcA {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI Range Counter B
+/// Output: gauge position
+pub struct HsiRcB(AnalogGauge);
+impl HsiRcB {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4188, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiRcB {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiRcB {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI Range Counter C
+/// Output: gauge position
+pub struct HsiRcC(AnalogGauge);
+impl HsiRcC {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4190, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiRcC {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiRcC {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI Range Counter D
+/// Output: gauge position
+pub struct HsiRcD(AnalogGauge);
+impl HsiRcD {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4192, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiRcD {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiRcD {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI TO/FROM 1
+/// Output: gauge position
+pub struct HsiTofrom1(AnalogGauge);
+impl HsiTofrom1 {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4196, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiTofrom1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiTofrom1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HSI TO/FROM 2
+/// Output: gauge position
+pub struct HsiTofrom2(AnalogGauge);
+impl HsiTofrom2 {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4198, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for HsiTofrom2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for HsiTofrom2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// IFF Code: ZERO - B - A - (HOLD)
+/// Input: switch to previous or next state
+/// Output: selector position
+pub struct IffCode(Selector);
+impl IffCode {
+    pub const fn new() -> Self {
+        Self(Selector::new(4378, 49152, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffCode {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffCode {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// IFF Master: OFF - STBY - LOW - NORM - EMER
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IffMaster(Selector);
+impl IffMaster {
+    pub const fn new() -> Self {
+        Self(Selector::new(4382, 57344, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffMaster {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffMaster {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Ident/Mic
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IffMicIdent(Selector);
+impl IffMicIdent {
+    pub const fn new() -> Self {
+        Self(Selector::new(4392, 12, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffMicIdent {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffMicIdent {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Mode-1 Wheel 1
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IffMode1Wheel1(Selector);
+impl IffMode1Wheel1 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4392, 112, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffMode1Wheel1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffMode1Wheel1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Mode-1 Wheel 2
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IffMode1Wheel2(Selector);
+impl IffMode1Wheel2 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4392, 384, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffMode1Wheel2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffMode1Wheel2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Mode-3A Wheel 1
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IffMode3aWheel1(Selector);
+impl IffMode3aWheel1 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4392, 3584, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffMode3aWheel1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffMode3aWheel1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Mode-3A Wheel 2
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IffMode3aWheel2(Selector);
+impl IffMode3aWheel2 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4392, 28672, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffMode3aWheel2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffMode3aWheel2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Mode-3A Wheel 3
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IffMode3aWheel3(Selector);
+impl IffMode3aWheel3 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4394, 7, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffMode3aWheel3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffMode3aWheel3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Mode-3A Wheel 4
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IffMode3aWheel4(Selector);
+impl IffMode3aWheel4 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4394, 56, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffMode3aWheel4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffMode3aWheel4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// IFF On/Out
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct IffOnOut(Selector);
+impl IffOnOut {
+    pub const fn new() -> Self {
+        Self(Selector::new(4386, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffOnOut {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffOnOut {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// IFF Out: LIGHT - OFF - AUDIO
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IffOutAudioLight(Selector);
+impl IffOutAudioLight {
+    pub const fn new() -> Self {
+        Self(Selector::new(4386, 24576, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffOutAudioLight {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffOutAudioLight {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// RAD Test/Mon
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IffRadtest(Selector);
+impl IffRadtest {
+    pub const fn new() -> Self {
+        Self(Selector::new(4392, 3, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffRadtest {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffRadtest {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// IFF REPLY Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct IffReply(Led);
+impl IffReply {
+    pub const fn new() -> Self {
+        Self(Led::new(4818, 2, 1))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for IffReply {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffReply {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// IFF Reply Dim
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct IffReplyDim(LimitedDial);
+impl IffReplyDim {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4396, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffReplyDim {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffReplyDim {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// REPLY Push to Test
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct IffReplyTest(Selector);
+impl IffReplyTest {
+    pub const fn new() -> Self {
+        Self(Selector::new(4392, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffReplyTest {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffReplyTest {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// IFF TEST Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct IffTest(Led);
+impl IffTest {
+    pub const fn new() -> Self {
+        Self(Led::new(4818, 4, 2))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for IffTest {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffTest {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TEST Reply Dim
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct IffTestDim(LimitedDial);
+impl IffTestDim {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4398, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffTestDim {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffTestDim {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Test M-1
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IffTestM1(Selector);
+impl IffTestM1 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4390, 768, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffTestM1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffTestM1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Test M-2
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IffTestM2(Selector);
+impl IffTestM2 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4390, 3072, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffTestM2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffTestM2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Test M-3
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IffTestM3(Selector);
+impl IffTestM3 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4390, 12288, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffTestM3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffTestM3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Test M-4
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IffTestM4(Selector);
+impl IffTestM4 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4390, 49152, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffTestM4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffTestM4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TEST Push to Test
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct IffTestTest(Selector);
+impl IffTestTest {
+    pub const fn new() -> Self {
+        Self(Selector::new(4394, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IffTestTest {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IffTestTest {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ILS Frequency (String)
+/// Output: ILS Frequency (String)
+pub struct IlsFrequencyS(Display<6>);
+impl IlsFrequencyS {
+    pub const fn new() -> Self {
+        Self(Display::<6>::new(4824, 6))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for IlsFrequencyS {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IlsFrequencyS {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ILS Frequency KHz
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IlsKhzInt(Selector);
+impl IlsKhzInt {
+    pub const fn new() -> Self {
+        Self(Selector::new(4456, 1920, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IlsKhzInt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IlsKhzInt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ILS Frequency KHz
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: possible values: "10" "15" "30" "35" "50" "55" "70" "75" "90" "95"
+pub struct IlsKhzStr(Display<2>);
+impl IlsKhzStr {
+    pub const fn new() -> Self {
+        Self(Display::<2>::new(4466, 2))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for IlsKhzStr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IlsKhzStr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ILS Frequency MHz
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IlsMhzInt(Selector);
+impl IlsMhzInt {
+    pub const fn new() -> Self {
+        Self(Selector::new(4456, 96, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IlsMhzInt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IlsMhzInt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ILS Frequency MHz
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: possible values: "108" "109" "110" "111"
+pub struct IlsMhzStr(Display<3>);
+impl IlsMhzStr {
+    pub const fn new() -> Self {
+        Self(Display::<3>::new(4462, 3))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for IlsMhzStr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IlsMhzStr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ILS Power
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct IlsPwr(Selector);
+impl IlsPwr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4456, 16, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IlsPwr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IlsPwr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ILS Volume
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct IlsVol(LimitedDial);
+impl IlsVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4468, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IlsVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IlsVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AIM Un-Mute
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct IntAimUnmute(Selector);
+impl IntAimUnmute {
+    pub const fn new() -> Self {
+        Self(Selector::new(4518, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntAimUnmute {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntAimUnmute {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AIM Volume
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct IntAimVol(LimitedDial);
+impl IntAimVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4522, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntAimVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntAimVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Auxiliary Instruments Light Brightness
+/// Output: gauge position
+pub struct IntAuxInstLBright(AnalogGauge);
+impl IntAuxInstLBright {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4852, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntAuxInstLBright {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntAuxInstLBright {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Call Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct IntCall(Selector);
+impl IntCall {
+    pub const fn new() -> Self {
+        Self(Selector::new(4518, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntCall {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntCall {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Caution Lights Brightness
+/// Output: gauge position
+pub struct IntCautionLBright(AnalogGauge);
+impl IntCautionLBright {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4856, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntCautionLBright {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntCautionLBright {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Console Light Brightness
+/// Output: gauge position
+pub struct IntConsoleLBright(AnalogGauge);
+impl IntConsoleLBright {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4846, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntConsoleLBright {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntConsoleLBright {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Engine Instrument Light Brightness
+/// Output: gauge position
+pub struct IntEngInstLBright(AnalogGauge);
+impl IntEngInstLBright {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4848, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntEngInstLBright {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntEngInstLBright {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Flood Light Brightness
+/// Output: gauge position
+pub struct IntFloodLBright(AnalogGauge);
+impl IntFloodLBright {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4854, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntFloodLBright {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntFloodLBright {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Flight Instruments Light Brightness
+/// Output: gauge position
+pub struct IntFltInstLBright(AnalogGauge);
+impl IntFltInstLBright {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4850, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntFltInstLBright {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntFltInstLBright {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// FM Un-Mute
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct IntFmUnmute(Selector);
+impl IntFmUnmute {
+    pub const fn new() -> Self {
+        Self(Selector::new(4508, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntFmUnmute {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntFmUnmute {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// FM Volume
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct IntFmVol(LimitedDial);
+impl IntFmVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4514, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntFmVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntFmVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HM Switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct IntHm(Selector);
+impl IntHm {
+    pub const fn new() -> Self {
+        Self(Selector::new(4518, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntHm {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntHm {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// IFF Un-Mute
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct IntIffUnmute(Selector);
+impl IntIffUnmute {
+    pub const fn new() -> Self {
+        Self(Selector::new(4518, 8, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntIffUnmute {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntIffUnmute {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// IFF Volume
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct IntIffVol(LimitedDial);
+impl IntIffVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4524, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntIffVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntIffVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ILS Un-Mute
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct IntIlsUnmute(Selector);
+impl IntIlsUnmute {
+    pub const fn new() -> Self {
+        Self(Selector::new(4518, 16, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntIlsUnmute {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntIlsUnmute {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ILS Volume
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct IntIlsVol(LimitedDial);
+impl IntIlsVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4526, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntIlsVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntIlsVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// INT Un-Mute
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct IntIntUnmute(Selector);
+impl IntIntUnmute {
+    pub const fn new() -> Self {
+        Self(Selector::new(4500, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntIntUnmute {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntIntUnmute {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// INT Volume
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct IntIntVol(LimitedDial);
+impl IntIntVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4512, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntIntVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntIntVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Intercom Selector Switch INT/FM/VHF/HF/Blank
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct IntMode(Selector);
+impl IntMode {
+    pub const fn new() -> Self {
+        Self(Selector::new(4518, 896, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntMode {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntMode {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TCN Un-Mute
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct IntTcnUnmute(Selector);
+impl IntTcnUnmute {
+    pub const fn new() -> Self {
+        Self(Selector::new(4518, 32, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntTcnUnmute {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntTcnUnmute {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TCN Volume
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct IntTcnVol(LimitedDial);
+impl IntTcnVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4528, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntTcnVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntTcnVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF Un-Mute
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct IntUhfUnmute(Selector);
+impl IntUhfUnmute {
+    pub const fn new() -> Self {
+        Self(Selector::new(4518, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntUhfUnmute {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntUhfUnmute {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF Volume
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct IntUhfVol(LimitedDial);
+impl IntUhfVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4520, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntUhfVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntUhfVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// VHF Un-Mute
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct IntVhfUnmute(Selector);
+impl IntVhfUnmute {
+    pub const fn new() -> Self {
+        Self(Selector::new(4518, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntVhfUnmute {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntVhfUnmute {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// VHF Volume
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct IntVhfVol(LimitedDial);
+impl IntVhfVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4516, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntVhfVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntVhfVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Intercom Volume
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct IntVol(LimitedDial);
+impl IntVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4530, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for IntVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for IntVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Full Switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct Ky581to5(Selector);
+impl Ky581to5 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4536, 448, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ky581to5 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ky581to5 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Delay Switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Ky58Delay(Selector);
+impl Ky58Delay {
+    pub const fn new() -> Self {
+        Self(Selector::new(4536, 8, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ky58Delay {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ky58Delay {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Mode Switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct Ky58Mode(Selector);
+impl Ky58Mode {
+    pub const fn new() -> Self {
+        Self(Selector::new(4536, 1536, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ky58Mode {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ky58Mode {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// C/RAD Switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct Ky58Plain(Selector);
+impl Ky58Plain {
+    pub const fn new() -> Self {
+        Self(Selector::new(4536, 48, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ky58Plain {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ky58Plain {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Power Switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Ky58Pwr(Selector);
+impl Ky58Pwr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4536, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ky58Pwr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ky58Pwr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Zeroize Switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Ky58Zeroize(Selector);
+impl Ky58Zeroize {
+    pub const fn new() -> Self {
+        Self(Selector::new(4536, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ky58Zeroize {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ky58Zeroize {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Zeroize Switch Cover
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Ky58ZeroizeCover(Selector);
+impl Ky58ZeroizeCover {
+    pub const fn new() -> Self {
+        Self(Selector::new(4536, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ky58ZeroizeCover {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ky58ZeroizeCover {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Aileron EMER DISENG Indicator (yellow)
+/// Output: 0 if light is off, 1 if light is on
+pub struct LAileronEmerDisengage(Led);
+impl LAileronEmerDisengage {
+    pub const fn new() -> Self {
+        Self(Led::new(4314, 64, 6))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for LAileronEmerDisengage {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LAileronEmerDisengage {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Elevator EMER DISENG Indicator (yellow)
+/// Output: 0 if light is off, 1 if light is on
+pub struct LElevatorEmerDisengage(Led);
+impl LElevatorEmerDisengage {
+    pub const fn new() -> Self {
+        Self(Led::new(4314, 256, 8))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for LElevatorEmerDisengage {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LElevatorEmerDisengage {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Engine Core Speed
+/// Output: gauge position
+pub struct LEngCore(AnalogGauge);
+impl LEngCore {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4264, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LEngCore {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LEngCore {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Engine Core Speed Tenth
+/// Output: gauge position
+pub struct LEngCoreT(AnalogGauge);
+impl LEngCoreT {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4262, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LEngCoreT {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LEngCoreT {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Engine Fan Speed
+/// Output: gauge position
+pub struct LEngFan(AnalogGauge);
+impl LEngFan {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4258, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LEngFan {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LEngFan {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Engine Fire Indicator (yellow)
+/// Output: 0 if light is off, 1 if light is on
+pub struct LEngFire(Led);
+impl LEngFire {
+    pub const fn new() -> Self {
+        Self(Led::new(4314, 8, 3))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for LEngFire {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LEngFire {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Engine Fuel Flow
+/// Output: gauge position
+pub struct LEngFuelFlow(AnalogGauge);
+impl LEngFuelFlow {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4270, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LEngFuelFlow {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LEngFuelFlow {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Engine Temperature
+/// Output: gauge position
+pub struct LEngTemp(AnalogGauge);
+impl LEngTemp {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4276, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LEngTemp {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LEngTemp {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Engine Temperature Off
+/// Output: gauge position
+pub struct LEngTempOff(AnalogGauge);
+impl LEngTempOff {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4282, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LEngTempOff {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LEngTempOff {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Engine Temperature Tenth
+/// Output: gauge position
+pub struct LEngTempT(AnalogGauge);
+impl LEngTempT {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4274, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LEngTempT {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LEngTempT {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Hydraulic Pressure
+/// Output: gauge position
+pub struct LHydPress(AnalogGauge);
+impl LHydPress {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4290, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LHydPress {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LHydPress {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Oil Pressure
+/// Output: gauge position
+pub struct LOilPress(AnalogGauge);
+impl LOilPress {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4294, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LOilPress {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LOilPress {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Extend Boarding Ladder Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct LadderExtend(Selector);
+impl LadderExtend {
+    pub const fn new() -> Self {
+        Self(Selector::new(4538, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LadderExtend {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LadderExtend {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Extend Boarding Ladder Button Cover
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct LadderExtendCover(Selector);
+impl LadderExtendCover {
+    pub const fn new() -> Self {
+        Self(Selector::new(4536, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LadderExtendCover {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LadderExtendCover {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Signal Lights Test
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct LampTestBtn(Selector);
+impl LampTestBtn {
+    pub const fn new() -> Self {
+        Self(Selector::new(4374, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LampTestBtn {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LampTestBtn {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Landing Lights TAXI/OFF/LAND
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct LandingLights(Selector);
+impl LandingLights {
+    pub const fn new() -> Self {
+        Self(Selector::new(4420, 6144, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LandingLights {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LandingLights {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// AP MODE
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct LasteApMode(Selector);
+impl LasteApMode {
+    pub const fn new() -> Self {
+        Self(Selector::new(4360, 96, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LasteApMode {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LasteApMode {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Autopilot Engage/Disengage
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct LasteApToggle(Selector);
+impl LasteApToggle {
+    pub const fn new() -> Self {
+        Self(Selector::new(4360, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LasteApToggle {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LasteApToggle {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// EAC On/Off
+/// Input: set the switch position -- 0 = off, 1 = try to turn it on
+/// Output: switch position -- 0 = off, 1 = on
+pub struct LasteEac(Selector);
+impl LasteEac {
+    pub const fn new() -> Self {
+        Self(Selector::new(4360, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LasteEac {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LasteEac {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Radar Altimeter
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct LasteRdrAltm(Selector);
+impl LasteRdrAltm {
+    pub const fn new() -> Self {
+        Self(Selector::new(4360, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LasteRdrAltm {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LasteRdrAltm {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Accelerometer and Compass Lights
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct LcpAccelComp(Selector);
+impl LcpAccelComp {
+    pub const fn new() -> Self {
+        Self(Selector::new(4420, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LcpAccelComp {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LcpAccelComp {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Anticollision Lights
+/// Input: set the switch position -- 0 = off, 1 = try to turn it on
+/// Output: switch position -- 0 = off, 1 = on
+pub struct LcpAnticollision(Selector);
+impl LcpAnticollision {
+    pub const fn new() -> Self {
+        Self(Selector::new(4420, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LcpAnticollision {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LcpAnticollision {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Aux Instrument Lights
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct LcpAuxInst(LimitedDial);
+impl LcpAuxInst {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4428, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LcpAuxInst {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LcpAuxInst {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Console Lights
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct LcpConsole(LimitedDial);
+impl LcpConsole {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4432, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LcpConsole {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LcpConsole {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Engine Instrument Lights
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct LcpEngInst(LimitedDial);
+impl LcpEngInst {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4424, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LcpEngInst {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LcpEngInst {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Flight Instrument Lights
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct LcpFlightInst(LimitedDial);
+impl LcpFlightInst {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4426, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LcpFlightInst {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LcpFlightInst {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Flood Lights
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct LcpFlood(LimitedDial);
+impl LcpFlood {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4430, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LcpFlood {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LcpFlood {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Formation Lights
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct LcpFormation(LimitedDial);
+impl LcpFormation {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4422, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LcpFormation {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LcpFormation {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Nose Illumination
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct LcpNoseIllum(Selector);
+impl LcpNoseIllum {
+    pub const fn new() -> Self {
+        Self(Selector::new(4420, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LcpNoseIllum {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LcpNoseIllum {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Position Lights FLASH/OFF/STEADY
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct LcpPosition(Selector);
+impl LcpPosition {
+    pub const fn new() -> Self {
+        Self(Selector::new(4420, 12, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LcpPosition {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LcpPosition {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Signal Lights
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct LcpSignalLights(Selector);
+impl LcpSignalLights {
+    pub const fn new() -> Self {
+        Self(Selector::new(4420, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LcpSignalLights {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LcpSignalLights {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 1
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd01(Selector);
+impl Lmfd01 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4314, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd01 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd01 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 2
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd02(Selector);
+impl Lmfd02 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4314, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd02 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd02 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 3
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd03(Selector);
+impl Lmfd03 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4314, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd03 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd03 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 4
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd04(Selector);
+impl Lmfd04 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4314, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd04 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd04 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 5
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd05(Selector);
+impl Lmfd05 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4314, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd05 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd05 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 6
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd06(Selector);
+impl Lmfd06 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd06 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd06 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 7
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd07(Selector);
+impl Lmfd07 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd07 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd07 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 8
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd08(Selector);
+impl Lmfd08 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd08 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd08 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 9
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd09(Selector);
+impl Lmfd09 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 8, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd09 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd09 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 10
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd10(Selector);
+impl Lmfd10 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 16, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd10 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd10 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 11
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd11(Selector);
+impl Lmfd11 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 32, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd11 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd11 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 12
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd12(Selector);
+impl Lmfd12 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd12 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd12 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 13
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd13(Selector);
+impl Lmfd13 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd13 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd13 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 14
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd14(Selector);
+impl Lmfd14 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd14 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd14 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 15
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd15(Selector);
+impl Lmfd15 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd15 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd15 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 16
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd16(Selector);
+impl Lmfd16 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd16 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd16 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 17
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd17(Selector);
+impl Lmfd17 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd17 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd17 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 18
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd18(Selector);
+impl Lmfd18 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd18 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd18 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 19
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd19(Selector);
+impl Lmfd19 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd19 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd19 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 20
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Lmfd20(Selector);
+impl Lmfd20 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Lmfd20 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Lmfd20 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ADJ
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct LmfdAdj(Selector);
+impl LmfdAdj {
+    pub const fn new() -> Self {
+        Self(Selector::new(4318, 3, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LmfdAdj {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LmfdAdj {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// BRT
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct LmfdBrt(Selector);
+impl LmfdBrt {
+    pub const fn new() -> Self {
+        Self(Selector::new(4318, 48, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LmfdBrt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LmfdBrt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CON
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct LmfdCon(Selector);
+impl LmfdCon {
+    pub const fn new() -> Self {
+        Self(Selector::new(4318, 192, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LmfdCon {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LmfdCon {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// DSP
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct LmfdDsp(Selector);
+impl LmfdDsp {
+    pub const fn new() -> Self {
+        Self(Selector::new(4318, 12, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LmfdDsp {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LmfdDsp {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// PWR OFF - NT - DAY
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct LmfdPwr(Selector);
+impl LmfdPwr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4318, 3072, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LmfdPwr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LmfdPwr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SYM
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct LmfdSym(Selector);
+impl LmfdSym {
+    pub const fn new() -> Self {
+        Self(Selector::new(4318, 768, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for LmfdSym {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for LmfdSym {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// MARKER BEACON Indicator (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct MarkerBeacon(Led);
+impl MarkerBeacon {
+    pub const fn new() -> Self {
+        Self(Led::new(4314, 2, 1))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for MarkerBeacon {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for MarkerBeacon {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Master Caution Light (yellow)
+/// Output: 0 if light is off, 1 if light is on
+pub struct MasterCaution(Led);
+impl MasterCaution {
+    pub const fn new() -> Self {
+        Self(Led::new(4114, 2048, 11))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for MasterCaution {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for MasterCaution {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Toggle Mirrors
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct MirrorToggle(Selector);
+impl MirrorToggle {
+    pub const fn new() -> Self {
+        Self(Selector::new(4818, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for MirrorToggle {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for MirrorToggle {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Able/Stow Localizer Bars
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct NmspAbleStow(Selector);
+impl NmspAbleStow {
+    pub const fn new() -> Self {
+        Self(Selector::new(4370, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for NmspAbleStow {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspAbleStow {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ANCHR Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct NmspAnchrBtn(Selector);
+impl NmspAnchrBtn {
+    pub const fn new() -> Self {
+        Self(Selector::new(4370, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for NmspAnchrBtn {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspAnchrBtn {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ANCHR Button LED (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct NmspAnchrLed(Led);
+impl NmspAnchrLed {
+    pub const fn new() -> Self {
+        Self(Led::new(4370, 2, 1))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for NmspAnchrLed {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspAnchrLed {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// EGI Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct NmspEgiBtn(Selector);
+impl NmspEgiBtn {
+    pub const fn new() -> Self {
+        Self(Selector::new(4368, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for NmspEgiBtn {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspEgiBtn {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// EGI Button LED (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct NmspEgiLed(Led);
+impl NmspEgiLed {
+    pub const fn new() -> Self {
+        Self(Led::new(4368, 2048, 11))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for NmspEgiLed {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspEgiLed {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// FM LED
+/// Output: 0 if light is off, 1 if light is on
+pub struct NmspFmLed(Led);
+impl NmspFmLed {
+    pub const fn new() -> Self {
+        Self(Led::new(4540, 4, 2))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for NmspFmLed {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspFmLed {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HARS Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct NmspHarsBtn(Selector);
+impl NmspHarsBtn {
+    pub const fn new() -> Self {
+        Self(Selector::new(4368, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for NmspHarsBtn {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspHarsBtn {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HARS Button LED (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct NmspHarsLed(Led);
+impl NmspHarsLed {
+    pub const fn new() -> Self {
+        Self(Led::new(4368, 512, 9))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for NmspHarsLed {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspHarsLed {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ILS Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct NmspIlsBtn(Selector);
+impl NmspIlsBtn {
+    pub const fn new() -> Self {
+        Self(Selector::new(4370, 16, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for NmspIlsBtn {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspIlsBtn {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ILS Button LED (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct NmspIlsLed(Led);
+impl NmspIlsLed {
+    pub const fn new() -> Self {
+        Self(Led::new(4370, 32, 5))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for NmspIlsLed {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspIlsLed {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// STEERPT Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct NmspSteerptBtn(Selector);
+impl NmspSteerptBtn {
+    pub const fn new() -> Self {
+        Self(Selector::new(4368, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for NmspSteerptBtn {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspSteerptBtn {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// STEERPT Button LED (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct NmspSteerptLed(Led);
+impl NmspSteerptLed {
+    pub const fn new() -> Self {
+        Self(Led::new(4368, 32768, 15))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for NmspSteerptLed {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspSteerptLed {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TCN Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct NmspTcnBtn(Selector);
+impl NmspTcnBtn {
+    pub const fn new() -> Self {
+        Self(Selector::new(4370, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for NmspTcnBtn {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspTcnBtn {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TCN Button LED (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct NmspTcnLed(Led);
+impl NmspTcnLed {
+    pub const fn new() -> Self {
+        Self(Led::new(4370, 8, 3))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for NmspTcnLed {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspTcnLed {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TISL Button (No Function)
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct NmspTislBtn(Selector);
+impl NmspTislBtn {
+    pub const fn new() -> Self {
+        Self(Selector::new(4368, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for NmspTislBtn {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspTislBtn {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TISL Button LED (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct NmspTislLed(Led);
+impl NmspTislLed {
+    pub const fn new() -> Self {
+        Self(Led::new(4368, 8192, 13))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for NmspTislLed {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspTislLed {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF LED
+/// Output: 0 if light is off, 1 if light is on
+pub struct NmspUhfLed(Led);
+impl NmspUhfLed {
+    pub const fn new() -> Self {
+        Self(Led::new(4540, 2, 1))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for NmspUhfLed {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NmspUhfLed {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Nosewheel Steering Indicator (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct NosewheelSteering(Led);
+impl NosewheelSteering {
+    pub const fn new() -> Self {
+        Self(Led::new(4314, 1, 0))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for NosewheelSteering {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for NosewheelSteering {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Oxygen Normal/100%
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct OxyDiluter(Selector);
+impl OxyDiluter {
+    pub const fn new() -> Self {
+        Self(Selector::new(4394, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for OxyDiluter {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for OxyDiluter {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Oxygen Flow: Emergency / Normal / Test
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct OxyEmergency(Selector);
+impl OxyEmergency {
+    pub const fn new() -> Self {
+        Self(Selector::new(4394, 384, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for OxyEmergency {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for OxyEmergency {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Flow Indicator (on/off) (white)
+/// Output: 0 if light is off, 1 if light is on
+pub struct OxyFlow(Led);
+impl OxyFlow {
+    pub const fn new() -> Self {
+        Self(Led::new(4394, 2048, 11))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for OxyFlow {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for OxyFlow {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Flow Indicator (on/off) (as Gauge)
+/// Output: gauge position
+pub struct OxyFlowG(AnalogGauge);
+impl OxyFlowG {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4858, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for OxyFlowG {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for OxyFlowG {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Oxygen Pressure Indicator
+/// Output: gauge position
+pub struct OxyPress(AnalogGauge);
+impl OxyPress {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4400, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for OxyPress {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for OxyPress {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Oxygen Supply On/Off
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct OxySupply(Selector);
+impl OxySupply {
+    pub const fn new() -> Self {
+        Self(Selector::new(4394, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for OxySupply {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for OxySupply {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Oxygen Volume (0 to 5 liters)
+/// Output: gauge position
+pub struct OxyVolume(AnalogGauge);
+impl OxyVolume {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4402, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for OxyVolume {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for OxyVolume {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Aileron EMER DISENG Indicator (yellow)
+/// Output: 0 if light is off, 1 if light is on
+pub struct RAileronEmerDisengage(Led);
+impl RAileronEmerDisengage {
+    pub const fn new() -> Self {
+        Self(Led::new(4314, 128, 7))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for RAileronEmerDisengage {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for RAileronEmerDisengage {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Elevator EMER DISENG Indicator (yellow)
+/// Output: 0 if light is off, 1 if light is on
+pub struct RElevatorEmerDisengage(Led);
+impl RElevatorEmerDisengage {
+    pub const fn new() -> Self {
+        Self(Led::new(4314, 512, 9))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for RElevatorEmerDisengage {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for RElevatorEmerDisengage {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Engine Core Speed
+/// Output: gauge position
+pub struct REngCore(AnalogGauge);
+impl REngCore {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4268, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for REngCore {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for REngCore {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Engine Core Speed Tenth
+/// Output: gauge position
+pub struct REngCoreT(AnalogGauge);
+impl REngCoreT {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4266, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for REngCoreT {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for REngCoreT {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Engine Fan Speed
+/// Output: gauge position
+pub struct REngFan(AnalogGauge);
+impl REngFan {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4260, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for REngFan {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for REngFan {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Engine Fire Indicator (yellow)
+/// Output: 0 if light is off, 1 if light is on
+pub struct REngFire(Led);
+impl REngFire {
+    pub const fn new() -> Self {
+        Self(Led::new(4314, 32, 5))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for REngFire {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for REngFire {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Engine Fuel Flow
+/// Output: gauge position
+pub struct REngFuelFlow(AnalogGauge);
+impl REngFuelFlow {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4272, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for REngFuelFlow {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for REngFuelFlow {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Engine Temperature
+/// Output: gauge position
+pub struct REngTemp(AnalogGauge);
+impl REngTemp {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4280, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for REngTemp {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for REngTemp {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Engine Temperature Off
+/// Output: gauge position
+pub struct REngTempOff(AnalogGauge);
+impl REngTempOff {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4284, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for REngTempOff {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for REngTempOff {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Engine Temperature Tenth
+/// Output: gauge position
+pub struct REngTempT(AnalogGauge);
+impl REngTempT {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4278, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for REngTempT {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for REngTempT {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Hydraulic Pressure
+/// Output: gauge position
+pub struct RHydPress(AnalogGauge);
+impl RHydPress {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4292, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for RHydPress {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for RHydPress {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Oil Pressure
+/// Output: gauge position
+pub struct ROilPress(AnalogGauge);
+impl ROilPress {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4296, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for ROilPress {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for ROilPress {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 1
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd01(Selector);
+impl Rmfd01 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4316, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd01 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd01 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 2
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd02(Selector);
+impl Rmfd02 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4318, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd02 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd02 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 3
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd03(Selector);
+impl Rmfd03 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4318, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd03 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd03 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 4
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd04(Selector);
+impl Rmfd04 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4318, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd04 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd04 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 5
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd05(Selector);
+impl Rmfd05 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4318, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd05 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd05 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 6
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd06(Selector);
+impl Rmfd06 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd06 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd06 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 7
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd07(Selector);
+impl Rmfd07 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd07 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd07 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 8
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd08(Selector);
+impl Rmfd08 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd08 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd08 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 9
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd09(Selector);
+impl Rmfd09 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 8, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd09 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd09 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 10
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd10(Selector);
+impl Rmfd10 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 16, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd10 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd10 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 11
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd11(Selector);
+impl Rmfd11 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 32, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd11 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd11 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 12
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd12(Selector);
+impl Rmfd12 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd12 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd12 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 13
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd13(Selector);
+impl Rmfd13 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd13 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd13 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 14
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd14(Selector);
+impl Rmfd14 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd14 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd14 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 15
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd15(Selector);
+impl Rmfd15 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd15 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd15 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 16
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd16(Selector);
+impl Rmfd16 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd16 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd16 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 17
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd17(Selector);
+impl Rmfd17 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd17 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd17 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 18
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd18(Selector);
+impl Rmfd18 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd18 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd18 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 19
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd19(Selector);
+impl Rmfd19 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd19 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd19 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// OSB 20
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Rmfd20(Selector);
+impl Rmfd20 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4320, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Rmfd20 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Rmfd20 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ADJ
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct RmfdAdj(Selector);
+impl RmfdAdj {
+    pub const fn new() -> Self {
+        Self(Selector::new(4322, 3, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for RmfdAdj {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for RmfdAdj {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// BRT
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct RmfdBrt(Selector);
+impl RmfdBrt {
+    pub const fn new() -> Self {
+        Self(Selector::new(4322, 48, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for RmfdBrt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for RmfdBrt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CON
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct RmfdCon(Selector);
+impl RmfdCon {
+    pub const fn new() -> Self {
+        Self(Selector::new(4322, 192, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for RmfdCon {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for RmfdCon {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// DSP
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct RmfdDsp(Selector);
+impl RmfdDsp {
+    pub const fn new() -> Self {
+        Self(Selector::new(4322, 12, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for RmfdDsp {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for RmfdDsp {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// PWR OFF - NT - DAY
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct RmfdPwr(Selector);
+impl RmfdPwr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4322, 3072, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for RmfdPwr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for RmfdPwr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SYM
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct RmfdSym(Selector);
+impl RmfdSym {
+    pub const fn new() -> Self {
+        Self(Selector::new(4322, 768, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for RmfdSym {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for RmfdSym {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Display Brightness
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct RwrBrt(LimitedDial);
+impl RwrBrt {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4542, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for RwrBrt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for RwrBrt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SAI Bank
+/// Output: gauge position
+pub struct SaiBank(AnalogGauge);
+impl SaiBank {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4138, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SaiBank {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SaiBank {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Cage SAI
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct SaiCage(Selector);
+impl SaiCage {
+    pub const fn new() -> Self {
+        Self(Selector::new(4440, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SaiCage {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SaiCage {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SAI Knob Arrow
+/// Output: gauge position
+pub struct SaiKnobArrow(AnalogGauge);
+impl SaiKnobArrow {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4144, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SaiKnobArrow {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SaiKnobArrow {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SAI Pitch
+/// Output: gauge position
+pub struct SaiPitch(AnalogGauge);
+impl SaiPitch {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4136, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SaiPitch {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SaiPitch {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SAI Manual Pitch Adjustment
+/// Output: gauge position
+pub struct SaiPitchAdj(AnalogGauge);
+impl SaiPitchAdj {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4142, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SaiPitchAdj {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SaiPitchAdj {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SAI Pitch Trim
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct SaiPitchTrim(LimitedDial);
+impl SaiPitchTrim {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4448, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SaiPitchTrim {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SaiPitchTrim {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SAI Warning Flag
+/// Output: gauge position
+pub struct SaiWarningFlag(AnalogGauge);
+impl SaiWarningFlag {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4140, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SaiWarningFlag {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SaiWarningFlag {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Monitor Test Left/Right
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct SaspMonitorTest(Selector);
+impl SaspMonitorTest {
+    pub const fn new() -> Self {
+        Self(Selector::new(4360, 49152, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SaspMonitorTest {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SaspMonitorTest {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Pitch SAS Left OFF - ENGAGE
+/// Input: set the switch position -- 0 = off, 1 = try to turn it on
+/// Output: switch position -- 0 = off, 1 = on
+pub struct SaspPitchSasL(Selector);
+impl SaspPitchSasL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4360, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SaspPitchSasL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SaspPitchSasL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Pitch SAS Right OFF - ENGAGE
+/// Input: set the switch position -- 0 = off, 1 = try to turn it on
+/// Output: switch position -- 0 = off, 1 = on
+pub struct SaspPitchSasR(Selector);
+impl SaspPitchSasR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4360, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SaspPitchSasR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SaspPitchSasR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// T/O Trim Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct SaspToTrim(Selector);
+impl SaspToTrim {
+    pub const fn new() -> Self {
+        Self(Selector::new(4364, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SaspToTrim {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SaspToTrim {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Yaw SAS Left OFF - ENGAGE
+/// Input: set the switch position -- 0 = off, 1 = try to turn it on
+/// Output: switch position -- 0 = off, 1 = on
+pub struct SaspYawSasL(Selector);
+impl SaspYawSasL {
+    pub const fn new() -> Self {
+        Self(Selector::new(4360, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SaspYawSasL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SaspYawSasL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Yaw SAS Right OFF - ENGAGE
+/// Input: set the switch position -- 0 = off, 1 = try to turn it on
+/// Output: switch position -- 0 = off, 1 = on
+pub struct SaspYawSasR(Selector);
+impl SaspYawSasR {
+    pub const fn new() -> Self {
+        Self(Selector::new(4360, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SaspYawSasR {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SaspYawSasR {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Yaw Trim
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct SaspYawTrim(LimitedDial);
+impl SaspYawTrim {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4366, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SaspYawTrim {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SaspYawTrim {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Seat Adjust
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct SeatAdjust(Selector);
+impl SeatAdjust {
+    pub const fn new() -> Self {
+        Self(Selector::new(4508, 6144, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SeatAdjust {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SeatAdjust {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Seat Arm Handle (0 = ARM, 1 = DISARM)
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct SeatArm(Selector);
+impl SeatArm {
+    pub const fn new() -> Self {
+        Self(Selector::new(4536, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SeatArm {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SeatArm {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Peak Volume
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct StallPeakVol(LimitedDial);
+impl StallPeakVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4460, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for StallPeakVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for StallPeakVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Stall Volume
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct StallVol(LimitedDial);
+impl StallVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4458, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for StallVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for StallVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Anti-G Suit Valve Test Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct SuitTest(Selector);
+impl SuitTest {
+    pub const fn new() -> Self {
+        Self(Selector::new(4538, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for SuitTest {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for SuitTest {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Right Channel Selector
+/// Input: switch to previous or next state
+/// Input: Toggle TACAN Channel X/Y
+/// Output: selector position
+pub struct Tacan1(Selector);
+impl Tacan1 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4440, 61440, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Tacan1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Tacan1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Left Channel Selector
+/// Input: switch to previous or next state
+/// Output: selector position
+pub struct Tacan10(Selector);
+impl Tacan10 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4440, 3840, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Tacan10 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Tacan10 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TACAN Channel
+/// Output: TACAN Channel
+pub struct TacanChannel(Display<4>);
+impl TacanChannel {
+    pub const fn new() -> Self {
+        Self(Display::<4>::new(4450, 4))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for TacanChannel {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TacanChannel {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TACAN Mode Dial
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct TacanMode(Selector);
+impl TacanMode {
+    pub const fn new() -> Self {
+        Self(Selector::new(4456, 14, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TacanMode {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TacanMode {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TACAN Test Indicator Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct TacanTest(Led);
+impl TacanTest {
+    pub const fn new() -> Self {
+        Self(Led::new(4314, 1024, 10))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for TacanTest {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TacanTest {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TACAN Test Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct TacanTestBtn(Selector);
+impl TacanTestBtn {
+    pub const fn new() -> Self {
+        Self(Selector::new(4440, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TacanTestBtn {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TacanTestBtn {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TACAN Signal Volume
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct TacanVol(LimitedDial);
+impl TacanVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4454, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TacanVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TacanVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TACAN Channel X/Y Toggle
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct TacanXy(Selector);
+impl TacanXy {
+    pub const fn new() -> Self {
+        Self(Selector::new(4456, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TacanXy {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TacanXy {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TAKEOFF TRIM Indicator Light (green)
+/// Output: 0 if light is off, 1 if light is on
+pub struct TakeOffTrim(Led);
+impl TakeOffTrim {
+    pub const fn new() -> Self {
+        Self(Led::new(4134, 1024, 10))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for TakeOffTrim {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TakeOffTrim {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Altitude Above Target, 10000 ft
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct TislAlt10000Int(Selector);
+impl TislAlt10000Int {
+    pub const fn new() -> Self {
+        Self(Selector::new(4370, 61440, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TislAlt10000Int {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislAlt10000Int {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Altitude Above Target, 10000 ft
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: possible values: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "0"
+pub struct TislAlt10000Str(Display<1>);
+impl TislAlt10000Str {
+    pub const fn new() -> Self {
+        Self(Display::<1>::new(4372, 1))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for TislAlt10000Str {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislAlt10000Str {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Altitude Above Target, 1000 ft
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct TislAlt1000Int(Selector);
+impl TislAlt1000Int {
+    pub const fn new() -> Self {
+        Self(Selector::new(4372, 3840, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TislAlt1000Int {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislAlt1000Int {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Altitude Above Target, 1000 ft
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: possible values: "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" "0"
+pub struct TislAlt1000Str(Display<1>);
+impl TislAlt1000Str {
+    pub const fn new() -> Self {
+        Self(Display::<1>::new(4374, 1))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for TislAlt1000Str {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislAlt1000Str {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TISL AUX Switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct TislAux(Selector);
+impl TislAux {
+    pub const fn new() -> Self {
+        Self(Selector::new(4372, 12288, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TislAux {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislAux {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TISL BITE
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct TislBite(Selector);
+impl TislBite {
+    pub const fn new() -> Self {
+        Self(Selector::new(4372, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TislBite {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislBite {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TISL BITE Light
+/// Output: 0 if light is off, 1 if light is on
+pub struct TislBiteL(Led);
+impl TislBiteL {
+    pub const fn new() -> Self {
+        Self(Led::new(4798, 32768, 15))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for TislBiteL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislBiteL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Code Wheel 1
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct TislCode1Int(Selector);
+impl TislCode1Int {
+    pub const fn new() -> Self {
+        Self(Selector::new(4374, 7936, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TislCode1Int {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislCode1Int {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Code Wheel 1
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: possible values: "0" "0.5" "1" "1.5" "2" "2.5" "3" "3.5" "4" "4.5" "5" "5.5" "6" "6.5" "7" "7.5" "8" "8.5" "9" "9.5" "0"
+pub struct TislCode1Str(Display<3>);
+impl TislCode1Str {
+    pub const fn new() -> Self {
+        Self(Display::<3>::new(4376, 3))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for TislCode1Str {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislCode1Str {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Code Wheel 2
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct TislCode2Int(Selector);
+impl TislCode2Int {
+    pub const fn new() -> Self {
+        Self(Selector::new(4378, 7936, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TislCode2Int {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislCode2Int {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Code Wheel 2
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: possible values: "0" "0.5" "1" "1.5" "2" "2.5" "3" "3.5" "4" "4.5" "5" "5.5" "6" "6.5" "7" "7.5" "8" "8.5" "9" "9.5" "0"
+pub struct TislCode2Str(Display<3>);
+impl TislCode2Str {
+    pub const fn new() -> Self {
+        Self(Display::<3>::new(4380, 3))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for TislCode2Str {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislCode2Str {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Code Wheel 3
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct TislCode3Int(Selector);
+impl TislCode3Int {
+    pub const fn new() -> Self {
+        Self(Selector::new(4382, 7936, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TislCode3Int {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislCode3Int {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Code Wheel 3
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: possible values: "0" "0.5" "1" "1.5" "2" "2.5" "3" "3.5" "4" "4.5" "5" "5.5" "6" "6.5" "7" "7.5" "8" "8.5" "9" "9.5" "0"
+pub struct TislCode3Str(Display<3>);
+impl TislCode3Str {
+    pub const fn new() -> Self {
+        Self(Display::<3>::new(4384, 3))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for TislCode3Str {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislCode3Str {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Code Wheel 4
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct TislCode4Int(Selector);
+impl TislCode4Int {
+    pub const fn new() -> Self {
+        Self(Selector::new(4386, 7936, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TislCode4Int {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislCode4Int {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Code Wheel 4
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: possible values: "0" "0.5" "1" "1.5" "2" "2.5" "3" "3.5" "4" "4.5" "5" "5.5" "6" "6.5" "7" "7.5" "8" "8.5" "9" "9.5" "0"
+pub struct TislCode4Str(Display<3>);
+impl TislCode4Str {
+    pub const fn new() -> Self {
+        Self(Display::<3>::new(4388, 3))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for TislCode4Str {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislCode4Str {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TISL ENTER
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct TislEnter(Selector);
+impl TislEnter {
+    pub const fn new() -> Self {
+        Self(Selector::new(4372, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TislEnter {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislEnter {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TISL ENTER Light
+/// Output: 0 if light is off, 1 if light is on
+pub struct TislEnterL(Led);
+impl TislEnterL {
+    pub const fn new() -> Self {
+        Self(Led::new(4798, 8192, 13))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for TislEnterL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislEnterL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TISL Mode
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct TislMode(Selector);
+impl TislMode {
+    pub const fn new() -> Self {
+        Self(Selector::new(4370, 896, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TislMode {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislMode {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TISL OVER TEMP
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct TislOvertemp(Selector);
+impl TislOvertemp {
+    pub const fn new() -> Self {
+        Self(Selector::new(4798, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TislOvertemp {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislOvertemp {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TISL OVER TEMP Light
+/// Output: 0 if light is off, 1 if light is on
+pub struct TislOvertempL(Led);
+impl TislOvertempL {
+    pub const fn new() -> Self {
+        Self(Led::new(4798, 16384, 14))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for TislOvertempL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislOvertempL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Slant Range UNDER 5 - 5 - 10
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct TislSlantRange(Selector);
+impl TislSlantRange {
+    pub const fn new() -> Self {
+        Self(Selector::new(4370, 3072, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TislSlantRange {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislSlantRange {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TISL TRACK
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct TislTrack(Selector);
+impl TislTrack {
+    pub const fn new() -> Self {
+        Self(Selector::new(4798, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for TislTrack {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislTrack {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// TISL TRACK Light
+/// Output: 0 if light is off, 1 if light is on
+pub struct TislTrackL(Led);
+impl TislTrackL {
+    pub const fn new() -> Self {
+        Self(Led::new(4818, 1, 0))
+    }
+    pub const fn is_on(&self) -> bool {
+        self.0.is_on()
+    }
+}
+impl Default for TislTrackL {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for TislTrackL {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 1
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Ufc1(Selector);
+impl Ufc1 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4328, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ufc1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ufc1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 10
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Ufc10(Selector);
+impl Ufc10 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4334, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ufc10 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ufc10 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 2
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Ufc2(Selector);
+impl Ufc2 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4334, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ufc2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ufc2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 3
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Ufc3(Selector);
+impl Ufc3 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4334, 8, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ufc3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ufc3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 4
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Ufc4(Selector);
+impl Ufc4 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4334, 16, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ufc4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ufc4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 5
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Ufc5(Selector);
+impl Ufc5 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4334, 32, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ufc5 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ufc5 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 6
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Ufc6(Selector);
+impl Ufc6 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4334, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ufc6 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ufc6 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 7
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Ufc7(Selector);
+impl Ufc7 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4334, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ufc7 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ufc7 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 8
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Ufc8(Selector);
+impl Ufc8 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4334, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ufc8 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ufc8 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// 9
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct Ufc9(Selector);
+impl Ufc9 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4334, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Ufc9 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Ufc9 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ALT ALRT
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UfcAltAlrt(Selector);
+impl UfcAltAlrt {
+    pub const fn new() -> Self {
+        Self(Selector::new(4336, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcAltAlrt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcAltAlrt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// CLR
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UfcClr(Selector);
+impl UfcClr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4334, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcClr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcClr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// DATA Up/Down
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct UfcData(Selector);
+impl UfcData {
+    pub const fn new() -> Self {
+        Self(Selector::new(4336, 96, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcData {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcData {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// DEPR Up/Down
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct UfcDepr(Selector);
+impl UfcDepr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4336, 1536, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcDepr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcDepr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// ENT
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UfcEnt(Selector);
+impl UfcEnt {
+    pub const fn new() -> Self {
+        Self(Selector::new(4336, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcEnt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcEnt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// FUNC
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UfcFunc(Selector);
+impl UfcFunc {
+    pub const fn new() -> Self {
+        Self(Selector::new(4334, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcFunc {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcFunc {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// HACK
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UfcHack(Selector);
+impl UfcHack {
+    pub const fn new() -> Self {
+        Self(Selector::new(4334, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcHack {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcHack {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// INTEN Incr/Decr
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct UfcInten(Selector);
+impl UfcInten {
+    pub const fn new() -> Self {
+        Self(Selector::new(4336, 6144, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcInten {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcInten {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// LTR
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UfcLtr(Selector);
+impl UfcLtr {
+    pub const fn new() -> Self {
+        Self(Selector::new(4334, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcLtr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcLtr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Master Caution Reset
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UfcMasterCaution(Selector);
+impl UfcMasterCaution {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 8, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcMasterCaution {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcMasterCaution {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// MK
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UfcMk(Selector);
+impl UfcMk {
+    pub const fn new() -> Self {
+        Self(Selector::new(4336, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcMk {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcMk {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// No Function 1
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UfcNa1(Selector);
+impl UfcNa1 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4336, 8192, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcNa1 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcNa1 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// No Function 2
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UfcNa2(Selector);
+impl UfcNa2 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4336, 16384, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcNa2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcNa2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// No Function 3
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UfcNa3(Selector);
+impl UfcNa3 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4336, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcNa3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcNa3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// No Function 4
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UfcNa4(Selector);
+impl UfcNa4 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 1, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcNa4 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcNa4 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// No Function 5
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UfcNa5(Selector);
+impl UfcNa5 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 2, 1))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcNa5 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcNa5 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// No Function 6
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UfcNa6(Selector);
+impl UfcNa6 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4338, 4, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcNa6 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcNa6 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SEL Up/Down
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct UfcSel(Selector);
+impl UfcSel {
+    pub const fn new() -> Self {
+        Self(Selector::new(4336, 384, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcSel {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcSel {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// SPC
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UfcSpc(Selector);
+impl UfcSpc {
+    pub const fn new() -> Self {
+        Self(Selector::new(4334, 2048, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcSpc {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcSpc {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// STEER Up/Down
+/// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
+/// Output: selector position
+pub struct UfcSteer(Selector);
+impl UfcSteer {
+    pub const fn new() -> Self {
+        Self(Selector::new(4336, 24, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UfcSteer {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UfcSteer {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF 100MHz Selector
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct Uhf100mhzSelInt(Selector);
+impl Uhf100mhzSelInt {
+    pub const fn new() -> Self {
+        Self(Selector::new(4464, 768, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Uhf100mhzSelInt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Uhf100mhzSelInt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF 100MHz Selector
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: possible values: "2" "3" "A"
+pub struct Uhf100mhzSelStr(Display<1>);
+impl Uhf100mhzSelStr {
+    pub const fn new() -> Self {
+        Self(Display::<1>::new(4472, 1))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for Uhf100mhzSelStr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Uhf100mhzSelStr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF 10MHz Selector
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct Uhf10mhzSel(Selector);
+impl Uhf10mhzSel {
+    pub const fn new() -> Self {
+        Self(Selector::new(4464, 15360, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Uhf10mhzSel {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Uhf10mhzSel {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF 1MHz Selector
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct Uhf1mhzSel(Selector);
+impl Uhf1mhzSel {
+    pub const fn new() -> Self {
+        Self(Selector::new(4472, 3840, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Uhf1mhzSel {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Uhf1mhzSel {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Load Button Cover
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UhfCover(Selector);
+impl UhfCover {
+    pub const fn new() -> Self {
+        Self(Selector::new(4476, 1024, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UhfCover {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfCover {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF Frequency Display
+/// Output: UHF Frequency Display
+pub struct UhfFrequency(Display<7>);
+impl UhfFrequency {
+    pub const fn new() -> Self {
+        Self(Display::<7>::new(4480, 7))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for UhfFrequency {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfFrequency {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF Function Dial OFF/MAIN/BOTH/ADF
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct UhfFunction(Selector);
+impl UhfFunction {
+    pub const fn new() -> Self {
+        Self(Selector::new(4476, 12, 2))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UhfFunction {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfFunction {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Load Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UhfLoad(Selector);
+impl UhfLoad {
+    pub const fn new() -> Self {
+        Self(Selector::new(4476, 512, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UhfLoad {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfLoad {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Mode Dial MNL/PRESET/GRD
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct UhfMode(Selector);
+impl UhfMode {
+    pub const fn new() -> Self {
+        Self(Selector::new(4476, 3, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UhfMode {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfMode {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF 0.1MHz Selector
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct UhfPoint1mhzSel(Selector);
+impl UhfPoint1mhzSel {
+    pub const fn new() -> Self {
+        Self(Selector::new(4472, 61440, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UhfPoint1mhzSel {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfPoint1mhzSel {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF 0.25MHz Selector
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct UhfPoint25SelInt(Selector);
+impl UhfPoint25SelInt {
+    pub const fn new() -> Self {
+        Self(Selector::new(4464, 49152, 14))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UhfPoint25SelInt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfPoint25SelInt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF 0.25MHz Selector
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: possible values: "00" "25" "50" "75"
+pub struct UhfPoint25SelStr(Display<2>);
+impl UhfPoint25SelStr {
+    pub const fn new() -> Self {
+        Self(Display::<2>::new(4474, 2))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for UhfPoint25SelStr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfPoint25SelStr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF Preset Display
+/// Output: UHF Preset Display
+pub struct UhfPreset(Display<2>);
+impl UhfPreset {
+    pub const fn new() -> Self {
+        Self(Display::<2>::new(4488, 2))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for UhfPreset {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfPreset {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF Preset Channel Selector
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct UhfPresetSelInt(Selector);
+impl UhfPresetSelInt {
+    pub const fn new() -> Self {
+        Self(Selector::new(4456, 63488, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UhfPresetSelInt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfPresetSelInt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF Preset Channel Selector
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: possible values: " 1" " 2" " 3" " 4" " 5" " 6" " 7" " 8" " 9" "10" "11" "12" "13" "14" "15" "16" "17" "18" "19" "20"
+pub struct UhfPresetSelStr(Display<2>);
+impl UhfPresetSelStr {
+    pub const fn new() -> Self {
+        Self(Display::<2>::new(4470, 2))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for UhfPresetSelStr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfPresetSelStr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Squelch Switch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UhfSquelch(Selector);
+impl UhfSquelch {
+    pub const fn new() -> Self {
+        Self(Selector::new(4476, 64, 6))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UhfSquelch {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfSquelch {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Status Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UhfStatus(Selector);
+impl UhfStatus {
+    pub const fn new() -> Self {
+        Self(Selector::new(4476, 256, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UhfStatus {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfStatus {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// T-Tone Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct UhfTTone(Selector);
+impl UhfTTone {
+    pub const fn new() -> Self {
+        Self(Selector::new(4476, 48, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UhfTTone {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfTTone {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Display Test Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct UhfTest(Selector);
+impl UhfTest {
+    pub const fn new() -> Self {
+        Self(Selector::new(4476, 128, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UhfTest {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfTest {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// UHF Volume Control
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct UhfVol(LimitedDial);
+impl UhfVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4478, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for UhfVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for UhfVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// VHF AM Frequency (String)
+/// Output: VHF AM Frequency (String)
+pub struct VhfAmFrequencyS(Display<7>);
+impl VhfAmFrequencyS {
+    pub const fn new() -> Self {
+        Self(Display::<7>::new(4830, 7))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for VhfAmFrequencyS {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfAmFrequencyS {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// VHF FM Frequency (String)
+/// Output: VHF FM Frequency (String)
+pub struct VhfFmFrequencyS(Display<7>);
+impl VhfFmFrequencyS {
+    pub const fn new() -> Self {
+        Self(Display::<7>::new(4838, 7))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for VhfFmFrequencyS {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfFmFrequencyS {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 1
+/// Input: switch to previous or next state
+/// Output: selector position
+pub struct VhfamFreq1Int(Selector);
+impl VhfamFreq1Int {
+    pub const fn new() -> Self {
+        Self(Selector::new(4494, 15, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhfamFreq1Int {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamFreq1Int {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 1 Rotation
+/// Output: gauge position
+pub struct VhfamFreq1Rot(AnalogGauge);
+impl VhfamFreq1Rot {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4540, 2040, 3))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhfamFreq1Rot {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamFreq1Rot {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 1
+/// Input: switch to previous or next state
+/// Output: possible values: " 3" " 4" " 5" " 6" " 7" " 8" " 9" "10" "11" "12" "13" "14" "15"
+pub struct VhfamFreq1Str(Display<2>);
+impl VhfamFreq1Str {
+    pub const fn new() -> Self {
+        Self(Display::<2>::new(4496, 2))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for VhfamFreq1Str {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamFreq1Str {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 2
+/// Input: switch to previous or next state
+/// Output: selector position
+pub struct VhfamFreq2(Selector);
+impl VhfamFreq2 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4494, 240, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhfamFreq2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamFreq2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 2 Rotation
+/// Output: gauge position
+pub struct VhfamFreq2Rot(AnalogGauge);
+impl VhfamFreq2Rot {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4792, 255, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhfamFreq2Rot {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamFreq2Rot {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 3
+/// Input: switch to previous or next state
+/// Output: selector position
+pub struct VhfamFreq3(Selector);
+impl VhfamFreq3 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4494, 3840, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhfamFreq3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamFreq3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 3 Rotation
+/// Output: gauge position
+pub struct VhfamFreq3Rot(AnalogGauge);
+impl VhfamFreq3Rot {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4792, 65280, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhfamFreq3Rot {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamFreq3Rot {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 4
+/// Input: switch to previous or next state
+/// Output: selector position
+pub struct VhfamFreq4Int(Selector);
+impl VhfamFreq4Int {
+    pub const fn new() -> Self {
+        Self(Selector::new(4494, 28672, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhfamFreq4Int {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamFreq4Int {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 4 Rotation
+/// Output: gauge position
+pub struct VhfamFreq4Rot(AnalogGauge);
+impl VhfamFreq4Rot {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4794, 255, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhfamFreq4Rot {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamFreq4Rot {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 4
+/// Input: switch to previous or next state
+/// Output: possible values: "00" "25" "50" "75"
+pub struct VhfamFreq4Str(Display<2>);
+impl VhfamFreq4Str {
+    pub const fn new() -> Self {
+        Self(Display::<2>::new(4498, 2))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for VhfamFreq4Str {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamFreq4Str {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selection Dial FM/AM/MAN/PRE
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct VhfamFreqemer(Selector);
+impl VhfamFreqemer {
+    pub const fn new() -> Self {
+        Self(Selector::new(4486, 3072, 10))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhfamFreqemer {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamFreqemer {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Load Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct VhfamLoad(Selector);
+impl VhfamLoad {
+    pub const fn new() -> Self {
+        Self(Selector::new(4486, 4096, 12))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhfamLoad {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamLoad {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Mode OFF/TR/DF
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct VhfamMode(Selector);
+impl VhfamMode {
+    pub const fn new() -> Self {
+        Self(Selector::new(4486, 768, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhfamMode {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamMode {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Preset Channel Selector
+/// Input: switch to previous or next state
+/// Output: selector position
+pub struct VhfamPresetInt(Selector);
+impl VhfamPresetInt {
+    pub const fn new() -> Self {
+        Self(Selector::new(4476, 63488, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhfamPresetInt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamPresetInt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Preset Channel Selector
+/// Input: switch to previous or next state
+/// Output: possible values: " 1" " 2" " 3" " 4" " 5" " 6" " 7" " 8" " 9" "10" "11" "12" "13" "14" "15" "16" "17" "18" "19" "20"
+pub struct VhfamPresetStr(Display<2>);
+impl VhfamPresetStr {
+    pub const fn new() -> Self {
+        Self(Display::<2>::new(4490, 2))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for VhfamPresetStr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamPresetStr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Squelch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct VhfamSquelch(Selector);
+impl VhfamSquelch {
+    pub const fn new() -> Self {
+        Self(Selector::new(4486, 24576, 13))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhfamSquelch {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamSquelch {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// VHF AM Volume Control
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct VhfamVol(LimitedDial);
+impl VhfamVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4492, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhfamVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhfamVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 1
+/// Input: switch to previous or next state
+/// Output: selector position
+pub struct VhffmFreq1Int(Selector);
+impl VhffmFreq1Int {
+    pub const fn new() -> Self {
+        Self(Selector::new(4500, 30720, 11))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhffmFreq1Int {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmFreq1Int {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 1 Rotation
+/// Output: gauge position
+pub struct VhffmFreq1Rot(AnalogGauge);
+impl VhffmFreq1Rot {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4794, 65280, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhffmFreq1Rot {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmFreq1Rot {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 1
+/// Input: switch to previous or next state
+/// Output: possible values: " 3" " 4" " 5" " 6" " 7" " 8" " 9" "10" "11" "12" "13" "14" "15"
+pub struct VhffmFreq1Str(Display<2>);
+impl VhffmFreq1Str {
+    pub const fn new() -> Self {
+        Self(Display::<2>::new(4506, 2))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for VhffmFreq1Str {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmFreq1Str {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 2
+/// Input: switch to previous or next state
+/// Output: selector position
+pub struct VhffmFreq2(Selector);
+impl VhffmFreq2 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4508, 15, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhffmFreq2 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmFreq2 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 2 Rotation
+/// Output: gauge position
+pub struct VhffmFreq2Rot(AnalogGauge);
+impl VhffmFreq2Rot {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4796, 255, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhffmFreq2Rot {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmFreq2Rot {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 3
+/// Input: switch to previous or next state
+/// Output: selector position
+pub struct VhffmFreq3(Selector);
+impl VhffmFreq3 {
+    pub const fn new() -> Self {
+        Self(Selector::new(4508, 240, 4))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhffmFreq3 {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmFreq3 {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 3 Rotation
+/// Output: gauge position
+pub struct VhffmFreq3Rot(AnalogGauge);
+impl VhffmFreq3Rot {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4796, 65280, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhffmFreq3Rot {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmFreq3Rot {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 4
+/// Input: switch to previous or next state
+/// Output: selector position
+pub struct VhffmFreq4Int(Selector);
+impl VhffmFreq4Int {
+    pub const fn new() -> Self {
+        Self(Selector::new(4508, 1792, 8))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhffmFreq4Int {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmFreq4Int {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 4 Rotation
+/// Output: gauge position
+pub struct VhffmFreq4Rot(AnalogGauge);
+impl VhffmFreq4Rot {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4798, 255, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhffmFreq4Rot {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmFreq4Rot {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selector 4
+/// Input: switch to previous or next state
+/// Output: possible values: "00" "25" "50" "75"
+pub struct VhffmFreq4Str(Display<2>);
+impl VhffmFreq4Str {
+    pub const fn new() -> Self {
+        Self(Display::<2>::new(4510, 2))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for VhffmFreq4Str {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmFreq4Str {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Frequency Selection Dial FM/AM/MAN/PRE
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct VhffmFreqemer(Selector);
+impl VhffmFreqemer {
+    pub const fn new() -> Self {
+        Self(Selector::new(4500, 384, 7))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhffmFreqemer {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmFreqemer {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Load Button
+/// Input: switch to previous or next state
+/// Input: set position
+/// Input: Toggle switch state
+/// Output: selector position
+pub struct VhffmLoad(Selector);
+impl VhffmLoad {
+    pub const fn new() -> Self {
+        Self(Selector::new(4486, 32768, 15))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhffmLoad {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmLoad {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Mode OFF/TR/DF
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct VhffmMode(Selector);
+impl VhffmMode {
+    pub const fn new() -> Self {
+        Self(Selector::new(4500, 96, 5))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhffmMode {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmMode {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Preset Channel Selector
+/// Input: switch to previous or next state
+/// Output: selector position
+pub struct VhffmPresetInt(Selector);
+impl VhffmPresetInt {
+    pub const fn new() -> Self {
+        Self(Selector::new(4500, 31, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhffmPresetInt {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmPresetInt {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Preset Channel Selector
+/// Input: switch to previous or next state
+/// Output: possible values: " 1" " 2" " 3" " 4" " 5" " 6" " 7" " 8" " 9" "10" "11" "12" "13" "14" "15" "16" "17" "18" "19" "20"
+pub struct VhffmPresetStr(Display<2>);
+impl VhffmPresetStr {
+    pub const fn new() -> Self {
+        Self(Display::<2>::new(4502, 2))
+    }
+    pub fn value(&self) -> &[u8] {
+        self.0.value()
+    }
+}
+impl Default for VhffmPresetStr {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmPresetStr {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Squelch
+/// Input: switch to previous or next state
+/// Input: set position
+/// Output: selector position
+pub struct VhffmSquelch(Selector);
+impl VhffmSquelch {
+    pub const fn new() -> Self {
+        Self(Selector::new(4500, 1536, 9))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhffmSquelch {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmSquelch {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// VHF FM Volume Control
+/// Input: set the position of the dial
+/// Input: turn the dial left or right
+/// Output: position of the potentiometer
+pub struct VhffmVol(LimitedDial);
+impl VhffmVol {
+    pub const fn new() -> Self {
+        Self(LimitedDial::new(4504, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for VhffmVol {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for VhffmVol {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+/// Vertical Velocity Indicator
+/// Output: gauge position
+pub struct Vvi(AnalogGauge);
+impl Vvi {
+    pub const fn new() -> Self {
+        Self(AnalogGauge::new(4206, 65535, 0))
+    }
+    pub const fn value(&self) -> u16 {
+        self.0.value()
+    }
+}
+impl Default for Vvi {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+impl Control for Vvi {
+    fn accept(&mut self, packet: Packet<'_>) {
+        self.0.accept(packet);
+    }
+    fn commit(&mut self) -> bool {
+        self.0.commit()
+    }
+}
+
+pub enum RegisteredControl<'a> {
+    A102HmcsPw {
+        control: A102HmcsPw,
+        callback: IntegerCallback<'a>,
+    },
+    AapCdupwr {
+        control: AapCdupwr,
+        callback: IntegerCallback<'a>,
+    },
+    AapEgipwr {
+        control: AapEgipwr,
+        callback: IntegerCallback<'a>,
+    },
+    AapPage {
+        control: AapPage,
+        callback: IntegerCallback<'a>,
+    },
+    AapSteer {
+        control: AapSteer,
+        callback: IntegerCallback<'a>,
+    },
+    AapSteerpt {
+        control: AapSteerpt,
+        callback: IntegerCallback<'a>,
+    },
+    AccelG {
+        control: AccelG,
+        callback: IntegerCallback<'a>,
+    },
+    AccelMax {
+        control: AccelMax,
+        callback: IntegerCallback<'a>,
+    },
+    AccelMin {
+        control: AccelMin,
+        callback: IntegerCallback<'a>,
+    },
+    AccelPts {
+        control: AccelPts,
+        callback: IntegerCallback<'a>,
+    },
+    AdiAttwarnFlag {
+        control: AdiAttwarnFlag,
+        callback: IntegerCallback<'a>,
+    },
+    AdiBank {
+        control: AdiBank,
+        callback: IntegerCallback<'a>,
+    },
+    AdiCrswarnFlag {
+        control: AdiCrswarnFlag,
+        callback: IntegerCallback<'a>,
+    },
+    AdiGs {
+        control: AdiGs,
+        callback: IntegerCallback<'a>,
+    },
+    AdiGswarnFlag {
+        control: AdiGswarnFlag,
+        callback: IntegerCallback<'a>,
+    },
+    AdiPitch {
+        control: AdiPitch,
+        callback: IntegerCallback<'a>,
+    },
+    AdiPitchTrim {
+        control: AdiPitchTrim,
+        callback: IntegerCallback<'a>,
+    },
+    AdiSlip {
+        control: AdiSlip,
+        callback: IntegerCallback<'a>,
+    },
+    AdiSteerBank {
+        control: AdiSteerBank,
+        callback: IntegerCallback<'a>,
+    },
+    AdiSteerPitch {
+        control: AdiSteerPitch,
+        callback: IntegerCallback<'a>,
+    },
+    AdiTurn {
+        control: AdiTurn,
+        callback: IntegerCallback<'a>,
+    },
+    AhcpAltSce {
+        control: AhcpAltSce,
+        callback: IntegerCallback<'a>,
+    },
+    AhcpCicu {
+        control: AhcpCicu,
+        callback: IntegerCallback<'a>,
+    },
+    AhcpGunpac {
+        control: AhcpGunpac,
+        callback: IntegerCallback<'a>,
+    },
+    AhcpHudDaynight {
+        control: AhcpHudDaynight,
+        callback: IntegerCallback<'a>,
+    },
+    AhcpHudMode {
+        control: AhcpHudMode,
+        callback: IntegerCallback<'a>,
+    },
+    AhcpIffcc {
+        control: AhcpIffcc,
+        callback: IntegerCallback<'a>,
+    },
+    AhcpJtrs {
+        control: AhcpJtrs,
+        callback: IntegerCallback<'a>,
+    },
+    AhcpLaserArm {
+        control: AhcpLaserArm,
+        callback: IntegerCallback<'a>,
+    },
+    AhcpMasterArm {
+        control: AhcpMasterArm,
+        callback: IntegerCallback<'a>,
+    },
+    AhcpTgp {
+        control: AhcpTgp,
+        callback: IntegerCallback<'a>,
+    },
+    AirRefuelDisconnect {
+        control: AirRefuelDisconnect,
+        callback: LedCallback<'a>,
+    },
+    AirRefuelLatched {
+        control: AirRefuelLatched,
+        callback: LedCallback<'a>,
+    },
+    AirRefuelReady {
+        control: AirRefuelReady,
+        callback: LedCallback<'a>,
+    },
+    AirspeedDial {
+        control: AirspeedDial,
+        callback: IntegerCallback<'a>,
+    },
+    AirspeedMaxIas {
+        control: AirspeedMaxIas,
+        callback: IntegerCallback<'a>,
+    },
+    AirspeedNeedle {
+        control: AirspeedNeedle,
+        callback: IntegerCallback<'a>,
+    },
+    AlcpFdbaTest {
+        control: AlcpFdbaTest,
+        callback: IntegerCallback<'a>,
+    },
+    AlcpHarssas {
+        control: AlcpHarssas,
+        callback: IntegerCallback<'a>,
+    },
+    AlcpNvisLts {
+        control: AlcpNvisLts,
+        callback: IntegerCallback<'a>,
+    },
+    AlcpRcvrLts {
+        control: AlcpRcvrLts,
+        callback: IntegerCallback<'a>,
+    },
+    AlcpRsil {
+        control: AlcpRsil,
+        callback: IntegerCallback<'a>,
+    },
+    AlcpWpnsta {
+        control: AlcpWpnsta,
+        callback: IntegerCallback<'a>,
+    },
+    Alt10000ftCnt {
+        control: Alt10000ftCnt,
+        callback: IntegerCallback<'a>,
+    },
+    Alt1000ftCnt {
+        control: Alt1000ftCnt,
+        callback: IntegerCallback<'a>,
+    },
+    Alt100ft {
+        control: Alt100ft,
+        callback: IntegerCallback<'a>,
+    },
+    Alt100ftCnt {
+        control: Alt100ftCnt,
+        callback: IntegerCallback<'a>,
+    },
+    AltElectPneu {
+        control: AltElectPneu,
+        callback: IntegerCallback<'a>,
+    },
+    AltPneuFlag {
+        control: AltPneuFlag,
+        callback: IntegerCallback<'a>,
+    },
+    AltPressure0 {
+        control: AltPressure0,
+        callback: IntegerCallback<'a>,
+    },
+    AltPressure1 {
+        control: AltPressure1,
+        callback: IntegerCallback<'a>,
+    },
+    AltPressure2 {
+        control: AltPressure2,
+        callback: IntegerCallback<'a>,
+    },
+    AltPressure3 {
+        control: AltPressure3,
+        callback: IntegerCallback<'a>,
+    },
+    AltSetPressure {
+        control: AltSetPressure,
+        callback: IntegerCallback<'a>,
+    },
+    AntEgihqtod {
+        control: AntEgihqtod,
+        callback: IntegerCallback<'a>,
+    },
+    AntIff {
+        control: AntIff,
+        callback: IntegerCallback<'a>,
+    },
+    AntUhf {
+        control: AntUhf,
+        callback: IntegerCallback<'a>,
+    },
+    AntiSkidSwitch {
+        control: AntiSkidSwitch,
+        callback: IntegerCallback<'a>,
+    },
+    AoaIndexerHigh {
+        control: AoaIndexerHigh,
+        callback: LedCallback<'a>,
+    },
+    AoaIndexerLow {
+        control: AoaIndexerLow,
+        callback: LedCallback<'a>,
+    },
+    AoaIndexerNormal {
+        control: AoaIndexerNormal,
+        callback: LedCallback<'a>,
+    },
+    AoaPwroff {
+        control: AoaPwroff,
+        callback: IntegerCallback<'a>,
+    },
+    AoaUnits {
+        control: AoaUnits,
+        callback: IntegerCallback<'a>,
+    },
+    ApuFire {
+        control: ApuFire,
+        callback: LedCallback<'a>,
+    },
+    ApuRpm {
+        control: ApuRpm,
+        callback: IntegerCallback<'a>,
+    },
+    ApuTemp {
+        control: ApuTemp,
+        callback: IntegerCallback<'a>,
+    },
+    AuxGear {
+        control: AuxGear,
+        callback: IntegerCallback<'a>,
+    },
+    AuxGearLock {
+        control: AuxGearLock,
+        callback: IntegerCallback<'a>,
+    },
+    CabinPressAlt {
+        control: CabinPressAlt,
+        callback: IntegerCallback<'a>,
+    },
+    CanopyDisengage {
+        control: CanopyDisengage,
+        callback: IntegerCallback<'a>,
+    },
+    CanopyJtsn {
+        control: CanopyJtsn,
+        callback: IntegerCallback<'a>,
+    },
+    CanopyJtsnUnlock {
+        control: CanopyJtsnUnlock,
+        callback: IntegerCallback<'a>,
+    },
+    CanopyOpen {
+        control: CanopyOpen,
+        callback: IntegerCallback<'a>,
+    },
+    CanopyUnlocked {
+        control: CanopyUnlocked,
+        callback: LedCallback<'a>,
+    },
+    CanopyValue {
+        control: CanopyValue,
+        callback: IntegerCallback<'a>,
+    },
+    CbpAileronDiscL {
+        control: CbpAileronDiscL,
+        callback: IntegerCallback<'a>,
+    },
+    CbpAileronDiscR {
+        control: CbpAileronDiscR,
+        callback: IntegerCallback<'a>,
+    },
+    CbpAileronTabL {
+        control: CbpAileronTabL,
+        callback: IntegerCallback<'a>,
+    },
+    CbpAileronTabR {
+        control: CbpAileronTabR,
+        callback: IntegerCallback<'a>,
+    },
+    CbpApuCont {
+        control: CbpApuCont,
+        callback: IntegerCallback<'a>,
+    },
+    CbpAuxEssBus0a {
+        control: CbpAuxEssBus0a,
+        callback: IntegerCallback<'a>,
+    },
+    CbpAuxEssBus0b {
+        control: CbpAuxEssBus0b,
+        callback: IntegerCallback<'a>,
+    },
+    CbpAuxEssBus0c {
+        control: CbpAuxEssBus0c,
+        callback: IntegerCallback<'a>,
+    },
+    CbpAuxEssBusTie {
+        control: CbpAuxEssBusTie,
+        callback: IntegerCallback<'a>,
+    },
+    CbpBatBusTrans {
+        control: CbpBatBusTrans,
+        callback: IntegerCallback<'a>,
+    },
+    CbpBleedAirContL {
+        control: CbpBleedAirContL,
+        callback: IntegerCallback<'a>,
+    },
+    CbpBleedAirContR {
+        control: CbpBleedAirContR,
+        callback: IntegerCallback<'a>,
+    },
+    CbpConverterL {
+        control: CbpConverterL,
+        callback: IntegerCallback<'a>,
+    },
+    CbpDcFuelPump {
+        control: CbpDcFuelPump,
+        callback: IntegerCallback<'a>,
+    },
+    CbpElevationDiscL {
+        control: CbpElevationDiscL,
+        callback: IntegerCallback<'a>,
+    },
+    CbpElevationDiscR {
+        control: CbpElevationDiscR,
+        callback: IntegerCallback<'a>,
+    },
+    CbpEmerFlap {
+        control: CbpEmerFlap,
+        callback: IntegerCallback<'a>,
+    },
+    CbpEmerTrim {
+        control: CbpEmerTrim,
+        callback: IntegerCallback<'a>,
+    },
+    CbpEngIgnitor1 {
+        control: CbpEngIgnitor1,
+        callback: IntegerCallback<'a>,
+    },
+    CbpEngIgnitor2 {
+        control: CbpEngIgnitor2,
+        callback: IntegerCallback<'a>,
+    },
+    CbpEngStartL {
+        control: CbpEngStartL,
+        callback: IntegerCallback<'a>,
+    },
+    CbpEngStartR {
+        control: CbpEngStartR,
+        callback: IntegerCallback<'a>,
+    },
+    CbpExtStoresJett1 {
+        control: CbpExtStoresJett1,
+        callback: IntegerCallback<'a>,
+    },
+    CbpExtStoresJett2 {
+        control: CbpExtStoresJett2,
+        callback: IntegerCallback<'a>,
+    },
+    CbpFuelShutoffL {
+        control: CbpFuelShutoffL,
+        callback: IntegerCallback<'a>,
+    },
+    CbpFuelShutoffR {
+        control: CbpFuelShutoffR,
+        callback: IntegerCallback<'a>,
+    },
+    CbpGear {
+        control: CbpGear,
+        callback: IntegerCallback<'a>,
+    },
+    CbpGenContL {
+        control: CbpGenContL,
+        callback: IntegerCallback<'a>,
+    },
+    CbpGenContR {
+        control: CbpGenContR,
+        callback: IntegerCallback<'a>,
+    },
+    CbpIff {
+        control: CbpIff,
+        callback: IntegerCallback<'a>,
+    },
+    CbpIntercom {
+        control: CbpIntercom,
+        callback: IntegerCallback<'a>,
+    },
+    CbpInverterCont {
+        control: CbpInverterCont,
+        callback: IntegerCallback<'a>,
+    },
+    CbpInverterPwr {
+        control: CbpInverterPwr,
+        callback: IntegerCallback<'a>,
+    },
+    CbpMasterCaution {
+        control: CbpMasterCaution,
+        callback: IntegerCallback<'a>,
+    },
+    CbpPitotHeatAc {
+        control: CbpPitotHeatAc,
+        callback: IntegerCallback<'a>,
+    },
+    CbpSpsRudderAuthLim {
+        control: CbpSpsRudderAuthLim,
+        callback: IntegerCallback<'a>,
+    },
+    CbpStbyAttInd {
+        control: CbpStbyAttInd,
+        callback: IntegerCallback<'a>,
+    },
+    CbpUhf {
+        control: CbpUhf,
+        callback: IntegerCallback<'a>,
+    },
+    Cdu0 {
+        control: Cdu0,
+        callback: IntegerCallback<'a>,
+    },
+    Cdu1 {
+        control: Cdu1,
+        callback: IntegerCallback<'a>,
+    },
+    Cdu2 {
+        control: Cdu2,
+        callback: IntegerCallback<'a>,
+    },
+    Cdu3 {
+        control: Cdu3,
+        callback: IntegerCallback<'a>,
+    },
+    Cdu4 {
+        control: Cdu4,
+        callback: IntegerCallback<'a>,
+    },
+    Cdu5 {
+        control: Cdu5,
+        callback: IntegerCallback<'a>,
+    },
+    Cdu6 {
+        control: Cdu6,
+        callback: IntegerCallback<'a>,
+    },
+    Cdu7 {
+        control: Cdu7,
+        callback: IntegerCallback<'a>,
+    },
+    Cdu8 {
+        control: Cdu8,
+        callback: IntegerCallback<'a>,
+    },
+    Cdu9 {
+        control: Cdu9,
+        callback: IntegerCallback<'a>,
+    },
+    CduA {
+        control: CduA,
+        callback: IntegerCallback<'a>,
+    },
+    CduB {
+        control: CduB,
+        callback: IntegerCallback<'a>,
+    },
+    CduBck {
+        control: CduBck,
+        callback: IntegerCallback<'a>,
+    },
+    CduBrt {
+        control: CduBrt,
+        callback: IntegerCallback<'a>,
+    },
+    CduC {
+        control: CduC,
+        callback: IntegerCallback<'a>,
+    },
+    CduClr {
+        control: CduClr,
+        callback: IntegerCallback<'a>,
+    },
+    CduD {
+        control: CduD,
+        callback: IntegerCallback<'a>,
+    },
+    CduData {
+        control: CduData,
+        callback: IntegerCallback<'a>,
+    },
+    CduE {
+        control: CduE,
+        callback: IntegerCallback<'a>,
+    },
+    CduF {
+        control: CduF,
+        callback: IntegerCallback<'a>,
+    },
+    CduFa {
+        control: CduFa,
+        callback: IntegerCallback<'a>,
+    },
+    CduFpm {
+        control: CduFpm,
+        callback: IntegerCallback<'a>,
+    },
+    CduG {
+        control: CduG,
+        callback: IntegerCallback<'a>,
+    },
+    CduH {
+        control: CduH,
+        callback: IntegerCallback<'a>,
+    },
+    CduI {
+        control: CduI,
+        callback: IntegerCallback<'a>,
+    },
+    CduJ {
+        control: CduJ,
+        callback: IntegerCallback<'a>,
+    },
+    CduK {
+        control: CduK,
+        callback: IntegerCallback<'a>,
+    },
+    CduL {
+        control: CduL,
+        callback: IntegerCallback<'a>,
+    },
+    CduLine0 {
+        control: CduLine0,
+        callback: DisplayCallback<'a>,
+    },
+    CduLine1 {
+        control: CduLine1,
+        callback: DisplayCallback<'a>,
+    },
+    CduLine2 {
+        control: CduLine2,
+        callback: DisplayCallback<'a>,
+    },
+    CduLine3 {
+        control: CduLine3,
+        callback: DisplayCallback<'a>,
+    },
+    CduLine4 {
+        control: CduLine4,
+        callback: DisplayCallback<'a>,
+    },
+    CduLine5 {
+        control: CduLine5,
+        callback: DisplayCallback<'a>,
+    },
+    CduLine6 {
+        control: CduLine6,
+        callback: DisplayCallback<'a>,
+    },
+    CduLine7 {
+        control: CduLine7,
+        callback: DisplayCallback<'a>,
+    },
+    CduLine8 {
+        control: CduLine8,
+        callback: DisplayCallback<'a>,
+    },
+    CduLine9 {
+        control: CduLine9,
+        callback: DisplayCallback<'a>,
+    },
+    CduLsk3l {
+        control: CduLsk3l,
+        callback: IntegerCallback<'a>,
+    },
+    CduLsk3r {
+        control: CduLsk3r,
+        callback: IntegerCallback<'a>,
+    },
+    CduLsk5l {
+        control: CduLsk5l,
+        callback: IntegerCallback<'a>,
+    },
+    CduLsk5r {
+        control: CduLsk5r,
+        callback: IntegerCallback<'a>,
+    },
+    CduLsk7l {
+        control: CduLsk7l,
+        callback: IntegerCallback<'a>,
+    },
+    CduLsk7r {
+        control: CduLsk7r,
+        callback: IntegerCallback<'a>,
+    },
+    CduLsk9l {
+        control: CduLsk9l,
+        callback: IntegerCallback<'a>,
+    },
+    CduLsk9r {
+        control: CduLsk9r,
+        callback: IntegerCallback<'a>,
+    },
+    CduM {
+        control: CduM,
+        callback: IntegerCallback<'a>,
+    },
+    CduMk {
+        control: CduMk,
+        callback: IntegerCallback<'a>,
+    },
+    CduN {
+        control: CduN,
+        callback: IntegerCallback<'a>,
+    },
+    CduNa1 {
+        control: CduNa1,
+        callback: IntegerCallback<'a>,
+    },
+    CduNa2 {
+        control: CduNa2,
+        callback: IntegerCallback<'a>,
+    },
+    CduNav {
+        control: CduNav,
+        callback: IntegerCallback<'a>,
+    },
+    CduO {
+        control: CduO,
+        callback: IntegerCallback<'a>,
+    },
+    CduOset {
+        control: CduOset,
+        callback: IntegerCallback<'a>,
+    },
+    CduP {
+        control: CduP,
+        callback: IntegerCallback<'a>,
+    },
+    CduPg {
+        control: CduPg,
+        callback: IntegerCallback<'a>,
+    },
+    CduPoint {
+        control: CduPoint,
+        callback: IntegerCallback<'a>,
+    },
+    CduPrev {
+        control: CduPrev,
+        callback: IntegerCallback<'a>,
+    },
+    CduQ {
+        control: CduQ,
+        callback: IntegerCallback<'a>,
+    },
+    CduR {
+        control: CduR,
+        callback: IntegerCallback<'a>,
+    },
+    CduS {
+        control: CduS,
+        callback: IntegerCallback<'a>,
+    },
+    CduScroll {
+        control: CduScroll,
+        callback: IntegerCallback<'a>,
+    },
+    CduSlash {
+        control: CduSlash,
+        callback: IntegerCallback<'a>,
+    },
+    CduSpc {
+        control: CduSpc,
+        callback: IntegerCallback<'a>,
+    },
+    CduSys {
+        control: CduSys,
+        callback: IntegerCallback<'a>,
+    },
+    CduT {
+        control: CduT,
+        callback: IntegerCallback<'a>,
+    },
+    CduU {
+        control: CduU,
+        callback: IntegerCallback<'a>,
+    },
+    CduV {
+        control: CduV,
+        callback: IntegerCallback<'a>,
+    },
+    CduW {
+        control: CduW,
+        callback: IntegerCallback<'a>,
+    },
+    CduWp {
+        control: CduWp,
+        callback: IntegerCallback<'a>,
+    },
+    CduX {
+        control: CduX,
+        callback: IntegerCallback<'a>,
+    },
+    CduY {
+        control: CduY,
+        callback: IntegerCallback<'a>,
+    },
+    CduZ {
+        control: CduZ,
+        callback: IntegerCallback<'a>,
+    },
+    ClA1 {
+        control: ClA1,
+        callback: LedCallback<'a>,
+    },
+    ClA2 {
+        control: ClA2,
+        callback: LedCallback<'a>,
+    },
+    ClA3 {
+        control: ClA3,
+        callback: LedCallback<'a>,
+    },
+    ClA4 {
+        control: ClA4,
+        callback: LedCallback<'a>,
+    },
+    ClB1 {
+        control: ClB1,
+        callback: LedCallback<'a>,
+    },
+    ClB2 {
+        control: ClB2,
+        callback: LedCallback<'a>,
+    },
+    ClB3 {
+        control: ClB3,
+        callback: LedCallback<'a>,
+    },
+    ClB4 {
+        control: ClB4,
+        callback: LedCallback<'a>,
+    },
+    ClC1 {
+        control: ClC1,
+        callback: LedCallback<'a>,
+    },
+    ClC2 {
+        control: ClC2,
+        callback: LedCallback<'a>,
+    },
+    ClC3 {
+        control: ClC3,
+        callback: LedCallback<'a>,
+    },
+    ClC4 {
+        control: ClC4,
+        callback: LedCallback<'a>,
+    },
+    ClD1 {
+        control: ClD1,
+        callback: LedCallback<'a>,
+    },
+    ClD2 {
+        control: ClD2,
+        callback: LedCallback<'a>,
+    },
+    ClD3 {
+        control: ClD3,
+        callback: LedCallback<'a>,
+    },
+    ClD4 {
+        control: ClD4,
+        callback: LedCallback<'a>,
+    },
+    ClE1 {
+        control: ClE1,
+        callback: LedCallback<'a>,
+    },
+    ClE2 {
+        control: ClE2,
+        callback: LedCallback<'a>,
+    },
+    ClE3 {
+        control: ClE3,
+        callback: LedCallback<'a>,
+    },
+    ClE4 {
+        control: ClE4,
+        callback: LedCallback<'a>,
+    },
+    ClF1 {
+        control: ClF1,
+        callback: LedCallback<'a>,
+    },
+    ClF2 {
+        control: ClF2,
+        callback: LedCallback<'a>,
+    },
+    ClF3 {
+        control: ClF3,
+        callback: LedCallback<'a>,
+    },
+    ClF4 {
+        control: ClF4,
+        callback: LedCallback<'a>,
+    },
+    ClG1 {
+        control: ClG1,
+        callback: LedCallback<'a>,
+    },
+    ClG2 {
+        control: ClG2,
+        callback: LedCallback<'a>,
+    },
+    ClG3 {
+        control: ClG3,
+        callback: LedCallback<'a>,
+    },
+    ClG4 {
+        control: ClG4,
+        callback: LedCallback<'a>,
+    },
+    ClH1 {
+        control: ClH1,
+        callback: LedCallback<'a>,
+    },
+    ClH2 {
+        control: ClH2,
+        callback: LedCallback<'a>,
+    },
+    ClH3 {
+        control: ClH3,
+        callback: LedCallback<'a>,
+    },
+    ClH4 {
+        control: ClH4,
+        callback: LedCallback<'a>,
+    },
+    ClI1 {
+        control: ClI1,
+        callback: LedCallback<'a>,
+    },
+    ClI2 {
+        control: ClI2,
+        callback: LedCallback<'a>,
+    },
+    ClI3 {
+        control: ClI3,
+        callback: LedCallback<'a>,
+    },
+    ClI4 {
+        control: ClI4,
+        callback: LedCallback<'a>,
+    },
+    ClJ1 {
+        control: ClJ1,
+        callback: LedCallback<'a>,
+    },
+    ClJ2 {
+        control: ClJ2,
+        callback: LedCallback<'a>,
+    },
+    ClJ3 {
+        control: ClJ3,
+        callback: LedCallback<'a>,
+    },
+    ClJ4 {
+        control: ClJ4,
+        callback: LedCallback<'a>,
+    },
+    ClK1 {
+        control: ClK1,
+        callback: LedCallback<'a>,
+    },
+    ClK2 {
+        control: ClK2,
+        callback: LedCallback<'a>,
+    },
+    ClK3 {
+        control: ClK3,
+        callback: LedCallback<'a>,
+    },
+    ClK4 {
+        control: ClK4,
+        callback: LedCallback<'a>,
+    },
+    ClL1 {
+        control: ClL1,
+        callback: LedCallback<'a>,
+    },
+    ClL2 {
+        control: ClL2,
+        callback: LedCallback<'a>,
+    },
+    ClL3 {
+        control: ClL3,
+        callback: LedCallback<'a>,
+    },
+    ClL4 {
+        control: ClL4,
+        callback: LedCallback<'a>,
+    },
+    ClockCtrl {
+        control: ClockCtrl,
+        callback: IntegerCallback<'a>,
+    },
+    ClockEtc {
+        control: ClockEtc,
+        callback: DisplayCallback<'a>,
+    },
+    ClockHh {
+        control: ClockHh,
+        callback: DisplayCallback<'a>,
+    },
+    ClockMm {
+        control: ClockMm,
+        callback: DisplayCallback<'a>,
+    },
+    ClockSet {
+        control: ClockSet,
+        callback: IntegerCallback<'a>,
+    },
+    ClockSs {
+        control: ClockSs,
+        callback: DisplayCallback<'a>,
+    },
+    CmscBrt {
+        control: CmscBrt,
+        callback: IntegerCallback<'a>,
+    },
+    CmscJmr {
+        control: CmscJmr,
+        callback: IntegerCallback<'a>,
+    },
+    CmscLaunch {
+        control: CmscLaunch,
+        callback: LedCallback<'a>,
+    },
+    CmscMws {
+        control: CmscMws,
+        callback: IntegerCallback<'a>,
+    },
+    CmscPri {
+        control: CmscPri,
+        callback: IntegerCallback<'a>,
+    },
+    CmscPrio {
+        control: CmscPrio,
+        callback: LedCallback<'a>,
+    },
+    CmscRwrVol {
+        control: CmscRwrVol,
+        callback: IntegerCallback<'a>,
+    },
+    CmscSep {
+        control: CmscSep,
+        callback: IntegerCallback<'a>,
+    },
+    CmscTxtChaffFlare {
+        control: CmscTxtChaffFlare,
+        callback: DisplayCallback<'a>,
+    },
+    CmscTxtJmr {
+        control: CmscTxtJmr,
+        callback: DisplayCallback<'a>,
+    },
+    CmscTxtMws {
+        control: CmscTxtMws,
+        callback: DisplayCallback<'a>,
+    },
+    CmscUnk {
+        control: CmscUnk,
+        callback: IntegerCallback<'a>,
+    },
+    CmscUnkn {
+        control: CmscUnkn,
+        callback: LedCallback<'a>,
+    },
+    Cmsp1 {
+        control: Cmsp1,
+        callback: DisplayCallback<'a>,
+    },
+    Cmsp2 {
+        control: Cmsp2,
+        callback: DisplayCallback<'a>,
+    },
+    CmspArw1 {
+        control: CmspArw1,
+        callback: IntegerCallback<'a>,
+    },
+    CmspArw2 {
+        control: CmspArw2,
+        callback: IntegerCallback<'a>,
+    },
+    CmspArw3 {
+        control: CmspArw3,
+        callback: IntegerCallback<'a>,
+    },
+    CmspArw4 {
+        control: CmspArw4,
+        callback: IntegerCallback<'a>,
+    },
+    CmspBrt {
+        control: CmspBrt,
+        callback: IntegerCallback<'a>,
+    },
+    CmspDisp {
+        control: CmspDisp,
+        callback: IntegerCallback<'a>,
+    },
+    CmspJmr {
+        control: CmspJmr,
+        callback: IntegerCallback<'a>,
+    },
+    CmspJtsn {
+        control: CmspJtsn,
+        callback: IntegerCallback<'a>,
+    },
+    CmspMode {
+        control: CmspMode,
+        callback: IntegerCallback<'a>,
+    },
+    CmspMws {
+        control: CmspMws,
+        callback: IntegerCallback<'a>,
+    },
+    CmspRtn {
+        control: CmspRtn,
+        callback: IntegerCallback<'a>,
+    },
+    CmspRwr {
+        control: CmspRwr,
+        callback: IntegerCallback<'a>,
+    },
+    CmspUpdn {
+        control: CmspUpdn,
+        callback: IntegerCallback<'a>,
+    },
+    CompassBank {
+        control: CompassBank,
+        callback: IntegerCallback<'a>,
+    },
+    CompassHdg {
+        control: CompassHdg,
+        callback: IntegerCallback<'a>,
+    },
+    CompassPitch {
+        control: CompassPitch,
+        callback: IntegerCallback<'a>,
+    },
+    DownlockOverride {
+        control: DownlockOverride,
+        callback: IntegerCallback<'a>,
+    },
+    DvadrEot {
+        control: DvadrEot,
+        callback: LedCallback<'a>,
+    },
+    DvadrEotRemote {
+        control: DvadrEotRemote,
+        callback: LedCallback<'a>,
+    },
+    DvadrFunction {
+        control: DvadrFunction,
+        callback: IntegerCallback<'a>,
+    },
+    DvadrRec {
+        control: DvadrRec,
+        callback: LedCallback<'a>,
+    },
+    DvadrRecRemote {
+        control: DvadrRecRemote,
+        callback: LedCallback<'a>,
+    },
+    DvadrVideo {
+        control: DvadrVideo,
+        callback: IntegerCallback<'a>,
+    },
+    EfcpAileronEmerDisengage {
+        control: EfcpAileronEmerDisengage,
+        callback: IntegerCallback<'a>,
+    },
+    EfcpElevatorEmerDisengage {
+        control: EfcpElevatorEmerDisengage,
+        callback: IntegerCallback<'a>,
+    },
+    EfcpEmerTrim {
+        control: EfcpEmerTrim,
+        callback: IntegerCallback<'a>,
+    },
+    EfcpFlapsEmerRetr {
+        control: EfcpFlapsEmerRetr,
+        callback: IntegerCallback<'a>,
+    },
+    EfcpMrfcs {
+        control: EfcpMrfcs,
+        callback: IntegerCallback<'a>,
+    },
+    EfcpSpdbkEmerRetr {
+        control: EfcpSpdbkEmerRetr,
+        callback: IntegerCallback<'a>,
+    },
+    EfcpTrimOverride {
+        control: EfcpTrimOverride,
+        callback: IntegerCallback<'a>,
+    },
+    EmerBrake {
+        control: EmerBrake,
+        callback: IntegerCallback<'a>,
+    },
+    EngThrottleL {
+        control: EngThrottleL,
+        callback: IntegerCallback<'a>,
+    },
+    EngThrottleR {
+        control: EngThrottleR,
+        callback: IntegerCallback<'a>,
+    },
+    EngineApuStart {
+        control: EngineApuStart,
+        callback: IntegerCallback<'a>,
+    },
+    EngineFuelFlowL {
+        control: EngineFuelFlowL,
+        callback: IntegerCallback<'a>,
+    },
+    EngineFuelFlowR {
+        control: EngineFuelFlowR,
+        callback: IntegerCallback<'a>,
+    },
+    EngineOperL {
+        control: EngineOperL,
+        callback: IntegerCallback<'a>,
+    },
+    EngineOperR {
+        control: EngineOperR,
+        callback: IntegerCallback<'a>,
+    },
+    EngineTemsData {
+        control: EngineTemsData,
+        callback: IntegerCallback<'a>,
+    },
+    EngineThrottleFriction {
+        control: EngineThrottleFriction,
+        callback: IntegerCallback<'a>,
+    },
+    EnvcpAcOper {
+        control: EnvcpAcOper,
+        callback: IntegerCallback<'a>,
+    },
+    EnvcpAirSupply {
+        control: EnvcpAirSupply,
+        callback: IntegerCallback<'a>,
+    },
+    EnvcpBleedAir {
+        control: EnvcpBleedAir,
+        callback: IntegerCallback<'a>,
+    },
+    EnvcpCanopyDefog {
+        control: EnvcpCanopyDefog,
+        callback: IntegerCallback<'a>,
+    },
+    EnvcpFlowLevel {
+        control: EnvcpFlowLevel,
+        callback: IntegerCallback<'a>,
+    },
+    EnvcpOxyTest {
+        control: EnvcpOxyTest,
+        callback: IntegerCallback<'a>,
+    },
+    EnvcpPitotHeat {
+        control: EnvcpPitotHeat,
+        callback: IntegerCallback<'a>,
+    },
+    EnvcpTempLevel {
+        control: EnvcpTempLevel,
+        callback: IntegerCallback<'a>,
+    },
+    EnvcpTempPress {
+        control: EnvcpTempPress,
+        callback: IntegerCallback<'a>,
+    },
+    EnvcpWindshieldDefog {
+        control: EnvcpWindshieldDefog,
+        callback: IntegerCallback<'a>,
+    },
+    EnvcpWrrw {
+        control: EnvcpWrrw,
+        callback: IntegerCallback<'a>,
+    },
+    EppAcGenPwrL {
+        control: EppAcGenPwrL,
+        callback: IntegerCallback<'a>,
+    },
+    EppAcGenPwrR {
+        control: EppAcGenPwrR,
+        callback: IntegerCallback<'a>,
+    },
+    EppApuGenPwr {
+        control: EppApuGenPwr,
+        callback: IntegerCallback<'a>,
+    },
+    EppBatteryPwr {
+        control: EppBatteryPwr,
+        callback: IntegerCallback<'a>,
+    },
+    EppEmerFlood {
+        control: EppEmerFlood,
+        callback: IntegerCallback<'a>,
+    },
+    EppInverter {
+        control: EppInverter,
+        callback: IntegerCallback<'a>,
+    },
+    ExtFormationLights {
+        control: ExtFormationLights,
+        callback: IntegerCallback<'a>,
+    },
+    ExtPositionLightLeft {
+        control: ExtPositionLightLeft,
+        callback: IntegerCallback<'a>,
+    },
+    ExtPositionLightRight {
+        control: ExtPositionLightRight,
+        callback: IntegerCallback<'a>,
+    },
+    ExtSpeedBrakeLeft {
+        control: ExtSpeedBrakeLeft,
+        callback: IntegerCallback<'a>,
+    },
+    ExtSpeedBrakeRight {
+        control: ExtSpeedBrakeRight,
+        callback: IntegerCallback<'a>,
+    },
+    ExtStoresJettison {
+        control: ExtStoresJettison,
+        callback: IntegerCallback<'a>,
+    },
+    ExtStrobeLeft {
+        control: ExtStrobeLeft,
+        callback: IntegerCallback<'a>,
+    },
+    ExtStrobeRight {
+        control: ExtStrobeRight,
+        callback: IntegerCallback<'a>,
+    },
+    ExtStrobeTail {
+        control: ExtStrobeTail,
+        callback: IntegerCallback<'a>,
+    },
+    ExtWowLeft {
+        control: ExtWowLeft,
+        callback: IntegerCallback<'a>,
+    },
+    ExtWowNose {
+        control: ExtWowNose,
+        callback: IntegerCallback<'a>,
+    },
+    ExtWowRight {
+        control: ExtWowRight,
+        callback: IntegerCallback<'a>,
+    },
+    FireApuPull {
+        control: FireApuPull,
+        callback: IntegerCallback<'a>,
+    },
+    FireExtDisch {
+        control: FireExtDisch,
+        callback: IntegerCallback<'a>,
+    },
+    FireLengPull {
+        control: FireLengPull,
+        callback: IntegerCallback<'a>,
+    },
+    FireRengPull {
+        control: FireRengPull,
+        callback: IntegerCallback<'a>,
+    },
+    FlapPos {
+        control: FlapPos,
+        callback: IntegerCallback<'a>,
+    },
+    FlapsSwitch {
+        control: FlapsSwitch,
+        callback: IntegerCallback<'a>,
+    },
+    FqisSelect {
+        control: FqisSelect,
+        callback: IntegerCallback<'a>,
+    },
+    FqisTest {
+        control: FqisTest,
+        callback: IntegerCallback<'a>,
+    },
+    FscpAmpl {
+        control: FscpAmpl,
+        callback: IntegerCallback<'a>,
+    },
+    FscpBoostMainL {
+        control: FscpBoostMainL,
+        callback: IntegerCallback<'a>,
+    },
+    FscpBoostMainR {
+        control: FscpBoostMainR,
+        callback: IntegerCallback<'a>,
+    },
+    FscpBoostWingL {
+        control: FscpBoostWingL,
+        callback: IntegerCallback<'a>,
+    },
+    FscpBoostWingR {
+        control: FscpBoostWingR,
+        callback: IntegerCallback<'a>,
+    },
+    FscpCrossfeed {
+        control: FscpCrossfeed,
+        callback: IntegerCallback<'a>,
+    },
+    FscpExtTanksFus {
+        control: FscpExtTanksFus,
+        callback: IntegerCallback<'a>,
+    },
+    FscpExtTanksWing {
+        control: FscpExtTanksWing,
+        callback: IntegerCallback<'a>,
+    },
+    FscpFdMainL {
+        control: FscpFdMainL,
+        callback: IntegerCallback<'a>,
+    },
+    FscpFdMainR {
+        control: FscpFdMainR,
+        callback: IntegerCallback<'a>,
+    },
+    FscpFdWingL {
+        control: FscpFdWingL,
+        callback: IntegerCallback<'a>,
+    },
+    FscpFdWingR {
+        control: FscpFdWingR,
+        callback: IntegerCallback<'a>,
+    },
+    FscpLineCheck {
+        control: FscpLineCheck,
+        callback: IntegerCallback<'a>,
+    },
+    FscpRcvrLever {
+        control: FscpRcvrLever,
+        callback: IntegerCallback<'a>,
+    },
+    FscpTkGate {
+        control: FscpTkGate,
+        callback: IntegerCallback<'a>,
+    },
+    FuelQty100 {
+        control: FuelQty100,
+        callback: IntegerCallback<'a>,
+    },
+    FuelQty1000 {
+        control: FuelQty1000,
+        callback: IntegerCallback<'a>,
+    },
+    FuelQty10000 {
+        control: FuelQty10000,
+        callback: IntegerCallback<'a>,
+    },
+    FuelQtyL {
+        control: FuelQtyL,
+        callback: IntegerCallback<'a>,
+    },
+    FuelQtyR {
+        control: FuelQtyR,
+        callback: IntegerCallback<'a>,
+    },
+    GearHornSilence {
+        control: GearHornSilence,
+        callback: IntegerCallback<'a>,
+    },
+    GearLSafe {
+        control: GearLSafe,
+        callback: LedCallback<'a>,
+    },
+    GearLever {
+        control: GearLever,
+        callback: IntegerCallback<'a>,
+    },
+    GearNSafe {
+        control: GearNSafe,
+        callback: LedCallback<'a>,
+    },
+    GearRSafe {
+        control: GearRSafe,
+        callback: LedCallback<'a>,
+    },
+    GndSafeOverride {
+        control: GndSafeOverride,
+        callback: IntegerCallback<'a>,
+    },
+    GndSafeOverrideCover {
+        control: GndSafeOverrideCover,
+        callback: IntegerCallback<'a>,
+    },
+    GunReady {
+        control: GunReady,
+        callback: LedCallback<'a>,
+    },
+    HandleGearWarning {
+        control: HandleGearWarning,
+        callback: LedCallback<'a>,
+    },
+    HarsFastErect {
+        control: HarsFastErect,
+        callback: IntegerCallback<'a>,
+    },
+    HarsHdg {
+        control: HarsHdg,
+        callback: IntegerCallback<'a>,
+    },
+    HarsLatitude {
+        control: HarsLatitude,
+        callback: IntegerCallback<'a>,
+    },
+    HarsMagvar {
+        control: HarsMagvar,
+        callback: IntegerCallback<'a>,
+    },
+    HarsNs {
+        control: HarsNs,
+        callback: IntegerCallback<'a>,
+    },
+    HarsPts {
+        control: HarsPts,
+        callback: IntegerCallback<'a>,
+    },
+    HarsSlaveDg {
+        control: HarsSlaveDg,
+        callback: IntegerCallback<'a>,
+    },
+    HarsSync {
+        control: HarsSync,
+        callback: IntegerCallback<'a>,
+    },
+    HsiBearing1 {
+        control: HsiBearing1,
+        callback: IntegerCallback<'a>,
+    },
+    HsiBearing2 {
+        control: HsiBearing2,
+        callback: IntegerCallback<'a>,
+    },
+    HsiBearingFlag {
+        control: HsiBearingFlag,
+        callback: IntegerCallback<'a>,
+    },
+    HsiCcA {
+        control: HsiCcA,
+        callback: IntegerCallback<'a>,
+    },
+    HsiCcB {
+        control: HsiCcB,
+        callback: IntegerCallback<'a>,
+    },
+    HsiCrs {
+        control: HsiCrs,
+        callback: IntegerCallback<'a>,
+    },
+    HsiCrsKnob {
+        control: HsiCrsKnob,
+        callback: IntegerCallback<'a>,
+    },
+    HsiDeviation {
+        control: HsiDeviation,
+        callback: IntegerCallback<'a>,
+    },
+    HsiHdg {
+        control: HsiHdg,
+        callback: IntegerCallback<'a>,
+    },
+    HsiHdgBug {
+        control: HsiHdgBug,
+        callback: IntegerCallback<'a>,
+    },
+    HsiHdgKnob {
+        control: HsiHdgKnob,
+        callback: IntegerCallback<'a>,
+    },
+    HsiPwroffFlag {
+        control: HsiPwroffFlag,
+        callback: IntegerCallback<'a>,
+    },
+    HsiRangeFlag {
+        control: HsiRangeFlag,
+        callback: IntegerCallback<'a>,
+    },
+    HsiRcA {
+        control: HsiRcA,
+        callback: IntegerCallback<'a>,
+    },
+    HsiRcB {
+        control: HsiRcB,
+        callback: IntegerCallback<'a>,
+    },
+    HsiRcC {
+        control: HsiRcC,
+        callback: IntegerCallback<'a>,
+    },
+    HsiRcD {
+        control: HsiRcD,
+        callback: IntegerCallback<'a>,
+    },
+    HsiTofrom1 {
+        control: HsiTofrom1,
+        callback: IntegerCallback<'a>,
+    },
+    HsiTofrom2 {
+        control: HsiTofrom2,
+        callback: IntegerCallback<'a>,
+    },
+    IffCode {
+        control: IffCode,
+        callback: IntegerCallback<'a>,
+    },
+    IffMaster {
+        control: IffMaster,
+        callback: IntegerCallback<'a>,
+    },
+    IffMicIdent {
+        control: IffMicIdent,
+        callback: IntegerCallback<'a>,
+    },
+    IffMode1Wheel1 {
+        control: IffMode1Wheel1,
+        callback: IntegerCallback<'a>,
+    },
+    IffMode1Wheel2 {
+        control: IffMode1Wheel2,
+        callback: IntegerCallback<'a>,
+    },
+    IffMode3aWheel1 {
+        control: IffMode3aWheel1,
+        callback: IntegerCallback<'a>,
+    },
+    IffMode3aWheel2 {
+        control: IffMode3aWheel2,
+        callback: IntegerCallback<'a>,
+    },
+    IffMode3aWheel3 {
+        control: IffMode3aWheel3,
+        callback: IntegerCallback<'a>,
+    },
+    IffMode3aWheel4 {
+        control: IffMode3aWheel4,
+        callback: IntegerCallback<'a>,
+    },
+    IffOnOut {
+        control: IffOnOut,
+        callback: IntegerCallback<'a>,
+    },
+    IffOutAudioLight {
+        control: IffOutAudioLight,
+        callback: IntegerCallback<'a>,
+    },
+    IffRadtest {
+        control: IffRadtest,
+        callback: IntegerCallback<'a>,
+    },
+    IffReply {
+        control: IffReply,
+        callback: LedCallback<'a>,
+    },
+    IffReplyDim {
+        control: IffReplyDim,
+        callback: IntegerCallback<'a>,
+    },
+    IffReplyTest {
+        control: IffReplyTest,
+        callback: IntegerCallback<'a>,
+    },
+    IffTest {
+        control: IffTest,
+        callback: LedCallback<'a>,
+    },
+    IffTestDim {
+        control: IffTestDim,
+        callback: IntegerCallback<'a>,
+    },
+    IffTestM1 {
+        control: IffTestM1,
+        callback: IntegerCallback<'a>,
+    },
+    IffTestM2 {
+        control: IffTestM2,
+        callback: IntegerCallback<'a>,
+    },
+    IffTestM3 {
+        control: IffTestM3,
+        callback: IntegerCallback<'a>,
+    },
+    IffTestM4 {
+        control: IffTestM4,
+        callback: IntegerCallback<'a>,
+    },
+    IffTestTest {
+        control: IffTestTest,
+        callback: IntegerCallback<'a>,
+    },
+    IlsFrequencyS {
+        control: IlsFrequencyS,
+        callback: DisplayCallback<'a>,
+    },
+    IlsKhzInt {
+        control: IlsKhzInt,
+        callback: IntegerCallback<'a>,
+    },
+    IlsKhzStr {
+        control: IlsKhzStr,
+        callback: DisplayCallback<'a>,
+    },
+    IlsMhzInt {
+        control: IlsMhzInt,
+        callback: IntegerCallback<'a>,
+    },
+    IlsMhzStr {
+        control: IlsMhzStr,
+        callback: DisplayCallback<'a>,
+    },
+    IlsPwr {
+        control: IlsPwr,
+        callback: IntegerCallback<'a>,
+    },
+    IlsVol {
+        control: IlsVol,
+        callback: IntegerCallback<'a>,
+    },
+    IntAimUnmute {
+        control: IntAimUnmute,
+        callback: IntegerCallback<'a>,
+    },
+    IntAimVol {
+        control: IntAimVol,
+        callback: IntegerCallback<'a>,
+    },
+    IntAuxInstLBright {
+        control: IntAuxInstLBright,
+        callback: IntegerCallback<'a>,
+    },
+    IntCall {
+        control: IntCall,
+        callback: IntegerCallback<'a>,
+    },
+    IntCautionLBright {
+        control: IntCautionLBright,
+        callback: IntegerCallback<'a>,
+    },
+    IntConsoleLBright {
+        control: IntConsoleLBright,
+        callback: IntegerCallback<'a>,
+    },
+    IntEngInstLBright {
+        control: IntEngInstLBright,
+        callback: IntegerCallback<'a>,
+    },
+    IntFloodLBright {
+        control: IntFloodLBright,
+        callback: IntegerCallback<'a>,
+    },
+    IntFltInstLBright {
+        control: IntFltInstLBright,
+        callback: IntegerCallback<'a>,
+    },
+    IntFmUnmute {
+        control: IntFmUnmute,
+        callback: IntegerCallback<'a>,
+    },
+    IntFmVol {
+        control: IntFmVol,
+        callback: IntegerCallback<'a>,
+    },
+    IntHm {
+        control: IntHm,
+        callback: IntegerCallback<'a>,
+    },
+    IntIffUnmute {
+        control: IntIffUnmute,
+        callback: IntegerCallback<'a>,
+    },
+    IntIffVol {
+        control: IntIffVol,
+        callback: IntegerCallback<'a>,
+    },
+    IntIlsUnmute {
+        control: IntIlsUnmute,
+        callback: IntegerCallback<'a>,
+    },
+    IntIlsVol {
+        control: IntIlsVol,
+        callback: IntegerCallback<'a>,
+    },
+    IntIntUnmute {
+        control: IntIntUnmute,
+        callback: IntegerCallback<'a>,
+    },
+    IntIntVol {
+        control: IntIntVol,
+        callback: IntegerCallback<'a>,
+    },
+    IntMode {
+        control: IntMode,
+        callback: IntegerCallback<'a>,
+    },
+    IntTcnUnmute {
+        control: IntTcnUnmute,
+        callback: IntegerCallback<'a>,
+    },
+    IntTcnVol {
+        control: IntTcnVol,
+        callback: IntegerCallback<'a>,
+    },
+    IntUhfUnmute {
+        control: IntUhfUnmute,
+        callback: IntegerCallback<'a>,
+    },
+    IntUhfVol {
+        control: IntUhfVol,
+        callback: IntegerCallback<'a>,
+    },
+    IntVhfUnmute {
+        control: IntVhfUnmute,
+        callback: IntegerCallback<'a>,
+    },
+    IntVhfVol {
+        control: IntVhfVol,
+        callback: IntegerCallback<'a>,
+    },
+    IntVol {
+        control: IntVol,
+        callback: IntegerCallback<'a>,
+    },
+    Ky581to5 {
+        control: Ky581to5,
+        callback: IntegerCallback<'a>,
+    },
+    Ky58Delay {
+        control: Ky58Delay,
+        callback: IntegerCallback<'a>,
+    },
+    Ky58Mode {
+        control: Ky58Mode,
+        callback: IntegerCallback<'a>,
+    },
+    Ky58Plain {
+        control: Ky58Plain,
+        callback: IntegerCallback<'a>,
+    },
+    Ky58Pwr {
+        control: Ky58Pwr,
+        callback: IntegerCallback<'a>,
+    },
+    Ky58Zeroize {
+        control: Ky58Zeroize,
+        callback: IntegerCallback<'a>,
+    },
+    Ky58ZeroizeCover {
+        control: Ky58ZeroizeCover,
+        callback: IntegerCallback<'a>,
+    },
+    LAileronEmerDisengage {
+        control: LAileronEmerDisengage,
+        callback: LedCallback<'a>,
+    },
+    LElevatorEmerDisengage {
+        control: LElevatorEmerDisengage,
+        callback: LedCallback<'a>,
+    },
+    LEngCore {
+        control: LEngCore,
+        callback: IntegerCallback<'a>,
+    },
+    LEngCoreT {
+        control: LEngCoreT,
+        callback: IntegerCallback<'a>,
+    },
+    LEngFan {
+        control: LEngFan,
+        callback: IntegerCallback<'a>,
+    },
+    LEngFire {
+        control: LEngFire,
+        callback: LedCallback<'a>,
+    },
+    LEngFuelFlow {
+        control: LEngFuelFlow,
+        callback: IntegerCallback<'a>,
+    },
+    LEngTemp {
+        control: LEngTemp,
+        callback: IntegerCallback<'a>,
+    },
+    LEngTempOff {
+        control: LEngTempOff,
+        callback: IntegerCallback<'a>,
+    },
+    LEngTempT {
+        control: LEngTempT,
+        callback: IntegerCallback<'a>,
+    },
+    LHydPress {
+        control: LHydPress,
+        callback: IntegerCallback<'a>,
+    },
+    LOilPress {
+        control: LOilPress,
+        callback: IntegerCallback<'a>,
+    },
+    LadderExtend {
+        control: LadderExtend,
+        callback: IntegerCallback<'a>,
+    },
+    LadderExtendCover {
+        control: LadderExtendCover,
+        callback: IntegerCallback<'a>,
+    },
+    LampTestBtn {
+        control: LampTestBtn,
+        callback: IntegerCallback<'a>,
+    },
+    LandingLights {
+        control: LandingLights,
+        callback: IntegerCallback<'a>,
+    },
+    LasteApMode {
+        control: LasteApMode,
+        callback: IntegerCallback<'a>,
+    },
+    LasteApToggle {
+        control: LasteApToggle,
+        callback: IntegerCallback<'a>,
+    },
+    LasteEac {
+        control: LasteEac,
+        callback: IntegerCallback<'a>,
+    },
+    LasteRdrAltm {
+        control: LasteRdrAltm,
+        callback: IntegerCallback<'a>,
+    },
+    LcpAccelComp {
+        control: LcpAccelComp,
+        callback: IntegerCallback<'a>,
+    },
+    LcpAnticollision {
+        control: LcpAnticollision,
+        callback: IntegerCallback<'a>,
+    },
+    LcpAuxInst {
+        control: LcpAuxInst,
+        callback: IntegerCallback<'a>,
+    },
+    LcpConsole {
+        control: LcpConsole,
+        callback: IntegerCallback<'a>,
+    },
+    LcpEngInst {
+        control: LcpEngInst,
+        callback: IntegerCallback<'a>,
+    },
+    LcpFlightInst {
+        control: LcpFlightInst,
+        callback: IntegerCallback<'a>,
+    },
+    LcpFlood {
+        control: LcpFlood,
+        callback: IntegerCallback<'a>,
+    },
+    LcpFormation {
+        control: LcpFormation,
+        callback: IntegerCallback<'a>,
+    },
+    LcpNoseIllum {
+        control: LcpNoseIllum,
+        callback: IntegerCallback<'a>,
+    },
+    LcpPosition {
+        control: LcpPosition,
+        callback: IntegerCallback<'a>,
+    },
+    LcpSignalLights {
+        control: LcpSignalLights,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd01 {
+        control: Lmfd01,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd02 {
+        control: Lmfd02,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd03 {
+        control: Lmfd03,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd04 {
+        control: Lmfd04,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd05 {
+        control: Lmfd05,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd06 {
+        control: Lmfd06,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd07 {
+        control: Lmfd07,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd08 {
+        control: Lmfd08,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd09 {
+        control: Lmfd09,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd10 {
+        control: Lmfd10,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd11 {
+        control: Lmfd11,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd12 {
+        control: Lmfd12,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd13 {
+        control: Lmfd13,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd14 {
+        control: Lmfd14,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd15 {
+        control: Lmfd15,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd16 {
+        control: Lmfd16,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd17 {
+        control: Lmfd17,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd18 {
+        control: Lmfd18,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd19 {
+        control: Lmfd19,
+        callback: IntegerCallback<'a>,
+    },
+    Lmfd20 {
+        control: Lmfd20,
+        callback: IntegerCallback<'a>,
+    },
+    LmfdAdj {
+        control: LmfdAdj,
+        callback: IntegerCallback<'a>,
+    },
+    LmfdBrt {
+        control: LmfdBrt,
+        callback: IntegerCallback<'a>,
+    },
+    LmfdCon {
+        control: LmfdCon,
+        callback: IntegerCallback<'a>,
+    },
+    LmfdDsp {
+        control: LmfdDsp,
+        callback: IntegerCallback<'a>,
+    },
+    LmfdPwr {
+        control: LmfdPwr,
+        callback: IntegerCallback<'a>,
+    },
+    LmfdSym {
+        control: LmfdSym,
+        callback: IntegerCallback<'a>,
+    },
+    MarkerBeacon {
+        control: MarkerBeacon,
+        callback: LedCallback<'a>,
+    },
+    MasterCaution {
+        control: MasterCaution,
+        callback: LedCallback<'a>,
+    },
+    MirrorToggle {
+        control: MirrorToggle,
+        callback: IntegerCallback<'a>,
+    },
+    NmspAbleStow {
+        control: NmspAbleStow,
+        callback: IntegerCallback<'a>,
+    },
+    NmspAnchrBtn {
+        control: NmspAnchrBtn,
+        callback: IntegerCallback<'a>,
+    },
+    NmspAnchrLed {
+        control: NmspAnchrLed,
+        callback: LedCallback<'a>,
+    },
+    NmspEgiBtn {
+        control: NmspEgiBtn,
+        callback: IntegerCallback<'a>,
+    },
+    NmspEgiLed {
+        control: NmspEgiLed,
+        callback: LedCallback<'a>,
+    },
+    NmspFmLed {
+        control: NmspFmLed,
+        callback: LedCallback<'a>,
+    },
+    NmspHarsBtn {
+        control: NmspHarsBtn,
+        callback: IntegerCallback<'a>,
+    },
+    NmspHarsLed {
+        control: NmspHarsLed,
+        callback: LedCallback<'a>,
+    },
+    NmspIlsBtn {
+        control: NmspIlsBtn,
+        callback: IntegerCallback<'a>,
+    },
+    NmspIlsLed {
+        control: NmspIlsLed,
+        callback: LedCallback<'a>,
+    },
+    NmspSteerptBtn {
+        control: NmspSteerptBtn,
+        callback: IntegerCallback<'a>,
+    },
+    NmspSteerptLed {
+        control: NmspSteerptLed,
+        callback: LedCallback<'a>,
+    },
+    NmspTcnBtn {
+        control: NmspTcnBtn,
+        callback: IntegerCallback<'a>,
+    },
+    NmspTcnLed {
+        control: NmspTcnLed,
+        callback: LedCallback<'a>,
+    },
+    NmspTislBtn {
+        control: NmspTislBtn,
+        callback: IntegerCallback<'a>,
+    },
+    NmspTislLed {
+        control: NmspTislLed,
+        callback: LedCallback<'a>,
+    },
+    NmspUhfLed {
+        control: NmspUhfLed,
+        callback: LedCallback<'a>,
+    },
+    NosewheelSteering {
+        control: NosewheelSteering,
+        callback: LedCallback<'a>,
+    },
+    OxyDiluter {
+        control: OxyDiluter,
+        callback: IntegerCallback<'a>,
+    },
+    OxyEmergency {
+        control: OxyEmergency,
+        callback: IntegerCallback<'a>,
+    },
+    OxyFlow {
+        control: OxyFlow,
+        callback: LedCallback<'a>,
+    },
+    OxyFlowG {
+        control: OxyFlowG,
+        callback: IntegerCallback<'a>,
+    },
+    OxyPress {
+        control: OxyPress,
+        callback: IntegerCallback<'a>,
+    },
+    OxySupply {
+        control: OxySupply,
+        callback: IntegerCallback<'a>,
+    },
+    OxyVolume {
+        control: OxyVolume,
+        callback: IntegerCallback<'a>,
+    },
+    RAileronEmerDisengage {
+        control: RAileronEmerDisengage,
+        callback: LedCallback<'a>,
+    },
+    RElevatorEmerDisengage {
+        control: RElevatorEmerDisengage,
+        callback: LedCallback<'a>,
+    },
+    REngCore {
+        control: REngCore,
+        callback: IntegerCallback<'a>,
+    },
+    REngCoreT {
+        control: REngCoreT,
+        callback: IntegerCallback<'a>,
+    },
+    REngFan {
+        control: REngFan,
+        callback: IntegerCallback<'a>,
+    },
+    REngFire {
+        control: REngFire,
+        callback: LedCallback<'a>,
+    },
+    REngFuelFlow {
+        control: REngFuelFlow,
+        callback: IntegerCallback<'a>,
+    },
+    REngTemp {
+        control: REngTemp,
+        callback: IntegerCallback<'a>,
+    },
+    REngTempOff {
+        control: REngTempOff,
+        callback: IntegerCallback<'a>,
+    },
+    REngTempT {
+        control: REngTempT,
+        callback: IntegerCallback<'a>,
+    },
+    RHydPress {
+        control: RHydPress,
+        callback: IntegerCallback<'a>,
+    },
+    ROilPress {
+        control: ROilPress,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd01 {
+        control: Rmfd01,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd02 {
+        control: Rmfd02,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd03 {
+        control: Rmfd03,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd04 {
+        control: Rmfd04,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd05 {
+        control: Rmfd05,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd06 {
+        control: Rmfd06,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd07 {
+        control: Rmfd07,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd08 {
+        control: Rmfd08,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd09 {
+        control: Rmfd09,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd10 {
+        control: Rmfd10,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd11 {
+        control: Rmfd11,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd12 {
+        control: Rmfd12,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd13 {
+        control: Rmfd13,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd14 {
+        control: Rmfd14,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd15 {
+        control: Rmfd15,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd16 {
+        control: Rmfd16,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd17 {
+        control: Rmfd17,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd18 {
+        control: Rmfd18,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd19 {
+        control: Rmfd19,
+        callback: IntegerCallback<'a>,
+    },
+    Rmfd20 {
+        control: Rmfd20,
+        callback: IntegerCallback<'a>,
+    },
+    RmfdAdj {
+        control: RmfdAdj,
+        callback: IntegerCallback<'a>,
+    },
+    RmfdBrt {
+        control: RmfdBrt,
+        callback: IntegerCallback<'a>,
+    },
+    RmfdCon {
+        control: RmfdCon,
+        callback: IntegerCallback<'a>,
+    },
+    RmfdDsp {
+        control: RmfdDsp,
+        callback: IntegerCallback<'a>,
+    },
+    RmfdPwr {
+        control: RmfdPwr,
+        callback: IntegerCallback<'a>,
+    },
+    RmfdSym {
+        control: RmfdSym,
+        callback: IntegerCallback<'a>,
+    },
+    RwrBrt {
+        control: RwrBrt,
+        callback: IntegerCallback<'a>,
+    },
+    SaiBank {
+        control: SaiBank,
+        callback: IntegerCallback<'a>,
+    },
+    SaiCage {
+        control: SaiCage,
+        callback: IntegerCallback<'a>,
+    },
+    SaiKnobArrow {
+        control: SaiKnobArrow,
+        callback: IntegerCallback<'a>,
+    },
+    SaiPitch {
+        control: SaiPitch,
+        callback: IntegerCallback<'a>,
+    },
+    SaiPitchAdj {
+        control: SaiPitchAdj,
+        callback: IntegerCallback<'a>,
+    },
+    SaiPitchTrim {
+        control: SaiPitchTrim,
+        callback: IntegerCallback<'a>,
+    },
+    SaiWarningFlag {
+        control: SaiWarningFlag,
+        callback: IntegerCallback<'a>,
+    },
+    SaspMonitorTest {
+        control: SaspMonitorTest,
+        callback: IntegerCallback<'a>,
+    },
+    SaspPitchSasL {
+        control: SaspPitchSasL,
+        callback: IntegerCallback<'a>,
+    },
+    SaspPitchSasR {
+        control: SaspPitchSasR,
+        callback: IntegerCallback<'a>,
+    },
+    SaspToTrim {
+        control: SaspToTrim,
+        callback: IntegerCallback<'a>,
+    },
+    SaspYawSasL {
+        control: SaspYawSasL,
+        callback: IntegerCallback<'a>,
+    },
+    SaspYawSasR {
+        control: SaspYawSasR,
+        callback: IntegerCallback<'a>,
+    },
+    SaspYawTrim {
+        control: SaspYawTrim,
+        callback: IntegerCallback<'a>,
+    },
+    SeatAdjust {
+        control: SeatAdjust,
+        callback: IntegerCallback<'a>,
+    },
+    SeatArm {
+        control: SeatArm,
+        callback: IntegerCallback<'a>,
+    },
+    StallPeakVol {
+        control: StallPeakVol,
+        callback: IntegerCallback<'a>,
+    },
+    StallVol {
+        control: StallVol,
+        callback: IntegerCallback<'a>,
+    },
+    SuitTest {
+        control: SuitTest,
+        callback: IntegerCallback<'a>,
+    },
+    Tacan1 {
+        control: Tacan1,
+        callback: IntegerCallback<'a>,
+    },
+    Tacan10 {
+        control: Tacan10,
+        callback: IntegerCallback<'a>,
+    },
+    TacanChannel {
+        control: TacanChannel,
+        callback: DisplayCallback<'a>,
+    },
+    TacanMode {
+        control: TacanMode,
+        callback: IntegerCallback<'a>,
+    },
+    TacanTest {
+        control: TacanTest,
+        callback: LedCallback<'a>,
+    },
+    TacanTestBtn {
+        control: TacanTestBtn,
+        callback: IntegerCallback<'a>,
+    },
+    TacanVol {
+        control: TacanVol,
+        callback: IntegerCallback<'a>,
+    },
+    TacanXy {
+        control: TacanXy,
+        callback: IntegerCallback<'a>,
+    },
+    TakeOffTrim {
+        control: TakeOffTrim,
+        callback: LedCallback<'a>,
+    },
+    TislAlt10000Int {
+        control: TislAlt10000Int,
+        callback: IntegerCallback<'a>,
+    },
+    TislAlt10000Str {
+        control: TislAlt10000Str,
+        callback: DisplayCallback<'a>,
+    },
+    TislAlt1000Int {
+        control: TislAlt1000Int,
+        callback: IntegerCallback<'a>,
+    },
+    TislAlt1000Str {
+        control: TislAlt1000Str,
+        callback: DisplayCallback<'a>,
+    },
+    TislAux {
+        control: TislAux,
+        callback: IntegerCallback<'a>,
+    },
+    TislBite {
+        control: TislBite,
+        callback: IntegerCallback<'a>,
+    },
+    TislBiteL {
+        control: TislBiteL,
+        callback: LedCallback<'a>,
+    },
+    TislCode1Int {
+        control: TislCode1Int,
+        callback: IntegerCallback<'a>,
+    },
+    TislCode1Str {
+        control: TislCode1Str,
+        callback: DisplayCallback<'a>,
+    },
+    TislCode2Int {
+        control: TislCode2Int,
+        callback: IntegerCallback<'a>,
+    },
+    TislCode2Str {
+        control: TislCode2Str,
+        callback: DisplayCallback<'a>,
+    },
+    TislCode3Int {
+        control: TislCode3Int,
+        callback: IntegerCallback<'a>,
+    },
+    TislCode3Str {
+        control: TislCode3Str,
+        callback: DisplayCallback<'a>,
+    },
+    TislCode4Int {
+        control: TislCode4Int,
+        callback: IntegerCallback<'a>,
+    },
+    TislCode4Str {
+        control: TislCode4Str,
+        callback: DisplayCallback<'a>,
+    },
+    TislEnter {
+        control: TislEnter,
+        callback: IntegerCallback<'a>,
+    },
+    TislEnterL {
+        control: TislEnterL,
+        callback: LedCallback<'a>,
+    },
+    TislMode {
+        control: TislMode,
+        callback: IntegerCallback<'a>,
+    },
+    TislOvertemp {
+        control: TislOvertemp,
+        callback: IntegerCallback<'a>,
+    },
+    TislOvertempL {
+        control: TislOvertempL,
+        callback: LedCallback<'a>,
+    },
+    TislSlantRange {
+        control: TislSlantRange,
+        callback: IntegerCallback<'a>,
+    },
+    TislTrack {
+        control: TislTrack,
+        callback: IntegerCallback<'a>,
+    },
+    TislTrackL {
+        control: TislTrackL,
+        callback: LedCallback<'a>,
+    },
+    Ufc1 {
+        control: Ufc1,
+        callback: IntegerCallback<'a>,
+    },
+    Ufc10 {
+        control: Ufc10,
+        callback: IntegerCallback<'a>,
+    },
+    Ufc2 {
+        control: Ufc2,
+        callback: IntegerCallback<'a>,
+    },
+    Ufc3 {
+        control: Ufc3,
+        callback: IntegerCallback<'a>,
+    },
+    Ufc4 {
+        control: Ufc4,
+        callback: IntegerCallback<'a>,
+    },
+    Ufc5 {
+        control: Ufc5,
+        callback: IntegerCallback<'a>,
+    },
+    Ufc6 {
+        control: Ufc6,
+        callback: IntegerCallback<'a>,
+    },
+    Ufc7 {
+        control: Ufc7,
+        callback: IntegerCallback<'a>,
+    },
+    Ufc8 {
+        control: Ufc8,
+        callback: IntegerCallback<'a>,
+    },
+    Ufc9 {
+        control: Ufc9,
+        callback: IntegerCallback<'a>,
+    },
+    UfcAltAlrt {
+        control: UfcAltAlrt,
+        callback: IntegerCallback<'a>,
+    },
+    UfcClr {
+        control: UfcClr,
+        callback: IntegerCallback<'a>,
+    },
+    UfcData {
+        control: UfcData,
+        callback: IntegerCallback<'a>,
+    },
+    UfcDepr {
+        control: UfcDepr,
+        callback: IntegerCallback<'a>,
+    },
+    UfcEnt {
+        control: UfcEnt,
+        callback: IntegerCallback<'a>,
+    },
+    UfcFunc {
+        control: UfcFunc,
+        callback: IntegerCallback<'a>,
+    },
+    UfcHack {
+        control: UfcHack,
+        callback: IntegerCallback<'a>,
+    },
+    UfcInten {
+        control: UfcInten,
+        callback: IntegerCallback<'a>,
+    },
+    UfcLtr {
+        control: UfcLtr,
+        callback: IntegerCallback<'a>,
+    },
+    UfcMasterCaution {
+        control: UfcMasterCaution,
+        callback: IntegerCallback<'a>,
+    },
+    UfcMk {
+        control: UfcMk,
+        callback: IntegerCallback<'a>,
+    },
+    UfcNa1 {
+        control: UfcNa1,
+        callback: IntegerCallback<'a>,
+    },
+    UfcNa2 {
+        control: UfcNa2,
+        callback: IntegerCallback<'a>,
+    },
+    UfcNa3 {
+        control: UfcNa3,
+        callback: IntegerCallback<'a>,
+    },
+    UfcNa4 {
+        control: UfcNa4,
+        callback: IntegerCallback<'a>,
+    },
+    UfcNa5 {
+        control: UfcNa5,
+        callback: IntegerCallback<'a>,
+    },
+    UfcNa6 {
+        control: UfcNa6,
+        callback: IntegerCallback<'a>,
+    },
+    UfcSel {
+        control: UfcSel,
+        callback: IntegerCallback<'a>,
+    },
+    UfcSpc {
+        control: UfcSpc,
+        callback: IntegerCallback<'a>,
+    },
+    UfcSteer {
+        control: UfcSteer,
+        callback: IntegerCallback<'a>,
+    },
+    Uhf100mhzSelInt {
+        control: Uhf100mhzSelInt,
+        callback: IntegerCallback<'a>,
+    },
+    Uhf100mhzSelStr {
+        control: Uhf100mhzSelStr,
+        callback: DisplayCallback<'a>,
+    },
+    Uhf10mhzSel {
+        control: Uhf10mhzSel,
+        callback: IntegerCallback<'a>,
+    },
+    Uhf1mhzSel {
+        control: Uhf1mhzSel,
+        callback: IntegerCallback<'a>,
+    },
+    UhfCover {
+        control: UhfCover,
+        callback: IntegerCallback<'a>,
+    },
+    UhfFrequency {
+        control: UhfFrequency,
+        callback: DisplayCallback<'a>,
+    },
+    UhfFunction {
+        control: UhfFunction,
+        callback: IntegerCallback<'a>,
+    },
+    UhfLoad {
+        control: UhfLoad,
+        callback: IntegerCallback<'a>,
+    },
+    UhfMode {
+        control: UhfMode,
+        callback: IntegerCallback<'a>,
+    },
+    UhfPoint1mhzSel {
+        control: UhfPoint1mhzSel,
+        callback: IntegerCallback<'a>,
+    },
+    UhfPoint25SelInt {
+        control: UhfPoint25SelInt,
+        callback: IntegerCallback<'a>,
+    },
+    UhfPoint25SelStr {
+        control: UhfPoint25SelStr,
+        callback: DisplayCallback<'a>,
+    },
+    UhfPreset {
+        control: UhfPreset,
+        callback: DisplayCallback<'a>,
+    },
+    UhfPresetSelInt {
+        control: UhfPresetSelInt,
+        callback: IntegerCallback<'a>,
+    },
+    UhfPresetSelStr {
+        control: UhfPresetSelStr,
+        callback: DisplayCallback<'a>,
+    },
+    UhfSquelch {
+        control: UhfSquelch,
+        callback: IntegerCallback<'a>,
+    },
+    UhfStatus {
+        control: UhfStatus,
+        callback: IntegerCallback<'a>,
+    },
+    UhfTTone {
+        control: UhfTTone,
+        callback: IntegerCallback<'a>,
+    },
+    UhfTest {
+        control: UhfTest,
+        callback: IntegerCallback<'a>,
+    },
+    UhfVol {
+        control: UhfVol,
+        callback: IntegerCallback<'a>,
+    },
+    VhfAmFrequencyS {
+        control: VhfAmFrequencyS,
+        callback: DisplayCallback<'a>,
+    },
+    VhfFmFrequencyS {
+        control: VhfFmFrequencyS,
+        callback: DisplayCallback<'a>,
+    },
+    VhfamFreq1Int {
+        control: VhfamFreq1Int,
+        callback: IntegerCallback<'a>,
+    },
+    VhfamFreq1Rot {
+        control: VhfamFreq1Rot,
+        callback: IntegerCallback<'a>,
+    },
+    VhfamFreq1Str {
+        control: VhfamFreq1Str,
+        callback: DisplayCallback<'a>,
+    },
+    VhfamFreq2 {
+        control: VhfamFreq2,
+        callback: IntegerCallback<'a>,
+    },
+    VhfamFreq2Rot {
+        control: VhfamFreq2Rot,
+        callback: IntegerCallback<'a>,
+    },
+    VhfamFreq3 {
+        control: VhfamFreq3,
+        callback: IntegerCallback<'a>,
+    },
+    VhfamFreq3Rot {
+        control: VhfamFreq3Rot,
+        callback: IntegerCallback<'a>,
+    },
+    VhfamFreq4Int {
+        control: VhfamFreq4Int,
+        callback: IntegerCallback<'a>,
+    },
+    VhfamFreq4Rot {
+        control: VhfamFreq4Rot,
+        callback: IntegerCallback<'a>,
+    },
+    VhfamFreq4Str {
+        control: VhfamFreq4Str,
+        callback: DisplayCallback<'a>,
+    },
+    VhfamFreqemer {
+        control: VhfamFreqemer,
+        callback: IntegerCallback<'a>,
+    },
+    VhfamLoad {
+        control: VhfamLoad,
+        callback: IntegerCallback<'a>,
+    },
+    VhfamMode {
+        control: VhfamMode,
+        callback: IntegerCallback<'a>,
+    },
+    VhfamPresetInt {
+        control: VhfamPresetInt,
+        callback: IntegerCallback<'a>,
+    },
+    VhfamPresetStr {
+        control: VhfamPresetStr,
+        callback: DisplayCallback<'a>,
+    },
+    VhfamSquelch {
+        control: VhfamSquelch,
+        callback: IntegerCallback<'a>,
+    },
+    VhfamVol {
+        control: VhfamVol,
+        callback: IntegerCallback<'a>,
+    },
+    VhffmFreq1Int {
+        control: VhffmFreq1Int,
+        callback: IntegerCallback<'a>,
+    },
+    VhffmFreq1Rot {
+        control: VhffmFreq1Rot,
+        callback: IntegerCallback<'a>,
+    },
+    VhffmFreq1Str {
+        control: VhffmFreq1Str,
+        callback: DisplayCallback<'a>,
+    },
+    VhffmFreq2 {
+        control: VhffmFreq2,
+        callback: IntegerCallback<'a>,
+    },
+    VhffmFreq2Rot {
+        control: VhffmFreq2Rot,
+        callback: IntegerCallback<'a>,
+    },
+    VhffmFreq3 {
+        control: VhffmFreq3,
+        callback: IntegerCallback<'a>,
+    },
+    VhffmFreq3Rot {
+        control: VhffmFreq3Rot,
+        callback: IntegerCallback<'a>,
+    },
+    VhffmFreq4Int {
+        control: VhffmFreq4Int,
+        callback: IntegerCallback<'a>,
+    },
+    VhffmFreq4Rot {
+        control: VhffmFreq4Rot,
+        callback: IntegerCallback<'a>,
+    },
+    VhffmFreq4Str {
+        control: VhffmFreq4Str,
+        callback: DisplayCallback<'a>,
+    },
+    VhffmFreqemer {
+        control: VhffmFreqemer,
+        callback: IntegerCallback<'a>,
+    },
+    VhffmLoad {
+        control: VhffmLoad,
+        callback: IntegerCallback<'a>,
+    },
+    VhffmMode {
+        control: VhffmMode,
+        callback: IntegerCallback<'a>,
+    },
+    VhffmPresetInt {
+        control: VhffmPresetInt,
+        callback: IntegerCallback<'a>,
+    },
+    VhffmPresetStr {
+        control: VhffmPresetStr,
+        callback: DisplayCallback<'a>,
+    },
+    VhffmSquelch {
+        control: VhffmSquelch,
+        callback: IntegerCallback<'a>,
+    },
+    VhffmVol {
+        control: VhffmVol,
+        callback: IntegerCallback<'a>,
+    },
+    Vvi {
+        control: Vvi,
+        callback: IntegerCallback<'a>,
+    },
+}
+
+impl RegisteredControl<'_> {
+    fn accept(&mut self, packet: Packet<'_>) {
+        match self {
+            Self::A102HmcsPw { control, .. } => control.accept(packet),
+            Self::AapCdupwr { control, .. } => control.accept(packet),
+            Self::AapEgipwr { control, .. } => control.accept(packet),
+            Self::AapPage { control, .. } => control.accept(packet),
+            Self::AapSteer { control, .. } => control.accept(packet),
+            Self::AapSteerpt { control, .. } => control.accept(packet),
+            Self::AccelG { control, .. } => control.accept(packet),
+            Self::AccelMax { control, .. } => control.accept(packet),
+            Self::AccelMin { control, .. } => control.accept(packet),
+            Self::AccelPts { control, .. } => control.accept(packet),
+            Self::AdiAttwarnFlag { control, .. } => control.accept(packet),
+            Self::AdiBank { control, .. } => control.accept(packet),
+            Self::AdiCrswarnFlag { control, .. } => control.accept(packet),
+            Self::AdiGs { control, .. } => control.accept(packet),
+            Self::AdiGswarnFlag { control, .. } => control.accept(packet),
+            Self::AdiPitch { control, .. } => control.accept(packet),
+            Self::AdiPitchTrim { control, .. } => control.accept(packet),
+            Self::AdiSlip { control, .. } => control.accept(packet),
+            Self::AdiSteerBank { control, .. } => control.accept(packet),
+            Self::AdiSteerPitch { control, .. } => control.accept(packet),
+            Self::AdiTurn { control, .. } => control.accept(packet),
+            Self::AhcpAltSce { control, .. } => control.accept(packet),
+            Self::AhcpCicu { control, .. } => control.accept(packet),
+            Self::AhcpGunpac { control, .. } => control.accept(packet),
+            Self::AhcpHudDaynight { control, .. } => control.accept(packet),
+            Self::AhcpHudMode { control, .. } => control.accept(packet),
+            Self::AhcpIffcc { control, .. } => control.accept(packet),
+            Self::AhcpJtrs { control, .. } => control.accept(packet),
+            Self::AhcpLaserArm { control, .. } => control.accept(packet),
+            Self::AhcpMasterArm { control, .. } => control.accept(packet),
+            Self::AhcpTgp { control, .. } => control.accept(packet),
+            Self::AirRefuelDisconnect { control, .. } => control.accept(packet),
+            Self::AirRefuelLatched { control, .. } => control.accept(packet),
+            Self::AirRefuelReady { control, .. } => control.accept(packet),
+            Self::AirspeedDial { control, .. } => control.accept(packet),
+            Self::AirspeedMaxIas { control, .. } => control.accept(packet),
+            Self::AirspeedNeedle { control, .. } => control.accept(packet),
+            Self::AlcpFdbaTest { control, .. } => control.accept(packet),
+            Self::AlcpHarssas { control, .. } => control.accept(packet),
+            Self::AlcpNvisLts { control, .. } => control.accept(packet),
+            Self::AlcpRcvrLts { control, .. } => control.accept(packet),
+            Self::AlcpRsil { control, .. } => control.accept(packet),
+            Self::AlcpWpnsta { control, .. } => control.accept(packet),
+            Self::Alt10000ftCnt { control, .. } => control.accept(packet),
+            Self::Alt1000ftCnt { control, .. } => control.accept(packet),
+            Self::Alt100ft { control, .. } => control.accept(packet),
+            Self::Alt100ftCnt { control, .. } => control.accept(packet),
+            Self::AltElectPneu { control, .. } => control.accept(packet),
+            Self::AltPneuFlag { control, .. } => control.accept(packet),
+            Self::AltPressure0 { control, .. } => control.accept(packet),
+            Self::AltPressure1 { control, .. } => control.accept(packet),
+            Self::AltPressure2 { control, .. } => control.accept(packet),
+            Self::AltPressure3 { control, .. } => control.accept(packet),
+            Self::AltSetPressure { control, .. } => control.accept(packet),
+            Self::AntEgihqtod { control, .. } => control.accept(packet),
+            Self::AntIff { control, .. } => control.accept(packet),
+            Self::AntUhf { control, .. } => control.accept(packet),
+            Self::AntiSkidSwitch { control, .. } => control.accept(packet),
+            Self::AoaIndexerHigh { control, .. } => control.accept(packet),
+            Self::AoaIndexerLow { control, .. } => control.accept(packet),
+            Self::AoaIndexerNormal { control, .. } => control.accept(packet),
+            Self::AoaPwroff { control, .. } => control.accept(packet),
+            Self::AoaUnits { control, .. } => control.accept(packet),
+            Self::ApuFire { control, .. } => control.accept(packet),
+            Self::ApuRpm { control, .. } => control.accept(packet),
+            Self::ApuTemp { control, .. } => control.accept(packet),
+            Self::AuxGear { control, .. } => control.accept(packet),
+            Self::AuxGearLock { control, .. } => control.accept(packet),
+            Self::CabinPressAlt { control, .. } => control.accept(packet),
+            Self::CanopyDisengage { control, .. } => control.accept(packet),
+            Self::CanopyJtsn { control, .. } => control.accept(packet),
+            Self::CanopyJtsnUnlock { control, .. } => control.accept(packet),
+            Self::CanopyOpen { control, .. } => control.accept(packet),
+            Self::CanopyUnlocked { control, .. } => control.accept(packet),
+            Self::CanopyValue { control, .. } => control.accept(packet),
+            Self::CbpAileronDiscL { control, .. } => control.accept(packet),
+            Self::CbpAileronDiscR { control, .. } => control.accept(packet),
+            Self::CbpAileronTabL { control, .. } => control.accept(packet),
+            Self::CbpAileronTabR { control, .. } => control.accept(packet),
+            Self::CbpApuCont { control, .. } => control.accept(packet),
+            Self::CbpAuxEssBus0a { control, .. } => control.accept(packet),
+            Self::CbpAuxEssBus0b { control, .. } => control.accept(packet),
+            Self::CbpAuxEssBus0c { control, .. } => control.accept(packet),
+            Self::CbpAuxEssBusTie { control, .. } => control.accept(packet),
+            Self::CbpBatBusTrans { control, .. } => control.accept(packet),
+            Self::CbpBleedAirContL { control, .. } => control.accept(packet),
+            Self::CbpBleedAirContR { control, .. } => control.accept(packet),
+            Self::CbpConverterL { control, .. } => control.accept(packet),
+            Self::CbpDcFuelPump { control, .. } => control.accept(packet),
+            Self::CbpElevationDiscL { control, .. } => control.accept(packet),
+            Self::CbpElevationDiscR { control, .. } => control.accept(packet),
+            Self::CbpEmerFlap { control, .. } => control.accept(packet),
+            Self::CbpEmerTrim { control, .. } => control.accept(packet),
+            Self::CbpEngIgnitor1 { control, .. } => control.accept(packet),
+            Self::CbpEngIgnitor2 { control, .. } => control.accept(packet),
+            Self::CbpEngStartL { control, .. } => control.accept(packet),
+            Self::CbpEngStartR { control, .. } => control.accept(packet),
+            Self::CbpExtStoresJett1 { control, .. } => control.accept(packet),
+            Self::CbpExtStoresJett2 { control, .. } => control.accept(packet),
+            Self::CbpFuelShutoffL { control, .. } => control.accept(packet),
+            Self::CbpFuelShutoffR { control, .. } => control.accept(packet),
+            Self::CbpGear { control, .. } => control.accept(packet),
+            Self::CbpGenContL { control, .. } => control.accept(packet),
+            Self::CbpGenContR { control, .. } => control.accept(packet),
+            Self::CbpIff { control, .. } => control.accept(packet),
+            Self::CbpIntercom { control, .. } => control.accept(packet),
+            Self::CbpInverterCont { control, .. } => control.accept(packet),
+            Self::CbpInverterPwr { control, .. } => control.accept(packet),
+            Self::CbpMasterCaution { control, .. } => control.accept(packet),
+            Self::CbpPitotHeatAc { control, .. } => control.accept(packet),
+            Self::CbpSpsRudderAuthLim { control, .. } => control.accept(packet),
+            Self::CbpStbyAttInd { control, .. } => control.accept(packet),
+            Self::CbpUhf { control, .. } => control.accept(packet),
+            Self::Cdu0 { control, .. } => control.accept(packet),
+            Self::Cdu1 { control, .. } => control.accept(packet),
+            Self::Cdu2 { control, .. } => control.accept(packet),
+            Self::Cdu3 { control, .. } => control.accept(packet),
+            Self::Cdu4 { control, .. } => control.accept(packet),
+            Self::Cdu5 { control, .. } => control.accept(packet),
+            Self::Cdu6 { control, .. } => control.accept(packet),
+            Self::Cdu7 { control, .. } => control.accept(packet),
+            Self::Cdu8 { control, .. } => control.accept(packet),
+            Self::Cdu9 { control, .. } => control.accept(packet),
+            Self::CduA { control, .. } => control.accept(packet),
+            Self::CduB { control, .. } => control.accept(packet),
+            Self::CduBck { control, .. } => control.accept(packet),
+            Self::CduBrt { control, .. } => control.accept(packet),
+            Self::CduC { control, .. } => control.accept(packet),
+            Self::CduClr { control, .. } => control.accept(packet),
+            Self::CduD { control, .. } => control.accept(packet),
+            Self::CduData { control, .. } => control.accept(packet),
+            Self::CduE { control, .. } => control.accept(packet),
+            Self::CduF { control, .. } => control.accept(packet),
+            Self::CduFa { control, .. } => control.accept(packet),
+            Self::CduFpm { control, .. } => control.accept(packet),
+            Self::CduG { control, .. } => control.accept(packet),
+            Self::CduH { control, .. } => control.accept(packet),
+            Self::CduI { control, .. } => control.accept(packet),
+            Self::CduJ { control, .. } => control.accept(packet),
+            Self::CduK { control, .. } => control.accept(packet),
+            Self::CduL { control, .. } => control.accept(packet),
+            Self::CduLine0 { control, .. } => control.accept(packet),
+            Self::CduLine1 { control, .. } => control.accept(packet),
+            Self::CduLine2 { control, .. } => control.accept(packet),
+            Self::CduLine3 { control, .. } => control.accept(packet),
+            Self::CduLine4 { control, .. } => control.accept(packet),
+            Self::CduLine5 { control, .. } => control.accept(packet),
+            Self::CduLine6 { control, .. } => control.accept(packet),
+            Self::CduLine7 { control, .. } => control.accept(packet),
+            Self::CduLine8 { control, .. } => control.accept(packet),
+            Self::CduLine9 { control, .. } => control.accept(packet),
+            Self::CduLsk3l { control, .. } => control.accept(packet),
+            Self::CduLsk3r { control, .. } => control.accept(packet),
+            Self::CduLsk5l { control, .. } => control.accept(packet),
+            Self::CduLsk5r { control, .. } => control.accept(packet),
+            Self::CduLsk7l { control, .. } => control.accept(packet),
+            Self::CduLsk7r { control, .. } => control.accept(packet),
+            Self::CduLsk9l { control, .. } => control.accept(packet),
+            Self::CduLsk9r { control, .. } => control.accept(packet),
+            Self::CduM { control, .. } => control.accept(packet),
+            Self::CduMk { control, .. } => control.accept(packet),
+            Self::CduN { control, .. } => control.accept(packet),
+            Self::CduNa1 { control, .. } => control.accept(packet),
+            Self::CduNa2 { control, .. } => control.accept(packet),
+            Self::CduNav { control, .. } => control.accept(packet),
+            Self::CduO { control, .. } => control.accept(packet),
+            Self::CduOset { control, .. } => control.accept(packet),
+            Self::CduP { control, .. } => control.accept(packet),
+            Self::CduPg { control, .. } => control.accept(packet),
+            Self::CduPoint { control, .. } => control.accept(packet),
+            Self::CduPrev { control, .. } => control.accept(packet),
+            Self::CduQ { control, .. } => control.accept(packet),
+            Self::CduR { control, .. } => control.accept(packet),
+            Self::CduS { control, .. } => control.accept(packet),
+            Self::CduScroll { control, .. } => control.accept(packet),
+            Self::CduSlash { control, .. } => control.accept(packet),
+            Self::CduSpc { control, .. } => control.accept(packet),
+            Self::CduSys { control, .. } => control.accept(packet),
+            Self::CduT { control, .. } => control.accept(packet),
+            Self::CduU { control, .. } => control.accept(packet),
+            Self::CduV { control, .. } => control.accept(packet),
+            Self::CduW { control, .. } => control.accept(packet),
+            Self::CduWp { control, .. } => control.accept(packet),
+            Self::CduX { control, .. } => control.accept(packet),
+            Self::CduY { control, .. } => control.accept(packet),
+            Self::CduZ { control, .. } => control.accept(packet),
+            Self::ClA1 { control, .. } => control.accept(packet),
+            Self::ClA2 { control, .. } => control.accept(packet),
+            Self::ClA3 { control, .. } => control.accept(packet),
+            Self::ClA4 { control, .. } => control.accept(packet),
+            Self::ClB1 { control, .. } => control.accept(packet),
+            Self::ClB2 { control, .. } => control.accept(packet),
+            Self::ClB3 { control, .. } => control.accept(packet),
+            Self::ClB4 { control, .. } => control.accept(packet),
+            Self::ClC1 { control, .. } => control.accept(packet),
+            Self::ClC2 { control, .. } => control.accept(packet),
+            Self::ClC3 { control, .. } => control.accept(packet),
+            Self::ClC4 { control, .. } => control.accept(packet),
+            Self::ClD1 { control, .. } => control.accept(packet),
+            Self::ClD2 { control, .. } => control.accept(packet),
+            Self::ClD3 { control, .. } => control.accept(packet),
+            Self::ClD4 { control, .. } => control.accept(packet),
+            Self::ClE1 { control, .. } => control.accept(packet),
+            Self::ClE2 { control, .. } => control.accept(packet),
+            Self::ClE3 { control, .. } => control.accept(packet),
+            Self::ClE4 { control, .. } => control.accept(packet),
+            Self::ClF1 { control, .. } => control.accept(packet),
+            Self::ClF2 { control, .. } => control.accept(packet),
+            Self::ClF3 { control, .. } => control.accept(packet),
+            Self::ClF4 { control, .. } => control.accept(packet),
+            Self::ClG1 { control, .. } => control.accept(packet),
+            Self::ClG2 { control, .. } => control.accept(packet),
+            Self::ClG3 { control, .. } => control.accept(packet),
+            Self::ClG4 { control, .. } => control.accept(packet),
+            Self::ClH1 { control, .. } => control.accept(packet),
+            Self::ClH2 { control, .. } => control.accept(packet),
+            Self::ClH3 { control, .. } => control.accept(packet),
+            Self::ClH4 { control, .. } => control.accept(packet),
+            Self::ClI1 { control, .. } => control.accept(packet),
+            Self::ClI2 { control, .. } => control.accept(packet),
+            Self::ClI3 { control, .. } => control.accept(packet),
+            Self::ClI4 { control, .. } => control.accept(packet),
+            Self::ClJ1 { control, .. } => control.accept(packet),
+            Self::ClJ2 { control, .. } => control.accept(packet),
+            Self::ClJ3 { control, .. } => control.accept(packet),
+            Self::ClJ4 { control, .. } => control.accept(packet),
+            Self::ClK1 { control, .. } => control.accept(packet),
+            Self::ClK2 { control, .. } => control.accept(packet),
+            Self::ClK3 { control, .. } => control.accept(packet),
+            Self::ClK4 { control, .. } => control.accept(packet),
+            Self::ClL1 { control, .. } => control.accept(packet),
+            Self::ClL2 { control, .. } => control.accept(packet),
+            Self::ClL3 { control, .. } => control.accept(packet),
+            Self::ClL4 { control, .. } => control.accept(packet),
+            Self::ClockCtrl { control, .. } => control.accept(packet),
+            Self::ClockEtc { control, .. } => control.accept(packet),
+            Self::ClockHh { control, .. } => control.accept(packet),
+            Self::ClockMm { control, .. } => control.accept(packet),
+            Self::ClockSet { control, .. } => control.accept(packet),
+            Self::ClockSs { control, .. } => control.accept(packet),
+            Self::CmscBrt { control, .. } => control.accept(packet),
+            Self::CmscJmr { control, .. } => control.accept(packet),
+            Self::CmscLaunch { control, .. } => control.accept(packet),
+            Self::CmscMws { control, .. } => control.accept(packet),
+            Self::CmscPri { control, .. } => control.accept(packet),
+            Self::CmscPrio { control, .. } => control.accept(packet),
+            Self::CmscRwrVol { control, .. } => control.accept(packet),
+            Self::CmscSep { control, .. } => control.accept(packet),
+            Self::CmscTxtChaffFlare { control, .. } => control.accept(packet),
+            Self::CmscTxtJmr { control, .. } => control.accept(packet),
+            Self::CmscTxtMws { control, .. } => control.accept(packet),
+            Self::CmscUnk { control, .. } => control.accept(packet),
+            Self::CmscUnkn { control, .. } => control.accept(packet),
+            Self::Cmsp1 { control, .. } => control.accept(packet),
+            Self::Cmsp2 { control, .. } => control.accept(packet),
+            Self::CmspArw1 { control, .. } => control.accept(packet),
+            Self::CmspArw2 { control, .. } => control.accept(packet),
+            Self::CmspArw3 { control, .. } => control.accept(packet),
+            Self::CmspArw4 { control, .. } => control.accept(packet),
+            Self::CmspBrt { control, .. } => control.accept(packet),
+            Self::CmspDisp { control, .. } => control.accept(packet),
+            Self::CmspJmr { control, .. } => control.accept(packet),
+            Self::CmspJtsn { control, .. } => control.accept(packet),
+            Self::CmspMode { control, .. } => control.accept(packet),
+            Self::CmspMws { control, .. } => control.accept(packet),
+            Self::CmspRtn { control, .. } => control.accept(packet),
+            Self::CmspRwr { control, .. } => control.accept(packet),
+            Self::CmspUpdn { control, .. } => control.accept(packet),
+            Self::CompassBank { control, .. } => control.accept(packet),
+            Self::CompassHdg { control, .. } => control.accept(packet),
+            Self::CompassPitch { control, .. } => control.accept(packet),
+            Self::DownlockOverride { control, .. } => control.accept(packet),
+            Self::DvadrEot { control, .. } => control.accept(packet),
+            Self::DvadrEotRemote { control, .. } => control.accept(packet),
+            Self::DvadrFunction { control, .. } => control.accept(packet),
+            Self::DvadrRec { control, .. } => control.accept(packet),
+            Self::DvadrRecRemote { control, .. } => control.accept(packet),
+            Self::DvadrVideo { control, .. } => control.accept(packet),
+            Self::EfcpAileronEmerDisengage { control, .. } => control.accept(packet),
+            Self::EfcpElevatorEmerDisengage { control, .. } => control.accept(packet),
+            Self::EfcpEmerTrim { control, .. } => control.accept(packet),
+            Self::EfcpFlapsEmerRetr { control, .. } => control.accept(packet),
+            Self::EfcpMrfcs { control, .. } => control.accept(packet),
+            Self::EfcpSpdbkEmerRetr { control, .. } => control.accept(packet),
+            Self::EfcpTrimOverride { control, .. } => control.accept(packet),
+            Self::EmerBrake { control, .. } => control.accept(packet),
+            Self::EngThrottleL { control, .. } => control.accept(packet),
+            Self::EngThrottleR { control, .. } => control.accept(packet),
+            Self::EngineApuStart { control, .. } => control.accept(packet),
+            Self::EngineFuelFlowL { control, .. } => control.accept(packet),
+            Self::EngineFuelFlowR { control, .. } => control.accept(packet),
+            Self::EngineOperL { control, .. } => control.accept(packet),
+            Self::EngineOperR { control, .. } => control.accept(packet),
+            Self::EngineTemsData { control, .. } => control.accept(packet),
+            Self::EngineThrottleFriction { control, .. } => control.accept(packet),
+            Self::EnvcpAcOper { control, .. } => control.accept(packet),
+            Self::EnvcpAirSupply { control, .. } => control.accept(packet),
+            Self::EnvcpBleedAir { control, .. } => control.accept(packet),
+            Self::EnvcpCanopyDefog { control, .. } => control.accept(packet),
+            Self::EnvcpFlowLevel { control, .. } => control.accept(packet),
+            Self::EnvcpOxyTest { control, .. } => control.accept(packet),
+            Self::EnvcpPitotHeat { control, .. } => control.accept(packet),
+            Self::EnvcpTempLevel { control, .. } => control.accept(packet),
+            Self::EnvcpTempPress { control, .. } => control.accept(packet),
+            Self::EnvcpWindshieldDefog { control, .. } => control.accept(packet),
+            Self::EnvcpWrrw { control, .. } => control.accept(packet),
+            Self::EppAcGenPwrL { control, .. } => control.accept(packet),
+            Self::EppAcGenPwrR { control, .. } => control.accept(packet),
+            Self::EppApuGenPwr { control, .. } => control.accept(packet),
+            Self::EppBatteryPwr { control, .. } => control.accept(packet),
+            Self::EppEmerFlood { control, .. } => control.accept(packet),
+            Self::EppInverter { control, .. } => control.accept(packet),
+            Self::ExtFormationLights { control, .. } => control.accept(packet),
+            Self::ExtPositionLightLeft { control, .. } => control.accept(packet),
+            Self::ExtPositionLightRight { control, .. } => control.accept(packet),
+            Self::ExtSpeedBrakeLeft { control, .. } => control.accept(packet),
+            Self::ExtSpeedBrakeRight { control, .. } => control.accept(packet),
+            Self::ExtStoresJettison { control, .. } => control.accept(packet),
+            Self::ExtStrobeLeft { control, .. } => control.accept(packet),
+            Self::ExtStrobeRight { control, .. } => control.accept(packet),
+            Self::ExtStrobeTail { control, .. } => control.accept(packet),
+            Self::ExtWowLeft { control, .. } => control.accept(packet),
+            Self::ExtWowNose { control, .. } => control.accept(packet),
+            Self::ExtWowRight { control, .. } => control.accept(packet),
+            Self::FireApuPull { control, .. } => control.accept(packet),
+            Self::FireExtDisch { control, .. } => control.accept(packet),
+            Self::FireLengPull { control, .. } => control.accept(packet),
+            Self::FireRengPull { control, .. } => control.accept(packet),
+            Self::FlapPos { control, .. } => control.accept(packet),
+            Self::FlapsSwitch { control, .. } => control.accept(packet),
+            Self::FqisSelect { control, .. } => control.accept(packet),
+            Self::FqisTest { control, .. } => control.accept(packet),
+            Self::FscpAmpl { control, .. } => control.accept(packet),
+            Self::FscpBoostMainL { control, .. } => control.accept(packet),
+            Self::FscpBoostMainR { control, .. } => control.accept(packet),
+            Self::FscpBoostWingL { control, .. } => control.accept(packet),
+            Self::FscpBoostWingR { control, .. } => control.accept(packet),
+            Self::FscpCrossfeed { control, .. } => control.accept(packet),
+            Self::FscpExtTanksFus { control, .. } => control.accept(packet),
+            Self::FscpExtTanksWing { control, .. } => control.accept(packet),
+            Self::FscpFdMainL { control, .. } => control.accept(packet),
+            Self::FscpFdMainR { control, .. } => control.accept(packet),
+            Self::FscpFdWingL { control, .. } => control.accept(packet),
+            Self::FscpFdWingR { control, .. } => control.accept(packet),
+            Self::FscpLineCheck { control, .. } => control.accept(packet),
+            Self::FscpRcvrLever { control, .. } => control.accept(packet),
+            Self::FscpTkGate { control, .. } => control.accept(packet),
+            Self::FuelQty100 { control, .. } => control.accept(packet),
+            Self::FuelQty1000 { control, .. } => control.accept(packet),
+            Self::FuelQty10000 { control, .. } => control.accept(packet),
+            Self::FuelQtyL { control, .. } => control.accept(packet),
+            Self::FuelQtyR { control, .. } => control.accept(packet),
+            Self::GearHornSilence { control, .. } => control.accept(packet),
+            Self::GearLSafe { control, .. } => control.accept(packet),
+            Self::GearLever { control, .. } => control.accept(packet),
+            Self::GearNSafe { control, .. } => control.accept(packet),
+            Self::GearRSafe { control, .. } => control.accept(packet),
+            Self::GndSafeOverride { control, .. } => control.accept(packet),
+            Self::GndSafeOverrideCover { control, .. } => control.accept(packet),
+            Self::GunReady { control, .. } => control.accept(packet),
+            Self::HandleGearWarning { control, .. } => control.accept(packet),
+            Self::HarsFastErect { control, .. } => control.accept(packet),
+            Self::HarsHdg { control, .. } => control.accept(packet),
+            Self::HarsLatitude { control, .. } => control.accept(packet),
+            Self::HarsMagvar { control, .. } => control.accept(packet),
+            Self::HarsNs { control, .. } => control.accept(packet),
+            Self::HarsPts { control, .. } => control.accept(packet),
+            Self::HarsSlaveDg { control, .. } => control.accept(packet),
+            Self::HarsSync { control, .. } => control.accept(packet),
+            Self::HsiBearing1 { control, .. } => control.accept(packet),
+            Self::HsiBearing2 { control, .. } => control.accept(packet),
+            Self::HsiBearingFlag { control, .. } => control.accept(packet),
+            Self::HsiCcA { control, .. } => control.accept(packet),
+            Self::HsiCcB { control, .. } => control.accept(packet),
+            Self::HsiCrs { control, .. } => control.accept(packet),
+            Self::HsiCrsKnob { control, .. } => control.accept(packet),
+            Self::HsiDeviation { control, .. } => control.accept(packet),
+            Self::HsiHdg { control, .. } => control.accept(packet),
+            Self::HsiHdgBug { control, .. } => control.accept(packet),
+            Self::HsiHdgKnob { control, .. } => control.accept(packet),
+            Self::HsiPwroffFlag { control, .. } => control.accept(packet),
+            Self::HsiRangeFlag { control, .. } => control.accept(packet),
+            Self::HsiRcA { control, .. } => control.accept(packet),
+            Self::HsiRcB { control, .. } => control.accept(packet),
+            Self::HsiRcC { control, .. } => control.accept(packet),
+            Self::HsiRcD { control, .. } => control.accept(packet),
+            Self::HsiTofrom1 { control, .. } => control.accept(packet),
+            Self::HsiTofrom2 { control, .. } => control.accept(packet),
+            Self::IffCode { control, .. } => control.accept(packet),
+            Self::IffMaster { control, .. } => control.accept(packet),
+            Self::IffMicIdent { control, .. } => control.accept(packet),
+            Self::IffMode1Wheel1 { control, .. } => control.accept(packet),
+            Self::IffMode1Wheel2 { control, .. } => control.accept(packet),
+            Self::IffMode3aWheel1 { control, .. } => control.accept(packet),
+            Self::IffMode3aWheel2 { control, .. } => control.accept(packet),
+            Self::IffMode3aWheel3 { control, .. } => control.accept(packet),
+            Self::IffMode3aWheel4 { control, .. } => control.accept(packet),
+            Self::IffOnOut { control, .. } => control.accept(packet),
+            Self::IffOutAudioLight { control, .. } => control.accept(packet),
+            Self::IffRadtest { control, .. } => control.accept(packet),
+            Self::IffReply { control, .. } => control.accept(packet),
+            Self::IffReplyDim { control, .. } => control.accept(packet),
+            Self::IffReplyTest { control, .. } => control.accept(packet),
+            Self::IffTest { control, .. } => control.accept(packet),
+            Self::IffTestDim { control, .. } => control.accept(packet),
+            Self::IffTestM1 { control, .. } => control.accept(packet),
+            Self::IffTestM2 { control, .. } => control.accept(packet),
+            Self::IffTestM3 { control, .. } => control.accept(packet),
+            Self::IffTestM4 { control, .. } => control.accept(packet),
+            Self::IffTestTest { control, .. } => control.accept(packet),
+            Self::IlsFrequencyS { control, .. } => control.accept(packet),
+            Self::IlsKhzInt { control, .. } => control.accept(packet),
+            Self::IlsKhzStr { control, .. } => control.accept(packet),
+            Self::IlsMhzInt { control, .. } => control.accept(packet),
+            Self::IlsMhzStr { control, .. } => control.accept(packet),
+            Self::IlsPwr { control, .. } => control.accept(packet),
+            Self::IlsVol { control, .. } => control.accept(packet),
+            Self::IntAimUnmute { control, .. } => control.accept(packet),
+            Self::IntAimVol { control, .. } => control.accept(packet),
+            Self::IntAuxInstLBright { control, .. } => control.accept(packet),
+            Self::IntCall { control, .. } => control.accept(packet),
+            Self::IntCautionLBright { control, .. } => control.accept(packet),
+            Self::IntConsoleLBright { control, .. } => control.accept(packet),
+            Self::IntEngInstLBright { control, .. } => control.accept(packet),
+            Self::IntFloodLBright { control, .. } => control.accept(packet),
+            Self::IntFltInstLBright { control, .. } => control.accept(packet),
+            Self::IntFmUnmute { control, .. } => control.accept(packet),
+            Self::IntFmVol { control, .. } => control.accept(packet),
+            Self::IntHm { control, .. } => control.accept(packet),
+            Self::IntIffUnmute { control, .. } => control.accept(packet),
+            Self::IntIffVol { control, .. } => control.accept(packet),
+            Self::IntIlsUnmute { control, .. } => control.accept(packet),
+            Self::IntIlsVol { control, .. } => control.accept(packet),
+            Self::IntIntUnmute { control, .. } => control.accept(packet),
+            Self::IntIntVol { control, .. } => control.accept(packet),
+            Self::IntMode { control, .. } => control.accept(packet),
+            Self::IntTcnUnmute { control, .. } => control.accept(packet),
+            Self::IntTcnVol { control, .. } => control.accept(packet),
+            Self::IntUhfUnmute { control, .. } => control.accept(packet),
+            Self::IntUhfVol { control, .. } => control.accept(packet),
+            Self::IntVhfUnmute { control, .. } => control.accept(packet),
+            Self::IntVhfVol { control, .. } => control.accept(packet),
+            Self::IntVol { control, .. } => control.accept(packet),
+            Self::Ky581to5 { control, .. } => control.accept(packet),
+            Self::Ky58Delay { control, .. } => control.accept(packet),
+            Self::Ky58Mode { control, .. } => control.accept(packet),
+            Self::Ky58Plain { control, .. } => control.accept(packet),
+            Self::Ky58Pwr { control, .. } => control.accept(packet),
+            Self::Ky58Zeroize { control, .. } => control.accept(packet),
+            Self::Ky58ZeroizeCover { control, .. } => control.accept(packet),
+            Self::LAileronEmerDisengage { control, .. } => control.accept(packet),
+            Self::LElevatorEmerDisengage { control, .. } => control.accept(packet),
+            Self::LEngCore { control, .. } => control.accept(packet),
+            Self::LEngCoreT { control, .. } => control.accept(packet),
+            Self::LEngFan { control, .. } => control.accept(packet),
+            Self::LEngFire { control, .. } => control.accept(packet),
+            Self::LEngFuelFlow { control, .. } => control.accept(packet),
+            Self::LEngTemp { control, .. } => control.accept(packet),
+            Self::LEngTempOff { control, .. } => control.accept(packet),
+            Self::LEngTempT { control, .. } => control.accept(packet),
+            Self::LHydPress { control, .. } => control.accept(packet),
+            Self::LOilPress { control, .. } => control.accept(packet),
+            Self::LadderExtend { control, .. } => control.accept(packet),
+            Self::LadderExtendCover { control, .. } => control.accept(packet),
+            Self::LampTestBtn { control, .. } => control.accept(packet),
+            Self::LandingLights { control, .. } => control.accept(packet),
+            Self::LasteApMode { control, .. } => control.accept(packet),
+            Self::LasteApToggle { control, .. } => control.accept(packet),
+            Self::LasteEac { control, .. } => control.accept(packet),
+            Self::LasteRdrAltm { control, .. } => control.accept(packet),
+            Self::LcpAccelComp { control, .. } => control.accept(packet),
+            Self::LcpAnticollision { control, .. } => control.accept(packet),
+            Self::LcpAuxInst { control, .. } => control.accept(packet),
+            Self::LcpConsole { control, .. } => control.accept(packet),
+            Self::LcpEngInst { control, .. } => control.accept(packet),
+            Self::LcpFlightInst { control, .. } => control.accept(packet),
+            Self::LcpFlood { control, .. } => control.accept(packet),
+            Self::LcpFormation { control, .. } => control.accept(packet),
+            Self::LcpNoseIllum { control, .. } => control.accept(packet),
+            Self::LcpPosition { control, .. } => control.accept(packet),
+            Self::LcpSignalLights { control, .. } => control.accept(packet),
+            Self::Lmfd01 { control, .. } => control.accept(packet),
+            Self::Lmfd02 { control, .. } => control.accept(packet),
+            Self::Lmfd03 { control, .. } => control.accept(packet),
+            Self::Lmfd04 { control, .. } => control.accept(packet),
+            Self::Lmfd05 { control, .. } => control.accept(packet),
+            Self::Lmfd06 { control, .. } => control.accept(packet),
+            Self::Lmfd07 { control, .. } => control.accept(packet),
+            Self::Lmfd08 { control, .. } => control.accept(packet),
+            Self::Lmfd09 { control, .. } => control.accept(packet),
+            Self::Lmfd10 { control, .. } => control.accept(packet),
+            Self::Lmfd11 { control, .. } => control.accept(packet),
+            Self::Lmfd12 { control, .. } => control.accept(packet),
+            Self::Lmfd13 { control, .. } => control.accept(packet),
+            Self::Lmfd14 { control, .. } => control.accept(packet),
+            Self::Lmfd15 { control, .. } => control.accept(packet),
+            Self::Lmfd16 { control, .. } => control.accept(packet),
+            Self::Lmfd17 { control, .. } => control.accept(packet),
+            Self::Lmfd18 { control, .. } => control.accept(packet),
+            Self::Lmfd19 { control, .. } => control.accept(packet),
+            Self::Lmfd20 { control, .. } => control.accept(packet),
+            Self::LmfdAdj { control, .. } => control.accept(packet),
+            Self::LmfdBrt { control, .. } => control.accept(packet),
+            Self::LmfdCon { control, .. } => control.accept(packet),
+            Self::LmfdDsp { control, .. } => control.accept(packet),
+            Self::LmfdPwr { control, .. } => control.accept(packet),
+            Self::LmfdSym { control, .. } => control.accept(packet),
+            Self::MarkerBeacon { control, .. } => control.accept(packet),
+            Self::MasterCaution { control, .. } => control.accept(packet),
+            Self::MirrorToggle { control, .. } => control.accept(packet),
+            Self::NmspAbleStow { control, .. } => control.accept(packet),
+            Self::NmspAnchrBtn { control, .. } => control.accept(packet),
+            Self::NmspAnchrLed { control, .. } => control.accept(packet),
+            Self::NmspEgiBtn { control, .. } => control.accept(packet),
+            Self::NmspEgiLed { control, .. } => control.accept(packet),
+            Self::NmspFmLed { control, .. } => control.accept(packet),
+            Self::NmspHarsBtn { control, .. } => control.accept(packet),
+            Self::NmspHarsLed { control, .. } => control.accept(packet),
+            Self::NmspIlsBtn { control, .. } => control.accept(packet),
+            Self::NmspIlsLed { control, .. } => control.accept(packet),
+            Self::NmspSteerptBtn { control, .. } => control.accept(packet),
+            Self::NmspSteerptLed { control, .. } => control.accept(packet),
+            Self::NmspTcnBtn { control, .. } => control.accept(packet),
+            Self::NmspTcnLed { control, .. } => control.accept(packet),
+            Self::NmspTislBtn { control, .. } => control.accept(packet),
+            Self::NmspTislLed { control, .. } => control.accept(packet),
+            Self::NmspUhfLed { control, .. } => control.accept(packet),
+            Self::NosewheelSteering { control, .. } => control.accept(packet),
+            Self::OxyDiluter { control, .. } => control.accept(packet),
+            Self::OxyEmergency { control, .. } => control.accept(packet),
+            Self::OxyFlow { control, .. } => control.accept(packet),
+            Self::OxyFlowG { control, .. } => control.accept(packet),
+            Self::OxyPress { control, .. } => control.accept(packet),
+            Self::OxySupply { control, .. } => control.accept(packet),
+            Self::OxyVolume { control, .. } => control.accept(packet),
+            Self::RAileronEmerDisengage { control, .. } => control.accept(packet),
+            Self::RElevatorEmerDisengage { control, .. } => control.accept(packet),
+            Self::REngCore { control, .. } => control.accept(packet),
+            Self::REngCoreT { control, .. } => control.accept(packet),
+            Self::REngFan { control, .. } => control.accept(packet),
+            Self::REngFire { control, .. } => control.accept(packet),
+            Self::REngFuelFlow { control, .. } => control.accept(packet),
+            Self::REngTemp { control, .. } => control.accept(packet),
+            Self::REngTempOff { control, .. } => control.accept(packet),
+            Self::REngTempT { control, .. } => control.accept(packet),
+            Self::RHydPress { control, .. } => control.accept(packet),
+            Self::ROilPress { control, .. } => control.accept(packet),
+            Self::Rmfd01 { control, .. } => control.accept(packet),
+            Self::Rmfd02 { control, .. } => control.accept(packet),
+            Self::Rmfd03 { control, .. } => control.accept(packet),
+            Self::Rmfd04 { control, .. } => control.accept(packet),
+            Self::Rmfd05 { control, .. } => control.accept(packet),
+            Self::Rmfd06 { control, .. } => control.accept(packet),
+            Self::Rmfd07 { control, .. } => control.accept(packet),
+            Self::Rmfd08 { control, .. } => control.accept(packet),
+            Self::Rmfd09 { control, .. } => control.accept(packet),
+            Self::Rmfd10 { control, .. } => control.accept(packet),
+            Self::Rmfd11 { control, .. } => control.accept(packet),
+            Self::Rmfd12 { control, .. } => control.accept(packet),
+            Self::Rmfd13 { control, .. } => control.accept(packet),
+            Self::Rmfd14 { control, .. } => control.accept(packet),
+            Self::Rmfd15 { control, .. } => control.accept(packet),
+            Self::Rmfd16 { control, .. } => control.accept(packet),
+            Self::Rmfd17 { control, .. } => control.accept(packet),
+            Self::Rmfd18 { control, .. } => control.accept(packet),
+            Self::Rmfd19 { control, .. } => control.accept(packet),
+            Self::Rmfd20 { control, .. } => control.accept(packet),
+            Self::RmfdAdj { control, .. } => control.accept(packet),
+            Self::RmfdBrt { control, .. } => control.accept(packet),
+            Self::RmfdCon { control, .. } => control.accept(packet),
+            Self::RmfdDsp { control, .. } => control.accept(packet),
+            Self::RmfdPwr { control, .. } => control.accept(packet),
+            Self::RmfdSym { control, .. } => control.accept(packet),
+            Self::RwrBrt { control, .. } => control.accept(packet),
+            Self::SaiBank { control, .. } => control.accept(packet),
+            Self::SaiCage { control, .. } => control.accept(packet),
+            Self::SaiKnobArrow { control, .. } => control.accept(packet),
+            Self::SaiPitch { control, .. } => control.accept(packet),
+            Self::SaiPitchAdj { control, .. } => control.accept(packet),
+            Self::SaiPitchTrim { control, .. } => control.accept(packet),
+            Self::SaiWarningFlag { control, .. } => control.accept(packet),
+            Self::SaspMonitorTest { control, .. } => control.accept(packet),
+            Self::SaspPitchSasL { control, .. } => control.accept(packet),
+            Self::SaspPitchSasR { control, .. } => control.accept(packet),
+            Self::SaspToTrim { control, .. } => control.accept(packet),
+            Self::SaspYawSasL { control, .. } => control.accept(packet),
+            Self::SaspYawSasR { control, .. } => control.accept(packet),
+            Self::SaspYawTrim { control, .. } => control.accept(packet),
+            Self::SeatAdjust { control, .. } => control.accept(packet),
+            Self::SeatArm { control, .. } => control.accept(packet),
+            Self::StallPeakVol { control, .. } => control.accept(packet),
+            Self::StallVol { control, .. } => control.accept(packet),
+            Self::SuitTest { control, .. } => control.accept(packet),
+            Self::Tacan1 { control, .. } => control.accept(packet),
+            Self::Tacan10 { control, .. } => control.accept(packet),
+            Self::TacanChannel { control, .. } => control.accept(packet),
+            Self::TacanMode { control, .. } => control.accept(packet),
+            Self::TacanTest { control, .. } => control.accept(packet),
+            Self::TacanTestBtn { control, .. } => control.accept(packet),
+            Self::TacanVol { control, .. } => control.accept(packet),
+            Self::TacanXy { control, .. } => control.accept(packet),
+            Self::TakeOffTrim { control, .. } => control.accept(packet),
+            Self::TislAlt10000Int { control, .. } => control.accept(packet),
+            Self::TislAlt10000Str { control, .. } => control.accept(packet),
+            Self::TislAlt1000Int { control, .. } => control.accept(packet),
+            Self::TislAlt1000Str { control, .. } => control.accept(packet),
+            Self::TislAux { control, .. } => control.accept(packet),
+            Self::TislBite { control, .. } => control.accept(packet),
+            Self::TislBiteL { control, .. } => control.accept(packet),
+            Self::TislCode1Int { control, .. } => control.accept(packet),
+            Self::TislCode1Str { control, .. } => control.accept(packet),
+            Self::TislCode2Int { control, .. } => control.accept(packet),
+            Self::TislCode2Str { control, .. } => control.accept(packet),
+            Self::TislCode3Int { control, .. } => control.accept(packet),
+            Self::TislCode3Str { control, .. } => control.accept(packet),
+            Self::TislCode4Int { control, .. } => control.accept(packet),
+            Self::TislCode4Str { control, .. } => control.accept(packet),
+            Self::TislEnter { control, .. } => control.accept(packet),
+            Self::TislEnterL { control, .. } => control.accept(packet),
+            Self::TislMode { control, .. } => control.accept(packet),
+            Self::TislOvertemp { control, .. } => control.accept(packet),
+            Self::TislOvertempL { control, .. } => control.accept(packet),
+            Self::TislSlantRange { control, .. } => control.accept(packet),
+            Self::TislTrack { control, .. } => control.accept(packet),
+            Self::TislTrackL { control, .. } => control.accept(packet),
+            Self::Ufc1 { control, .. } => control.accept(packet),
+            Self::Ufc10 { control, .. } => control.accept(packet),
+            Self::Ufc2 { control, .. } => control.accept(packet),
+            Self::Ufc3 { control, .. } => control.accept(packet),
+            Self::Ufc4 { control, .. } => control.accept(packet),
+            Self::Ufc5 { control, .. } => control.accept(packet),
+            Self::Ufc6 { control, .. } => control.accept(packet),
+            Self::Ufc7 { control, .. } => control.accept(packet),
+            Self::Ufc8 { control, .. } => control.accept(packet),
+            Self::Ufc9 { control, .. } => control.accept(packet),
+            Self::UfcAltAlrt { control, .. } => control.accept(packet),
+            Self::UfcClr { control, .. } => control.accept(packet),
+            Self::UfcData { control, .. } => control.accept(packet),
+            Self::UfcDepr { control, .. } => control.accept(packet),
+            Self::UfcEnt { control, .. } => control.accept(packet),
+            Self::UfcFunc { control, .. } => control.accept(packet),
+            Self::UfcHack { control, .. } => control.accept(packet),
+            Self::UfcInten { control, .. } => control.accept(packet),
+            Self::UfcLtr { control, .. } => control.accept(packet),
+            Self::UfcMasterCaution { control, .. } => control.accept(packet),
+            Self::UfcMk { control, .. } => control.accept(packet),
+            Self::UfcNa1 { control, .. } => control.accept(packet),
+            Self::UfcNa2 { control, .. } => control.accept(packet),
+            Self::UfcNa3 { control, .. } => control.accept(packet),
+            Self::UfcNa4 { control, .. } => control.accept(packet),
+            Self::UfcNa5 { control, .. } => control.accept(packet),
+            Self::UfcNa6 { control, .. } => control.accept(packet),
+            Self::UfcSel { control, .. } => control.accept(packet),
+            Self::UfcSpc { control, .. } => control.accept(packet),
+            Self::UfcSteer { control, .. } => control.accept(packet),
+            Self::Uhf100mhzSelInt { control, .. } => control.accept(packet),
+            Self::Uhf100mhzSelStr { control, .. } => control.accept(packet),
+            Self::Uhf10mhzSel { control, .. } => control.accept(packet),
+            Self::Uhf1mhzSel { control, .. } => control.accept(packet),
+            Self::UhfCover { control, .. } => control.accept(packet),
+            Self::UhfFrequency { control, .. } => control.accept(packet),
+            Self::UhfFunction { control, .. } => control.accept(packet),
+            Self::UhfLoad { control, .. } => control.accept(packet),
+            Self::UhfMode { control, .. } => control.accept(packet),
+            Self::UhfPoint1mhzSel { control, .. } => control.accept(packet),
+            Self::UhfPoint25SelInt { control, .. } => control.accept(packet),
+            Self::UhfPoint25SelStr { control, .. } => control.accept(packet),
+            Self::UhfPreset { control, .. } => control.accept(packet),
+            Self::UhfPresetSelInt { control, .. } => control.accept(packet),
+            Self::UhfPresetSelStr { control, .. } => control.accept(packet),
+            Self::UhfSquelch { control, .. } => control.accept(packet),
+            Self::UhfStatus { control, .. } => control.accept(packet),
+            Self::UhfTTone { control, .. } => control.accept(packet),
+            Self::UhfTest { control, .. } => control.accept(packet),
+            Self::UhfVol { control, .. } => control.accept(packet),
+            Self::VhfAmFrequencyS { control, .. } => control.accept(packet),
+            Self::VhfFmFrequencyS { control, .. } => control.accept(packet),
+            Self::VhfamFreq1Int { control, .. } => control.accept(packet),
+            Self::VhfamFreq1Rot { control, .. } => control.accept(packet),
+            Self::VhfamFreq1Str { control, .. } => control.accept(packet),
+            Self::VhfamFreq2 { control, .. } => control.accept(packet),
+            Self::VhfamFreq2Rot { control, .. } => control.accept(packet),
+            Self::VhfamFreq3 { control, .. } => control.accept(packet),
+            Self::VhfamFreq3Rot { control, .. } => control.accept(packet),
+            Self::VhfamFreq4Int { control, .. } => control.accept(packet),
+            Self::VhfamFreq4Rot { control, .. } => control.accept(packet),
+            Self::VhfamFreq4Str { control, .. } => control.accept(packet),
+            Self::VhfamFreqemer { control, .. } => control.accept(packet),
+            Self::VhfamLoad { control, .. } => control.accept(packet),
+            Self::VhfamMode { control, .. } => control.accept(packet),
+            Self::VhfamPresetInt { control, .. } => control.accept(packet),
+            Self::VhfamPresetStr { control, .. } => control.accept(packet),
+            Self::VhfamSquelch { control, .. } => control.accept(packet),
+            Self::VhfamVol { control, .. } => control.accept(packet),
+            Self::VhffmFreq1Int { control, .. } => control.accept(packet),
+            Self::VhffmFreq1Rot { control, .. } => control.accept(packet),
+            Self::VhffmFreq1Str { control, .. } => control.accept(packet),
+            Self::VhffmFreq2 { control, .. } => control.accept(packet),
+            Self::VhffmFreq2Rot { control, .. } => control.accept(packet),
+            Self::VhffmFreq3 { control, .. } => control.accept(packet),
+            Self::VhffmFreq3Rot { control, .. } => control.accept(packet),
+            Self::VhffmFreq4Int { control, .. } => control.accept(packet),
+            Self::VhffmFreq4Rot { control, .. } => control.accept(packet),
+            Self::VhffmFreq4Str { control, .. } => control.accept(packet),
+            Self::VhffmFreqemer { control, .. } => control.accept(packet),
+            Self::VhffmLoad { control, .. } => control.accept(packet),
+            Self::VhffmMode { control, .. } => control.accept(packet),
+            Self::VhffmPresetInt { control, .. } => control.accept(packet),
+            Self::VhffmPresetStr { control, .. } => control.accept(packet),
+            Self::VhffmSquelch { control, .. } => control.accept(packet),
+            Self::VhffmVol { control, .. } => control.accept(packet),
+            Self::Vvi { control, .. } => control.accept(packet),
+        }
+    }
+
+    fn commit(&mut self) {
+        match self {
+            Self::A102HmcsPw { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AapCdupwr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AapEgipwr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AapPage { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AapSteer { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AapSteerpt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AccelG { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AccelMax { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AccelMin { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AccelPts { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AdiAttwarnFlag { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AdiBank { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AdiCrswarnFlag { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AdiGs { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AdiGswarnFlag { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AdiPitch { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AdiPitchTrim { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AdiSlip { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AdiSteerBank { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AdiSteerPitch { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AdiTurn { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AhcpAltSce { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AhcpCicu { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AhcpGunpac { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AhcpHudDaynight { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AhcpHudMode { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AhcpIffcc { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AhcpJtrs { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AhcpLaserArm { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AhcpMasterArm { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AhcpTgp { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AirRefuelDisconnect { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::AirRefuelLatched { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::AirRefuelReady { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::AirspeedDial { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AirspeedMaxIas { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AirspeedNeedle { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AlcpFdbaTest { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AlcpHarssas { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AlcpNvisLts { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AlcpRcvrLts { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AlcpRsil { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AlcpWpnsta { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Alt10000ftCnt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Alt1000ftCnt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Alt100ft { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Alt100ftCnt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AltElectPneu { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AltPneuFlag { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AltPressure0 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AltPressure1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AltPressure2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AltPressure3 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AltSetPressure { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AntEgihqtod { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AntIff { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AntUhf { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AntiSkidSwitch { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AoaIndexerHigh { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::AoaIndexerLow { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::AoaIndexerNormal { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::AoaPwroff { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AoaUnits { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ApuFire { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ApuRpm { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ApuTemp { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AuxGear { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::AuxGearLock { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CabinPressAlt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CanopyDisengage { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CanopyJtsn { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CanopyJtsnUnlock { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CanopyOpen { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CanopyUnlocked { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::CanopyValue { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpAileronDiscL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpAileronDiscR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpAileronTabL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpAileronTabR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpApuCont { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpAuxEssBus0a { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpAuxEssBus0b { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpAuxEssBus0c { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpAuxEssBusTie { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpBatBusTrans { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpBleedAirContL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpBleedAirContR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpConverterL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpDcFuelPump { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpElevationDiscL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpElevationDiscR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpEmerFlap { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpEmerTrim { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpEngIgnitor1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpEngIgnitor2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpEngStartL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpEngStartR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpExtStoresJett1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpExtStoresJett2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpFuelShutoffL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpFuelShutoffR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpGear { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpGenContL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpGenContR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpIff { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpIntercom { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpInverterCont { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpInverterPwr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpMasterCaution { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpPitotHeatAc { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpSpsRudderAuthLim { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpStbyAttInd { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CbpUhf { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Cdu0 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Cdu1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Cdu2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Cdu3 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Cdu4 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Cdu5 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Cdu6 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Cdu7 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Cdu8 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Cdu9 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduA { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduB { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduBck { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduBrt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduC { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduClr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduD { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduData { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduE { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduF { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduFa { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduFpm { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduG { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduH { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduI { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduJ { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduK { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLine0 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLine1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLine2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLine3 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLine4 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLine5 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLine6 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLine7 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLine8 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLine9 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLsk3l { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLsk3r { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLsk5l { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLsk5r { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLsk7l { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLsk7r { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLsk9l { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduLsk9r { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduM { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduMk { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduN { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduNa1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduNa2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduNav { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduO { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduOset { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduP { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduPg { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduPoint { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduPrev { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduQ { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduS { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduScroll { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduSlash { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduSpc { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduSys { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduT { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduU { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduV { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduW { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduWp { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduX { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduY { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CduZ { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ClA1 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClA2 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClA3 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClA4 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClB1 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClB2 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClB3 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClB4 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClC1 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClC2 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClC3 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClC4 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClD1 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClD2 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClD3 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClD4 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClE1 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClE2 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClE3 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClE4 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClF1 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClF2 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClF3 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClF4 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClG1 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClG2 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClG3 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClG4 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClH1 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClH2 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClH3 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClH4 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClI1 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClI2 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClI3 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClI4 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClJ1 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClJ2 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClJ3 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClJ4 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClK1 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClK2 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClK3 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClK4 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClL1 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClL2 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClL3 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClL4 { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::ClockCtrl { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ClockEtc { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ClockHh { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ClockMm { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ClockSet { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ClockSs { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmscBrt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmscJmr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmscLaunch { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::CmscMws { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmscPri { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmscPrio { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::CmscRwrVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmscSep { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmscTxtChaffFlare { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmscTxtJmr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmscTxtMws { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmscUnk { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmscUnkn { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::Cmsp1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Cmsp2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmspArw1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmspArw2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmspArw3 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmspArw4 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmspBrt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmspDisp { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmspJmr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmspJtsn { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmspMode { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmspMws { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmspRtn { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmspRwr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CmspUpdn { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CompassBank { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CompassHdg { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::CompassPitch { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::DownlockOverride { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::DvadrEot { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::DvadrEotRemote { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::DvadrFunction { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::DvadrRec { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::DvadrRecRemote { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::DvadrVideo { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EfcpAileronEmerDisengage { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EfcpElevatorEmerDisengage { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EfcpEmerTrim { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EfcpFlapsEmerRetr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EfcpMrfcs { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EfcpSpdbkEmerRetr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EfcpTrimOverride { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EmerBrake { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EngThrottleL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EngThrottleR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EngineApuStart { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EngineFuelFlowL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EngineFuelFlowR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EngineOperL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EngineOperR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EngineTemsData { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EngineThrottleFriction { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EnvcpAcOper { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EnvcpAirSupply { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EnvcpBleedAir { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EnvcpCanopyDefog { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EnvcpFlowLevel { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EnvcpOxyTest { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EnvcpPitotHeat { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EnvcpTempLevel { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EnvcpTempPress { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EnvcpWindshieldDefog { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EnvcpWrrw { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EppAcGenPwrL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EppAcGenPwrR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EppApuGenPwr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EppBatteryPwr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EppEmerFlood { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::EppInverter { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ExtFormationLights { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ExtPositionLightLeft { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ExtPositionLightRight { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ExtSpeedBrakeLeft { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ExtSpeedBrakeRight { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ExtStoresJettison { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ExtStrobeLeft { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ExtStrobeRight { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ExtStrobeTail { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ExtWowLeft { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ExtWowNose { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ExtWowRight { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FireApuPull { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FireExtDisch { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FireLengPull { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FireRengPull { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FlapPos { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FlapsSwitch { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FqisSelect { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FqisTest { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FscpAmpl { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FscpBoostMainL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FscpBoostMainR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FscpBoostWingL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FscpBoostWingR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FscpCrossfeed { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FscpExtTanksFus { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FscpExtTanksWing { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FscpFdMainL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FscpFdMainR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FscpFdWingL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FscpFdWingR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FscpLineCheck { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FscpRcvrLever { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FscpTkGate { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FuelQty100 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FuelQty1000 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FuelQty10000 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FuelQtyL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::FuelQtyR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::GearHornSilence { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::GearLSafe { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::GearLever { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::GearNSafe { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::GearRSafe { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::GndSafeOverride { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::GndSafeOverrideCover { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::GunReady { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::HandleGearWarning { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::HarsFastErect { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HarsHdg { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HarsLatitude { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HarsMagvar { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HarsNs { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HarsPts { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HarsSlaveDg { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HarsSync { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiBearing1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiBearing2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiBearingFlag { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiCcA { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiCcB { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiCrs { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiCrsKnob { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiDeviation { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiHdg { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiHdgBug { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiHdgKnob { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiPwroffFlag { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiRangeFlag { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiRcA { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiRcB { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiRcC { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiRcD { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiTofrom1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::HsiTofrom2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffCode { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffMaster { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffMicIdent { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffMode1Wheel1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffMode1Wheel2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffMode3aWheel1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffMode3aWheel2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffMode3aWheel3 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffMode3aWheel4 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffOnOut { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffOutAudioLight { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffRadtest { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffReply { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::IffReplyDim { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffReplyTest { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffTest { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::IffTestDim { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffTestM1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffTestM2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffTestM3 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffTestM4 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IffTestTest { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IlsFrequencyS { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IlsKhzInt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IlsKhzStr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IlsMhzInt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IlsMhzStr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IlsPwr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IlsVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntAimUnmute { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntAimVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntAuxInstLBright { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntCall { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntCautionLBright { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntConsoleLBright { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntEngInstLBright { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntFloodLBright { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntFltInstLBright { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntFmUnmute { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntFmVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntHm { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntIffUnmute { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntIffVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntIlsUnmute { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntIlsVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntIntUnmute { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntIntVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntMode { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntTcnUnmute { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntTcnVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntUhfUnmute { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntUhfVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntVhfUnmute { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntVhfVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::IntVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ky581to5 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ky58Delay { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ky58Mode { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ky58Plain { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ky58Pwr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ky58Zeroize { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ky58ZeroizeCover { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LAileronEmerDisengage { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::LElevatorEmerDisengage { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::LEngCore { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LEngCoreT { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LEngFan { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LEngFire { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::LEngFuelFlow { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LEngTemp { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LEngTempOff { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LEngTempT { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LHydPress { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LOilPress { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LadderExtend { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LadderExtendCover { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LampTestBtn { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LandingLights { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LasteApMode { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LasteApToggle { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LasteEac { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LasteRdrAltm { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LcpAccelComp { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LcpAnticollision { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LcpAuxInst { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LcpConsole { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LcpEngInst { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LcpFlightInst { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LcpFlood { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LcpFormation { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LcpNoseIllum { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LcpPosition { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LcpSignalLights { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd01 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd02 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd03 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd04 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd05 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd06 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd07 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd08 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd09 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd10 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd11 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd12 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd13 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd14 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd15 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd16 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd17 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd18 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd19 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Lmfd20 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LmfdAdj { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LmfdBrt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LmfdCon { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LmfdDsp { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LmfdPwr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::LmfdSym { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::MarkerBeacon { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::MasterCaution { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::MirrorToggle { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::NmspAbleStow { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::NmspAnchrBtn { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::NmspAnchrLed { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::NmspEgiBtn { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::NmspEgiLed { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::NmspFmLed { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::NmspHarsBtn { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::NmspHarsLed { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::NmspIlsBtn { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::NmspIlsLed { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::NmspSteerptBtn { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::NmspSteerptLed { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::NmspTcnBtn { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::NmspTcnLed { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::NmspTislBtn { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::NmspTislLed { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::NmspUhfLed { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::NosewheelSteering { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::OxyDiluter { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::OxyEmergency { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::OxyFlow { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::OxyFlowG { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::OxyPress { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::OxySupply { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::OxyVolume { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::RAileronEmerDisengage { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::RElevatorEmerDisengage { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::REngCore { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::REngCoreT { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::REngFan { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::REngFire { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::REngFuelFlow { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::REngTemp { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::REngTempOff { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::REngTempT { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::RHydPress { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::ROilPress { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd01 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd02 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd03 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd04 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd05 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd06 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd07 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd08 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd09 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd10 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd11 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd12 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd13 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd14 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd15 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd16 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd17 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd18 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd19 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Rmfd20 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::RmfdAdj { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::RmfdBrt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::RmfdCon { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::RmfdDsp { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::RmfdPwr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::RmfdSym { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::RwrBrt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SaiBank { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SaiCage { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SaiKnobArrow { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SaiPitch { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SaiPitchAdj { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SaiPitchTrim { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SaiWarningFlag { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SaspMonitorTest { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SaspPitchSasL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SaspPitchSasR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SaspToTrim { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SaspYawSasL { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SaspYawSasR { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SaspYawTrim { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SeatAdjust { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SeatArm { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::StallPeakVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::StallVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::SuitTest { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Tacan1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Tacan10 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TacanChannel { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TacanMode { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TacanTest { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::TacanTestBtn { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TacanVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TacanXy { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TakeOffTrim { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::TislAlt10000Int { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislAlt10000Str { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislAlt1000Int { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislAlt1000Str { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislAux { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislBite { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislBiteL { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::TislCode1Int { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislCode1Str { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislCode2Int { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislCode2Str { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislCode3Int { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislCode3Str { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislCode4Int { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislCode4Str { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislEnter { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislEnterL { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::TislMode { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislOvertemp { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislOvertempL { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::TislSlantRange { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislTrack { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::TislTrackL { control, callback } => {
+                if control.commit() {
+                    callback(control.is_on());
+                }
+            }
+            Self::Ufc1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ufc10 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ufc2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ufc3 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ufc4 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ufc5 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ufc6 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ufc7 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ufc8 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Ufc9 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcAltAlrt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcClr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcData { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcDepr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcEnt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcFunc { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcHack { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcInten { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcLtr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcMasterCaution { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcMk { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcNa1 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcNa2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcNa3 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcNa4 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcNa5 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcNa6 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcSel { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcSpc { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UfcSteer { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Uhf100mhzSelInt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Uhf100mhzSelStr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Uhf10mhzSel { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Uhf1mhzSel { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfCover { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfFrequency { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfFunction { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfLoad { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfMode { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfPoint1mhzSel { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfPoint25SelInt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfPoint25SelStr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfPreset { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfPresetSelInt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfPresetSelStr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfSquelch { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfStatus { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfTTone { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfTest { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::UhfVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfAmFrequencyS { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfFmFrequencyS { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamFreq1Int { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamFreq1Rot { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamFreq1Str { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamFreq2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamFreq2Rot { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamFreq3 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamFreq3Rot { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamFreq4Int { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamFreq4Rot { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamFreq4Str { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamFreqemer { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamLoad { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamMode { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamPresetInt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamPresetStr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamSquelch { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhfamVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmFreq1Int { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmFreq1Rot { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmFreq1Str { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmFreq2 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmFreq2Rot { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmFreq3 { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmFreq3Rot { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmFreq4Int { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmFreq4Rot { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmFreq4Str { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmFreqemer { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmLoad { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmMode { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmPresetInt { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmPresetStr { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmSquelch { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::VhffmVol { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+            Self::Vvi { control, callback } => {
+                if control.commit() {
+                    callback(control.value());
+                }
+            }
+        }
+    }
+}
+
+pub struct A10cBuilder<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize> {
+    controls: Vec<RegisteredControl<'a>, MAX_CONTROLS>,
+    _packet_capacity: PhantomData<ProtocolParser<MAX_PACKET_DATA>>,
+}
+
+impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
+    A10cBuilder<'a, MAX_CONTROLS, MAX_PACKET_DATA>
+{
+    pub fn new() -> Self {
+        Self {
+            controls: Vec::new(),
+            _packet_capacity: PhantomData,
+        }
+    }
+
+    pub fn register_a102_hmcs_pw<F>(
+        &mut self,
+        control: A102HmcsPw,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::A102HmcsPw { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_aap_cdupwr<F>(
+        &mut self,
+        control: AapCdupwr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AapCdupwr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_aap_egipwr<F>(
+        &mut self,
+        control: AapEgipwr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AapEgipwr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_aap_page<F>(
+        &mut self,
+        control: AapPage,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AapPage { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_aap_steer<F>(
+        &mut self,
+        control: AapSteer,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AapSteer { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_aap_steerpt<F>(
+        &mut self,
+        control: AapSteerpt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AapSteerpt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_accel_g<F>(
+        &mut self,
+        control: AccelG,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AccelG { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_accel_max<F>(
+        &mut self,
+        control: AccelMax,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AccelMax { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_accel_min<F>(
+        &mut self,
+        control: AccelMin,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AccelMin { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_accel_pts<F>(
+        &mut self,
+        control: AccelPts,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AccelPts { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_adi_attwarn_flag<F>(
+        &mut self,
+        control: AdiAttwarnFlag,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AdiAttwarnFlag { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_adi_bank<F>(
+        &mut self,
+        control: AdiBank,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AdiBank { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_adi_crswarn_flag<F>(
+        &mut self,
+        control: AdiCrswarnFlag,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AdiCrswarnFlag { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_adi_gs<F>(
+        &mut self,
+        control: AdiGs,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AdiGs { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_adi_gswarn_flag<F>(
+        &mut self,
+        control: AdiGswarnFlag,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AdiGswarnFlag { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_adi_pitch<F>(
+        &mut self,
+        control: AdiPitch,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AdiPitch { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_adi_pitch_trim<F>(
+        &mut self,
+        control: AdiPitchTrim,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AdiPitchTrim { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_adi_slip<F>(
+        &mut self,
+        control: AdiSlip,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AdiSlip { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_adi_steer_bank<F>(
+        &mut self,
+        control: AdiSteerBank,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AdiSteerBank { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_adi_steer_pitch<F>(
+        &mut self,
+        control: AdiSteerPitch,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AdiSteerPitch { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_adi_turn<F>(
+        &mut self,
+        control: AdiTurn,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AdiTurn { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ahcp_alt_sce<F>(
+        &mut self,
+        control: AhcpAltSce,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AhcpAltSce { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ahcp_cicu<F>(
+        &mut self,
+        control: AhcpCicu,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AhcpCicu { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ahcp_gunpac<F>(
+        &mut self,
+        control: AhcpGunpac,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AhcpGunpac { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ahcp_hud_daynight<F>(
+        &mut self,
+        control: AhcpHudDaynight,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AhcpHudDaynight { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ahcp_hud_mode<F>(
+        &mut self,
+        control: AhcpHudMode,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AhcpHudMode { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ahcp_iffcc<F>(
+        &mut self,
+        control: AhcpIffcc,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AhcpIffcc { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ahcp_jtrs<F>(
+        &mut self,
+        control: AhcpJtrs,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AhcpJtrs { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ahcp_laser_arm<F>(
+        &mut self,
+        control: AhcpLaserArm,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AhcpLaserArm { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ahcp_master_arm<F>(
+        &mut self,
+        control: AhcpMasterArm,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AhcpMasterArm { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ahcp_tgp<F>(
+        &mut self,
+        control: AhcpTgp,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AhcpTgp { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_air_refuel_disconnect<F>(
+        &mut self,
+        control: AirRefuelDisconnect,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AirRefuelDisconnect { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_air_refuel_latched<F>(
+        &mut self,
+        control: AirRefuelLatched,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AirRefuelLatched { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_air_refuel_ready<F>(
+        &mut self,
+        control: AirRefuelReady,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AirRefuelReady { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_airspeed_dial<F>(
+        &mut self,
+        control: AirspeedDial,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AirspeedDial { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_airspeed_max_ias<F>(
+        &mut self,
+        control: AirspeedMaxIas,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AirspeedMaxIas { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_airspeed_needle<F>(
+        &mut self,
+        control: AirspeedNeedle,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AirspeedNeedle { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alcp_fdba_test<F>(
+        &mut self,
+        control: AlcpFdbaTest,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AlcpFdbaTest { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alcp_harssas<F>(
+        &mut self,
+        control: AlcpHarssas,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AlcpHarssas { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alcp_nvis_lts<F>(
+        &mut self,
+        control: AlcpNvisLts,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AlcpNvisLts { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alcp_rcvr_lts<F>(
+        &mut self,
+        control: AlcpRcvrLts,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AlcpRcvrLts { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alcp_rsil<F>(
+        &mut self,
+        control: AlcpRsil,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AlcpRsil { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alcp_wpnsta<F>(
+        &mut self,
+        control: AlcpWpnsta,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AlcpWpnsta { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alt10000ft_cnt<F>(
+        &mut self,
+        control: Alt10000ftCnt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Alt10000ftCnt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alt1000ft_cnt<F>(
+        &mut self,
+        control: Alt1000ftCnt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Alt1000ftCnt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alt100ft<F>(
+        &mut self,
+        control: Alt100ft,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Alt100ft { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alt100ft_cnt<F>(
+        &mut self,
+        control: Alt100ftCnt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Alt100ftCnt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alt_elect_pneu<F>(
+        &mut self,
+        control: AltElectPneu,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AltElectPneu { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alt_pneu_flag<F>(
+        &mut self,
+        control: AltPneuFlag,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AltPneuFlag { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alt_pressure0<F>(
+        &mut self,
+        control: AltPressure0,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AltPressure0 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alt_pressure1<F>(
+        &mut self,
+        control: AltPressure1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AltPressure1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alt_pressure2<F>(
+        &mut self,
+        control: AltPressure2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AltPressure2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alt_pressure3<F>(
+        &mut self,
+        control: AltPressure3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AltPressure3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_alt_set_pressure<F>(
+        &mut self,
+        control: AltSetPressure,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AltSetPressure { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ant_egihqtod<F>(
+        &mut self,
+        control: AntEgihqtod,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AntEgihqtod { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ant_iff<F>(
+        &mut self,
+        control: AntIff,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AntIff { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ant_uhf<F>(
+        &mut self,
+        control: AntUhf,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AntUhf { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_anti_skid_switch<F>(
+        &mut self,
+        control: AntiSkidSwitch,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AntiSkidSwitch { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_aoa_indexer_high<F>(
+        &mut self,
+        control: AoaIndexerHigh,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AoaIndexerHigh { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_aoa_indexer_low<F>(
+        &mut self,
+        control: AoaIndexerLow,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AoaIndexerLow { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_aoa_indexer_normal<F>(
+        &mut self,
+        control: AoaIndexerNormal,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AoaIndexerNormal { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_aoa_pwroff<F>(
+        &mut self,
+        control: AoaPwroff,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AoaPwroff { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_aoa_units<F>(
+        &mut self,
+        control: AoaUnits,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AoaUnits { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_apu_fire<F>(
+        &mut self,
+        control: ApuFire,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ApuFire { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_apu_rpm<F>(
+        &mut self,
+        control: ApuRpm,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ApuRpm { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_apu_temp<F>(
+        &mut self,
+        control: ApuTemp,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ApuTemp { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_aux_gear<F>(
+        &mut self,
+        control: AuxGear,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AuxGear { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_aux_gear_lock<F>(
+        &mut self,
+        control: AuxGearLock,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::AuxGearLock { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cabin_press_alt<F>(
+        &mut self,
+        control: CabinPressAlt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CabinPressAlt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_canopy_disengage<F>(
+        &mut self,
+        control: CanopyDisengage,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CanopyDisengage { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_canopy_jtsn<F>(
+        &mut self,
+        control: CanopyJtsn,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CanopyJtsn { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_canopy_jtsn_unlock<F>(
+        &mut self,
+        control: CanopyJtsnUnlock,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CanopyJtsnUnlock { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_canopy_open<F>(
+        &mut self,
+        control: CanopyOpen,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CanopyOpen { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_canopy_unlocked<F>(
+        &mut self,
+        control: CanopyUnlocked,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CanopyUnlocked { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_canopy_value<F>(
+        &mut self,
+        control: CanopyValue,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CanopyValue { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_aileron_disc_l<F>(
+        &mut self,
+        control: CbpAileronDiscL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpAileronDiscL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_aileron_disc_r<F>(
+        &mut self,
+        control: CbpAileronDiscR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpAileronDiscR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_aileron_tab_l<F>(
+        &mut self,
+        control: CbpAileronTabL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpAileronTabL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_aileron_tab_r<F>(
+        &mut self,
+        control: CbpAileronTabR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpAileronTabR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_apu_cont<F>(
+        &mut self,
+        control: CbpApuCont,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpApuCont { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_aux_ess_bus0a<F>(
+        &mut self,
+        control: CbpAuxEssBus0a,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpAuxEssBus0a { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_aux_ess_bus0b<F>(
+        &mut self,
+        control: CbpAuxEssBus0b,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpAuxEssBus0b { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_aux_ess_bus0c<F>(
+        &mut self,
+        control: CbpAuxEssBus0c,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpAuxEssBus0c { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_aux_ess_bus_tie<F>(
+        &mut self,
+        control: CbpAuxEssBusTie,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpAuxEssBusTie { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_bat_bus_trans<F>(
+        &mut self,
+        control: CbpBatBusTrans,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpBatBusTrans { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_bleed_air_cont_l<F>(
+        &mut self,
+        control: CbpBleedAirContL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpBleedAirContL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_bleed_air_cont_r<F>(
+        &mut self,
+        control: CbpBleedAirContR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpBleedAirContR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_converter_l<F>(
+        &mut self,
+        control: CbpConverterL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpConverterL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_dc_fuel_pump<F>(
+        &mut self,
+        control: CbpDcFuelPump,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpDcFuelPump { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_elevation_disc_l<F>(
+        &mut self,
+        control: CbpElevationDiscL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpElevationDiscL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_elevation_disc_r<F>(
+        &mut self,
+        control: CbpElevationDiscR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpElevationDiscR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_emer_flap<F>(
+        &mut self,
+        control: CbpEmerFlap,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpEmerFlap { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_emer_trim<F>(
+        &mut self,
+        control: CbpEmerTrim,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpEmerTrim { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_eng_ignitor1<F>(
+        &mut self,
+        control: CbpEngIgnitor1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpEngIgnitor1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_eng_ignitor2<F>(
+        &mut self,
+        control: CbpEngIgnitor2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpEngIgnitor2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_eng_start_l<F>(
+        &mut self,
+        control: CbpEngStartL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpEngStartL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_eng_start_r<F>(
+        &mut self,
+        control: CbpEngStartR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpEngStartR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_ext_stores_jett1<F>(
+        &mut self,
+        control: CbpExtStoresJett1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpExtStoresJett1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_ext_stores_jett2<F>(
+        &mut self,
+        control: CbpExtStoresJett2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpExtStoresJett2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_fuel_shutoff_l<F>(
+        &mut self,
+        control: CbpFuelShutoffL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpFuelShutoffL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_fuel_shutoff_r<F>(
+        &mut self,
+        control: CbpFuelShutoffR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpFuelShutoffR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_gear<F>(
+        &mut self,
+        control: CbpGear,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpGear { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_gen_cont_l<F>(
+        &mut self,
+        control: CbpGenContL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpGenContL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_gen_cont_r<F>(
+        &mut self,
+        control: CbpGenContR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpGenContR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_iff<F>(
+        &mut self,
+        control: CbpIff,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpIff { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_intercom<F>(
+        &mut self,
+        control: CbpIntercom,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpIntercom { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_inverter_cont<F>(
+        &mut self,
+        control: CbpInverterCont,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpInverterCont { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_inverter_pwr<F>(
+        &mut self,
+        control: CbpInverterPwr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpInverterPwr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_master_caution<F>(
+        &mut self,
+        control: CbpMasterCaution,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpMasterCaution { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_pitot_heat_ac<F>(
+        &mut self,
+        control: CbpPitotHeatAc,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpPitotHeatAc { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_sps_rudder_auth_lim<F>(
+        &mut self,
+        control: CbpSpsRudderAuthLim,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpSpsRudderAuthLim { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_stby_att_ind<F>(
+        &mut self,
+        control: CbpStbyAttInd,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpStbyAttInd { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cbp_uhf<F>(
+        &mut self,
+        control: CbpUhf,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CbpUhf { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu0<F>(
+        &mut self,
+        control: Cdu0,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Cdu0 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu1<F>(
+        &mut self,
+        control: Cdu1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Cdu1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu2<F>(
+        &mut self,
+        control: Cdu2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Cdu2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu3<F>(
+        &mut self,
+        control: Cdu3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Cdu3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu4<F>(
+        &mut self,
+        control: Cdu4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Cdu4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu5<F>(
+        &mut self,
+        control: Cdu5,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Cdu5 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu6<F>(
+        &mut self,
+        control: Cdu6,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Cdu6 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu7<F>(
+        &mut self,
+        control: Cdu7,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Cdu7 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu8<F>(
+        &mut self,
+        control: Cdu8,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Cdu8 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu9<F>(
+        &mut self,
+        control: Cdu9,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Cdu9 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_a<F>(
+        &mut self,
+        control: CduA,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduA { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_b<F>(
+        &mut self,
+        control: CduB,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduB { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_bck<F>(
+        &mut self,
+        control: CduBck,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduBck { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_brt<F>(
+        &mut self,
+        control: CduBrt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduBrt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_c<F>(
+        &mut self,
+        control: CduC,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduC { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_clr<F>(
+        &mut self,
+        control: CduClr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduClr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_d<F>(
+        &mut self,
+        control: CduD,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduD { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_data<F>(
+        &mut self,
+        control: CduData,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduData { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_e<F>(
+        &mut self,
+        control: CduE,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduE { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_f<F>(
+        &mut self,
+        control: CduF,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduF { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_fa<F>(
+        &mut self,
+        control: CduFa,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduFa { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_fpm<F>(
+        &mut self,
+        control: CduFpm,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduFpm { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_g<F>(
+        &mut self,
+        control: CduG,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduG { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_h<F>(
+        &mut self,
+        control: CduH,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduH { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_i<F>(
+        &mut self,
+        control: CduI,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduI { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_j<F>(
+        &mut self,
+        control: CduJ,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduJ { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_k<F>(
+        &mut self,
+        control: CduK,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduK { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_l<F>(
+        &mut self,
+        control: CduL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_line0<F>(
+        &mut self,
+        control: CduLine0,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLine0 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_line1<F>(
+        &mut self,
+        control: CduLine1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLine1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_line2<F>(
+        &mut self,
+        control: CduLine2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLine2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_line3<F>(
+        &mut self,
+        control: CduLine3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLine3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_line4<F>(
+        &mut self,
+        control: CduLine4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLine4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_line5<F>(
+        &mut self,
+        control: CduLine5,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLine5 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_line6<F>(
+        &mut self,
+        control: CduLine6,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLine6 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_line7<F>(
+        &mut self,
+        control: CduLine7,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLine7 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_line8<F>(
+        &mut self,
+        control: CduLine8,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLine8 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_line9<F>(
+        &mut self,
+        control: CduLine9,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLine9 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_lsk3l<F>(
+        &mut self,
+        control: CduLsk3l,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLsk3l { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_lsk3r<F>(
+        &mut self,
+        control: CduLsk3r,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLsk3r { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_lsk5l<F>(
+        &mut self,
+        control: CduLsk5l,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLsk5l { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_lsk5r<F>(
+        &mut self,
+        control: CduLsk5r,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLsk5r { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_lsk7l<F>(
+        &mut self,
+        control: CduLsk7l,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLsk7l { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_lsk7r<F>(
+        &mut self,
+        control: CduLsk7r,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLsk7r { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_lsk9l<F>(
+        &mut self,
+        control: CduLsk9l,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLsk9l { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_lsk9r<F>(
+        &mut self,
+        control: CduLsk9r,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduLsk9r { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_m<F>(
+        &mut self,
+        control: CduM,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduM { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_mk<F>(
+        &mut self,
+        control: CduMk,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduMk { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_n<F>(
+        &mut self,
+        control: CduN,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduN { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_na1<F>(
+        &mut self,
+        control: CduNa1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduNa1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_na2<F>(
+        &mut self,
+        control: CduNa2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduNa2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_nav<F>(
+        &mut self,
+        control: CduNav,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduNav { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_o<F>(
+        &mut self,
+        control: CduO,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduO { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_oset<F>(
+        &mut self,
+        control: CduOset,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduOset { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_p<F>(
+        &mut self,
+        control: CduP,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduP { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_pg<F>(
+        &mut self,
+        control: CduPg,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduPg { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_point<F>(
+        &mut self,
+        control: CduPoint,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduPoint { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_prev<F>(
+        &mut self,
+        control: CduPrev,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduPrev { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_q<F>(
+        &mut self,
+        control: CduQ,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduQ { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_r<F>(
+        &mut self,
+        control: CduR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_s<F>(
+        &mut self,
+        control: CduS,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduS { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_scroll<F>(
+        &mut self,
+        control: CduScroll,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduScroll { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_slash<F>(
+        &mut self,
+        control: CduSlash,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduSlash { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_spc<F>(
+        &mut self,
+        control: CduSpc,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduSpc { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_sys<F>(
+        &mut self,
+        control: CduSys,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduSys { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_t<F>(
+        &mut self,
+        control: CduT,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduT { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_u<F>(
+        &mut self,
+        control: CduU,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduU { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_v<F>(
+        &mut self,
+        control: CduV,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduV { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_w<F>(
+        &mut self,
+        control: CduW,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduW { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_wp<F>(
+        &mut self,
+        control: CduWp,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduWp { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_x<F>(
+        &mut self,
+        control: CduX,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduX { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_y<F>(
+        &mut self,
+        control: CduY,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduY { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cdu_z<F>(
+        &mut self,
+        control: CduZ,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CduZ { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_a1<F>(
+        &mut self,
+        control: ClA1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClA1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_a2<F>(
+        &mut self,
+        control: ClA2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClA2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_a3<F>(
+        &mut self,
+        control: ClA3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClA3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_a4<F>(
+        &mut self,
+        control: ClA4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClA4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_b1<F>(
+        &mut self,
+        control: ClB1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClB1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_b2<F>(
+        &mut self,
+        control: ClB2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClB2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_b3<F>(
+        &mut self,
+        control: ClB3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClB3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_b4<F>(
+        &mut self,
+        control: ClB4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClB4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_c1<F>(
+        &mut self,
+        control: ClC1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClC1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_c2<F>(
+        &mut self,
+        control: ClC2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClC2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_c3<F>(
+        &mut self,
+        control: ClC3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClC3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_c4<F>(
+        &mut self,
+        control: ClC4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClC4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_d1<F>(
+        &mut self,
+        control: ClD1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClD1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_d2<F>(
+        &mut self,
+        control: ClD2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClD2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_d3<F>(
+        &mut self,
+        control: ClD3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClD3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_d4<F>(
+        &mut self,
+        control: ClD4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClD4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_e1<F>(
+        &mut self,
+        control: ClE1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClE1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_e2<F>(
+        &mut self,
+        control: ClE2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClE2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_e3<F>(
+        &mut self,
+        control: ClE3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClE3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_e4<F>(
+        &mut self,
+        control: ClE4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClE4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_f1<F>(
+        &mut self,
+        control: ClF1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClF1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_f2<F>(
+        &mut self,
+        control: ClF2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClF2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_f3<F>(
+        &mut self,
+        control: ClF3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClF3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_f4<F>(
+        &mut self,
+        control: ClF4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClF4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_g1<F>(
+        &mut self,
+        control: ClG1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClG1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_g2<F>(
+        &mut self,
+        control: ClG2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClG2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_g3<F>(
+        &mut self,
+        control: ClG3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClG3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_g4<F>(
+        &mut self,
+        control: ClG4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClG4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_h1<F>(
+        &mut self,
+        control: ClH1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClH1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_h2<F>(
+        &mut self,
+        control: ClH2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClH2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_h3<F>(
+        &mut self,
+        control: ClH3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClH3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_h4<F>(
+        &mut self,
+        control: ClH4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClH4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_i1<F>(
+        &mut self,
+        control: ClI1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClI1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_i2<F>(
+        &mut self,
+        control: ClI2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClI2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_i3<F>(
+        &mut self,
+        control: ClI3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClI3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_i4<F>(
+        &mut self,
+        control: ClI4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClI4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_j1<F>(
+        &mut self,
+        control: ClJ1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClJ1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_j2<F>(
+        &mut self,
+        control: ClJ2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClJ2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_j3<F>(
+        &mut self,
+        control: ClJ3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClJ3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_j4<F>(
+        &mut self,
+        control: ClJ4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClJ4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_k1<F>(
+        &mut self,
+        control: ClK1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClK1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_k2<F>(
+        &mut self,
+        control: ClK2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClK2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_k3<F>(
+        &mut self,
+        control: ClK3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClK3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_k4<F>(
+        &mut self,
+        control: ClK4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClK4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_l1<F>(
+        &mut self,
+        control: ClL1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClL1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_l2<F>(
+        &mut self,
+        control: ClL2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClL2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_l3<F>(
+        &mut self,
+        control: ClL3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClL3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cl_l4<F>(
+        &mut self,
+        control: ClL4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClL4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_clock_ctrl<F>(
+        &mut self,
+        control: ClockCtrl,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClockCtrl { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_clock_etc<F>(
+        &mut self,
+        control: ClockEtc,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClockEtc { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_clock_hh<F>(
+        &mut self,
+        control: ClockHh,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClockHh { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_clock_mm<F>(
+        &mut self,
+        control: ClockMm,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClockMm { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_clock_set<F>(
+        &mut self,
+        control: ClockSet,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClockSet { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_clock_ss<F>(
+        &mut self,
+        control: ClockSs,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ClockSs { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsc_brt<F>(
+        &mut self,
+        control: CmscBrt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmscBrt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsc_jmr<F>(
+        &mut self,
+        control: CmscJmr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmscJmr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsc_launch<F>(
+        &mut self,
+        control: CmscLaunch,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmscLaunch { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsc_mws<F>(
+        &mut self,
+        control: CmscMws,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmscMws { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsc_pri<F>(
+        &mut self,
+        control: CmscPri,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmscPri { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsc_prio<F>(
+        &mut self,
+        control: CmscPrio,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmscPrio { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsc_rwr_vol<F>(
+        &mut self,
+        control: CmscRwrVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmscRwrVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsc_sep<F>(
+        &mut self,
+        control: CmscSep,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmscSep { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsc_txt_chaff_flare<F>(
+        &mut self,
+        control: CmscTxtChaffFlare,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmscTxtChaffFlare { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsc_txt_jmr<F>(
+        &mut self,
+        control: CmscTxtJmr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmscTxtJmr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsc_txt_mws<F>(
+        &mut self,
+        control: CmscTxtMws,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmscTxtMws { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsc_unk<F>(
+        &mut self,
+        control: CmscUnk,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmscUnk { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsc_unkn<F>(
+        &mut self,
+        control: CmscUnkn,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmscUnkn { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsp1<F>(
+        &mut self,
+        control: Cmsp1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Cmsp1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsp2<F>(
+        &mut self,
+        control: Cmsp2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Cmsp2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsp_arw1<F>(
+        &mut self,
+        control: CmspArw1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmspArw1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsp_arw2<F>(
+        &mut self,
+        control: CmspArw2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmspArw2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsp_arw3<F>(
+        &mut self,
+        control: CmspArw3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmspArw3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsp_arw4<F>(
+        &mut self,
+        control: CmspArw4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmspArw4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsp_brt<F>(
+        &mut self,
+        control: CmspBrt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmspBrt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsp_disp<F>(
+        &mut self,
+        control: CmspDisp,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmspDisp { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsp_jmr<F>(
+        &mut self,
+        control: CmspJmr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmspJmr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsp_jtsn<F>(
+        &mut self,
+        control: CmspJtsn,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmspJtsn { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsp_mode<F>(
+        &mut self,
+        control: CmspMode,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmspMode { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsp_mws<F>(
+        &mut self,
+        control: CmspMws,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmspMws { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsp_rtn<F>(
+        &mut self,
+        control: CmspRtn,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmspRtn { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsp_rwr<F>(
+        &mut self,
+        control: CmspRwr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmspRwr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_cmsp_updn<F>(
+        &mut self,
+        control: CmspUpdn,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CmspUpdn { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_compass_bank<F>(
+        &mut self,
+        control: CompassBank,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CompassBank { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_compass_hdg<F>(
+        &mut self,
+        control: CompassHdg,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CompassHdg { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_compass_pitch<F>(
+        &mut self,
+        control: CompassPitch,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::CompassPitch { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_downlock_override<F>(
+        &mut self,
+        control: DownlockOverride,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::DownlockOverride { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_dvadr_eot<F>(
+        &mut self,
+        control: DvadrEot,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::DvadrEot { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_dvadr_eot_remote<F>(
+        &mut self,
+        control: DvadrEotRemote,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::DvadrEotRemote { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_dvadr_function<F>(
+        &mut self,
+        control: DvadrFunction,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::DvadrFunction { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_dvadr_rec<F>(
+        &mut self,
+        control: DvadrRec,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::DvadrRec { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_dvadr_rec_remote<F>(
+        &mut self,
+        control: DvadrRecRemote,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::DvadrRecRemote { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_dvadr_video<F>(
+        &mut self,
+        control: DvadrVideo,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::DvadrVideo { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_efcp_aileron_emer_disengage<F>(
+        &mut self,
+        control: EfcpAileronEmerDisengage,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EfcpAileronEmerDisengage { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_efcp_elevator_emer_disengage<F>(
+        &mut self,
+        control: EfcpElevatorEmerDisengage,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EfcpElevatorEmerDisengage { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_efcp_emer_trim<F>(
+        &mut self,
+        control: EfcpEmerTrim,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EfcpEmerTrim { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_efcp_flaps_emer_retr<F>(
+        &mut self,
+        control: EfcpFlapsEmerRetr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EfcpFlapsEmerRetr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_efcp_mrfcs<F>(
+        &mut self,
+        control: EfcpMrfcs,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EfcpMrfcs { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_efcp_spdbk_emer_retr<F>(
+        &mut self,
+        control: EfcpSpdbkEmerRetr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EfcpSpdbkEmerRetr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_efcp_trim_override<F>(
+        &mut self,
+        control: EfcpTrimOverride,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EfcpTrimOverride { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_emer_brake<F>(
+        &mut self,
+        control: EmerBrake,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EmerBrake { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_eng_throttle_l<F>(
+        &mut self,
+        control: EngThrottleL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EngThrottleL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_eng_throttle_r<F>(
+        &mut self,
+        control: EngThrottleR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EngThrottleR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_engine_apu_start<F>(
+        &mut self,
+        control: EngineApuStart,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EngineApuStart { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_engine_fuel_flow_l<F>(
+        &mut self,
+        control: EngineFuelFlowL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EngineFuelFlowL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_engine_fuel_flow_r<F>(
+        &mut self,
+        control: EngineFuelFlowR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EngineFuelFlowR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_engine_oper_l<F>(
+        &mut self,
+        control: EngineOperL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EngineOperL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_engine_oper_r<F>(
+        &mut self,
+        control: EngineOperR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EngineOperR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_engine_tems_data<F>(
+        &mut self,
+        control: EngineTemsData,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EngineTemsData { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_engine_throttle_friction<F>(
+        &mut self,
+        control: EngineThrottleFriction,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EngineThrottleFriction { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_envcp_ac_oper<F>(
+        &mut self,
+        control: EnvcpAcOper,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EnvcpAcOper { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_envcp_air_supply<F>(
+        &mut self,
+        control: EnvcpAirSupply,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EnvcpAirSupply { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_envcp_bleed_air<F>(
+        &mut self,
+        control: EnvcpBleedAir,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EnvcpBleedAir { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_envcp_canopy_defog<F>(
+        &mut self,
+        control: EnvcpCanopyDefog,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EnvcpCanopyDefog { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_envcp_flow_level<F>(
+        &mut self,
+        control: EnvcpFlowLevel,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EnvcpFlowLevel { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_envcp_oxy_test<F>(
+        &mut self,
+        control: EnvcpOxyTest,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EnvcpOxyTest { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_envcp_pitot_heat<F>(
+        &mut self,
+        control: EnvcpPitotHeat,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EnvcpPitotHeat { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_envcp_temp_level<F>(
+        &mut self,
+        control: EnvcpTempLevel,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EnvcpTempLevel { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_envcp_temp_press<F>(
+        &mut self,
+        control: EnvcpTempPress,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EnvcpTempPress { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_envcp_windshield_defog<F>(
+        &mut self,
+        control: EnvcpWindshieldDefog,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EnvcpWindshieldDefog { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_envcp_wrrw<F>(
+        &mut self,
+        control: EnvcpWrrw,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EnvcpWrrw { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_epp_ac_gen_pwr_l<F>(
+        &mut self,
+        control: EppAcGenPwrL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EppAcGenPwrL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_epp_ac_gen_pwr_r<F>(
+        &mut self,
+        control: EppAcGenPwrR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EppAcGenPwrR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_epp_apu_gen_pwr<F>(
+        &mut self,
+        control: EppApuGenPwr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EppApuGenPwr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_epp_battery_pwr<F>(
+        &mut self,
+        control: EppBatteryPwr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EppBatteryPwr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_epp_emer_flood<F>(
+        &mut self,
+        control: EppEmerFlood,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EppEmerFlood { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_epp_inverter<F>(
+        &mut self,
+        control: EppInverter,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::EppInverter { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ext_formation_lights<F>(
+        &mut self,
+        control: ExtFormationLights,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ExtFormationLights { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ext_position_light_left<F>(
+        &mut self,
+        control: ExtPositionLightLeft,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ExtPositionLightLeft { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ext_position_light_right<F>(
+        &mut self,
+        control: ExtPositionLightRight,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ExtPositionLightRight { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ext_speed_brake_left<F>(
+        &mut self,
+        control: ExtSpeedBrakeLeft,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ExtSpeedBrakeLeft { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ext_speed_brake_right<F>(
+        &mut self,
+        control: ExtSpeedBrakeRight,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ExtSpeedBrakeRight { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ext_stores_jettison<F>(
+        &mut self,
+        control: ExtStoresJettison,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ExtStoresJettison { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ext_strobe_left<F>(
+        &mut self,
+        control: ExtStrobeLeft,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ExtStrobeLeft { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ext_strobe_right<F>(
+        &mut self,
+        control: ExtStrobeRight,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ExtStrobeRight { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ext_strobe_tail<F>(
+        &mut self,
+        control: ExtStrobeTail,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ExtStrobeTail { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ext_wow_left<F>(
+        &mut self,
+        control: ExtWowLeft,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ExtWowLeft { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ext_wow_nose<F>(
+        &mut self,
+        control: ExtWowNose,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ExtWowNose { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ext_wow_right<F>(
+        &mut self,
+        control: ExtWowRight,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ExtWowRight { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fire_apu_pull<F>(
+        &mut self,
+        control: FireApuPull,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FireApuPull { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fire_ext_disch<F>(
+        &mut self,
+        control: FireExtDisch,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FireExtDisch { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fire_leng_pull<F>(
+        &mut self,
+        control: FireLengPull,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FireLengPull { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fire_reng_pull<F>(
+        &mut self,
+        control: FireRengPull,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FireRengPull { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_flap_pos<F>(
+        &mut self,
+        control: FlapPos,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FlapPos { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_flaps_switch<F>(
+        &mut self,
+        control: FlapsSwitch,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FlapsSwitch { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fqis_select<F>(
+        &mut self,
+        control: FqisSelect,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FqisSelect { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fqis_test<F>(
+        &mut self,
+        control: FqisTest,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FqisTest { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fscp_ampl<F>(
+        &mut self,
+        control: FscpAmpl,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FscpAmpl { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fscp_boost_main_l<F>(
+        &mut self,
+        control: FscpBoostMainL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FscpBoostMainL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fscp_boost_main_r<F>(
+        &mut self,
+        control: FscpBoostMainR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FscpBoostMainR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fscp_boost_wing_l<F>(
+        &mut self,
+        control: FscpBoostWingL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FscpBoostWingL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fscp_boost_wing_r<F>(
+        &mut self,
+        control: FscpBoostWingR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FscpBoostWingR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fscp_crossfeed<F>(
+        &mut self,
+        control: FscpCrossfeed,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FscpCrossfeed { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fscp_ext_tanks_fus<F>(
+        &mut self,
+        control: FscpExtTanksFus,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FscpExtTanksFus { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fscp_ext_tanks_wing<F>(
+        &mut self,
+        control: FscpExtTanksWing,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FscpExtTanksWing { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fscp_fd_main_l<F>(
+        &mut self,
+        control: FscpFdMainL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FscpFdMainL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fscp_fd_main_r<F>(
+        &mut self,
+        control: FscpFdMainR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FscpFdMainR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fscp_fd_wing_l<F>(
+        &mut self,
+        control: FscpFdWingL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FscpFdWingL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fscp_fd_wing_r<F>(
+        &mut self,
+        control: FscpFdWingR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FscpFdWingR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fscp_line_check<F>(
+        &mut self,
+        control: FscpLineCheck,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FscpLineCheck { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fscp_rcvr_lever<F>(
+        &mut self,
+        control: FscpRcvrLever,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FscpRcvrLever { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fscp_tk_gate<F>(
+        &mut self,
+        control: FscpTkGate,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FscpTkGate { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fuel_qty100<F>(
+        &mut self,
+        control: FuelQty100,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FuelQty100 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fuel_qty1000<F>(
+        &mut self,
+        control: FuelQty1000,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FuelQty1000 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fuel_qty10000<F>(
+        &mut self,
+        control: FuelQty10000,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FuelQty10000 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fuel_qty_l<F>(
+        &mut self,
+        control: FuelQtyL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FuelQtyL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_fuel_qty_r<F>(
+        &mut self,
+        control: FuelQtyR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::FuelQtyR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_gear_horn_silence<F>(
+        &mut self,
+        control: GearHornSilence,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::GearHornSilence { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_gear_l_safe<F>(
+        &mut self,
+        control: GearLSafe,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::GearLSafe { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_gear_lever<F>(
+        &mut self,
+        control: GearLever,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::GearLever { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_gear_n_safe<F>(
+        &mut self,
+        control: GearNSafe,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::GearNSafe { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_gear_r_safe<F>(
+        &mut self,
+        control: GearRSafe,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::GearRSafe { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_gnd_safe_override<F>(
+        &mut self,
+        control: GndSafeOverride,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::GndSafeOverride { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_gnd_safe_override_cover<F>(
+        &mut self,
+        control: GndSafeOverrideCover,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::GndSafeOverrideCover { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_gun_ready<F>(
+        &mut self,
+        control: GunReady,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::GunReady { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_handle_gear_warning<F>(
+        &mut self,
+        control: HandleGearWarning,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HandleGearWarning { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hars_fast_erect<F>(
+        &mut self,
+        control: HarsFastErect,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HarsFastErect { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hars_hdg<F>(
+        &mut self,
+        control: HarsHdg,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HarsHdg { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hars_latitude<F>(
+        &mut self,
+        control: HarsLatitude,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HarsLatitude { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hars_magvar<F>(
+        &mut self,
+        control: HarsMagvar,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HarsMagvar { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hars_ns<F>(
+        &mut self,
+        control: HarsNs,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HarsNs { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hars_pts<F>(
+        &mut self,
+        control: HarsPts,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HarsPts { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hars_slave_dg<F>(
+        &mut self,
+        control: HarsSlaveDg,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HarsSlaveDg { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hars_sync<F>(
+        &mut self,
+        control: HarsSync,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HarsSync { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_bearing1<F>(
+        &mut self,
+        control: HsiBearing1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiBearing1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_bearing2<F>(
+        &mut self,
+        control: HsiBearing2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiBearing2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_bearing_flag<F>(
+        &mut self,
+        control: HsiBearingFlag,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiBearingFlag { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_cc_a<F>(
+        &mut self,
+        control: HsiCcA,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiCcA { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_cc_b<F>(
+        &mut self,
+        control: HsiCcB,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiCcB { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_crs<F>(
+        &mut self,
+        control: HsiCrs,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiCrs { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_crs_knob<F>(
+        &mut self,
+        control: HsiCrsKnob,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiCrsKnob { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_deviation<F>(
+        &mut self,
+        control: HsiDeviation,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiDeviation { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_hdg<F>(
+        &mut self,
+        control: HsiHdg,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiHdg { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_hdg_bug<F>(
+        &mut self,
+        control: HsiHdgBug,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiHdgBug { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_hdg_knob<F>(
+        &mut self,
+        control: HsiHdgKnob,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiHdgKnob { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_pwroff_flag<F>(
+        &mut self,
+        control: HsiPwroffFlag,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiPwroffFlag { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_range_flag<F>(
+        &mut self,
+        control: HsiRangeFlag,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiRangeFlag { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_rc_a<F>(
+        &mut self,
+        control: HsiRcA,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiRcA { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_rc_b<F>(
+        &mut self,
+        control: HsiRcB,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiRcB { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_rc_c<F>(
+        &mut self,
+        control: HsiRcC,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiRcC { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_rc_d<F>(
+        &mut self,
+        control: HsiRcD,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiRcD { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_tofrom1<F>(
+        &mut self,
+        control: HsiTofrom1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiTofrom1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_hsi_tofrom2<F>(
+        &mut self,
+        control: HsiTofrom2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::HsiTofrom2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_code<F>(
+        &mut self,
+        control: IffCode,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffCode { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_master<F>(
+        &mut self,
+        control: IffMaster,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffMaster { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_mic_ident<F>(
+        &mut self,
+        control: IffMicIdent,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffMicIdent { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_mode1_wheel1<F>(
+        &mut self,
+        control: IffMode1Wheel1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffMode1Wheel1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_mode1_wheel2<F>(
+        &mut self,
+        control: IffMode1Wheel2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffMode1Wheel2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_mode3a_wheel1<F>(
+        &mut self,
+        control: IffMode3aWheel1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffMode3aWheel1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_mode3a_wheel2<F>(
+        &mut self,
+        control: IffMode3aWheel2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffMode3aWheel2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_mode3a_wheel3<F>(
+        &mut self,
+        control: IffMode3aWheel3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffMode3aWheel3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_mode3a_wheel4<F>(
+        &mut self,
+        control: IffMode3aWheel4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffMode3aWheel4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_on_out<F>(
+        &mut self,
+        control: IffOnOut,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffOnOut { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_out_audio_light<F>(
+        &mut self,
+        control: IffOutAudioLight,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffOutAudioLight { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_radtest<F>(
+        &mut self,
+        control: IffRadtest,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffRadtest { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_reply<F>(
+        &mut self,
+        control: IffReply,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffReply { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_reply_dim<F>(
+        &mut self,
+        control: IffReplyDim,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffReplyDim { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_reply_test<F>(
+        &mut self,
+        control: IffReplyTest,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffReplyTest { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_test<F>(
+        &mut self,
+        control: IffTest,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffTest { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_test_dim<F>(
+        &mut self,
+        control: IffTestDim,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffTestDim { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_test_m1<F>(
+        &mut self,
+        control: IffTestM1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffTestM1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_test_m2<F>(
+        &mut self,
+        control: IffTestM2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffTestM2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_test_m3<F>(
+        &mut self,
+        control: IffTestM3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffTestM3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_test_m4<F>(
+        &mut self,
+        control: IffTestM4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffTestM4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_iff_test_test<F>(
+        &mut self,
+        control: IffTestTest,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IffTestTest { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ils_frequency_s<F>(
+        &mut self,
+        control: IlsFrequencyS,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IlsFrequencyS { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ils_khz_int<F>(
+        &mut self,
+        control: IlsKhzInt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IlsKhzInt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ils_khz_str<F>(
+        &mut self,
+        control: IlsKhzStr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IlsKhzStr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ils_mhz_int<F>(
+        &mut self,
+        control: IlsMhzInt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IlsMhzInt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ils_mhz_str<F>(
+        &mut self,
+        control: IlsMhzStr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IlsMhzStr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ils_pwr<F>(
+        &mut self,
+        control: IlsPwr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IlsPwr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ils_vol<F>(
+        &mut self,
+        control: IlsVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IlsVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_aim_unmute<F>(
+        &mut self,
+        control: IntAimUnmute,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntAimUnmute { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_aim_vol<F>(
+        &mut self,
+        control: IntAimVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntAimVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_aux_inst_l_bright<F>(
+        &mut self,
+        control: IntAuxInstLBright,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntAuxInstLBright { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_call<F>(
+        &mut self,
+        control: IntCall,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntCall { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_caution_l_bright<F>(
+        &mut self,
+        control: IntCautionLBright,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntCautionLBright { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_console_l_bright<F>(
+        &mut self,
+        control: IntConsoleLBright,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntConsoleLBright { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_eng_inst_l_bright<F>(
+        &mut self,
+        control: IntEngInstLBright,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntEngInstLBright { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_flood_l_bright<F>(
+        &mut self,
+        control: IntFloodLBright,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntFloodLBright { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_flt_inst_l_bright<F>(
+        &mut self,
+        control: IntFltInstLBright,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntFltInstLBright { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_fm_unmute<F>(
+        &mut self,
+        control: IntFmUnmute,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntFmUnmute { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_fm_vol<F>(
+        &mut self,
+        control: IntFmVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntFmVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_hm<F>(
+        &mut self,
+        control: IntHm,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntHm { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_iff_unmute<F>(
+        &mut self,
+        control: IntIffUnmute,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntIffUnmute { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_iff_vol<F>(
+        &mut self,
+        control: IntIffVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntIffVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_ils_unmute<F>(
+        &mut self,
+        control: IntIlsUnmute,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntIlsUnmute { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_ils_vol<F>(
+        &mut self,
+        control: IntIlsVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntIlsVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_int_unmute<F>(
+        &mut self,
+        control: IntIntUnmute,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntIntUnmute { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_int_vol<F>(
+        &mut self,
+        control: IntIntVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntIntVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_mode<F>(
+        &mut self,
+        control: IntMode,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntMode { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_tcn_unmute<F>(
+        &mut self,
+        control: IntTcnUnmute,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntTcnUnmute { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_tcn_vol<F>(
+        &mut self,
+        control: IntTcnVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntTcnVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_uhf_unmute<F>(
+        &mut self,
+        control: IntUhfUnmute,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntUhfUnmute { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_uhf_vol<F>(
+        &mut self,
+        control: IntUhfVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntUhfVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_vhf_unmute<F>(
+        &mut self,
+        control: IntVhfUnmute,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntVhfUnmute { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_vhf_vol<F>(
+        &mut self,
+        control: IntVhfVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntVhfVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_int_vol<F>(
+        &mut self,
+        control: IntVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::IntVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ky581to5<F>(
+        &mut self,
+        control: Ky581to5,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ky581to5 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ky58_delay<F>(
+        &mut self,
+        control: Ky58Delay,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ky58Delay { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ky58_mode<F>(
+        &mut self,
+        control: Ky58Mode,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ky58Mode { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ky58_plain<F>(
+        &mut self,
+        control: Ky58Plain,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ky58Plain { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ky58_pwr<F>(
+        &mut self,
+        control: Ky58Pwr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ky58Pwr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ky58_zeroize<F>(
+        &mut self,
+        control: Ky58Zeroize,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ky58Zeroize { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ky58_zeroize_cover<F>(
+        &mut self,
+        control: Ky58ZeroizeCover,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ky58ZeroizeCover { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_l_aileron_emer_disengage<F>(
+        &mut self,
+        control: LAileronEmerDisengage,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LAileronEmerDisengage { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_l_elevator_emer_disengage<F>(
+        &mut self,
+        control: LElevatorEmerDisengage,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LElevatorEmerDisengage { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_l_eng_core<F>(
+        &mut self,
+        control: LEngCore,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LEngCore { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_l_eng_core_t<F>(
+        &mut self,
+        control: LEngCoreT,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LEngCoreT { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_l_eng_fan<F>(
+        &mut self,
+        control: LEngFan,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LEngFan { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_l_eng_fire<F>(
+        &mut self,
+        control: LEngFire,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LEngFire { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_l_eng_fuel_flow<F>(
+        &mut self,
+        control: LEngFuelFlow,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LEngFuelFlow { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_l_eng_temp<F>(
+        &mut self,
+        control: LEngTemp,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LEngTemp { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_l_eng_temp_off<F>(
+        &mut self,
+        control: LEngTempOff,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LEngTempOff { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_l_eng_temp_t<F>(
+        &mut self,
+        control: LEngTempT,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LEngTempT { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_l_hyd_press<F>(
+        &mut self,
+        control: LHydPress,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LHydPress { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_l_oil_press<F>(
+        &mut self,
+        control: LOilPress,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LOilPress { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ladder_extend<F>(
+        &mut self,
+        control: LadderExtend,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LadderExtend { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ladder_extend_cover<F>(
+        &mut self,
+        control: LadderExtendCover,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LadderExtendCover { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lamp_test_btn<F>(
+        &mut self,
+        control: LampTestBtn,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LampTestBtn { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_landing_lights<F>(
+        &mut self,
+        control: LandingLights,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LandingLights { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_laste_ap_mode<F>(
+        &mut self,
+        control: LasteApMode,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LasteApMode { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_laste_ap_toggle<F>(
+        &mut self,
+        control: LasteApToggle,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LasteApToggle { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_laste_eac<F>(
+        &mut self,
+        control: LasteEac,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LasteEac { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_laste_rdr_altm<F>(
+        &mut self,
+        control: LasteRdrAltm,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LasteRdrAltm { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lcp_accel_comp<F>(
+        &mut self,
+        control: LcpAccelComp,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LcpAccelComp { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lcp_anticollision<F>(
+        &mut self,
+        control: LcpAnticollision,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LcpAnticollision { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lcp_aux_inst<F>(
+        &mut self,
+        control: LcpAuxInst,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LcpAuxInst { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lcp_console<F>(
+        &mut self,
+        control: LcpConsole,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LcpConsole { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lcp_eng_inst<F>(
+        &mut self,
+        control: LcpEngInst,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LcpEngInst { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lcp_flight_inst<F>(
+        &mut self,
+        control: LcpFlightInst,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LcpFlightInst { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lcp_flood<F>(
+        &mut self,
+        control: LcpFlood,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LcpFlood { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lcp_formation<F>(
+        &mut self,
+        control: LcpFormation,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LcpFormation { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lcp_nose_illum<F>(
+        &mut self,
+        control: LcpNoseIllum,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LcpNoseIllum { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lcp_position<F>(
+        &mut self,
+        control: LcpPosition,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LcpPosition { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lcp_signal_lights<F>(
+        &mut self,
+        control: LcpSignalLights,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LcpSignalLights { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd01<F>(
+        &mut self,
+        control: Lmfd01,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd01 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd02<F>(
+        &mut self,
+        control: Lmfd02,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd02 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd03<F>(
+        &mut self,
+        control: Lmfd03,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd03 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd04<F>(
+        &mut self,
+        control: Lmfd04,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd04 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd05<F>(
+        &mut self,
+        control: Lmfd05,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd05 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd06<F>(
+        &mut self,
+        control: Lmfd06,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd06 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd07<F>(
+        &mut self,
+        control: Lmfd07,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd07 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd08<F>(
+        &mut self,
+        control: Lmfd08,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd08 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd09<F>(
+        &mut self,
+        control: Lmfd09,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd09 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd10<F>(
+        &mut self,
+        control: Lmfd10,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd10 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd11<F>(
+        &mut self,
+        control: Lmfd11,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd11 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd12<F>(
+        &mut self,
+        control: Lmfd12,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd12 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd13<F>(
+        &mut self,
+        control: Lmfd13,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd13 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd14<F>(
+        &mut self,
+        control: Lmfd14,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd14 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd15<F>(
+        &mut self,
+        control: Lmfd15,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd15 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd16<F>(
+        &mut self,
+        control: Lmfd16,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd16 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd17<F>(
+        &mut self,
+        control: Lmfd17,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd17 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd18<F>(
+        &mut self,
+        control: Lmfd18,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd18 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd19<F>(
+        &mut self,
+        control: Lmfd19,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd19 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd20<F>(
+        &mut self,
+        control: Lmfd20,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Lmfd20 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd_adj<F>(
+        &mut self,
+        control: LmfdAdj,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LmfdAdj { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd_brt<F>(
+        &mut self,
+        control: LmfdBrt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LmfdBrt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd_con<F>(
+        &mut self,
+        control: LmfdCon,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LmfdCon { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd_dsp<F>(
+        &mut self,
+        control: LmfdDsp,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LmfdDsp { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd_pwr<F>(
+        &mut self,
+        control: LmfdPwr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LmfdPwr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_lmfd_sym<F>(
+        &mut self,
+        control: LmfdSym,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::LmfdSym { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_marker_beacon<F>(
+        &mut self,
+        control: MarkerBeacon,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::MarkerBeacon { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_master_caution<F>(
+        &mut self,
+        control: MasterCaution,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::MasterCaution { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_mirror_toggle<F>(
+        &mut self,
+        control: MirrorToggle,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::MirrorToggle { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_able_stow<F>(
+        &mut self,
+        control: NmspAbleStow,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspAbleStow { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_anchr_btn<F>(
+        &mut self,
+        control: NmspAnchrBtn,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspAnchrBtn { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_anchr_led<F>(
+        &mut self,
+        control: NmspAnchrLed,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspAnchrLed { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_egi_btn<F>(
+        &mut self,
+        control: NmspEgiBtn,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspEgiBtn { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_egi_led<F>(
+        &mut self,
+        control: NmspEgiLed,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspEgiLed { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_fm_led<F>(
+        &mut self,
+        control: NmspFmLed,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspFmLed { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_hars_btn<F>(
+        &mut self,
+        control: NmspHarsBtn,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspHarsBtn { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_hars_led<F>(
+        &mut self,
+        control: NmspHarsLed,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspHarsLed { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_ils_btn<F>(
+        &mut self,
+        control: NmspIlsBtn,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspIlsBtn { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_ils_led<F>(
+        &mut self,
+        control: NmspIlsLed,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspIlsLed { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_steerpt_btn<F>(
+        &mut self,
+        control: NmspSteerptBtn,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspSteerptBtn { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_steerpt_led<F>(
+        &mut self,
+        control: NmspSteerptLed,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspSteerptLed { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_tcn_btn<F>(
+        &mut self,
+        control: NmspTcnBtn,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspTcnBtn { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_tcn_led<F>(
+        &mut self,
+        control: NmspTcnLed,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspTcnLed { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_tisl_btn<F>(
+        &mut self,
+        control: NmspTislBtn,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspTislBtn { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_tisl_led<F>(
+        &mut self,
+        control: NmspTislLed,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspTislLed { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nmsp_uhf_led<F>(
+        &mut self,
+        control: NmspUhfLed,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NmspUhfLed { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_nosewheel_steering<F>(
+        &mut self,
+        control: NosewheelSteering,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::NosewheelSteering { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_oxy_diluter<F>(
+        &mut self,
+        control: OxyDiluter,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::OxyDiluter { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_oxy_emergency<F>(
+        &mut self,
+        control: OxyEmergency,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::OxyEmergency { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_oxy_flow<F>(
+        &mut self,
+        control: OxyFlow,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::OxyFlow { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_oxy_flow_g<F>(
+        &mut self,
+        control: OxyFlowG,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::OxyFlowG { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_oxy_press<F>(
+        &mut self,
+        control: OxyPress,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::OxyPress { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_oxy_supply<F>(
+        &mut self,
+        control: OxySupply,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::OxySupply { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_oxy_volume<F>(
+        &mut self,
+        control: OxyVolume,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::OxyVolume { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_r_aileron_emer_disengage<F>(
+        &mut self,
+        control: RAileronEmerDisengage,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::RAileronEmerDisengage { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_r_elevator_emer_disengage<F>(
+        &mut self,
+        control: RElevatorEmerDisengage,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::RElevatorEmerDisengage { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_r_eng_core<F>(
+        &mut self,
+        control: REngCore,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::REngCore { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_r_eng_core_t<F>(
+        &mut self,
+        control: REngCoreT,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::REngCoreT { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_r_eng_fan<F>(
+        &mut self,
+        control: REngFan,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::REngFan { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_r_eng_fire<F>(
+        &mut self,
+        control: REngFire,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::REngFire { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_r_eng_fuel_flow<F>(
+        &mut self,
+        control: REngFuelFlow,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::REngFuelFlow { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_r_eng_temp<F>(
+        &mut self,
+        control: REngTemp,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::REngTemp { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_r_eng_temp_off<F>(
+        &mut self,
+        control: REngTempOff,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::REngTempOff { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_r_eng_temp_t<F>(
+        &mut self,
+        control: REngTempT,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::REngTempT { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_r_hyd_press<F>(
+        &mut self,
+        control: RHydPress,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::RHydPress { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_r_oil_press<F>(
+        &mut self,
+        control: ROilPress,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::ROilPress { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd01<F>(
+        &mut self,
+        control: Rmfd01,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd01 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd02<F>(
+        &mut self,
+        control: Rmfd02,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd02 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd03<F>(
+        &mut self,
+        control: Rmfd03,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd03 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd04<F>(
+        &mut self,
+        control: Rmfd04,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd04 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd05<F>(
+        &mut self,
+        control: Rmfd05,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd05 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd06<F>(
+        &mut self,
+        control: Rmfd06,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd06 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd07<F>(
+        &mut self,
+        control: Rmfd07,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd07 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd08<F>(
+        &mut self,
+        control: Rmfd08,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd08 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd09<F>(
+        &mut self,
+        control: Rmfd09,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd09 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd10<F>(
+        &mut self,
+        control: Rmfd10,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd10 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd11<F>(
+        &mut self,
+        control: Rmfd11,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd11 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd12<F>(
+        &mut self,
+        control: Rmfd12,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd12 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd13<F>(
+        &mut self,
+        control: Rmfd13,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd13 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd14<F>(
+        &mut self,
+        control: Rmfd14,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd14 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd15<F>(
+        &mut self,
+        control: Rmfd15,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd15 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd16<F>(
+        &mut self,
+        control: Rmfd16,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd16 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd17<F>(
+        &mut self,
+        control: Rmfd17,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd17 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd18<F>(
+        &mut self,
+        control: Rmfd18,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd18 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd19<F>(
+        &mut self,
+        control: Rmfd19,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd19 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd20<F>(
+        &mut self,
+        control: Rmfd20,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Rmfd20 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd_adj<F>(
+        &mut self,
+        control: RmfdAdj,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::RmfdAdj { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd_brt<F>(
+        &mut self,
+        control: RmfdBrt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::RmfdBrt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd_con<F>(
+        &mut self,
+        control: RmfdCon,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::RmfdCon { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd_dsp<F>(
+        &mut self,
+        control: RmfdDsp,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::RmfdDsp { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd_pwr<F>(
+        &mut self,
+        control: RmfdPwr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::RmfdPwr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rmfd_sym<F>(
+        &mut self,
+        control: RmfdSym,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::RmfdSym { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_rwr_brt<F>(
+        &mut self,
+        control: RwrBrt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::RwrBrt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_sai_bank<F>(
+        &mut self,
+        control: SaiBank,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SaiBank { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_sai_cage<F>(
+        &mut self,
+        control: SaiCage,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SaiCage { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_sai_knob_arrow<F>(
+        &mut self,
+        control: SaiKnobArrow,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SaiKnobArrow { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_sai_pitch<F>(
+        &mut self,
+        control: SaiPitch,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SaiPitch { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_sai_pitch_adj<F>(
+        &mut self,
+        control: SaiPitchAdj,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SaiPitchAdj { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_sai_pitch_trim<F>(
+        &mut self,
+        control: SaiPitchTrim,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SaiPitchTrim { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_sai_warning_flag<F>(
+        &mut self,
+        control: SaiWarningFlag,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SaiWarningFlag { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_sasp_monitor_test<F>(
+        &mut self,
+        control: SaspMonitorTest,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SaspMonitorTest { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_sasp_pitch_sas_l<F>(
+        &mut self,
+        control: SaspPitchSasL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SaspPitchSasL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_sasp_pitch_sas_r<F>(
+        &mut self,
+        control: SaspPitchSasR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SaspPitchSasR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_sasp_to_trim<F>(
+        &mut self,
+        control: SaspToTrim,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SaspToTrim { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_sasp_yaw_sas_l<F>(
+        &mut self,
+        control: SaspYawSasL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SaspYawSasL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_sasp_yaw_sas_r<F>(
+        &mut self,
+        control: SaspYawSasR,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SaspYawSasR { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_sasp_yaw_trim<F>(
+        &mut self,
+        control: SaspYawTrim,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SaspYawTrim { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_seat_adjust<F>(
+        &mut self,
+        control: SeatAdjust,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SeatAdjust { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_seat_arm<F>(
+        &mut self,
+        control: SeatArm,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SeatArm { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_stall_peak_vol<F>(
+        &mut self,
+        control: StallPeakVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::StallPeakVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_stall_vol<F>(
+        &mut self,
+        control: StallVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::StallVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_suit_test<F>(
+        &mut self,
+        control: SuitTest,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::SuitTest { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tacan1<F>(
+        &mut self,
+        control: Tacan1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Tacan1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tacan10<F>(
+        &mut self,
+        control: Tacan10,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Tacan10 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tacan_channel<F>(
+        &mut self,
+        control: TacanChannel,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TacanChannel { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tacan_mode<F>(
+        &mut self,
+        control: TacanMode,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TacanMode { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tacan_test<F>(
+        &mut self,
+        control: TacanTest,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TacanTest { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tacan_test_btn<F>(
+        &mut self,
+        control: TacanTestBtn,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TacanTestBtn { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tacan_vol<F>(
+        &mut self,
+        control: TacanVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TacanVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tacan_xy<F>(
+        &mut self,
+        control: TacanXy,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TacanXy { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_take_off_trim<F>(
+        &mut self,
+        control: TakeOffTrim,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TakeOffTrim { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_alt10000_int<F>(
+        &mut self,
+        control: TislAlt10000Int,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislAlt10000Int { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_alt10000_str<F>(
+        &mut self,
+        control: TislAlt10000Str,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislAlt10000Str { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_alt1000_int<F>(
+        &mut self,
+        control: TislAlt1000Int,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislAlt1000Int { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_alt1000_str<F>(
+        &mut self,
+        control: TislAlt1000Str,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislAlt1000Str { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_aux<F>(
+        &mut self,
+        control: TislAux,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislAux { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_bite<F>(
+        &mut self,
+        control: TislBite,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislBite { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_bite_l<F>(
+        &mut self,
+        control: TislBiteL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislBiteL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_code1_int<F>(
+        &mut self,
+        control: TislCode1Int,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislCode1Int { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_code1_str<F>(
+        &mut self,
+        control: TislCode1Str,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislCode1Str { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_code2_int<F>(
+        &mut self,
+        control: TislCode2Int,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislCode2Int { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_code2_str<F>(
+        &mut self,
+        control: TislCode2Str,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislCode2Str { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_code3_int<F>(
+        &mut self,
+        control: TislCode3Int,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislCode3Int { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_code3_str<F>(
+        &mut self,
+        control: TislCode3Str,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislCode3Str { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_code4_int<F>(
+        &mut self,
+        control: TislCode4Int,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislCode4Int { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_code4_str<F>(
+        &mut self,
+        control: TislCode4Str,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislCode4Str { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_enter<F>(
+        &mut self,
+        control: TislEnter,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislEnter { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_enter_l<F>(
+        &mut self,
+        control: TislEnterL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislEnterL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_mode<F>(
+        &mut self,
+        control: TislMode,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislMode { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_overtemp<F>(
+        &mut self,
+        control: TislOvertemp,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislOvertemp { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_overtemp_l<F>(
+        &mut self,
+        control: TislOvertempL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislOvertempL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_slant_range<F>(
+        &mut self,
+        control: TislSlantRange,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislSlantRange { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_track<F>(
+        &mut self,
+        control: TislTrack,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislTrack { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_tisl_track_l<F>(
+        &mut self,
+        control: TislTrackL,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(bool) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::TislTrackL { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc1<F>(
+        &mut self,
+        control: Ufc1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ufc1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc10<F>(
+        &mut self,
+        control: Ufc10,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ufc10 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc2<F>(
+        &mut self,
+        control: Ufc2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ufc2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc3<F>(
+        &mut self,
+        control: Ufc3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ufc3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc4<F>(
+        &mut self,
+        control: Ufc4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ufc4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc5<F>(
+        &mut self,
+        control: Ufc5,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ufc5 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc6<F>(
+        &mut self,
+        control: Ufc6,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ufc6 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc7<F>(
+        &mut self,
+        control: Ufc7,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ufc7 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc8<F>(
+        &mut self,
+        control: Ufc8,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ufc8 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc9<F>(
+        &mut self,
+        control: Ufc9,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Ufc9 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_alt_alrt<F>(
+        &mut self,
+        control: UfcAltAlrt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcAltAlrt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_clr<F>(
+        &mut self,
+        control: UfcClr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcClr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_data<F>(
+        &mut self,
+        control: UfcData,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcData { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_depr<F>(
+        &mut self,
+        control: UfcDepr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcDepr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_ent<F>(
+        &mut self,
+        control: UfcEnt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcEnt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_func<F>(
+        &mut self,
+        control: UfcFunc,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcFunc { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_hack<F>(
+        &mut self,
+        control: UfcHack,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcHack { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_inten<F>(
+        &mut self,
+        control: UfcInten,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcInten { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_ltr<F>(
+        &mut self,
+        control: UfcLtr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcLtr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_master_caution<F>(
+        &mut self,
+        control: UfcMasterCaution,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcMasterCaution { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_mk<F>(
+        &mut self,
+        control: UfcMk,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcMk { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_na1<F>(
+        &mut self,
+        control: UfcNa1,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcNa1 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_na2<F>(
+        &mut self,
+        control: UfcNa2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcNa2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_na3<F>(
+        &mut self,
+        control: UfcNa3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcNa3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_na4<F>(
+        &mut self,
+        control: UfcNa4,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcNa4 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_na5<F>(
+        &mut self,
+        control: UfcNa5,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcNa5 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_na6<F>(
+        &mut self,
+        control: UfcNa6,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcNa6 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_sel<F>(
+        &mut self,
+        control: UfcSel,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcSel { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_spc<F>(
+        &mut self,
+        control: UfcSpc,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcSpc { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_ufc_steer<F>(
+        &mut self,
+        control: UfcSteer,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UfcSteer { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf100mhz_sel_int<F>(
+        &mut self,
+        control: Uhf100mhzSelInt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Uhf100mhzSelInt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf100mhz_sel_str<F>(
+        &mut self,
+        control: Uhf100mhzSelStr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Uhf100mhzSelStr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf10mhz_sel<F>(
+        &mut self,
+        control: Uhf10mhzSel,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Uhf10mhzSel { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf1mhz_sel<F>(
+        &mut self,
+        control: Uhf1mhzSel,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Uhf1mhzSel { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_cover<F>(
+        &mut self,
+        control: UhfCover,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfCover { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_frequency<F>(
+        &mut self,
+        control: UhfFrequency,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfFrequency { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_function<F>(
+        &mut self,
+        control: UhfFunction,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfFunction { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_load<F>(
+        &mut self,
+        control: UhfLoad,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfLoad { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_mode<F>(
+        &mut self,
+        control: UhfMode,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfMode { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_point1mhz_sel<F>(
+        &mut self,
+        control: UhfPoint1mhzSel,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfPoint1mhzSel { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_point25_sel_int<F>(
+        &mut self,
+        control: UhfPoint25SelInt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfPoint25SelInt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_point25_sel_str<F>(
+        &mut self,
+        control: UhfPoint25SelStr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfPoint25SelStr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_preset<F>(
+        &mut self,
+        control: UhfPreset,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfPreset { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_preset_sel_int<F>(
+        &mut self,
+        control: UhfPresetSelInt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfPresetSelInt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_preset_sel_str<F>(
+        &mut self,
+        control: UhfPresetSelStr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfPresetSelStr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_squelch<F>(
+        &mut self,
+        control: UhfSquelch,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfSquelch { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_status<F>(
+        &mut self,
+        control: UhfStatus,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfStatus { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_t_tone<F>(
+        &mut self,
+        control: UhfTTone,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfTTone { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_test<F>(
+        &mut self,
+        control: UhfTest,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfTest { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_uhf_vol<F>(
+        &mut self,
+        control: UhfVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::UhfVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhf_am_frequency_s<F>(
+        &mut self,
+        control: VhfAmFrequencyS,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfAmFrequencyS { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhf_fm_frequency_s<F>(
+        &mut self,
+        control: VhfFmFrequencyS,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfFmFrequencyS { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_freq1_int<F>(
+        &mut self,
+        control: VhfamFreq1Int,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamFreq1Int { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_freq1_rot<F>(
+        &mut self,
+        control: VhfamFreq1Rot,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamFreq1Rot { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_freq1_str<F>(
+        &mut self,
+        control: VhfamFreq1Str,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamFreq1Str { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_freq2<F>(
+        &mut self,
+        control: VhfamFreq2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamFreq2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_freq2_rot<F>(
+        &mut self,
+        control: VhfamFreq2Rot,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamFreq2Rot { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_freq3<F>(
+        &mut self,
+        control: VhfamFreq3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamFreq3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_freq3_rot<F>(
+        &mut self,
+        control: VhfamFreq3Rot,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamFreq3Rot { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_freq4_int<F>(
+        &mut self,
+        control: VhfamFreq4Int,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamFreq4Int { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_freq4_rot<F>(
+        &mut self,
+        control: VhfamFreq4Rot,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamFreq4Rot { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_freq4_str<F>(
+        &mut self,
+        control: VhfamFreq4Str,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamFreq4Str { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_freqemer<F>(
+        &mut self,
+        control: VhfamFreqemer,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamFreqemer { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_load<F>(
+        &mut self,
+        control: VhfamLoad,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamLoad { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_mode<F>(
+        &mut self,
+        control: VhfamMode,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamMode { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_preset_int<F>(
+        &mut self,
+        control: VhfamPresetInt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamPresetInt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_preset_str<F>(
+        &mut self,
+        control: VhfamPresetStr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamPresetStr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_squelch<F>(
+        &mut self,
+        control: VhfamSquelch,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamSquelch { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhfam_vol<F>(
+        &mut self,
+        control: VhfamVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhfamVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_freq1_int<F>(
+        &mut self,
+        control: VhffmFreq1Int,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmFreq1Int { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_freq1_rot<F>(
+        &mut self,
+        control: VhffmFreq1Rot,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmFreq1Rot { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_freq1_str<F>(
+        &mut self,
+        control: VhffmFreq1Str,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmFreq1Str { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_freq2<F>(
+        &mut self,
+        control: VhffmFreq2,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmFreq2 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_freq2_rot<F>(
+        &mut self,
+        control: VhffmFreq2Rot,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmFreq2Rot { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_freq3<F>(
+        &mut self,
+        control: VhffmFreq3,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmFreq3 { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_freq3_rot<F>(
+        &mut self,
+        control: VhffmFreq3Rot,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmFreq3Rot { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_freq4_int<F>(
+        &mut self,
+        control: VhffmFreq4Int,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmFreq4Int { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_freq4_rot<F>(
+        &mut self,
+        control: VhffmFreq4Rot,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmFreq4Rot { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_freq4_str<F>(
+        &mut self,
+        control: VhffmFreq4Str,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmFreq4Str { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_freqemer<F>(
+        &mut self,
+        control: VhffmFreqemer,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmFreqemer { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_load<F>(
+        &mut self,
+        control: VhffmLoad,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmLoad { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_mode<F>(
+        &mut self,
+        control: VhffmMode,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmMode { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_preset_int<F>(
+        &mut self,
+        control: VhffmPresetInt,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmPresetInt { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_preset_str<F>(
+        &mut self,
+        control: VhffmPresetStr,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(&[u8]) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmPresetStr { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_squelch<F>(
+        &mut self,
+        control: VhffmSquelch,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmSquelch { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vhffm_vol<F>(
+        &mut self,
+        control: VhffmVol,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::VhffmVol { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn register_vvi<F>(
+        &mut self,
+        control: Vvi,
+        callback: &'a mut F,
+    ) -> Result<&mut Self, &'static str>
+    where
+        F: FnMut(u16) + 'a,
+    {
+        self.controls
+            .push(RegisteredControl::Vvi { control, callback })
+            .map_err(|_| "aircraft control capacity exceeded")?;
+        Ok(self)
+    }
+
+    pub fn build(self) -> A10c<'a, MAX_CONTROLS, MAX_PACKET_DATA> {
+        A10c {
+            parser: ProtocolParser::new(),
+            controls: self.controls,
+            saw_frame: false,
+        }
+    }
+}
+
+impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize> Default
+    for A10cBuilder<'a, MAX_CONTROLS, MAX_PACKET_DATA>
+{
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+struct Dispatcher<'bus, 'callback, const MAX_CONTROLS: usize> {
+    controls: &'bus mut Vec<RegisteredControl<'callback>, MAX_CONTROLS>,
+    saw_frame: &'bus mut bool,
+}
+
+impl<'bus, 'callback, const MAX_CONTROLS: usize> Sink
+    for Dispatcher<'bus, 'callback, MAX_CONTROLS>
+{
+    fn on_write(&mut self, packet: Packet<'_>) {
+        for control in self.controls.iter_mut() {
+            control.accept(packet);
+        }
+    }
+    fn on_frame_sync(&mut self) {
+        if *self.saw_frame {
+            for control in self.controls.iter_mut() {
+                control.commit();
+            }
+        } else {
+            *self.saw_frame = true;
+        }
+    }
+}
+
+pub struct A10c<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize> {
+    parser: ProtocolParser<MAX_PACKET_DATA>,
+    controls: Vec<RegisteredControl<'a>, MAX_CONTROLS>,
+    saw_frame: bool,
+}
+
+impl<const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
+    A10c<'_, MAX_CONTROLS, MAX_PACKET_DATA>
+{
+    pub fn feed(&mut self, bytes: &[u8]) -> Result<(), FeedError> {
+        let mut dispatcher = Dispatcher {
+            controls: &mut self.controls,
+            saw_frame: &mut self.saw_frame,
+        };
+        self.parser
+            .feed(bytes, &mut dispatcher)
+            .map_err(FeedError::Parse)
+    }
+}

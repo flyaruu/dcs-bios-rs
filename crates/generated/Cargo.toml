@@ -1,0 +1,8 @@
+[package]
+name = "dcs-bios-rs-generated"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+dcs-bios-rs-lib = { path = "../lib" }
+heapless = "0.8"

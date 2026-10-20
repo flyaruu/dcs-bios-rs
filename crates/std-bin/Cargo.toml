@@ -5,3 +5,4 @@ edition.workspace = true
 
 [dependencies]
 dcs-bios-rs-lib = { path = "../lib" }
+dcs-bios-rs-generated = { path = "../generated" }
