@@ -1,16 +1,16 @@
 use std::net::UdpSocket;
 
-use dcs_bios_rs_generated::av8bna::{Av8bnaBuilder, HudBright, JettMode};
+use dcs_bios_rs_generated::av8bna::{Av8bnaBuilder, HudBright, JettMode, JettModeValue};
 
 fn main() {
     // let mut on_mode = |value| {
     //     println!("JETT: {}", value);
     // };
-    let mut latest_value = 0;
+    let mut latest_value = None;
 
-    let mut callback = |value| {
-        println!("JETT: {}", value);
-        latest_value = value;
+    let mut callback = |value: JettModeValue| {
+        println!("JETT: {:?}", value);
+        latest_value = Some(value);
     };
 
     let mut callback2 = |value| {

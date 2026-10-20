@@ -28,6 +28,7 @@ struct OutputDefinition {
     description: Option<String>,
     #[serde(rename = "type")]
     output_type: String,
+    max_value: Option<u16>,
     mask: Option<u16>,
     shift_by: Option<u8>,
     max_length: Option<usize>,
@@ -40,9 +41,12 @@ struct GeneratedControl {
     name: String,
     description: String,
     base: String,
-    callback: &'static str,
+    callback: String,
+    callback_argument: String,
+    commit_callback: String,
     constructor: String,
     accessor: &'static str,
+    enum_definition: Option<String>,
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -141,6 +145,10 @@ fn generate_model(json: &str, model_name: &str) -> Result<String, Box<dyn std::e
     source.push_str("pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);\n\n");
 
     for control in &controls {
+        if let Some(enum_definition) = &control.enum_definition {
+            source.push_str(enum_definition);
+            source.push('\n');
+        }
         for line in control.description.lines() {
             writeln!(source, "/// {line}")?;
         }
@@ -201,8 +209,13 @@ fn generate_model(json: &str, model_name: &str) -> Result<String, Box<dyn std::e
         };
         writeln!(
             source,
-            "            Self::{} {{ control, callback }} => if control.commit() {{ callback({callback_value}); }},",
-            control.name
+            "            Self::{} {{ control, callback }} => if control.commit() {{ {} }},",
+            control.name,
+            if control.commit_callback.is_empty() {
+                format!("callback({callback_value});")
+            } else {
+                control.commit_callback.clone()
+            }
         )?;
     }
     source.push_str("        }\n    }\n}\n\n");
@@ -227,7 +240,7 @@ fn generate_model(json: &str, model_name: &str) -> Result<String, Box<dyn std::e
         writeln!(
             source,
             "    where F: FnMut({}) + 'a {{",
-            callback_type(control.callback)
+            control.callback_argument
         )?;
         writeln!(
             source,
@@ -306,7 +319,10 @@ fn generated_control(
             .into());
         }
     };
-    let (base, callback, constructor, accessor) = match output.output_type.as_str() {
+    let (base, callback, callback_argument, commit_callback, constructor, accessor) = match output
+        .output_type
+        .as_str()
+    {
         "integer" => {
             let mask = output.mask.ok_or(format!(
                 "integer output for {} has no mask",
@@ -316,13 +332,32 @@ fn generated_control(
                 "integer output for {} has no shift_by",
                 definition.identifier
             ))?;
+            let (callback, callback_argument, commit_callback) = if definition.control_type == "led"
+            {
+                ("LedCallback".to_string(), "bool".to_string(), String::new())
+            } else if definition.control_type == "selector"
+                && output.max_value.is_some_and(|max_value| max_value <= 10)
+            {
+                let enum_name = format!("{name}Value");
+                (
+                    format!("{enum_name}Callback"),
+                    enum_name.clone(),
+                    format!(
+                        "if let Ok(value) = <{enum_name} as core::convert::TryFrom<u16>>::try_from(control.value()) {{ callback(value); }}"
+                    ),
+                )
+            } else {
+                (
+                    "IntegerCallback".to_string(),
+                    "u16".to_string(),
+                    String::new(),
+                )
+            };
             (
                 integer_base.to_string(),
-                if definition.control_type == "led" {
-                    "LedCallback"
-                } else {
-                    "IntegerCallback"
-                },
+                callback,
+                callback_argument,
+                commit_callback,
                 format!(
                     "{integer_base}::new({}, {}, {})",
                     output.address, mask, shift
@@ -341,7 +376,9 @@ fn generated_control(
             ))?;
             (
                 format!("Display<{length}>"),
-                "DisplayCallback",
+                "DisplayCallback".to_string(),
+                "&[u8]".to_string(),
+                String::new(),
                 format!("Display::<{length}>::new({}, {length})", output.address),
                 "display",
             )
@@ -375,23 +412,64 @@ fn generated_control(
         description.push_str(output_description);
     }
 
+    let enum_definition = if definition.control_type == "selector"
+        && output.output_type == "integer"
+        && output.max_value.is_some_and(|max_value| max_value <= 10)
+    {
+        let enum_name = format!("{name}Value");
+        let max_value = output.max_value.unwrap();
+        let mut definition_source = String::new();
+        writeln!(
+            definition_source,
+            "#[derive(Clone, Copy, Debug, PartialEq, Eq)]"
+        )?;
+        writeln!(definition_source, "pub enum {enum_name} {{")?;
+        for value in 0..=max_value {
+            writeln!(definition_source, "    Select{},", value + 1)?;
+        }
+        writeln!(definition_source, "}}")?;
+        writeln!(
+            definition_source,
+            "pub type {enum_name}Callback<'a> = &'a mut dyn FnMut({enum_name});"
+        )?;
+        writeln!(
+            definition_source,
+            "impl core::convert::TryFrom<u16> for {enum_name} {{"
+        )?;
+        writeln!(definition_source, "    type Error = u16;")?;
+        writeln!(definition_source)?;
+        writeln!(
+            definition_source,
+            "    fn try_from(value: u16) -> Result<Self, Self::Error> {{"
+        )?;
+        writeln!(definition_source, "        match value {{")?;
+        for value in 0..=max_value {
+            writeln!(
+                definition_source,
+                "            {value} => Ok(Self::Select{}),",
+                value + 1
+            )?;
+        }
+        writeln!(definition_source, "            value => Err(value),")?;
+        writeln!(definition_source, "        }}")?;
+        writeln!(definition_source, "    }}")?;
+        writeln!(definition_source, "}}")?;
+        Some(definition_source)
+    } else {
+        None
+    };
+
     Ok(Some(GeneratedControl {
         name,
         description,
         base,
         callback,
+        callback_argument,
+        commit_callback,
         constructor,
         accessor,
+        enum_definition,
     }))
-}
-
-fn callback_type(callback: &str) -> &'static str {
-    match callback {
-        "IntegerCallback" => "u16",
-        "LedCallback" => "bool",
-        "DisplayCallback" => "&[u8]",
-        _ => unreachable!(),
-    }
 }
 
 fn pascal_case(value: &str) -> String {

@@ -89,6 +89,26 @@ impl Control for AcV {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum AcVmSrcValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type AcVmSrcValueCallback<'a> = &'a mut dyn FnMut(AcVmSrcValue);
+impl core::convert::TryFrom<u16> for AcVmSrcValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// AC Voltmeter Source
 /// Input: switch to previous or next state
 /// Input: set position
@@ -141,6 +161,26 @@ impl Control for AcVoltage {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum AdfBandValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type AdfBandValueCallback<'a> = &'a mut dyn FnMut(AdfBandValue);
+impl core::convert::TryFrom<u16> for AdfBandValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// ADF Band
 /// Input: switch to previous or next state
 /// Input: set position
@@ -165,6 +205,24 @@ impl Control for AdfBand {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum AdfBfoSwValue {
+    Select1,
+    Select2,
+}
+pub type AdfBfoSwValueCallback<'a> = &'a mut dyn FnMut(AdfBfoSwValue);
+impl core::convert::TryFrom<u16> for AdfBfoSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -248,6 +306,30 @@ impl Control for AdfGain {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum AdfLoopLrValue {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+    Select5,
+}
+pub type AdfLoopLrValueCallback<'a> = &'a mut dyn FnMut(AdfLoopLrValue);
+impl core::convert::TryFrom<u16> for AdfLoopLrValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            4 => Ok(Self::Select5),
+            value => Err(value),
+        }
+    }
+}
+
 /// ADF LOOP Left Low Speed / Left High Speed /Center / Right Low Speed / Right High Speed
 /// Input: switch to previous or next state
 /// Input: set position
@@ -272,6 +354,28 @@ impl Control for AdfLoopLr {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum AdfModeValue {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+}
+pub type AdfModeValueCallback<'a> = &'a mut dyn FnMut(AdfModeValue);
+impl core::convert::TryFrom<u16> for AdfModeValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            value => Err(value),
+        }
     }
 }
 
@@ -350,6 +454,24 @@ impl Control for AdfTune {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum AdfVorSwValue {
+    Select1,
+    Select2,
+}
+pub type AdfVorSwValueCallback<'a> = &'a mut dyn FnMut(AdfVorSwValue);
+impl core::convert::TryFrom<u16> for AdfVorSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -564,6 +686,24 @@ impl Control for AntiIceAmp {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum AnticollLtsSwValue {
+    Select1,
+    Select2,
+}
+pub type AnticollLtsSwValueCallback<'a> = &'a mut dyn FnMut(AnticollLtsSwValue);
+impl core::convert::TryFrom<u16> for AnticollLtsSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Anticollision Lights OFF / ON
 /// Input: switch to previous or next state
 /// Input: set position
@@ -617,6 +757,24 @@ impl Control for ArmedInd {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum BatSwValue {
+    Select1,
+    Select2,
+}
+pub type BatSwValueCallback<'a> = &'a mut dyn FnMut(BatSwValue);
+impl core::convert::TryFrom<u16> for BatSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Battery Switch
 /// Input: switch to previous or next state
 /// Input: set position
@@ -642,6 +800,24 @@ impl Control for BatSw {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum BeaconSensingSwValue {
+    Select1,
+    Select2,
+}
+pub type BeaconSensingSwValueCallback<'a> = &'a mut dyn FnMut(BeaconSensingSwValue);
+impl core::convert::TryFrom<u16> for BeaconSensingSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -697,6 +873,30 @@ impl Control for BeaconVol {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum BleedAirSwValue {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+    Select5,
+}
+pub type BleedAirSwValueCallback<'a> = &'a mut dyn FnMut(BleedAirSwValue);
+impl core::convert::TryFrom<u16> for BleedAirSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            4 => Ok(Self::Select5),
+            value => Err(value),
+        }
     }
 }
 
@@ -889,6 +1089,24 @@ impl Control for BrtSec {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CargoRelCpValue {
+    Select1,
+    Select2,
+}
+pub type CargoRelCpValueCallback<'a> = &'a mut dyn FnMut(CargoRelCpValue);
+impl core::convert::TryFrom<u16> for CargoRelCpValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Cargo Release CoPilot
 /// Input: switch to previous or next state
 /// Input: set position
@@ -914,6 +1132,24 @@ impl Control for CargoRelCp {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CargoRelPValue {
+    Select1,
+    Select2,
+}
+pub type CargoRelPValueCallback<'a> = &'a mut dyn FnMut(CargoRelPValue);
+impl core::convert::TryFrom<u16> for CargoRelPValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -945,6 +1181,24 @@ impl Control for CargoRelP {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CargoRelSafeValue {
+    Select1,
+    Select2,
+}
+pub type CargoRelSafeValueCallback<'a> = &'a mut dyn FnMut(CargoRelSafeValue);
+impl core::convert::TryFrom<u16> for CargoRelSafeValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Cargo Safety OFF / ARM
 /// Input: switch to previous or next state
 /// Input: set position
@@ -970,6 +1224,24 @@ impl Control for CargoRelSafe {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Cb28vValue {
+    Select1,
+    Select2,
+}
+pub type Cb28vValueCallback<'a> = &'a mut dyn FnMut(Cb28vValue);
+impl core::convert::TryFrom<u16> for Cb28vValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1001,6 +1273,24 @@ impl Control for Cb28v {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbAirValveValue {
+    Select1,
+    Select2,
+}
+pub type CbAirValveValueCallback<'a> = &'a mut dyn FnMut(CbAirValveValue);
+impl core::convert::TryFrom<u16> for CbAirValveValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Cabin Heater Air Valve (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1026,6 +1316,24 @@ impl Control for CbAirValve {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbAmRadioValue {
+    Select1,
+    Select2,
+}
+pub type CbAmRadioValueCallback<'a> = &'a mut dyn FnMut(CbAmRadioValue);
+impl core::convert::TryFrom<u16> for CbAmRadioValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1057,6 +1365,24 @@ impl Control for CbAmRadio {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbAntiIceValue {
+    Select1,
+    Select2,
+}
+pub type CbAntiIceValueCallback<'a> = &'a mut dyn FnMut(CbAntiIceValue);
+impl core::convert::TryFrom<u16> for CbAntiIceValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Engine anti-ice (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1082,6 +1408,24 @@ impl Control for CbAntiIce {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbAnticollValue {
+    Select1,
+    Select2,
+}
+pub type CbAnticollValueCallback<'a> = &'a mut dyn FnMut(CbAnticollValue);
+impl core::convert::TryFrom<u16> for CbAnticollValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1113,6 +1457,24 @@ impl Control for CbAnticoll {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbArc102Value {
+    Select1,
+    Select2,
+}
+pub type CbArc102ValueCallback<'a> = &'a mut dyn FnMut(CbArc102Value);
+impl core::convert::TryFrom<u16> for CbArc102Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// ARC-102 HF Static Inverter (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1138,6 +1500,24 @@ impl Control for CbArc102 {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbCableValue {
+    Select1,
+    Select2,
+}
+pub type CbCableValueCallback<'a> = &'a mut dyn FnMut(CbCableValue);
+impl core::convert::TryFrom<u16> for CbCableValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1169,6 +1549,24 @@ impl Control for CbCable {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbCautionLtsValue {
+    Select1,
+    Select2,
+}
+pub type CbCautionLtsValueCallback<'a> = &'a mut dyn FnMut(CbCautionLtsValue);
+impl core::convert::TryFrom<u16> for CbCautionLtsValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Caution lights (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1194,6 +1592,24 @@ impl Control for CbCautionLts {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbCockpitLtsValue {
+    Select1,
+    Select2,
+}
+pub type CbCockpitLtsValueCallback<'a> = &'a mut dyn FnMut(CbCockpitLtsValue);
+impl core::convert::TryFrom<u16> for CbCockpitLtsValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1225,6 +1641,24 @@ impl Control for CbCockpitLts {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbConsoleLtsValue {
+    Select1,
+    Select2,
+}
+pub type CbConsoleLtsValueCallback<'a> = &'a mut dyn FnMut(CbConsoleLtsValue);
+impl core::convert::TryFrom<u16> for CbConsoleLtsValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Console lights (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1250,6 +1684,24 @@ impl Control for CbConsoleLts {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbCpltAttd1Value {
+    Select1,
+    Select2,
+}
+pub type CbCpltAttd1ValueCallback<'a> = &'a mut dyn FnMut(CbCpltAttd1Value);
+impl core::convert::TryFrom<u16> for CbCpltAttd1Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1281,6 +1733,24 @@ impl Control for CbCpltAttd1 {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbCpltAttd2Value {
+    Select1,
+    Select2,
+}
+pub type CbCpltAttd2ValueCallback<'a> = &'a mut dyn FnMut(CbCpltAttd2Value);
+impl core::convert::TryFrom<u16> for CbCpltAttd2Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Coilot ATTD2 (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1306,6 +1776,24 @@ impl Control for CbCpltAttd2 {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbCrsindValue {
+    Select1,
+    Select2,
+}
+pub type CbCrsindValueCallback<'a> = &'a mut dyn FnMut(CbCrsindValue);
+impl core::convert::TryFrom<u16> for CbCrsindValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1337,6 +1825,24 @@ impl Control for CbCrsind {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbDomeLtsValue {
+    Select1,
+    Select2,
+}
+pub type CbDomeLtsValueCallback<'a> = &'a mut dyn FnMut(CbDomeLtsValue);
+impl core::convert::TryFrom<u16> for CbDomeLtsValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Dome lights (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1362,6 +1868,24 @@ impl Control for CbDomeLts {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbEngValue {
+    Select1,
+    Select2,
+}
+pub type CbEngValueCallback<'a> = &'a mut dyn FnMut(CbEngValue);
+impl core::convert::TryFrom<u16> for CbEngValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1393,6 +1917,24 @@ impl Control for CbEng {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbFailRelayValue {
+    Select1,
+    Select2,
+}
+pub type CbFailRelayValueCallback<'a> = &'a mut dyn FnMut(CbFailRelayValue);
+impl core::convert::TryFrom<u16> for CbFailRelayValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Fail Relay (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1418,6 +1960,24 @@ impl Control for CbFailRelay {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbFireValue {
+    Select1,
+    Select2,
+}
+pub type CbFireValueCallback<'a> = &'a mut dyn FnMut(CbFireValue);
+impl core::convert::TryFrom<u16> for CbFireValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1449,6 +2009,24 @@ impl Control for CbFire {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbFm2RadioValue {
+    Select1,
+    Select2,
+}
+pub type CbFm2RadioValueCallback<'a> = &'a mut dyn FnMut(CbFm2RadioValue);
+impl core::convert::TryFrom<u16> for CbFm2RadioValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// FM 2 Radio (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1474,6 +2052,24 @@ impl Control for CbFm2Radio {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbFmRadioValue {
+    Select1,
+    Select2,
+}
+pub type CbFmRadioValueCallback<'a> = &'a mut dyn FnMut(CbFmRadioValue);
+impl core::convert::TryFrom<u16> for CbFmRadioValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1505,6 +2101,24 @@ impl Control for CbFmRadio {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbFuelValue {
+    Select1,
+    Select2,
+}
+pub type CbFuelValueCallback<'a> = &'a mut dyn FnMut(CbFuelValue);
+impl core::convert::TryFrom<u16> for CbFuelValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Pressure Fuel (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1530,6 +2144,24 @@ impl Control for CbFuel {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbFuelQtyValue {
+    Select1,
+    Select2,
+}
+pub type CbFuelQtyValueCallback<'a> = &'a mut dyn FnMut(CbFuelQtyValue);
+impl core::convert::TryFrom<u16> for CbFuelQtyValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1561,6 +2193,24 @@ impl Control for CbFuelQty {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbFuelTransValue {
+    Select1,
+    Select2,
+}
+pub type CbFuelTransValueCallback<'a> = &'a mut dyn FnMut(CbFuelTransValue);
+impl core::convert::TryFrom<u16> for CbFuelTransValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Fuel TRANS (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1586,6 +2236,24 @@ impl Control for CbFuelTrans {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbFuelValvesValue {
+    Select1,
+    Select2,
+}
+pub type CbFuelValvesValueCallback<'a> = &'a mut dyn FnMut(CbFuelValvesValue);
+impl core::convert::TryFrom<u16> for CbFuelValvesValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1617,6 +2285,24 @@ impl Control for CbFuelValves {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbFusLtsValue {
+    Select1,
+    Select2,
+}
+pub type CbFusLtsValueCallback<'a> = &'a mut dyn FnMut(CbFusLtsValue);
+impl core::convert::TryFrom<u16> for CbFusLtsValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Fuselage lights (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1642,6 +2328,24 @@ impl Control for CbFusLts {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbGenBusValue {
+    Select1,
+    Select2,
+}
+pub type CbGenBusValueCallback<'a> = &'a mut dyn FnMut(CbGenBusValue);
+impl core::convert::TryFrom<u16> for CbGenBusValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1673,6 +2377,24 @@ impl Control for CbGenBus {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbGovValue {
+    Select1,
+    Select2,
+}
+pub type CbGovValueCallback<'a> = &'a mut dyn FnMut(CbGovValue);
+impl core::convert::TryFrom<u16> for CbGovValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Governor Control (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1698,6 +2420,24 @@ impl Control for CbGov {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbGyroValue {
+    Select1,
+    Select2,
+}
+pub type CbGyroValueCallback<'a> = &'a mut dyn FnMut(CbGyroValue);
+impl core::convert::TryFrom<u16> for CbGyroValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1729,6 +2469,24 @@ impl Control for CbGyro {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbHeatedBlanket1Value {
+    Select1,
+    Select2,
+}
+pub type CbHeatedBlanket1ValueCallback<'a> = &'a mut dyn FnMut(CbHeatedBlanket1Value);
+impl core::convert::TryFrom<u16> for CbHeatedBlanket1Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Heated blanket 1 (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1754,6 +2512,24 @@ impl Control for CbHeatedBlanket1 {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbHeatedBlanket2Value {
+    Select1,
+    Select2,
+}
+pub type CbHeatedBlanket2ValueCallback<'a> = &'a mut dyn FnMut(CbHeatedBlanket2Value);
+impl core::convert::TryFrom<u16> for CbHeatedBlanket2Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1785,6 +2561,24 @@ impl Control for CbHeatedBlanket2 {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbHfAntValue {
+    Select1,
+    Select2,
+}
+pub type CbHfAntValueCallback<'a> = &'a mut dyn FnMut(CbHfAntValue);
+impl core::convert::TryFrom<u16> for CbHfAntValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// HF ANT COUPLR (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1810,6 +2604,24 @@ impl Control for CbHfAnt {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbHfArc102Value {
+    Select1,
+    Select2,
+}
+pub type CbHfArc102ValueCallback<'a> = &'a mut dyn FnMut(CbHfArc102Value);
+impl core::convert::TryFrom<u16> for CbHfArc102Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1841,6 +2653,24 @@ impl Control for CbHfArc102 {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbHookValue {
+    Select1,
+    Select2,
+}
+pub type CbHookValueCallback<'a> = &'a mut dyn FnMut(CbHookValue);
+impl core::convert::TryFrom<u16> for CbHookValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Cargo hook release (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1866,6 +2696,24 @@ impl Control for CbHook {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbHydctlValue {
+    Select1,
+    Select2,
+}
+pub type CbHydctlValueCallback<'a> = &'a mut dyn FnMut(CbHydctlValue);
+impl core::convert::TryFrom<u16> for CbHydctlValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1897,6 +2745,24 @@ impl Control for CbHydctl {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbIdleStopValue {
+    Select1,
+    Select2,
+}
+pub type CbIdleStopValueCallback<'a> = &'a mut dyn FnMut(CbIdleStopValue);
+impl core::convert::TryFrom<u16> for CbIdleStopValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// IDLE Stop release (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1922,6 +2788,24 @@ impl Control for CbIdleStop {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbIffApx1Value {
+    Select1,
+    Select2,
+}
+pub type CbIffApx1ValueCallback<'a> = &'a mut dyn FnMut(CbIffApx1Value);
+impl core::convert::TryFrom<u16> for CbIffApx1Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -1953,6 +2837,24 @@ impl Control for CbIffApx1 {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbIffApx2Value {
+    Select1,
+    Select2,
+}
+pub type CbIffApx2ValueCallback<'a> = &'a mut dyn FnMut(CbIffApx2Value);
+impl core::convert::TryFrom<u16> for CbIffApx2Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// IFF APX 2 (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -1978,6 +2880,24 @@ impl Control for CbIffApx2 {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbIgnValue {
+    Select1,
+    Select2,
+}
+pub type CbIgnValueCallback<'a> = &'a mut dyn FnMut(CbIgnValue);
+impl core::convert::TryFrom<u16> for CbIgnValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2009,6 +2929,24 @@ impl Control for CbIgn {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbInstLtsValue {
+    Select1,
+    Select2,
+}
+pub type CbInstLtsValueCallback<'a> = &'a mut dyn FnMut(CbInstLtsValue);
+impl core::convert::TryFrom<u16> for CbInstLtsValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// INST Panel lights (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2034,6 +2972,24 @@ impl Control for CbInstLts {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbInstSecLtsValue {
+    Select1,
+    Select2,
+}
+pub type CbInstSecLtsValueCallback<'a> = &'a mut dyn FnMut(CbInstSecLtsValue);
+impl core::convert::TryFrom<u16> for CbInstSecLtsValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2065,6 +3021,24 @@ impl Control for CbInstSecLts {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbIntCpltValue {
+    Select1,
+    Select2,
+}
+pub type CbIntCpltValueCallback<'a> = &'a mut dyn FnMut(CbIntCpltValue);
+impl core::convert::TryFrom<u16> for CbIntCpltValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Intercom Copilot (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2090,6 +3064,24 @@ impl Control for CbIntCplt {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbIntPltValue {
+    Select1,
+    Select2,
+}
+pub type CbIntPltValueCallback<'a> = &'a mut dyn FnMut(CbIntPltValue);
+impl core::convert::TryFrom<u16> for CbIntPltValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2121,6 +3113,24 @@ impl Control for CbIntPlt {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbInvtrValue {
+    Select1,
+    Select2,
+}
+pub type CbInvtrValueCallback<'a> = &'a mut dyn FnMut(CbInvtrValue);
+impl core::convert::TryFrom<u16> for CbInvtrValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Inverter CTRL (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2146,6 +3156,24 @@ impl Control for CbInvtr {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbJtsnValue {
+    Select1,
+    Select2,
+}
+pub type CbJtsnValueCallback<'a> = &'a mut dyn FnMut(CbJtsnValue);
+impl core::convert::TryFrom<u16> for CbJtsnValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2177,6 +3205,24 @@ impl Control for CbJtsn {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbKy20Value {
+    Select1,
+    Select2,
+}
+pub type CbKy20ValueCallback<'a> = &'a mut dyn FnMut(CbKy20Value);
+impl core::convert::TryFrom<u16> for CbKy20Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// KY-28 Secure Radio (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2202,6 +3248,24 @@ impl Control for CbKy20 {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbLdgltsValue {
+    Select1,
+    Select2,
+}
+pub type CbLdgltsValueCallback<'a> = &'a mut dyn FnMut(CbLdgltsValue);
+impl core::convert::TryFrom<u16> for CbLdgltsValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2233,6 +3297,24 @@ impl Control for CbLdglts {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbLfNavValue {
+    Select1,
+    Select2,
+}
+pub type CbLfNavValueCallback<'a> = &'a mut dyn FnMut(CbLfNavValue);
+impl core::convert::TryFrom<u16> for CbLfNavValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// LF Nav. (ARN-83)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2258,6 +3340,24 @@ impl Control for CbLfNav {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbLhFuelValue {
+    Select1,
+    Select2,
+}
+pub type CbLhFuelValueCallback<'a> = &'a mut dyn FnMut(CbLhFuelValue);
+impl core::convert::TryFrom<u16> for CbLhFuelValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2289,6 +3389,24 @@ impl Control for CbLhFuel {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbMainInvtrValue {
+    Select1,
+    Select2,
+}
+pub type CbMainInvtrValueCallback<'a> = &'a mut dyn FnMut(CbMainInvtrValue);
+impl core::convert::TryFrom<u16> for CbMainInvtrValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Main Inverter PWR (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2314,6 +3432,24 @@ impl Control for CbMainInvtr {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbMarkerBeaconValue {
+    Select1,
+    Select2,
+}
+pub type CbMarkerBeaconValueCallback<'a> = &'a mut dyn FnMut(CbMarkerBeaconValue);
+impl core::convert::TryFrom<u16> for CbMarkerBeaconValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2345,6 +3481,24 @@ impl Control for CbMarkerBeacon {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbNavLtsValue {
+    Select1,
+    Select2,
+}
+pub type CbNavLtsValueCallback<'a> = &'a mut dyn FnMut(CbNavLtsValue);
+impl core::convert::TryFrom<u16> for CbNavLtsValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Navigation lights (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2370,6 +3524,24 @@ impl Control for CbNavLts {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbOutletValveValue {
+    Select1,
+    Select2,
+}
+pub type CbOutletValveValueCallback<'a> = &'a mut dyn FnMut(CbOutletValveValue);
+impl core::convert::TryFrom<u16> for CbOutletValveValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2401,6 +3573,24 @@ impl Control for CbOutletValve {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbPitotTubeValue {
+    Select1,
+    Select2,
+}
+pub type CbPitotTubeValueCallback<'a> = &'a mut dyn FnMut(CbPitotTubeValue);
+impl core::convert::TryFrom<u16> for CbPitotTubeValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Pitot tube (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2426,6 +3616,24 @@ impl Control for CbPitotTube {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbPltAttd1Value {
+    Select1,
+    Select2,
+}
+pub type CbPltAttd1ValueCallback<'a> = &'a mut dyn FnMut(CbPltAttd1Value);
+impl core::convert::TryFrom<u16> for CbPltAttd1Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2457,6 +3665,24 @@ impl Control for CbPltAttd1 {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbPltAttd2Value {
+    Select1,
+    Select2,
+}
+pub type CbPltAttd2ValueCallback<'a> = &'a mut dyn FnMut(CbPltAttd2Value);
+impl core::convert::TryFrom<u16> for CbPltAttd2Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Pilot ATTD2 (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2482,6 +3708,24 @@ impl Control for CbPltAttd2 {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbPorxWarnValue {
+    Select1,
+    Select2,
+}
+pub type CbPorxWarnValueCallback<'a> = &'a mut dyn FnMut(CbPorxWarnValue);
+impl core::convert::TryFrom<u16> for CbPorxWarnValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2513,6 +3757,24 @@ impl Control for CbPorxWarn {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbRescueContValue {
+    Select1,
+    Select2,
+}
+pub type CbRescueContValueCallback<'a> = &'a mut dyn FnMut(CbRescueContValue);
+impl core::convert::TryFrom<u16> for CbRescueContValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Rescue hoist CTL (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2538,6 +3800,24 @@ impl Control for CbRescueCont {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbRescuePwrValue {
+    Select1,
+    Select2,
+}
+pub type CbRescuePwrValueCallback<'a> = &'a mut dyn FnMut(CbRescuePwrValue);
+impl core::convert::TryFrom<u16> for CbRescuePwrValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2569,6 +3849,24 @@ impl Control for CbRescuePwr {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbRhFuelValue {
+    Select1,
+    Select2,
+}
+pub type CbRhFuelValueCallback<'a> = &'a mut dyn FnMut(CbRhFuelValue);
+impl core::convert::TryFrom<u16> for CbRhFuelValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// RH fuel boost pumps (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2594,6 +3892,24 @@ impl Control for CbRhFuel {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbRpmWarnValue {
+    Select1,
+    Select2,
+}
+pub type CbRpmWarnValueCallback<'a> = &'a mut dyn FnMut(CbRpmWarnValue);
+impl core::convert::TryFrom<u16> for CbRpmWarnValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2625,6 +3941,24 @@ impl Control for CbRpmWarn {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbSlCtlValue {
+    Select1,
+    Select2,
+}
+pub type CbSlCtlValueCallback<'a> = &'a mut dyn FnMut(CbSlCtlValue);
+impl core::convert::TryFrom<u16> for CbSlCtlValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Landing and Search Lights Control (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2650,6 +3984,24 @@ impl Control for CbSlCtl {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbSlPwrValue {
+    Select1,
+    Select2,
+}
+pub type CbSlPwrValueCallback<'a> = &'a mut dyn FnMut(CbSlPwrValue);
+impl core::convert::TryFrom<u16> for CbSlPwrValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2681,6 +4033,24 @@ impl Control for CbSlPwr {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbSpareInvtrValue {
+    Select1,
+    Select2,
+}
+pub type CbSpareInvtrValueCallback<'a> = &'a mut dyn FnMut(CbSpareInvtrValue);
+impl core::convert::TryFrom<u16> for CbSpareInvtrValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Spare Inverter (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2706,6 +4076,24 @@ impl Control for CbSpareInvtr {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbStarterValue {
+    Select1,
+    Select2,
+}
+pub type CbStarterValueCallback<'a> = &'a mut dyn FnMut(CbStarterValue);
+impl core::convert::TryFrom<u16> for CbStarterValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2737,6 +4125,24 @@ impl Control for CbStarter {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbStbyGenValue {
+    Select1,
+    Select2,
+}
+pub type CbStbyGenValueCallback<'a> = &'a mut dyn FnMut(CbStbyGenValue);
+impl core::convert::TryFrom<u16> for CbStbyGenValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// STBY Generator Field (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2762,6 +4168,24 @@ impl Control for CbStbyGen {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbTempValue {
+    Select1,
+    Select2,
+}
+pub type CbTempValueCallback<'a> = &'a mut dyn FnMut(CbTempValue);
+impl core::convert::TryFrom<u16> for CbTempValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2793,6 +4217,24 @@ impl Control for CbTemp {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbTorqValue {
+    Select1,
+    Select2,
+}
+pub type CbTorqValueCallback<'a> = &'a mut dyn FnMut(CbTorqValue);
+impl core::convert::TryFrom<u16> for CbTorqValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Pressure Torque (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2818,6 +4260,24 @@ impl Control for CbTorq {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbTrimValue {
+    Select1,
+    Select2,
+}
+pub type CbTrimValueCallback<'a> = &'a mut dyn FnMut(CbTrimValue);
+impl core::convert::TryFrom<u16> for CbTrimValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2849,6 +4309,24 @@ impl Control for CbTrim {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbTurnSlipValue {
+    Select1,
+    Select2,
+}
+pub type CbTurnSlipValueCallback<'a> = &'a mut dyn FnMut(CbTurnSlipValue);
+impl core::convert::TryFrom<u16> for CbTurnSlipValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Turn & Slip Indicator
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2874,6 +4352,24 @@ impl Control for CbTurnSlip {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbUhfRadioValue {
+    Select1,
+    Select2,
+}
+pub type CbUhfRadioValueCallback<'a> = &'a mut dyn FnMut(CbUhfRadioValue);
+impl core::convert::TryFrom<u16> for CbUhfRadioValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2905,6 +4401,24 @@ impl Control for CbUhfRadio {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbVhfNavValue {
+    Select1,
+    Select2,
+}
+pub type CbVhfNavValueCallback<'a> = &'a mut dyn FnMut(CbVhfNavValue);
+impl core::convert::TryFrom<u16> for CbVhfNavValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// VHF Nav. (ARN-82)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2930,6 +4444,24 @@ impl Control for CbVhfNav {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbVmValue {
+    Select1,
+    Select2,
+}
+pub type CbVmValueCallback<'a> = &'a mut dyn FnMut(CbVmValue);
+impl core::convert::TryFrom<u16> for CbVmValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -2961,6 +4493,24 @@ impl Control for CbVm {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbWiperCpltValue {
+    Select1,
+    Select2,
+}
+pub type CbWiperCpltValueCallback<'a> = &'a mut dyn FnMut(CbWiperCpltValue);
+impl core::convert::TryFrom<u16> for CbWiperCpltValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Wind wiper CPLT
 /// Input: switch to previous or next state
 /// Input: set position
@@ -2986,6 +4536,24 @@ impl Control for CbWiperCplt {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbWiperPltValue {
+    Select1,
+    Select2,
+}
+pub type CbWiperPltValueCallback<'a> = &'a mut dyn FnMut(CbWiperPltValue);
+impl core::convert::TryFrom<u16> for CbWiperPltValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -3017,6 +4585,24 @@ impl Control for CbWiperPlt {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CbXmsnValue {
+    Select1,
+    Select2,
+}
+pub type CbXmsnValueCallback<'a> = &'a mut dyn FnMut(CbXmsnValue);
+impl core::convert::TryFrom<u16> for CbXmsnValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Pressure XMSN (No Function)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -3042,6 +4628,26 @@ impl Control for CbXmsn {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ChipDetSwValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type ChipDetSwValueCallback<'a> = &'a mut dyn FnMut(ChipDetSwValue);
+impl core::convert::TryFrom<u16> for ChipDetSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
     }
 }
 
@@ -3873,6 +5479,26 @@ impl Control for ClockS {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ClpBrightDimSwValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type ClpBrightDimSwValueCallback<'a> = &'a mut dyn FnMut(ClpBrightDimSwValue);
+impl core::convert::TryFrom<u16> for ClpBrightDimSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// Bright/Dim Rocker Switch
 /// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
 /// Output: selector position
@@ -3896,6 +5522,26 @@ impl Control for ClpBrightDimSw {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ClpResetTestSwValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type ClpResetTestSwValueCallback<'a> = &'a mut dyn FnMut(ClpResetTestSwValue);
+impl core::convert::TryFrom<u16> for ClpResetTestSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
     }
 }
 
@@ -3925,6 +5571,24 @@ impl Control for ClpResetTestSw {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CmArmSwValue {
+    Select1,
+    Select2,
+}
+pub type CmArmSwValueCallback<'a> = &'a mut dyn FnMut(CmArmSwValue);
+impl core::convert::TryFrom<u16> for CmArmSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// SAFE / ARMED Switch
 /// Input: switch to previous or next state
 /// Input: set position
@@ -3950,6 +5614,24 @@ impl Control for CmArmSw {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CmArmedTestValue {
+    Select1,
+    Select2,
+}
+pub type CmArmedTestValueCallback<'a> = &'a mut dyn FnMut(CmArmedTestValue);
+impl core::convert::TryFrom<u16> for CmArmedTestValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -4031,6 +5713,24 @@ impl Control for CmChaffcntDisplayStr {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CmChaffcntResetValue {
+    Select1,
+    Select2,
+}
+pub type CmChaffcntResetValueCallback<'a> = &'a mut dyn FnMut(CmChaffcntResetValue);
+impl core::convert::TryFrom<u16> for CmChaffcntResetValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Chaff Counter Reset Button
 /// Input: switch to previous or next state
 /// Input: set position
@@ -4056,6 +5756,24 @@ impl Control for CmChaffcntReset {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CmFlareBtnValue {
+    Select1,
+    Select2,
+}
+pub type CmFlareBtnValueCallback<'a> = &'a mut dyn FnMut(CmFlareBtnValue);
+impl core::convert::TryFrom<u16> for CmFlareBtnValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -4137,6 +5855,24 @@ impl Control for CmFlarecntDisplayStr {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CmFlarecntResetValue {
+    Select1,
+    Select2,
+}
+pub type CmFlarecntResetValueCallback<'a> = &'a mut dyn FnMut(CmFlarecntResetValue);
+impl core::convert::TryFrom<u16> for CmFlarecntResetValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Flare Counter Reset Button
 /// Input: switch to previous or next state
 /// Input: set position
@@ -4162,6 +5898,24 @@ impl Control for CmFlarecntReset {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CmManPgrmSwValue {
+    Select1,
+    Select2,
+}
+pub type CmManPgrmSwValueCallback<'a> = &'a mut dyn FnMut(CmManPgrmSwValue);
+impl core::convert::TryFrom<u16> for CmManPgrmSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -4193,6 +5947,24 @@ impl Control for CmManPgrmSw {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CmRippleCoverValue {
+    Select1,
+    Select2,
+}
+pub type CmRippleCoverValueCallback<'a> = &'a mut dyn FnMut(CmRippleCoverValue);
+impl core::convert::TryFrom<u16> for CmRippleCoverValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Ripple Fire Cover
 /// Input: switch to previous or next state
 /// Input: set position
@@ -4218,6 +5990,24 @@ impl Control for CmRippleCover {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CmRippleSwValue {
+    Select1,
+    Select2,
+}
+pub type CmRippleSwValueCallback<'a> = &'a mut dyn FnMut(CmRippleSwValue);
+impl core::convert::TryFrom<u16> for CmRippleSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -4271,6 +6061,24 @@ impl Control for ConsoleLight {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CpltAdiCageValue {
+    Select1,
+    Select2,
+}
+pub type CpltAdiCageValueCallback<'a> = &'a mut dyn FnMut(CpltAdiCageValue);
+impl core::convert::TryFrom<u16> for CpltAdiCageValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -4400,6 +6208,30 @@ impl Control for DcV {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum DcVmSrcValue {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+    Select5,
+}
+pub type DcVmSrcValueCallback<'a> = &'a mut dyn FnMut(DcVmSrcValue);
+impl core::convert::TryFrom<u16> for DcVmSrcValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            4 => Ok(Self::Select5),
+            value => Err(value),
+        }
     }
 }
 
@@ -4580,6 +6412,26 @@ impl Control for DomeLightGreen {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum DomeLightSwValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type DomeLightSwValueCallback<'a> = &'a mut dyn FnMut(DomeLightSwValue);
+impl core::convert::TryFrom<u16> for DomeLightSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// Dome Light Switch WHITE / OFF / GREEN
 /// Input: switch to previous or next state
 /// Input: set position
@@ -4604,6 +6456,24 @@ impl Control for DomeLightSw {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum DoorLPtrValue {
+    Select1,
+    Select2,
+}
+pub type DoorLPtrValueCallback<'a> = &'a mut dyn FnMut(DoorLPtrValue);
+impl core::convert::TryFrom<u16> for DoorLPtrValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -4635,6 +6505,24 @@ impl Control for DoorLPtr {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum DoorRPtrValue {
+    Select1,
+    Select2,
+}
+pub type DoorRPtrValueCallback<'a> = &'a mut dyn FnMut(DoorRPtrValue);
+impl core::convert::TryFrom<u16> for DoorRPtrValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Door Right
 /// Input: switch to previous or next state
 /// Input: set position
@@ -4663,6 +6551,24 @@ impl Control for DoorRPtr {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum EmerGovSwValue {
+    Select1,
+    Select2,
+}
+pub type EmerGovSwValueCallback<'a> = &'a mut dyn FnMut(EmerGovSwValue);
+impl core::convert::TryFrom<u16> for EmerGovSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Emergency Govenor Switch
 /// Input: switch to previous or next state
 /// Input: set position
@@ -4688,6 +6594,24 @@ impl Control for EmerGovSw {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum EngDeiceValue {
+    Select1,
+    Select2,
+}
+pub type EngDeiceValueCallback<'a> = &'a mut dyn FnMut(EngDeiceValue);
+impl core::convert::TryFrom<u16> for EngDeiceValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -4944,6 +6868,24 @@ impl Control for FireInd {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum FireTestBtnValue {
+    Select1,
+    Select2,
+}
+pub type FireTestBtnValueCallback<'a> = &'a mut dyn FnMut(FireTestBtnValue);
+impl core::convert::TryFrom<u16> for FireTestBtnValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Fire Test Button
 /// Input: switch to previous or next state
 /// Input: set position
@@ -4969,6 +6911,24 @@ impl Control for FireTestBtn {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ForceTrimSwValue {
+    Select1,
+    Select2,
+}
+pub type ForceTrimSwValueCallback<'a> = &'a mut dyn FnMut(ForceTrimSwValue);
+impl core::convert::TryFrom<u16> for ForceTrimSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -5248,6 +7208,26 @@ impl Control for GmcPwrfail {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum GovRpmSwValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type GovRpmSwValueCallback<'a> = &'a mut dyn FnMut(GovRpmSwValue);
+impl core::convert::TryFrom<u16> for GovRpmSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// Governor RPM Rocker Switch
 /// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
 /// Output: selector position
@@ -5271,6 +7251,26 @@ impl Control for GovRpmSw {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum GovRpmSw2Value {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type GovRpmSw2ValueCallback<'a> = &'a mut dyn FnMut(GovRpmSw2Value);
+impl core::convert::TryFrom<u16> for GovRpmSw2Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
     }
 }
 
@@ -5300,6 +7300,26 @@ impl Control for GovRpmSw2 {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum GunSelValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type GunSelValueCallback<'a> = &'a mut dyn FnMut(GunSelValue);
+impl core::convert::TryFrom<u16> for GunSelValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// Gun Selector LEFT / BOTH / RIGHT
 /// Input: switch to previous or next state
 /// Input: set position
@@ -5324,6 +7344,24 @@ impl Control for GunSel {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum GyroModeSwValue {
+    Select1,
+    Select2,
+}
+pub type GyroModeSwValueCallback<'a> = &'a mut dyn FnMut(GyroModeSwValue);
+impl core::convert::TryFrom<u16> for GyroModeSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -5404,6 +7442,24 @@ impl Control for HdgSync {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum HydContSwValue {
+    Select1,
+    Select2,
+}
+pub type HydContSwValueCallback<'a> = &'a mut dyn FnMut(HydContSwValue);
+impl core::convert::TryFrom<u16> for HydContSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -5511,6 +7567,30 @@ impl Control for IffCode {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffMasterValue {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+    Select5,
+}
+pub type IffMasterValueCallback<'a> = &'a mut dyn FnMut(IffMasterValue);
+impl core::convert::TryFrom<u16> for IffMasterValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            4 => Ok(Self::Select5),
+            value => Err(value),
+        }
+    }
+}
+
 /// IFF Master
 /// Input: switch to previous or next state
 /// Input: set position
@@ -5535,6 +7615,26 @@ impl Control for IffMaster {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffMicIdentValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type IffMicIdentValueCallback<'a> = &'a mut dyn FnMut(IffMicIdentValue);
+impl core::convert::TryFrom<u16> for IffMicIdentValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
     }
 }
 
@@ -5565,6 +7665,36 @@ impl Control for IffMicIdent {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffMode1Wheel1Value {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+    Select5,
+    Select6,
+    Select7,
+    Select8,
+}
+pub type IffMode1Wheel1ValueCallback<'a> = &'a mut dyn FnMut(IffMode1Wheel1Value);
+impl core::convert::TryFrom<u16> for IffMode1Wheel1Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            4 => Ok(Self::Select5),
+            5 => Ok(Self::Select6),
+            6 => Ok(Self::Select7),
+            7 => Ok(Self::Select8),
+            value => Err(value),
+        }
+    }
+}
+
 /// Mode-1 Wheel 1
 /// Input: switch to previous or next state
 /// Input: set position
@@ -5589,6 +7719,28 @@ impl Control for IffMode1Wheel1 {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffMode1Wheel2Value {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+}
+pub type IffMode1Wheel2ValueCallback<'a> = &'a mut dyn FnMut(IffMode1Wheel2Value);
+impl core::convert::TryFrom<u16> for IffMode1Wheel2Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            value => Err(value),
+        }
     }
 }
 
@@ -5619,6 +7771,36 @@ impl Control for IffMode1Wheel2 {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffMode3aWheel1Value {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+    Select5,
+    Select6,
+    Select7,
+    Select8,
+}
+pub type IffMode3aWheel1ValueCallback<'a> = &'a mut dyn FnMut(IffMode3aWheel1Value);
+impl core::convert::TryFrom<u16> for IffMode3aWheel1Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            4 => Ok(Self::Select5),
+            5 => Ok(Self::Select6),
+            6 => Ok(Self::Select7),
+            7 => Ok(Self::Select8),
+            value => Err(value),
+        }
+    }
+}
+
 /// Mode-3A Wheel 1
 /// Input: switch to previous or next state
 /// Input: set position
@@ -5643,6 +7825,36 @@ impl Control for IffMode3aWheel1 {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffMode3aWheel2Value {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+    Select5,
+    Select6,
+    Select7,
+    Select8,
+}
+pub type IffMode3aWheel2ValueCallback<'a> = &'a mut dyn FnMut(IffMode3aWheel2Value);
+impl core::convert::TryFrom<u16> for IffMode3aWheel2Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            4 => Ok(Self::Select5),
+            5 => Ok(Self::Select6),
+            6 => Ok(Self::Select7),
+            7 => Ok(Self::Select8),
+            value => Err(value),
+        }
     }
 }
 
@@ -5673,6 +7885,36 @@ impl Control for IffMode3aWheel2 {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffMode3aWheel3Value {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+    Select5,
+    Select6,
+    Select7,
+    Select8,
+}
+pub type IffMode3aWheel3ValueCallback<'a> = &'a mut dyn FnMut(IffMode3aWheel3Value);
+impl core::convert::TryFrom<u16> for IffMode3aWheel3Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            4 => Ok(Self::Select5),
+            5 => Ok(Self::Select6),
+            6 => Ok(Self::Select7),
+            7 => Ok(Self::Select8),
+            value => Err(value),
+        }
+    }
+}
+
 /// Mode-3A Wheel 3
 /// Input: switch to previous or next state
 /// Input: set position
@@ -5700,6 +7942,36 @@ impl Control for IffMode3aWheel3 {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffMode3aWheel4Value {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+    Select5,
+    Select6,
+    Select7,
+    Select8,
+}
+pub type IffMode3aWheel4ValueCallback<'a> = &'a mut dyn FnMut(IffMode3aWheel4Value);
+impl core::convert::TryFrom<u16> for IffMode3aWheel4Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            4 => Ok(Self::Select5),
+            5 => Ok(Self::Select6),
+            6 => Ok(Self::Select7),
+            7 => Ok(Self::Select8),
+            value => Err(value),
+        }
+    }
+}
+
 /// Mode-3A Wheel 4
 /// Input: switch to previous or next state
 /// Input: set position
@@ -5724,6 +7996,24 @@ impl Control for IffMode3aWheel4 {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffOnOutValue {
+    Select1,
+    Select2,
+}
+pub type IffOnOutValueCallback<'a> = &'a mut dyn FnMut(IffOnOutValue);
+impl core::convert::TryFrom<u16> for IffOnOutValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -5755,6 +8045,26 @@ impl Control for IffOnOut {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffOutAudioLightValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type IffOutAudioLightValueCallback<'a> = &'a mut dyn FnMut(IffOutAudioLightValue);
+impl core::convert::TryFrom<u16> for IffOutAudioLightValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// IFF Out: LIGHT - OFF - AUDIO
 /// Input: switch to previous or next state
 /// Input: set position
@@ -5779,6 +8089,26 @@ impl Control for IffOutAudioLight {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffRadtestValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type IffRadtestValueCallback<'a> = &'a mut dyn FnMut(IffRadtestValue);
+impl core::convert::TryFrom<u16> for IffRadtestValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
     }
 }
 
@@ -5858,6 +8188,24 @@ impl Control for IffReplyInd {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffReplyTestValue {
+    Select1,
+    Select2,
+}
+pub type IffReplyTestValueCallback<'a> = &'a mut dyn FnMut(IffReplyTestValue);
+impl core::convert::TryFrom<u16> for IffReplyTestValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -5941,6 +8289,26 @@ impl Control for IffTestInd {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffTestM1Value {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type IffTestM1ValueCallback<'a> = &'a mut dyn FnMut(IffTestM1Value);
+impl core::convert::TryFrom<u16> for IffTestM1Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// Test M-1
 /// Input: switch to previous or next state
 /// Input: set position
@@ -5965,6 +8333,26 @@ impl Control for IffTestM1 {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffTestM2Value {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type IffTestM2ValueCallback<'a> = &'a mut dyn FnMut(IffTestM2Value);
+impl core::convert::TryFrom<u16> for IffTestM2Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
     }
 }
 
@@ -5995,6 +8383,26 @@ impl Control for IffTestM2 {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffTestM3Value {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type IffTestM3ValueCallback<'a> = &'a mut dyn FnMut(IffTestM3Value);
+impl core::convert::TryFrom<u16> for IffTestM3Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// Test M-3
 /// Input: switch to previous or next state
 /// Input: set position
@@ -6022,6 +8430,26 @@ impl Control for IffTestM3 {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffTestM4Value {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type IffTestM4ValueCallback<'a> = &'a mut dyn FnMut(IffTestM4Value);
+impl core::convert::TryFrom<u16> for IffTestM4Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// Test M-4
 /// Input: switch to previous or next state
 /// Input: set position
@@ -6046,6 +8474,24 @@ impl Control for IffTestM4 {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IffTestTestValue {
+    Select1,
+    Select2,
+}
+pub type IffTestTestValueCallback<'a> = &'a mut dyn FnMut(IffTestTestValue);
+impl core::convert::TryFrom<u16> for IffTestTestValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -6077,6 +8523,24 @@ impl Control for IffTestTest {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IntIntSwValue {
+    Select1,
+    Select2,
+}
+pub type IntIntSwValueCallback<'a> = &'a mut dyn FnMut(IntIntSwValue);
+impl core::convert::TryFrom<u16> for IntIntSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// INT Receiver Switch
 /// Input: switch to previous or next state
 /// Input: set position
@@ -6105,6 +8569,32 @@ impl Control for IntIntSw {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IntModeValue {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+    Select5,
+    Select6,
+}
+pub type IntModeValueCallback<'a> = &'a mut dyn FnMut(IntModeValue);
+impl core::convert::TryFrom<u16> for IntModeValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            4 => Ok(Self::Select5),
+            5 => Ok(Self::Select6),
+            value => Err(value),
+        }
+    }
+}
+
 /// Intercom Mode: PVT - INT - 1 - 2 - 3 - 4
 /// Input: switch to previous or next state
 /// Input: set position
@@ -6129,6 +8619,24 @@ impl Control for IntMode {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IntNavSwValue {
+    Select1,
+    Select2,
+}
+pub type IntNavSwValueCallback<'a> = &'a mut dyn FnMut(IntNavSwValue);
+impl core::convert::TryFrom<u16> for IntNavSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -6160,6 +8668,24 @@ impl Control for IntNavSw {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IntRcvr1SwValue {
+    Select1,
+    Select2,
+}
+pub type IntRcvr1SwValueCallback<'a> = &'a mut dyn FnMut(IntRcvr1SwValue);
+impl core::convert::TryFrom<u16> for IntRcvr1SwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Receiver 1 Switch (VHF AM)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -6185,6 +8711,24 @@ impl Control for IntRcvr1Sw {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IntRcvr2SwValue {
+    Select1,
+    Select2,
+}
+pub type IntRcvr2SwValueCallback<'a> = &'a mut dyn FnMut(IntRcvr2SwValue);
+impl core::convert::TryFrom<u16> for IntRcvr2SwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -6216,6 +8760,24 @@ impl Control for IntRcvr2Sw {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IntRcvr3SwValue {
+    Select1,
+    Select2,
+}
+pub type IntRcvr3SwValueCallback<'a> = &'a mut dyn FnMut(IntRcvr3SwValue);
+impl core::convert::TryFrom<u16> for IntRcvr3SwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Receiver 3 Switch (VHF FM)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -6241,6 +8803,24 @@ impl Control for IntRcvr3Sw {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum IntRecvr4SwValue {
+    Select1,
+    Select2,
+}
+pub type IntRecvr4SwValueCallback<'a> = &'a mut dyn FnMut(IntRecvr4SwValue);
+impl core::convert::TryFrom<u16> for IntRecvr4SwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -6299,6 +8879,26 @@ impl Control for IntVol {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum InverterSwValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type InverterSwValueCallback<'a> = &'a mut dyn FnMut(InverterSwValue);
+impl core::convert::TryFrom<u16> for InverterSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// Inverter Switch
 /// Input: switch to previous or next state
 /// Input: set position
@@ -6323,6 +8923,24 @@ impl Control for InverterSw {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum JtsnBtnValue {
+    Select1,
+    Select2,
+}
+pub type JtsnBtnValueCallback<'a> = &'a mut dyn FnMut(JtsnBtnValue);
+impl core::convert::TryFrom<u16> for JtsnBtnValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -6354,6 +8972,24 @@ impl Control for JtsnBtn {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum JtsnCoverValue {
+    Select1,
+    Select2,
+}
+pub type JtsnCoverValueCallback<'a> = &'a mut dyn FnMut(JtsnCoverValue);
+impl core::convert::TryFrom<u16> for JtsnCoverValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Jettison Switch Cover
 /// Input: switch to previous or next state
 /// Input: set position
@@ -6379,6 +9015,24 @@ impl Control for JtsnCover {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum LdgLightSwValue {
+    Select1,
+    Select2,
+}
+pub type LdgLightSwValueCallback<'a> = &'a mut dyn FnMut(LdgLightSwValue);
+impl core::convert::TryFrom<u16> for LdgLightSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -6410,6 +9064,24 @@ impl Control for LdgLightSw {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum LdgLightSw2Value {
+    Select1,
+    Select2,
+}
+pub type LdgLightSw2ValueCallback<'a> = &'a mut dyn FnMut(LdgLightSw2Value);
+impl core::convert::TryFrom<u16> for LdgLightSw2Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Copilot Landing Lights Switch
 /// Input: switch to previous or next state
 /// Input: set position
@@ -6435,6 +9107,26 @@ impl Control for LdgLightSw2 {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum LdgLtCtrlValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type LdgLtCtrlValueCallback<'a> = &'a mut dyn FnMut(LdgLtCtrlValue);
+impl core::convert::TryFrom<u16> for LdgLtCtrlValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
     }
 }
 
@@ -6465,6 +9157,26 @@ impl Control for LdgLtCtrl {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum LdgLtCtrl2Value {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type LdgLtCtrl2ValueCallback<'a> = &'a mut dyn FnMut(LdgLtCtrl2Value);
+impl core::convert::TryFrom<u16> for LdgLtCtrl2Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// Copilot Landing Lights Control Switch
 /// Input: switch to previous or next state
 /// Input: set position
@@ -6489,6 +9201,24 @@ impl Control for LdgLtCtrl2 {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum LowRpmAudioValue {
+    Select1,
+    Select2,
+}
+pub type LowRpmAudioValueCallback<'a> = &'a mut dyn FnMut(LowRpmAudioValue);
+impl core::convert::TryFrom<u16> for LowRpmAudioValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -6545,6 +9275,24 @@ impl Control for LowRpmInd {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum MainFuelSwValue {
+    Select1,
+    Select2,
+}
+pub type MainFuelSwValueCallback<'a> = &'a mut dyn FnMut(MainFuelSwValue);
+impl core::convert::TryFrom<u16> for MainFuelSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Main Fuel Switch
 /// Input: switch to previous or next state
 /// Input: set position
@@ -6570,6 +9318,24 @@ impl Control for MainFuelSw {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum MainGenCoverValue {
+    Select1,
+    Select2,
+}
+pub type MainGenCoverValueCallback<'a> = &'a mut dyn FnMut(MainGenCoverValue);
+impl core::convert::TryFrom<u16> for MainGenCoverValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -6626,6 +9392,26 @@ impl Control for MainGenLoad {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum MainGenSwValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type MainGenSwValueCallback<'a> = &'a mut dyn FnMut(MainGenSwValue);
+impl core::convert::TryFrom<u16> for MainGenSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// Main Generator RESET/OFF/ON
 /// Input: switch to previous or next state
 /// Input: set position
@@ -6675,6 +9461,26 @@ impl Control for MarkerBeacon {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum MasterArmSwValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type MasterArmSwValueCallback<'a> = &'a mut dyn FnMut(MasterArmSwValue);
+impl core::convert::TryFrom<u16> for MasterArmSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
     }
 }
 
@@ -6730,6 +9536,26 @@ impl Control for MasterCautionInd {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum NavLtsSwValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type NavLtsSwValueCallback<'a> = &'a mut dyn FnMut(NavLtsSwValue);
+impl core::convert::TryFrom<u16> for NavLtsSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// Navigation Lights STEADY - OFF - FLASH
 /// Input: switch to previous or next state
 /// Input: set position
@@ -6754,6 +9580,24 @@ impl Control for NavLtsSw {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum NonEssBusSwValue {
+    Select1,
+    Select2,
+}
+pub type NonEssBusSwValueCallback<'a> = &'a mut dyn FnMut(NonEssBusSwValue);
+impl core::convert::TryFrom<u16> for NonEssBusSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -6782,6 +9626,32 @@ impl Control for NonEssBusSw {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum NvgPosLtsValue {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+    Select5,
+    Select6,
+}
+pub type NvgPosLtsValueCallback<'a> = &'a mut dyn FnMut(NvgPosLtsValue);
+impl core::convert::TryFrom<u16> for NvgPosLtsValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            4 => Ok(Self::Select5),
+            5 => Ok(Self::Select6),
+            value => Err(value),
+        }
     }
 }
 
@@ -7262,6 +10132,24 @@ impl Control for PaltPress {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum PitotHeatValue {
+    Select1,
+    Select2,
+}
+pub type PitotHeatValueCallback<'a> = &'a mut dyn FnMut(PitotHeatValue);
+impl core::convert::TryFrom<u16> for PitotHeatValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Pitot Heater
 /// Input: switch to previous or next state
 /// Input: set position
@@ -7287,6 +10175,24 @@ impl Control for PitotHeat {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum PosLtsSwValue {
+    Select1,
+    Select2,
+}
+pub type PosLtsSwValueCallback<'a> = &'a mut dyn FnMut(PosLtsSwValue);
+impl core::convert::TryFrom<u16> for PosLtsSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -7370,6 +10276,24 @@ impl Control for RadarAltLo {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum RadarAltPwrValue {
+    Select1,
+    Select2,
+}
+pub type RadarAltPwrValueCallback<'a> = &'a mut dyn FnMut(RadarAltPwrValue);
+impl core::convert::TryFrom<u16> for RadarAltPwrValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Radar Altimeter Power
 /// Input: switch to previous or next state
 /// Input: set position
@@ -7398,6 +10322,24 @@ impl Control for RadarAltPwr {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum RadarAltTestValue {
+    Select1,
+    Select2,
+}
+pub type RadarAltTestValueCallback<'a> = &'a mut dyn FnMut(RadarAltTestValue);
+impl core::convert::TryFrom<u16> for RadarAltTestValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Radar Altimeter Test
 /// Input: switch to previous or next state
 /// Input: set position
@@ -7423,6 +10365,24 @@ impl Control for RadarAltTest {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum RadioIcsSwValue {
+    Select1,
+    Select2,
+}
+pub type RadioIcsSwValueCallback<'a> = &'a mut dyn FnMut(RadioIcsSwValue);
+impl core::convert::TryFrom<u16> for RadioIcsSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -7854,6 +10814,36 @@ impl Control for RmiHdg {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum RocketPairValue {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+    Select5,
+    Select6,
+    Select7,
+    Select8,
+}
+pub type RocketPairValueCallback<'a> = &'a mut dyn FnMut(RocketPairValue);
+impl core::convert::TryFrom<u16> for RocketPairValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            4 => Ok(Self::Select5),
+            5 => Ok(Self::Select6),
+            6 => Ok(Self::Select7),
+            7 => Ok(Self::Select8),
+            value => Err(value),
+        }
+    }
+}
+
 /// Rocket Pair
 /// Input: switch to previous or next state
 /// Input: set position
@@ -7878,6 +10868,24 @@ impl Control for RocketPair {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum RocketResetValue {
+    Select1,
+    Select2,
+}
+pub type RocketResetValueCallback<'a> = &'a mut dyn FnMut(RocketResetValue);
+impl core::convert::TryFrom<u16> for RocketResetValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -7906,6 +10914,26 @@ impl Control for RocketReset {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum RocketSelValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type RocketSelValueCallback<'a> = &'a mut dyn FnMut(RocketSelValue);
+impl core::convert::TryFrom<u16> for RocketSelValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
     }
 }
 
@@ -8061,6 +11089,26 @@ impl Control for SbyCompassPitch {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum SearchLightSwValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type SearchLightSwValueCallback<'a> = &'a mut dyn FnMut(SearchLightSwValue);
+impl core::convert::TryFrom<u16> for SearchLightSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// Search Light STOW / OFF / ON
 /// Input: switch to previous or next state
 /// Input: set position
@@ -8085,6 +11133,26 @@ impl Control for SearchLightSw {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum SearchLightSw2Value {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type SearchLightSw2ValueCallback<'a> = &'a mut dyn FnMut(SearchLightSw2Value);
+impl core::convert::TryFrom<u16> for SearchLightSw2Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
     }
 }
 
@@ -8137,6 +11205,24 @@ impl Control for Sideslip {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum SightArmPltValue {
+    Select1,
+    Select2,
+}
+pub type SightArmPltValueCallback<'a> = &'a mut dyn FnMut(SightArmPltValue);
+impl core::convert::TryFrom<u16> for SightArmPltValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -8249,6 +11335,26 @@ impl Control for SightIntenPlt {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum SightLampSwValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type SightLampSwValueCallback<'a> = &'a mut dyn FnMut(SightLampSwValue);
+impl core::convert::TryFrom<u16> for SightLampSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// Sighting Station Lamp Switch BACKUP / OFF / MAIN
 /// Input: switch to previous or next state
 /// Input: set position
@@ -8273,6 +11379,24 @@ impl Control for SightLampSw {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum SightPwrPltValue {
+    Select1,
+    Select2,
+}
+pub type SightPwrPltValueCallback<'a> = &'a mut dyn FnMut(SightPwrPltValue);
+impl core::convert::TryFrom<u16> for SightPwrPltValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -8329,6 +11453,24 @@ impl Control for SightsForCivil {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum StarterGenSwValue {
+    Select1,
+    Select2,
+}
+pub type StarterGenSwValueCallback<'a> = &'a mut dyn FnMut(StarterGenSwValue);
+impl core::convert::TryFrom<u16> for StarterGenSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Starter/Stdby GEN
 /// Input: switch to previous or next state
 /// Input: set position
@@ -8379,6 +11521,24 @@ impl Control for StbyGenLoad {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum TestFuelGaugeBtnValue {
+    Select1,
+    Select2,
+}
+pub type TestFuelGaugeBtnValueCallback<'a> = &'a mut dyn FnMut(TestFuelGaugeBtnValue);
+impl core::convert::TryFrom<u16> for TestFuelGaugeBtnValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -8464,6 +11624,24 @@ impl Control for Throttle2 {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ThrottleStopValue {
+    Select1,
+    Select2,
+}
+pub type ThrottleStopValueCallback<'a> = &'a mut dyn FnMut(ThrottleStopValue);
+impl core::convert::TryFrom<u16> for ThrottleStopValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Throttle Stop Switch, ON/OFF
 /// Input: switch to previous or next state
 /// Input: set position
@@ -8489,6 +11667,24 @@ impl Control for ThrottleStop {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ThrottleStop2Value {
+    Select1,
+    Select2,
+}
+pub type ThrottleStop2ValueCallback<'a> = &'a mut dyn FnMut(ThrottleStop2Value);
+impl core::convert::TryFrom<u16> for ThrottleStop2Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -8595,6 +11791,24 @@ impl Control for TransOilTemp {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum TrimCpltValue {
+    Select1,
+    Select2,
+}
+pub type TrimCpltValueCallback<'a> = &'a mut dyn FnMut(TrimCpltValue);
+impl core::convert::TryFrom<u16> for TrimCpltValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Force Trim (Copilot Side)
 /// Input: switch to previous or next state
 /// Input: set position
@@ -8620,6 +11834,24 @@ impl Control for TrimCplt {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum TrimPltValue {
+    Select1,
+    Select2,
+}
+pub type TrimPltValueCallback<'a> = &'a mut dyn FnMut(TrimPltValue);
+impl core::convert::TryFrom<u16> for TrimPltValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -8701,6 +11933,28 @@ impl Control for UhfFreq {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum UhfFunctionValue {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+}
+pub type UhfFunctionValueCallback<'a> = &'a mut dyn FnMut(UhfFunctionValue);
+impl core::convert::TryFrom<u16> for UhfFunctionValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            value => Err(value),
+        }
+    }
+}
+
 /// Function Dial
 /// Input: switch to previous or next state
 /// Input: set position
@@ -8725,6 +11979,26 @@ impl Control for UhfFunction {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum UhfModeValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type UhfModeValueCallback<'a> = &'a mut dyn FnMut(UhfModeValue);
+impl core::convert::TryFrom<u16> for UhfModeValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
     }
 }
 
@@ -8806,6 +12080,24 @@ impl Control for UhfPresetStr {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum UhfSquelchSwValue {
+    Select1,
+    Select2,
+}
+pub type UhfSquelchSwValueCallback<'a> = &'a mut dyn FnMut(UhfSquelchSwValue);
+impl core::convert::TryFrom<u16> for UhfSquelchSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -8941,6 +12233,24 @@ impl Control for VhfcommMhz {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum VhfcommPwrValue {
+    Select1,
+    Select2,
+}
+pub type VhfcommPwrValueCallback<'a> = &'a mut dyn FnMut(VhfcommPwrValue);
+impl core::convert::TryFrom<u16> for VhfcommPwrValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
+    }
+}
+
 /// Power
 /// Input: switch to previous or next state
 /// Input: set position
@@ -8966,6 +12276,24 @@ impl Control for VhfcommPwr {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum VhfcommTestSwValue {
+    Select1,
+    Select2,
+}
+pub type VhfcommTestSwValueCallback<'a> = &'a mut dyn FnMut(VhfcommTestSwValue);
+impl core::convert::TryFrom<u16> for VhfcommTestSwValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -9024,6 +12352,30 @@ impl Control for VhfcommVol {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum VhffmFreq1IntValue {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+    Select5,
+}
+pub type VhffmFreq1IntValueCallback<'a> = &'a mut dyn FnMut(VhffmFreq1IntValue);
+impl core::convert::TryFrom<u16> for VhffmFreq1IntValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            4 => Ok(Self::Select5),
+            value => Err(value),
+        }
+    }
+}
+
 /// Frequency Tens of MHz
 /// Input: switch to previous or next state
 /// Input: set position
@@ -9078,6 +12430,40 @@ impl Control for VhffmFreq1Str {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum VhffmFreq2Value {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+    Select5,
+    Select6,
+    Select7,
+    Select8,
+    Select9,
+    Select10,
+}
+pub type VhffmFreq2ValueCallback<'a> = &'a mut dyn FnMut(VhffmFreq2Value);
+impl core::convert::TryFrom<u16> for VhffmFreq2Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            4 => Ok(Self::Select5),
+            5 => Ok(Self::Select6),
+            6 => Ok(Self::Select7),
+            7 => Ok(Self::Select8),
+            8 => Ok(Self::Select9),
+            9 => Ok(Self::Select10),
+            value => Err(value),
+        }
+    }
+}
+
 /// Frequency 1 MHz
 /// Input: switch to previous or next state
 /// Input: set position
@@ -9105,6 +12491,40 @@ impl Control for VhffmFreq2 {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum VhffmFreq3Value {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+    Select5,
+    Select6,
+    Select7,
+    Select8,
+    Select9,
+    Select10,
+}
+pub type VhffmFreq3ValueCallback<'a> = &'a mut dyn FnMut(VhffmFreq3Value);
+impl core::convert::TryFrom<u16> for VhffmFreq3Value {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            4 => Ok(Self::Select5),
+            5 => Ok(Self::Select6),
+            6 => Ok(Self::Select7),
+            7 => Ok(Self::Select8),
+            8 => Ok(Self::Select9),
+            9 => Ok(Self::Select10),
+            value => Err(value),
+        }
+    }
+}
+
 /// Frequency Decimals MHz
 /// Input: switch to previous or next state
 /// Input: set position
@@ -9129,6 +12549,24 @@ impl Control for VhffmFreq3 {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum VhffmFreq4IntValue {
+    Select1,
+    Select2,
+}
+pub type VhffmFreq4IntValueCallback<'a> = &'a mut dyn FnMut(VhffmFreq4IntValue);
+impl core::convert::TryFrom<u16> for VhffmFreq4IntValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            value => Err(value),
+        }
     }
 }
 
@@ -9188,6 +12626,28 @@ impl Control for VhffmFreq4Str {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum VhffmModeValue {
+    Select1,
+    Select2,
+    Select3,
+    Select4,
+}
+pub type VhffmModeValueCallback<'a> = &'a mut dyn FnMut(VhffmModeValue);
+impl core::convert::TryFrom<u16> for VhffmModeValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            3 => Ok(Self::Select4),
+            value => Err(value),
+        }
+    }
+}
+
 /// Mode Dial: OFF / T/R / RETRAN / HOME
 /// Input: switch to previous or next state
 /// Input: set position
@@ -9212,6 +12672,26 @@ impl Control for VhffmMode {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum VhffmSquelchValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type VhffmSquelchValueCallback<'a> = &'a mut dyn FnMut(VhffmSquelchValue);
+impl core::convert::TryFrom<u16> for VhffmSquelchValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
     }
 }
 
@@ -9343,6 +12823,26 @@ impl Control for VhfnavMhz {
     }
     fn commit(&mut self) -> bool {
         self.0.commit()
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum VhfnavPwrValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type VhfnavPwrValueCallback<'a> = &'a mut dyn FnMut(VhfnavPwrValue);
+impl core::convert::TryFrom<u16> for VhfnavPwrValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
     }
 }
 
@@ -9500,6 +13000,26 @@ impl Control for WiperP {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum WiperSelValue {
+    Select1,
+    Select2,
+    Select3,
+}
+pub type WiperSelValueCallback<'a> = &'a mut dyn FnMut(WiperSelValue);
+impl core::convert::TryFrom<u16> for WiperSelValue {
+    type Error = u16;
+
+    fn try_from(value: u16) -> Result<Self, Self::Error> {
+        match value {
+            0 => Ok(Self::Select1),
+            1 => Ok(Self::Select2),
+            2 => Ok(Self::Select3),
+            value => Err(value),
+        }
+    }
+}
+
 /// Wiper PILOT / BOTH / OPERATOR
 /// Input: switch to previous or next state
 /// Input: set position
@@ -9593,7 +13113,7 @@ pub enum RegisteredControl<'a> {
     },
     AcVmSrc {
         control: AcVmSrc,
-        callback: IntegerCallback<'a>,
+        callback: AcVmSrcValueCallback<'a>,
     },
     AcVoltage {
         control: AcVoltage,
@@ -9601,11 +13121,11 @@ pub enum RegisteredControl<'a> {
     },
     AdfBand {
         control: AdfBand,
-        callback: IntegerCallback<'a>,
+        callback: AdfBandValueCallback<'a>,
     },
     AdfBfoSw {
         control: AdfBfoSw,
-        callback: IntegerCallback<'a>,
+        callback: AdfBfoSwValueCallback<'a>,
     },
     AdfFreq {
         control: AdfFreq,
@@ -9617,11 +13137,11 @@ pub enum RegisteredControl<'a> {
     },
     AdfLoopLr {
         control: AdfLoopLr,
-        callback: IntegerCallback<'a>,
+        callback: AdfLoopLrValueCallback<'a>,
     },
     AdfMode {
         control: AdfMode,
-        callback: IntegerCallback<'a>,
+        callback: AdfModeValueCallback<'a>,
     },
     AdfSignal {
         control: AdfSignal,
@@ -9633,7 +13153,7 @@ pub enum RegisteredControl<'a> {
     },
     AdfVorSw {
         control: AdfVorSw,
-        callback: IntegerCallback<'a>,
+        callback: AdfVorSwValueCallback<'a>,
     },
     AdiPitchShift {
         control: AdiPitchShift,
@@ -9665,7 +13185,7 @@ pub enum RegisteredControl<'a> {
     },
     AnticollLtsSw {
         control: AnticollLtsSw,
-        callback: IntegerCallback<'a>,
+        callback: AnticollLtsSwValueCallback<'a>,
     },
     ArmedInd {
         control: ArmedInd,
@@ -9673,11 +13193,11 @@ pub enum RegisteredControl<'a> {
     },
     BatSw {
         control: BatSw,
-        callback: IntegerCallback<'a>,
+        callback: BatSwValueCallback<'a>,
     },
     BeaconSensingSw {
         control: BeaconSensingSw,
-        callback: IntegerCallback<'a>,
+        callback: BeaconSensingSwValueCallback<'a>,
     },
     BeaconVol {
         control: BeaconVol,
@@ -9685,7 +13205,7 @@ pub enum RegisteredControl<'a> {
     },
     BleedAirSw {
         control: BleedAirSw,
-        callback: IntegerCallback<'a>,
+        callback: BleedAirSwValueCallback<'a>,
     },
     BrtConsole {
         control: BrtConsole,
@@ -9713,315 +13233,315 @@ pub enum RegisteredControl<'a> {
     },
     CargoRelCp {
         control: CargoRelCp,
-        callback: IntegerCallback<'a>,
+        callback: CargoRelCpValueCallback<'a>,
     },
     CargoRelP {
         control: CargoRelP,
-        callback: IntegerCallback<'a>,
+        callback: CargoRelPValueCallback<'a>,
     },
     CargoRelSafe {
         control: CargoRelSafe,
-        callback: IntegerCallback<'a>,
+        callback: CargoRelSafeValueCallback<'a>,
     },
     Cb28v {
         control: Cb28v,
-        callback: IntegerCallback<'a>,
+        callback: Cb28vValueCallback<'a>,
     },
     CbAirValve {
         control: CbAirValve,
-        callback: IntegerCallback<'a>,
+        callback: CbAirValveValueCallback<'a>,
     },
     CbAmRadio {
         control: CbAmRadio,
-        callback: IntegerCallback<'a>,
+        callback: CbAmRadioValueCallback<'a>,
     },
     CbAntiIce {
         control: CbAntiIce,
-        callback: IntegerCallback<'a>,
+        callback: CbAntiIceValueCallback<'a>,
     },
     CbAnticoll {
         control: CbAnticoll,
-        callback: IntegerCallback<'a>,
+        callback: CbAnticollValueCallback<'a>,
     },
     CbArc102 {
         control: CbArc102,
-        callback: IntegerCallback<'a>,
+        callback: CbArc102ValueCallback<'a>,
     },
     CbCable {
         control: CbCable,
-        callback: IntegerCallback<'a>,
+        callback: CbCableValueCallback<'a>,
     },
     CbCautionLts {
         control: CbCautionLts,
-        callback: IntegerCallback<'a>,
+        callback: CbCautionLtsValueCallback<'a>,
     },
     CbCockpitLts {
         control: CbCockpitLts,
-        callback: IntegerCallback<'a>,
+        callback: CbCockpitLtsValueCallback<'a>,
     },
     CbConsoleLts {
         control: CbConsoleLts,
-        callback: IntegerCallback<'a>,
+        callback: CbConsoleLtsValueCallback<'a>,
     },
     CbCpltAttd1 {
         control: CbCpltAttd1,
-        callback: IntegerCallback<'a>,
+        callback: CbCpltAttd1ValueCallback<'a>,
     },
     CbCpltAttd2 {
         control: CbCpltAttd2,
-        callback: IntegerCallback<'a>,
+        callback: CbCpltAttd2ValueCallback<'a>,
     },
     CbCrsind {
         control: CbCrsind,
-        callback: IntegerCallback<'a>,
+        callback: CbCrsindValueCallback<'a>,
     },
     CbDomeLts {
         control: CbDomeLts,
-        callback: IntegerCallback<'a>,
+        callback: CbDomeLtsValueCallback<'a>,
     },
     CbEng {
         control: CbEng,
-        callback: IntegerCallback<'a>,
+        callback: CbEngValueCallback<'a>,
     },
     CbFailRelay {
         control: CbFailRelay,
-        callback: IntegerCallback<'a>,
+        callback: CbFailRelayValueCallback<'a>,
     },
     CbFire {
         control: CbFire,
-        callback: IntegerCallback<'a>,
+        callback: CbFireValueCallback<'a>,
     },
     CbFm2Radio {
         control: CbFm2Radio,
-        callback: IntegerCallback<'a>,
+        callback: CbFm2RadioValueCallback<'a>,
     },
     CbFmRadio {
         control: CbFmRadio,
-        callback: IntegerCallback<'a>,
+        callback: CbFmRadioValueCallback<'a>,
     },
     CbFuel {
         control: CbFuel,
-        callback: IntegerCallback<'a>,
+        callback: CbFuelValueCallback<'a>,
     },
     CbFuelQty {
         control: CbFuelQty,
-        callback: IntegerCallback<'a>,
+        callback: CbFuelQtyValueCallback<'a>,
     },
     CbFuelTrans {
         control: CbFuelTrans,
-        callback: IntegerCallback<'a>,
+        callback: CbFuelTransValueCallback<'a>,
     },
     CbFuelValves {
         control: CbFuelValves,
-        callback: IntegerCallback<'a>,
+        callback: CbFuelValvesValueCallback<'a>,
     },
     CbFusLts {
         control: CbFusLts,
-        callback: IntegerCallback<'a>,
+        callback: CbFusLtsValueCallback<'a>,
     },
     CbGenBus {
         control: CbGenBus,
-        callback: IntegerCallback<'a>,
+        callback: CbGenBusValueCallback<'a>,
     },
     CbGov {
         control: CbGov,
-        callback: IntegerCallback<'a>,
+        callback: CbGovValueCallback<'a>,
     },
     CbGyro {
         control: CbGyro,
-        callback: IntegerCallback<'a>,
+        callback: CbGyroValueCallback<'a>,
     },
     CbHeatedBlanket1 {
         control: CbHeatedBlanket1,
-        callback: IntegerCallback<'a>,
+        callback: CbHeatedBlanket1ValueCallback<'a>,
     },
     CbHeatedBlanket2 {
         control: CbHeatedBlanket2,
-        callback: IntegerCallback<'a>,
+        callback: CbHeatedBlanket2ValueCallback<'a>,
     },
     CbHfAnt {
         control: CbHfAnt,
-        callback: IntegerCallback<'a>,
+        callback: CbHfAntValueCallback<'a>,
     },
     CbHfArc102 {
         control: CbHfArc102,
-        callback: IntegerCallback<'a>,
+        callback: CbHfArc102ValueCallback<'a>,
     },
     CbHook {
         control: CbHook,
-        callback: IntegerCallback<'a>,
+        callback: CbHookValueCallback<'a>,
     },
     CbHydctl {
         control: CbHydctl,
-        callback: IntegerCallback<'a>,
+        callback: CbHydctlValueCallback<'a>,
     },
     CbIdleStop {
         control: CbIdleStop,
-        callback: IntegerCallback<'a>,
+        callback: CbIdleStopValueCallback<'a>,
     },
     CbIffApx1 {
         control: CbIffApx1,
-        callback: IntegerCallback<'a>,
+        callback: CbIffApx1ValueCallback<'a>,
     },
     CbIffApx2 {
         control: CbIffApx2,
-        callback: IntegerCallback<'a>,
+        callback: CbIffApx2ValueCallback<'a>,
     },
     CbIgn {
         control: CbIgn,
-        callback: IntegerCallback<'a>,
+        callback: CbIgnValueCallback<'a>,
     },
     CbInstLts {
         control: CbInstLts,
-        callback: IntegerCallback<'a>,
+        callback: CbInstLtsValueCallback<'a>,
     },
     CbInstSecLts {
         control: CbInstSecLts,
-        callback: IntegerCallback<'a>,
+        callback: CbInstSecLtsValueCallback<'a>,
     },
     CbIntCplt {
         control: CbIntCplt,
-        callback: IntegerCallback<'a>,
+        callback: CbIntCpltValueCallback<'a>,
     },
     CbIntPlt {
         control: CbIntPlt,
-        callback: IntegerCallback<'a>,
+        callback: CbIntPltValueCallback<'a>,
     },
     CbInvtr {
         control: CbInvtr,
-        callback: IntegerCallback<'a>,
+        callback: CbInvtrValueCallback<'a>,
     },
     CbJtsn {
         control: CbJtsn,
-        callback: IntegerCallback<'a>,
+        callback: CbJtsnValueCallback<'a>,
     },
     CbKy20 {
         control: CbKy20,
-        callback: IntegerCallback<'a>,
+        callback: CbKy20ValueCallback<'a>,
     },
     CbLdglts {
         control: CbLdglts,
-        callback: IntegerCallback<'a>,
+        callback: CbLdgltsValueCallback<'a>,
     },
     CbLfNav {
         control: CbLfNav,
-        callback: IntegerCallback<'a>,
+        callback: CbLfNavValueCallback<'a>,
     },
     CbLhFuel {
         control: CbLhFuel,
-        callback: IntegerCallback<'a>,
+        callback: CbLhFuelValueCallback<'a>,
     },
     CbMainInvtr {
         control: CbMainInvtr,
-        callback: IntegerCallback<'a>,
+        callback: CbMainInvtrValueCallback<'a>,
     },
     CbMarkerBeacon {
         control: CbMarkerBeacon,
-        callback: IntegerCallback<'a>,
+        callback: CbMarkerBeaconValueCallback<'a>,
     },
     CbNavLts {
         control: CbNavLts,
-        callback: IntegerCallback<'a>,
+        callback: CbNavLtsValueCallback<'a>,
     },
     CbOutletValve {
         control: CbOutletValve,
-        callback: IntegerCallback<'a>,
+        callback: CbOutletValveValueCallback<'a>,
     },
     CbPitotTube {
         control: CbPitotTube,
-        callback: IntegerCallback<'a>,
+        callback: CbPitotTubeValueCallback<'a>,
     },
     CbPltAttd1 {
         control: CbPltAttd1,
-        callback: IntegerCallback<'a>,
+        callback: CbPltAttd1ValueCallback<'a>,
     },
     CbPltAttd2 {
         control: CbPltAttd2,
-        callback: IntegerCallback<'a>,
+        callback: CbPltAttd2ValueCallback<'a>,
     },
     CbPorxWarn {
         control: CbPorxWarn,
-        callback: IntegerCallback<'a>,
+        callback: CbPorxWarnValueCallback<'a>,
     },
     CbRescueCont {
         control: CbRescueCont,
-        callback: IntegerCallback<'a>,
+        callback: CbRescueContValueCallback<'a>,
     },
     CbRescuePwr {
         control: CbRescuePwr,
-        callback: IntegerCallback<'a>,
+        callback: CbRescuePwrValueCallback<'a>,
     },
     CbRhFuel {
         control: CbRhFuel,
-        callback: IntegerCallback<'a>,
+        callback: CbRhFuelValueCallback<'a>,
     },
     CbRpmWarn {
         control: CbRpmWarn,
-        callback: IntegerCallback<'a>,
+        callback: CbRpmWarnValueCallback<'a>,
     },
     CbSlCtl {
         control: CbSlCtl,
-        callback: IntegerCallback<'a>,
+        callback: CbSlCtlValueCallback<'a>,
     },
     CbSlPwr {
         control: CbSlPwr,
-        callback: IntegerCallback<'a>,
+        callback: CbSlPwrValueCallback<'a>,
     },
     CbSpareInvtr {
         control: CbSpareInvtr,
-        callback: IntegerCallback<'a>,
+        callback: CbSpareInvtrValueCallback<'a>,
     },
     CbStarter {
         control: CbStarter,
-        callback: IntegerCallback<'a>,
+        callback: CbStarterValueCallback<'a>,
     },
     CbStbyGen {
         control: CbStbyGen,
-        callback: IntegerCallback<'a>,
+        callback: CbStbyGenValueCallback<'a>,
     },
     CbTemp {
         control: CbTemp,
-        callback: IntegerCallback<'a>,
+        callback: CbTempValueCallback<'a>,
     },
     CbTorq {
         control: CbTorq,
-        callback: IntegerCallback<'a>,
+        callback: CbTorqValueCallback<'a>,
     },
     CbTrim {
         control: CbTrim,
-        callback: IntegerCallback<'a>,
+        callback: CbTrimValueCallback<'a>,
     },
     CbTurnSlip {
         control: CbTurnSlip,
-        callback: IntegerCallback<'a>,
+        callback: CbTurnSlipValueCallback<'a>,
     },
     CbUhfRadio {
         control: CbUhfRadio,
-        callback: IntegerCallback<'a>,
+        callback: CbUhfRadioValueCallback<'a>,
     },
     CbVhfNav {
         control: CbVhfNav,
-        callback: IntegerCallback<'a>,
+        callback: CbVhfNavValueCallback<'a>,
     },
     CbVm {
         control: CbVm,
-        callback: IntegerCallback<'a>,
+        callback: CbVmValueCallback<'a>,
     },
     CbWiperCplt {
         control: CbWiperCplt,
-        callback: IntegerCallback<'a>,
+        callback: CbWiperCpltValueCallback<'a>,
     },
     CbWiperPlt {
         control: CbWiperPlt,
-        callback: IntegerCallback<'a>,
+        callback: CbWiperPltValueCallback<'a>,
     },
     CbXmsn {
         control: CbXmsn,
-        callback: IntegerCallback<'a>,
+        callback: CbXmsnValueCallback<'a>,
     },
     ChipDetSw {
         control: ChipDetSw,
-        callback: IntegerCallback<'a>,
+        callback: ChipDetSwValueCallback<'a>,
     },
     CiCourseCard {
         control: CiCourseCard,
@@ -10153,19 +13673,19 @@ pub enum RegisteredControl<'a> {
     },
     ClpBrightDimSw {
         control: ClpBrightDimSw,
-        callback: IntegerCallback<'a>,
+        callback: ClpBrightDimSwValueCallback<'a>,
     },
     ClpResetTestSw {
         control: ClpResetTestSw,
-        callback: IntegerCallback<'a>,
+        callback: ClpResetTestSwValueCallback<'a>,
     },
     CmArmSw {
         control: CmArmSw,
-        callback: IntegerCallback<'a>,
+        callback: CmArmSwValueCallback<'a>,
     },
     CmArmedTest {
         control: CmArmedTest,
-        callback: IntegerCallback<'a>,
+        callback: CmArmedTestValueCallback<'a>,
     },
     CmChaffcntDisplay {
         control: CmChaffcntDisplay,
@@ -10177,11 +13697,11 @@ pub enum RegisteredControl<'a> {
     },
     CmChaffcntReset {
         control: CmChaffcntReset,
-        callback: IntegerCallback<'a>,
+        callback: CmChaffcntResetValueCallback<'a>,
     },
     CmFlareBtn {
         control: CmFlareBtn,
-        callback: IntegerCallback<'a>,
+        callback: CmFlareBtnValueCallback<'a>,
     },
     CmFlarecntDisplay {
         control: CmFlarecntDisplay,
@@ -10193,19 +13713,19 @@ pub enum RegisteredControl<'a> {
     },
     CmFlarecntReset {
         control: CmFlarecntReset,
-        callback: IntegerCallback<'a>,
+        callback: CmFlarecntResetValueCallback<'a>,
     },
     CmManPgrmSw {
         control: CmManPgrmSw,
-        callback: IntegerCallback<'a>,
+        callback: CmManPgrmSwValueCallback<'a>,
     },
     CmRippleCover {
         control: CmRippleCover,
-        callback: IntegerCallback<'a>,
+        callback: CmRippleCoverValueCallback<'a>,
     },
     CmRippleSw {
         control: CmRippleSw,
-        callback: IntegerCallback<'a>,
+        callback: CmRippleSwValueCallback<'a>,
     },
     ConsoleLight {
         control: ConsoleLight,
@@ -10213,7 +13733,7 @@ pub enum RegisteredControl<'a> {
     },
     CpltAdiCage {
         control: CpltAdiCage,
-        callback: IntegerCallback<'a>,
+        callback: CpltAdiCageValueCallback<'a>,
     },
     CrsKnob {
         control: CrsKnob,
@@ -10233,7 +13753,7 @@ pub enum RegisteredControl<'a> {
     },
     DcVmSrc {
         control: DcVmSrc,
-        callback: IntegerCallback<'a>,
+        callback: DcVmSrcValueCallback<'a>,
     },
     DcVoltage {
         control: DcVoltage,
@@ -10261,23 +13781,23 @@ pub enum RegisteredControl<'a> {
     },
     DomeLightSw {
         control: DomeLightSw,
-        callback: IntegerCallback<'a>,
+        callback: DomeLightSwValueCallback<'a>,
     },
     DoorLPtr {
         control: DoorLPtr,
-        callback: IntegerCallback<'a>,
+        callback: DoorLPtrValueCallback<'a>,
     },
     DoorRPtr {
         control: DoorRPtr,
-        callback: IntegerCallback<'a>,
+        callback: DoorRPtrValueCallback<'a>,
     },
     EmerGovSw {
         control: EmerGovSw,
-        callback: IntegerCallback<'a>,
+        callback: EmerGovSwValueCallback<'a>,
     },
     EngDeice {
         control: EngDeice,
-        callback: IntegerCallback<'a>,
+        callback: EngDeiceValueCallback<'a>,
     },
     EngOilPress {
         control: EngOilPress,
@@ -10317,11 +13837,11 @@ pub enum RegisteredControl<'a> {
     },
     FireTestBtn {
         control: FireTestBtn,
-        callback: IntegerCallback<'a>,
+        callback: FireTestBtnValueCallback<'a>,
     },
     ForceTrimSw {
         control: ForceTrimSw,
-        callback: IntegerCallback<'a>,
+        callback: ForceTrimSwValueCallback<'a>,
     },
     FuelPress {
         control: FuelPress,
@@ -10365,19 +13885,19 @@ pub enum RegisteredControl<'a> {
     },
     GovRpmSw {
         control: GovRpmSw,
-        callback: IntegerCallback<'a>,
+        callback: GovRpmSwValueCallback<'a>,
     },
     GovRpmSw2 {
         control: GovRpmSw2,
-        callback: IntegerCallback<'a>,
+        callback: GovRpmSw2ValueCallback<'a>,
     },
     GunSel {
         control: GunSel,
-        callback: IntegerCallback<'a>,
+        callback: GunSelValueCallback<'a>,
     },
     GyroModeSw {
         control: GyroModeSw,
-        callback: IntegerCallback<'a>,
+        callback: GyroModeSwValueCallback<'a>,
     },
     HdgSet {
         control: HdgSet,
@@ -10389,7 +13909,7 @@ pub enum RegisteredControl<'a> {
     },
     HydContSw {
         control: HydContSw,
-        callback: IntegerCallback<'a>,
+        callback: HydContSwValueCallback<'a>,
     },
     IasNose {
         control: IasNose,
@@ -10405,47 +13925,47 @@ pub enum RegisteredControl<'a> {
     },
     IffMaster {
         control: IffMaster,
-        callback: IntegerCallback<'a>,
+        callback: IffMasterValueCallback<'a>,
     },
     IffMicIdent {
         control: IffMicIdent,
-        callback: IntegerCallback<'a>,
+        callback: IffMicIdentValueCallback<'a>,
     },
     IffMode1Wheel1 {
         control: IffMode1Wheel1,
-        callback: IntegerCallback<'a>,
+        callback: IffMode1Wheel1ValueCallback<'a>,
     },
     IffMode1Wheel2 {
         control: IffMode1Wheel2,
-        callback: IntegerCallback<'a>,
+        callback: IffMode1Wheel2ValueCallback<'a>,
     },
     IffMode3aWheel1 {
         control: IffMode3aWheel1,
-        callback: IntegerCallback<'a>,
+        callback: IffMode3aWheel1ValueCallback<'a>,
     },
     IffMode3aWheel2 {
         control: IffMode3aWheel2,
-        callback: IntegerCallback<'a>,
+        callback: IffMode3aWheel2ValueCallback<'a>,
     },
     IffMode3aWheel3 {
         control: IffMode3aWheel3,
-        callback: IntegerCallback<'a>,
+        callback: IffMode3aWheel3ValueCallback<'a>,
     },
     IffMode3aWheel4 {
         control: IffMode3aWheel4,
-        callback: IntegerCallback<'a>,
+        callback: IffMode3aWheel4ValueCallback<'a>,
     },
     IffOnOut {
         control: IffOnOut,
-        callback: IntegerCallback<'a>,
+        callback: IffOnOutValueCallback<'a>,
     },
     IffOutAudioLight {
         control: IffOutAudioLight,
-        callback: IntegerCallback<'a>,
+        callback: IffOutAudioLightValueCallback<'a>,
     },
     IffRadtest {
         control: IffRadtest,
-        callback: IntegerCallback<'a>,
+        callback: IffRadtestValueCallback<'a>,
     },
     IffReplyDim {
         control: IffReplyDim,
@@ -10457,7 +13977,7 @@ pub enum RegisteredControl<'a> {
     },
     IffReplyTest {
         control: IffReplyTest,
-        callback: IntegerCallback<'a>,
+        callback: IffReplyTestValueCallback<'a>,
     },
     IffTestDim {
         control: IffTestDim,
@@ -10469,51 +13989,51 @@ pub enum RegisteredControl<'a> {
     },
     IffTestM1 {
         control: IffTestM1,
-        callback: IntegerCallback<'a>,
+        callback: IffTestM1ValueCallback<'a>,
     },
     IffTestM2 {
         control: IffTestM2,
-        callback: IntegerCallback<'a>,
+        callback: IffTestM2ValueCallback<'a>,
     },
     IffTestM3 {
         control: IffTestM3,
-        callback: IntegerCallback<'a>,
+        callback: IffTestM3ValueCallback<'a>,
     },
     IffTestM4 {
         control: IffTestM4,
-        callback: IntegerCallback<'a>,
+        callback: IffTestM4ValueCallback<'a>,
     },
     IffTestTest {
         control: IffTestTest,
-        callback: IntegerCallback<'a>,
+        callback: IffTestTestValueCallback<'a>,
     },
     IntIntSw {
         control: IntIntSw,
-        callback: IntegerCallback<'a>,
+        callback: IntIntSwValueCallback<'a>,
     },
     IntMode {
         control: IntMode,
-        callback: IntegerCallback<'a>,
+        callback: IntModeValueCallback<'a>,
     },
     IntNavSw {
         control: IntNavSw,
-        callback: IntegerCallback<'a>,
+        callback: IntNavSwValueCallback<'a>,
     },
     IntRcvr1Sw {
         control: IntRcvr1Sw,
-        callback: IntegerCallback<'a>,
+        callback: IntRcvr1SwValueCallback<'a>,
     },
     IntRcvr2Sw {
         control: IntRcvr2Sw,
-        callback: IntegerCallback<'a>,
+        callback: IntRcvr2SwValueCallback<'a>,
     },
     IntRcvr3Sw {
         control: IntRcvr3Sw,
-        callback: IntegerCallback<'a>,
+        callback: IntRcvr3SwValueCallback<'a>,
     },
     IntRecvr4Sw {
         control: IntRecvr4Sw,
-        callback: IntegerCallback<'a>,
+        callback: IntRecvr4SwValueCallback<'a>,
     },
     IntVol {
         control: IntVol,
@@ -10521,35 +14041,35 @@ pub enum RegisteredControl<'a> {
     },
     InverterSw {
         control: InverterSw,
-        callback: IntegerCallback<'a>,
+        callback: InverterSwValueCallback<'a>,
     },
     JtsnBtn {
         control: JtsnBtn,
-        callback: IntegerCallback<'a>,
+        callback: JtsnBtnValueCallback<'a>,
     },
     JtsnCover {
         control: JtsnCover,
-        callback: IntegerCallback<'a>,
+        callback: JtsnCoverValueCallback<'a>,
     },
     LdgLightSw {
         control: LdgLightSw,
-        callback: IntegerCallback<'a>,
+        callback: LdgLightSwValueCallback<'a>,
     },
     LdgLightSw2 {
         control: LdgLightSw2,
-        callback: IntegerCallback<'a>,
+        callback: LdgLightSw2ValueCallback<'a>,
     },
     LdgLtCtrl {
         control: LdgLtCtrl,
-        callback: IntegerCallback<'a>,
+        callback: LdgLtCtrlValueCallback<'a>,
     },
     LdgLtCtrl2 {
         control: LdgLtCtrl2,
-        callback: IntegerCallback<'a>,
+        callback: LdgLtCtrl2ValueCallback<'a>,
     },
     LowRpmAudio {
         control: LowRpmAudio,
-        callback: IntegerCallback<'a>,
+        callback: LowRpmAudioValueCallback<'a>,
     },
     LowRpmInd {
         control: LowRpmInd,
@@ -10557,11 +14077,11 @@ pub enum RegisteredControl<'a> {
     },
     MainFuelSw {
         control: MainFuelSw,
-        callback: IntegerCallback<'a>,
+        callback: MainFuelSwValueCallback<'a>,
     },
     MainGenCover {
         control: MainGenCover,
-        callback: IntegerCallback<'a>,
+        callback: MainGenCoverValueCallback<'a>,
     },
     MainGenLoad {
         control: MainGenLoad,
@@ -10569,7 +14089,7 @@ pub enum RegisteredControl<'a> {
     },
     MainGenSw {
         control: MainGenSw,
-        callback: IntegerCallback<'a>,
+        callback: MainGenSwValueCallback<'a>,
     },
     MarkerBeacon {
         control: MarkerBeacon,
@@ -10577,7 +14097,7 @@ pub enum RegisteredControl<'a> {
     },
     MasterArmSw {
         control: MasterArmSw,
-        callback: IntegerCallback<'a>,
+        callback: MasterArmSwValueCallback<'a>,
     },
     MasterCautionInd {
         control: MasterCautionInd,
@@ -10585,15 +14105,15 @@ pub enum RegisteredControl<'a> {
     },
     NavLtsSw {
         control: NavLtsSw,
-        callback: IntegerCallback<'a>,
+        callback: NavLtsSwValueCallback<'a>,
     },
     NonEssBusSw {
         control: NonEssBusSw,
-        callback: IntegerCallback<'a>,
+        callback: NonEssBusSwValueCallback<'a>,
     },
     NvgPosLts {
         control: NvgPosLts,
-        callback: IntegerCallback<'a>,
+        callback: NvgPosLtsValueCallback<'a>,
     },
     OadiOff {
         control: OadiOff,
@@ -10669,11 +14189,11 @@ pub enum RegisteredControl<'a> {
     },
     PitotHeat {
         control: PitotHeat,
-        callback: IntegerCallback<'a>,
+        callback: PitotHeatValueCallback<'a>,
     },
     PosLtsSw {
         control: PosLtsSw,
-        callback: IntegerCallback<'a>,
+        callback: PosLtsSwValueCallback<'a>,
     },
     RadarAltHi {
         control: RadarAltHi,
@@ -10685,15 +14205,15 @@ pub enum RegisteredControl<'a> {
     },
     RadarAltPwr {
         control: RadarAltPwr,
-        callback: IntegerCallback<'a>,
+        callback: RadarAltPwrValueCallback<'a>,
     },
     RadarAltTest {
         control: RadarAltTest,
-        callback: IntegerCallback<'a>,
+        callback: RadarAltTestValueCallback<'a>,
     },
     RadioIcsSw {
         control: RadioIcsSw,
-        callback: IntegerCallback<'a>,
+        callback: RadioIcsSwValueCallback<'a>,
     },
     RaltDigit1 {
         control: RaltDigit1,
@@ -10761,15 +14281,15 @@ pub enum RegisteredControl<'a> {
     },
     RocketPair {
         control: RocketPair,
-        callback: IntegerCallback<'a>,
+        callback: RocketPairValueCallback<'a>,
     },
     RocketReset {
         control: RocketReset,
-        callback: IntegerCallback<'a>,
+        callback: RocketResetValueCallback<'a>,
     },
     RocketSel {
         control: RocketSel,
-        callback: IntegerCallback<'a>,
+        callback: RocketSelValueCallback<'a>,
     },
     RotorRpm {
         control: RotorRpm,
@@ -10793,11 +14313,11 @@ pub enum RegisteredControl<'a> {
     },
     SearchLightSw {
         control: SearchLightSw,
-        callback: IntegerCallback<'a>,
+        callback: SearchLightSwValueCallback<'a>,
     },
     SearchLightSw2 {
         control: SearchLightSw2,
-        callback: IntegerCallback<'a>,
+        callback: SearchLightSw2ValueCallback<'a>,
     },
     Sideslip {
         control: Sideslip,
@@ -10805,7 +14325,7 @@ pub enum RegisteredControl<'a> {
     },
     SightArmPlt {
         control: SightArmPlt,
-        callback: IntegerCallback<'a>,
+        callback: SightArmPltValueCallback<'a>,
     },
     SightElevPlt {
         control: SightElevPlt,
@@ -10821,11 +14341,11 @@ pub enum RegisteredControl<'a> {
     },
     SightLampSw {
         control: SightLampSw,
-        callback: IntegerCallback<'a>,
+        callback: SightLampSwValueCallback<'a>,
     },
     SightPwrPlt {
         control: SightPwrPlt,
-        callback: IntegerCallback<'a>,
+        callback: SightPwrPltValueCallback<'a>,
     },
     SightsForCivil {
         control: SightsForCivil,
@@ -10833,7 +14353,7 @@ pub enum RegisteredControl<'a> {
     },
     StarterGenSw {
         control: StarterGenSw,
-        callback: IntegerCallback<'a>,
+        callback: StarterGenSwValueCallback<'a>,
     },
     StbyGenLoad {
         control: StbyGenLoad,
@@ -10841,7 +14361,7 @@ pub enum RegisteredControl<'a> {
     },
     TestFuelGaugeBtn {
         control: TestFuelGaugeBtn,
-        callback: IntegerCallback<'a>,
+        callback: TestFuelGaugeBtnValueCallback<'a>,
     },
     Throttle {
         control: Throttle,
@@ -10853,11 +14373,11 @@ pub enum RegisteredControl<'a> {
     },
     ThrottleStop {
         control: ThrottleStop,
-        callback: IntegerCallback<'a>,
+        callback: ThrottleStopValueCallback<'a>,
     },
     ThrottleStop2 {
         control: ThrottleStop2,
-        callback: IntegerCallback<'a>,
+        callback: ThrottleStop2ValueCallback<'a>,
     },
     TorquePress {
         control: TorquePress,
@@ -10873,11 +14393,11 @@ pub enum RegisteredControl<'a> {
     },
     TrimCplt {
         control: TrimCplt,
-        callback: IntegerCallback<'a>,
+        callback: TrimCpltValueCallback<'a>,
     },
     TrimPlt {
         control: TrimPlt,
-        callback: IntegerCallback<'a>,
+        callback: TrimPltValueCallback<'a>,
     },
     TurnPtr {
         control: TurnPtr,
@@ -10889,11 +14409,11 @@ pub enum RegisteredControl<'a> {
     },
     UhfFunction {
         control: UhfFunction,
-        callback: IntegerCallback<'a>,
+        callback: UhfFunctionValueCallback<'a>,
     },
     UhfMode {
         control: UhfMode,
-        callback: IntegerCallback<'a>,
+        callback: UhfModeValueCallback<'a>,
     },
     UhfPresetInt {
         control: UhfPresetInt,
@@ -10905,7 +14425,7 @@ pub enum RegisteredControl<'a> {
     },
     UhfSquelchSw {
         control: UhfSquelchSw,
-        callback: IntegerCallback<'a>,
+        callback: UhfSquelchSwValueCallback<'a>,
     },
     UhfVol {
         control: UhfVol,
@@ -10925,11 +14445,11 @@ pub enum RegisteredControl<'a> {
     },
     VhfcommPwr {
         control: VhfcommPwr,
-        callback: IntegerCallback<'a>,
+        callback: VhfcommPwrValueCallback<'a>,
     },
     VhfcommTestSw {
         control: VhfcommTestSw,
-        callback: IntegerCallback<'a>,
+        callback: VhfcommTestSwValueCallback<'a>,
     },
     VhfcommVol {
         control: VhfcommVol,
@@ -10937,7 +14457,7 @@ pub enum RegisteredControl<'a> {
     },
     VhffmFreq1Int {
         control: VhffmFreq1Int,
-        callback: IntegerCallback<'a>,
+        callback: VhffmFreq1IntValueCallback<'a>,
     },
     VhffmFreq1Str {
         control: VhffmFreq1Str,
@@ -10945,15 +14465,15 @@ pub enum RegisteredControl<'a> {
     },
     VhffmFreq2 {
         control: VhffmFreq2,
-        callback: IntegerCallback<'a>,
+        callback: VhffmFreq2ValueCallback<'a>,
     },
     VhffmFreq3 {
         control: VhffmFreq3,
-        callback: IntegerCallback<'a>,
+        callback: VhffmFreq3ValueCallback<'a>,
     },
     VhffmFreq4Int {
         control: VhffmFreq4Int,
-        callback: IntegerCallback<'a>,
+        callback: VhffmFreq4IntValueCallback<'a>,
     },
     VhffmFreq4Str {
         control: VhffmFreq4Str,
@@ -10961,11 +14481,11 @@ pub enum RegisteredControl<'a> {
     },
     VhffmMode {
         control: VhffmMode,
-        callback: IntegerCallback<'a>,
+        callback: VhffmModeValueCallback<'a>,
     },
     VhffmSquelch {
         control: VhffmSquelch,
-        callback: IntegerCallback<'a>,
+        callback: VhffmSquelchValueCallback<'a>,
     },
     VhffmVol {
         control: VhffmVol,
@@ -10985,7 +14505,7 @@ pub enum RegisteredControl<'a> {
     },
     VhfnavPwr {
         control: VhfnavPwr,
-        callback: IntegerCallback<'a>,
+        callback: VhfnavPwrValueCallback<'a>,
     },
     VhfnavVol {
         control: VhfnavVol,
@@ -11009,7 +14529,7 @@ pub enum RegisteredControl<'a> {
     },
     WiperSel {
         control: WiperSel,
-        callback: IntegerCallback<'a>,
+        callback: WiperSelValueCallback<'a>,
     },
     WiperSpd {
         control: WiperSpd,
@@ -11406,7 +14926,11 @@ impl RegisteredControl<'_> {
             }
             Self::AcVmSrc { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <AcVmSrcValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::AcVoltage { control, callback } => {
@@ -11416,12 +14940,20 @@ impl RegisteredControl<'_> {
             }
             Self::AdfBand { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <AdfBandValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::AdfBfoSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <AdfBfoSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::AdfFreq { control, callback } => {
@@ -11436,12 +14968,20 @@ impl RegisteredControl<'_> {
             }
             Self::AdfLoopLr { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <AdfLoopLrValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::AdfMode { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <AdfModeValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::AdfSignal { control, callback } => {
@@ -11456,7 +14996,11 @@ impl RegisteredControl<'_> {
             }
             Self::AdfVorSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <AdfVorSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::AdiPitchShift { control, callback } => {
@@ -11496,7 +15040,11 @@ impl RegisteredControl<'_> {
             }
             Self::AnticollLtsSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <AnticollLtsSwValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::ArmedInd { control, callback } => {
@@ -11506,12 +15054,22 @@ impl RegisteredControl<'_> {
             }
             Self::BatSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <BatSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::BeaconSensingSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <BeaconSensingSwValue as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::BeaconVol { control, callback } => {
@@ -11521,7 +15079,11 @@ impl RegisteredControl<'_> {
             }
             Self::BleedAirSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <BleedAirSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::BrtConsole { control, callback } => {
@@ -11556,392 +15118,710 @@ impl RegisteredControl<'_> {
             }
             Self::CargoRelCp { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CargoRelCpValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CargoRelP { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CargoRelPValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CargoRelSafe { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <CargoRelSafeValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::Cb28v { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <Cb28vValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbAirValve { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbAirValveValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbAmRadio { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbAmRadioValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbAntiIce { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbAntiIceValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbAnticoll { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbAnticollValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbArc102 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbArc102Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbCable { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbCableValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbCautionLts { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <CbCautionLtsValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::CbCockpitLts { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <CbCockpitLtsValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::CbConsoleLts { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <CbConsoleLtsValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::CbCpltAttd1 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbCpltAttd1Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbCpltAttd2 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbCpltAttd2Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbCrsind { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbCrsindValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbDomeLts { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbDomeLtsValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbEng { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbEngValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbFailRelay { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbFailRelayValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbFire { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbFireValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbFm2Radio { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbFm2RadioValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbFmRadio { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbFmRadioValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbFuel { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbFuelValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbFuelQty { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbFuelQtyValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbFuelTrans { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbFuelTransValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbFuelValves { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <CbFuelValvesValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::CbFusLts { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbFusLtsValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbGenBus { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbGenBusValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbGov { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbGovValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbGyro { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbGyroValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbHeatedBlanket1 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbHeatedBlanket1Value as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbHeatedBlanket2 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbHeatedBlanket2Value as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbHfAnt { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbHfAntValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbHfArc102 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbHfArc102Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbHook { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbHookValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbHydctl { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbHydctlValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbIdleStop { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbIdleStopValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbIffApx1 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbIffApx1Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbIffApx2 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbIffApx2Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbIgn { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbIgnValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbInstLts { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbInstLtsValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbInstSecLts { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <CbInstSecLtsValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::CbIntCplt { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbIntCpltValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbIntPlt { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbIntPltValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbInvtr { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbInvtrValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbJtsn { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbJtsnValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbKy20 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbKy20Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbLdglts { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbLdgltsValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbLfNav { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbLfNavValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbLhFuel { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbLhFuelValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbMainInvtr { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbMainInvtrValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbMarkerBeacon { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbMarkerBeaconValue as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbNavLts { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbNavLtsValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbOutletValve { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <CbOutletValveValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::CbPitotTube { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbPitotTubeValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbPltAttd1 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbPltAttd1Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbPltAttd2 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbPltAttd2Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbPorxWarn { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbPorxWarnValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbRescueCont { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <CbRescueContValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::CbRescuePwr { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbRescuePwrValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbRhFuel { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbRhFuelValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbRpmWarn { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbRpmWarnValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbSlCtl { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbSlCtlValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbSlPwr { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbSlPwrValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbSpareInvtr { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <CbSpareInvtrValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::CbStarter { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbStarterValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbStbyGen { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbStbyGenValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbTemp { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbTempValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbTorq { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbTorqValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbTrim { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbTrimValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbTurnSlip { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbTurnSlipValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbUhfRadio { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbUhfRadioValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbVhfNav { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbVhfNavValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbVm { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbVmValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbWiperCplt { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbWiperCpltValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbWiperPlt { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbWiperPltValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CbXmsn { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CbXmsnValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::ChipDetSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <ChipDetSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CiCourseCard { control, callback } => {
@@ -12106,22 +15986,42 @@ impl RegisteredControl<'_> {
             }
             Self::ClpBrightDimSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <ClpBrightDimSwValue as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::ClpResetTestSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <ClpResetTestSwValue as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CmArmSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CmArmSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CmArmedTest { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CmArmedTestValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CmChaffcntDisplay { control, callback } => {
@@ -12136,12 +16036,22 @@ impl RegisteredControl<'_> {
             }
             Self::CmChaffcntReset { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CmChaffcntResetValue as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CmFlareBtn { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CmFlareBtnValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CmFlarecntDisplay { control, callback } => {
@@ -12156,22 +16066,40 @@ impl RegisteredControl<'_> {
             }
             Self::CmFlarecntReset { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CmFlarecntResetValue as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CmManPgrmSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CmManPgrmSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CmRippleCover { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <CmRippleCoverValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::CmRippleSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CmRippleSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::ConsoleLight { control, callback } => {
@@ -12181,7 +16109,11 @@ impl RegisteredControl<'_> {
             }
             Self::CpltAdiCage { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <CpltAdiCageValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::CrsKnob { control, callback } => {
@@ -12206,7 +16138,11 @@ impl RegisteredControl<'_> {
             }
             Self::DcVmSrc { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <DcVmSrcValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::DcVoltage { control, callback } => {
@@ -12241,27 +16177,47 @@ impl RegisteredControl<'_> {
             }
             Self::DomeLightSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <DomeLightSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::DoorLPtr { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <DoorLPtrValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::DoorRPtr { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <DoorRPtrValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::EmerGovSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <EmerGovSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::EngDeice { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <EngDeiceValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::EngOilPress { control, callback } => {
@@ -12311,12 +16267,20 @@ impl RegisteredControl<'_> {
             }
             Self::FireTestBtn { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <FireTestBtnValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::ForceTrimSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <ForceTrimSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::FuelPress { control, callback } => {
@@ -12371,22 +16335,38 @@ impl RegisteredControl<'_> {
             }
             Self::GovRpmSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <GovRpmSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::GovRpmSw2 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <GovRpmSw2Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::GunSel { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <GunSelValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::GyroModeSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <GyroModeSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::HdgSet { control, callback } => {
@@ -12401,7 +16381,11 @@ impl RegisteredControl<'_> {
             }
             Self::HydContSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <HydContSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IasNose { control, callback } => {
@@ -12421,57 +16405,115 @@ impl RegisteredControl<'_> {
             }
             Self::IffMaster { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffMasterValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IffMicIdent { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffMicIdentValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IffMode1Wheel1 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffMode1Wheel1Value as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IffMode1Wheel2 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffMode1Wheel2Value as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IffMode3aWheel1 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffMode3aWheel1Value as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IffMode3aWheel2 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffMode3aWheel2Value as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IffMode3aWheel3 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffMode3aWheel3Value as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IffMode3aWheel4 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffMode3aWheel4Value as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IffOnOut { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffOnOutValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IffOutAudioLight { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffOutAudioLightValue as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IffRadtest { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffRadtestValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IffReplyDim { control, callback } => {
@@ -12486,7 +16528,11 @@ impl RegisteredControl<'_> {
             }
             Self::IffReplyTest { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <IffReplyTestValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::IffTestDim { control, callback } => {
@@ -12501,62 +16547,110 @@ impl RegisteredControl<'_> {
             }
             Self::IffTestM1 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffTestM1Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IffTestM2 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffTestM2Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IffTestM3 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffTestM3Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IffTestM4 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffTestM4Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IffTestTest { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IffTestTestValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IntIntSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IntIntSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IntMode { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IntModeValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IntNavSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IntNavSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IntRcvr1Sw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IntRcvr1SwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IntRcvr2Sw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IntRcvr2SwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IntRcvr3Sw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IntRcvr3SwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IntRecvr4Sw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <IntRecvr4SwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::IntVol { control, callback } => {
@@ -12566,42 +16660,74 @@ impl RegisteredControl<'_> {
             }
             Self::InverterSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <InverterSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::JtsnBtn { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <JtsnBtnValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::JtsnCover { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <JtsnCoverValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::LdgLightSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <LdgLightSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::LdgLightSw2 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <LdgLightSw2Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::LdgLtCtrl { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <LdgLtCtrlValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::LdgLtCtrl2 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <LdgLtCtrl2Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::LowRpmAudio { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <LowRpmAudioValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::LowRpmInd { control, callback } => {
@@ -12611,12 +16737,20 @@ impl RegisteredControl<'_> {
             }
             Self::MainFuelSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <MainFuelSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::MainGenCover { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <MainGenCoverValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::MainGenLoad { control, callback } => {
@@ -12626,7 +16760,11 @@ impl RegisteredControl<'_> {
             }
             Self::MainGenSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <MainGenSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::MarkerBeacon { control, callback } => {
@@ -12636,7 +16774,11 @@ impl RegisteredControl<'_> {
             }
             Self::MasterArmSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <MasterArmSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::MasterCautionInd { control, callback } => {
@@ -12646,17 +16788,29 @@ impl RegisteredControl<'_> {
             }
             Self::NavLtsSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <NavLtsSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::NonEssBusSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <NonEssBusSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::NvgPosLts { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <NvgPosLtsValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::OadiOff { control, callback } => {
@@ -12751,12 +16905,20 @@ impl RegisteredControl<'_> {
             }
             Self::PitotHeat { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <PitotHeatValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::PosLtsSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <PosLtsSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::RadarAltHi { control, callback } => {
@@ -12771,17 +16933,29 @@ impl RegisteredControl<'_> {
             }
             Self::RadarAltPwr { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <RadarAltPwrValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::RadarAltTest { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <RadarAltTestValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::RadioIcsSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <RadioIcsSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::RaltDigit1 { control, callback } => {
@@ -12866,17 +17040,29 @@ impl RegisteredControl<'_> {
             }
             Self::RocketPair { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <RocketPairValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::RocketReset { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <RocketResetValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::RocketSel { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <RocketSelValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::RotorRpm { control, callback } => {
@@ -12906,12 +17092,22 @@ impl RegisteredControl<'_> {
             }
             Self::SearchLightSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <SearchLightSwValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::SearchLightSw2 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <SearchLightSw2Value as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::Sideslip { control, callback } => {
@@ -12921,7 +17117,11 @@ impl RegisteredControl<'_> {
             }
             Self::SightArmPlt { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <SightArmPltValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::SightElevPlt { control, callback } => {
@@ -12941,12 +17141,20 @@ impl RegisteredControl<'_> {
             }
             Self::SightLampSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <SightLampSwValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::SightPwrPlt { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <SightPwrPltValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::SightsForCivil { control, callback } => {
@@ -12956,7 +17164,11 @@ impl RegisteredControl<'_> {
             }
             Self::StarterGenSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <StarterGenSwValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::StbyGenLoad { control, callback } => {
@@ -12966,7 +17178,13 @@ impl RegisteredControl<'_> {
             }
             Self::TestFuelGaugeBtn { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <TestFuelGaugeBtnValue as core::convert::TryFrom<u16>>::try_from(
+                            control.value(),
+                        )
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::Throttle { control, callback } => {
@@ -12981,12 +17199,20 @@ impl RegisteredControl<'_> {
             }
             Self::ThrottleStop { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <ThrottleStopValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::ThrottleStop2 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <ThrottleStop2Value as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::TorquePress { control, callback } => {
@@ -13006,12 +17232,20 @@ impl RegisteredControl<'_> {
             }
             Self::TrimCplt { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <TrimCpltValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::TrimPlt { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <TrimPltValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::TurnPtr { control, callback } => {
@@ -13026,12 +17260,20 @@ impl RegisteredControl<'_> {
             }
             Self::UhfFunction { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <UhfFunctionValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::UhfMode { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <UhfModeValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::UhfPresetInt { control, callback } => {
@@ -13046,7 +17288,11 @@ impl RegisteredControl<'_> {
             }
             Self::UhfSquelchSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <UhfSquelchSwValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::UhfVol { control, callback } => {
@@ -13071,12 +17317,20 @@ impl RegisteredControl<'_> {
             }
             Self::VhfcommPwr { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <VhfcommPwrValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::VhfcommTestSw { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <VhfcommTestSwValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::VhfcommVol { control, callback } => {
@@ -13086,7 +17340,11 @@ impl RegisteredControl<'_> {
             }
             Self::VhffmFreq1Int { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <VhffmFreq1IntValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::VhffmFreq1Str { control, callback } => {
@@ -13096,17 +17354,29 @@ impl RegisteredControl<'_> {
             }
             Self::VhffmFreq2 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <VhffmFreq2Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::VhffmFreq3 { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <VhffmFreq3Value as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::VhffmFreq4Int { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <VhffmFreq4IntValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::VhffmFreq4Str { control, callback } => {
@@ -13116,12 +17386,20 @@ impl RegisteredControl<'_> {
             }
             Self::VhffmMode { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <VhffmModeValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::VhffmSquelch { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) = <VhffmSquelchValue as core::convert::TryFrom<u16>>::try_from(
+                        control.value(),
+                    ) {
+                        callback(value);
+                    }
                 }
             }
             Self::VhffmVol { control, callback } => {
@@ -13146,7 +17424,11 @@ impl RegisteredControl<'_> {
             }
             Self::VhfnavPwr { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <VhfnavPwrValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::VhfnavVol { control, callback } => {
@@ -13176,7 +17458,11 @@ impl RegisteredControl<'_> {
             }
             Self::WiperSel { control, callback } => {
                 if control.commit() {
-                    callback(control.value());
+                    if let Ok(value) =
+                        <WiperSelValue as core::convert::TryFrom<u16>>::try_from(control.value())
+                    {
+                        callback(value);
+                    }
                 }
             }
             Self::WiperSpd { control, callback } => {
@@ -13256,7 +17542,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(AcVmSrcValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::AcVmSrc { control, callback })
@@ -13284,7 +17570,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(AdfBandValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::AdfBand { control, callback })
@@ -13298,7 +17584,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(AdfBfoSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::AdfBfoSw { control, callback })
@@ -13340,7 +17626,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(AdfLoopLrValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::AdfLoopLr { control, callback })
@@ -13354,7 +17640,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(AdfModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::AdfMode { control, callback })
@@ -13396,7 +17682,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(AdfVorSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::AdfVorSw { control, callback })
@@ -13508,7 +17794,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(AnticollLtsSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::AnticollLtsSw { control, callback })
@@ -13536,7 +17822,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(BatSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::BatSw { control, callback })
@@ -13550,7 +17836,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(BeaconSensingSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::BeaconSensingSw { control, callback })
@@ -13578,7 +17864,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(BleedAirSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::BleedAirSw { control, callback })
@@ -13676,7 +17962,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CargoRelCpValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CargoRelCp { control, callback })
@@ -13690,7 +17976,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CargoRelPValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CargoRelP { control, callback })
@@ -13704,7 +17990,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CargoRelSafeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CargoRelSafe { control, callback })
@@ -13718,7 +18004,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(Cb28vValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::Cb28v { control, callback })
@@ -13732,7 +18018,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbAirValveValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbAirValve { control, callback })
@@ -13746,7 +18032,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbAmRadioValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbAmRadio { control, callback })
@@ -13760,7 +18046,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbAntiIceValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbAntiIce { control, callback })
@@ -13774,7 +18060,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbAnticollValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbAnticoll { control, callback })
@@ -13788,7 +18074,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbArc102Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbArc102 { control, callback })
@@ -13802,7 +18088,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbCableValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbCable { control, callback })
@@ -13816,7 +18102,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbCautionLtsValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbCautionLts { control, callback })
@@ -13830,7 +18116,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbCockpitLtsValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbCockpitLts { control, callback })
@@ -13844,7 +18130,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbConsoleLtsValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbConsoleLts { control, callback })
@@ -13858,7 +18144,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbCpltAttd1Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbCpltAttd1 { control, callback })
@@ -13872,7 +18158,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbCpltAttd2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbCpltAttd2 { control, callback })
@@ -13886,7 +18172,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbCrsindValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbCrsind { control, callback })
@@ -13900,7 +18186,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbDomeLtsValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbDomeLts { control, callback })
@@ -13914,7 +18200,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbEngValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbEng { control, callback })
@@ -13928,7 +18214,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbFailRelayValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbFailRelay { control, callback })
@@ -13942,7 +18228,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbFireValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbFire { control, callback })
@@ -13956,7 +18242,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbFm2RadioValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbFm2Radio { control, callback })
@@ -13970,7 +18256,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbFmRadioValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbFmRadio { control, callback })
@@ -13984,7 +18270,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbFuelValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbFuel { control, callback })
@@ -13998,7 +18284,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbFuelQtyValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbFuelQty { control, callback })
@@ -14012,7 +18298,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbFuelTransValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbFuelTrans { control, callback })
@@ -14026,7 +18312,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbFuelValvesValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbFuelValves { control, callback })
@@ -14040,7 +18326,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbFusLtsValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbFusLts { control, callback })
@@ -14054,7 +18340,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbGenBusValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbGenBus { control, callback })
@@ -14068,7 +18354,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbGovValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbGov { control, callback })
@@ -14082,7 +18368,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbGyroValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbGyro { control, callback })
@@ -14096,7 +18382,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbHeatedBlanket1Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbHeatedBlanket1 { control, callback })
@@ -14110,7 +18396,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbHeatedBlanket2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbHeatedBlanket2 { control, callback })
@@ -14124,7 +18410,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbHfAntValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbHfAnt { control, callback })
@@ -14138,7 +18424,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbHfArc102Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbHfArc102 { control, callback })
@@ -14152,7 +18438,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbHookValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbHook { control, callback })
@@ -14166,7 +18452,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbHydctlValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbHydctl { control, callback })
@@ -14180,7 +18466,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbIdleStopValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbIdleStop { control, callback })
@@ -14194,7 +18480,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbIffApx1Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbIffApx1 { control, callback })
@@ -14208,7 +18494,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbIffApx2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbIffApx2 { control, callback })
@@ -14222,7 +18508,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbIgnValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbIgn { control, callback })
@@ -14236,7 +18522,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbInstLtsValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbInstLts { control, callback })
@@ -14250,7 +18536,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbInstSecLtsValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbInstSecLts { control, callback })
@@ -14264,7 +18550,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbIntCpltValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbIntCplt { control, callback })
@@ -14278,7 +18564,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbIntPltValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbIntPlt { control, callback })
@@ -14292,7 +18578,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbInvtrValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbInvtr { control, callback })
@@ -14306,7 +18592,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbJtsnValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbJtsn { control, callback })
@@ -14320,7 +18606,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbKy20Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbKy20 { control, callback })
@@ -14334,7 +18620,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbLdgltsValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbLdglts { control, callback })
@@ -14348,7 +18634,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbLfNavValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbLfNav { control, callback })
@@ -14362,7 +18648,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbLhFuelValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbLhFuel { control, callback })
@@ -14376,7 +18662,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbMainInvtrValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbMainInvtr { control, callback })
@@ -14390,7 +18676,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbMarkerBeaconValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbMarkerBeacon { control, callback })
@@ -14404,7 +18690,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbNavLtsValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbNavLts { control, callback })
@@ -14418,7 +18704,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbOutletValveValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbOutletValve { control, callback })
@@ -14432,7 +18718,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbPitotTubeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbPitotTube { control, callback })
@@ -14446,7 +18732,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbPltAttd1Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbPltAttd1 { control, callback })
@@ -14460,7 +18746,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbPltAttd2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbPltAttd2 { control, callback })
@@ -14474,7 +18760,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbPorxWarnValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbPorxWarn { control, callback })
@@ -14488,7 +18774,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbRescueContValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbRescueCont { control, callback })
@@ -14502,7 +18788,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbRescuePwrValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbRescuePwr { control, callback })
@@ -14516,7 +18802,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbRhFuelValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbRhFuel { control, callback })
@@ -14530,7 +18816,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbRpmWarnValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbRpmWarn { control, callback })
@@ -14544,7 +18830,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbSlCtlValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbSlCtl { control, callback })
@@ -14558,7 +18844,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbSlPwrValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbSlPwr { control, callback })
@@ -14572,7 +18858,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbSpareInvtrValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbSpareInvtr { control, callback })
@@ -14586,7 +18872,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbStarterValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbStarter { control, callback })
@@ -14600,7 +18886,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbStbyGenValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbStbyGen { control, callback })
@@ -14614,7 +18900,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbTempValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbTemp { control, callback })
@@ -14628,7 +18914,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbTorqValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbTorq { control, callback })
@@ -14642,7 +18928,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbTrimValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbTrim { control, callback })
@@ -14656,7 +18942,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbTurnSlipValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbTurnSlip { control, callback })
@@ -14670,7 +18956,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbUhfRadioValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbUhfRadio { control, callback })
@@ -14684,7 +18970,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbVhfNavValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbVhfNav { control, callback })
@@ -14698,7 +18984,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbVmValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbVm { control, callback })
@@ -14712,7 +18998,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbWiperCpltValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbWiperCplt { control, callback })
@@ -14726,7 +19012,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbWiperPltValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbWiperPlt { control, callback })
@@ -14740,7 +19026,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CbXmsnValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CbXmsn { control, callback })
@@ -14754,7 +19040,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(ChipDetSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::ChipDetSw { control, callback })
@@ -15216,7 +19502,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(ClpBrightDimSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::ClpBrightDimSw { control, callback })
@@ -15230,7 +19516,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(ClpResetTestSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::ClpResetTestSw { control, callback })
@@ -15244,7 +19530,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CmArmSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CmArmSw { control, callback })
@@ -15258,7 +19544,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CmArmedTestValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CmArmedTest { control, callback })
@@ -15300,7 +19586,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CmChaffcntResetValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CmChaffcntReset { control, callback })
@@ -15314,7 +19600,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CmFlareBtnValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CmFlareBtn { control, callback })
@@ -15356,7 +19642,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CmFlarecntResetValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CmFlarecntReset { control, callback })
@@ -15370,7 +19656,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CmManPgrmSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CmManPgrmSw { control, callback })
@@ -15384,7 +19670,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CmRippleCoverValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CmRippleCover { control, callback })
@@ -15398,7 +19684,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CmRippleSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CmRippleSw { control, callback })
@@ -15426,7 +19712,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(CpltAdiCageValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CpltAdiCage { control, callback })
@@ -15496,7 +19782,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(DcVmSrcValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::DcVmSrc { control, callback })
@@ -15594,7 +19880,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(DomeLightSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::DomeLightSw { control, callback })
@@ -15608,7 +19894,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(DoorLPtrValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::DoorLPtr { control, callback })
@@ -15622,7 +19908,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(DoorRPtrValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::DoorRPtr { control, callback })
@@ -15636,7 +19922,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(EmerGovSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::EmerGovSw { control, callback })
@@ -15650,7 +19936,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(EngDeiceValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::EngDeice { control, callback })
@@ -15790,7 +20076,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(FireTestBtnValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::FireTestBtn { control, callback })
@@ -15804,7 +20090,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(ForceTrimSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::ForceTrimSw { control, callback })
@@ -15958,7 +20244,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(GovRpmSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::GovRpmSw { control, callback })
@@ -15972,7 +20258,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(GovRpmSw2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::GovRpmSw2 { control, callback })
@@ -15986,7 +20272,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(GunSelValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::GunSel { control, callback })
@@ -16000,7 +20286,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(GyroModeSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::GyroModeSw { control, callback })
@@ -16042,7 +20328,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(HydContSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::HydContSw { control, callback })
@@ -16098,7 +20384,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffMasterValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffMaster { control, callback })
@@ -16112,7 +20398,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffMicIdentValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffMicIdent { control, callback })
@@ -16126,7 +20412,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffMode1Wheel1Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffMode1Wheel1 { control, callback })
@@ -16140,7 +20426,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffMode1Wheel2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffMode1Wheel2 { control, callback })
@@ -16154,7 +20440,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffMode3aWheel1Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffMode3aWheel1 { control, callback })
@@ -16168,7 +20454,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffMode3aWheel2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffMode3aWheel2 { control, callback })
@@ -16182,7 +20468,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffMode3aWheel3Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffMode3aWheel3 { control, callback })
@@ -16196,7 +20482,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffMode3aWheel4Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffMode3aWheel4 { control, callback })
@@ -16210,7 +20496,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffOnOutValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffOnOut { control, callback })
@@ -16224,7 +20510,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffOutAudioLightValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffOutAudioLight { control, callback })
@@ -16238,7 +20524,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffRadtestValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffRadtest { control, callback })
@@ -16280,7 +20566,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffReplyTestValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffReplyTest { control, callback })
@@ -16322,7 +20608,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffTestM1Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffTestM1 { control, callback })
@@ -16336,7 +20622,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffTestM2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffTestM2 { control, callback })
@@ -16350,7 +20636,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffTestM3Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffTestM3 { control, callback })
@@ -16364,7 +20650,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffTestM4Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffTestM4 { control, callback })
@@ -16378,7 +20664,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IffTestTestValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffTestTest { control, callback })
@@ -16392,7 +20678,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IntIntSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IntIntSw { control, callback })
@@ -16406,7 +20692,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IntModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IntMode { control, callback })
@@ -16420,7 +20706,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IntNavSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IntNavSw { control, callback })
@@ -16434,7 +20720,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IntRcvr1SwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IntRcvr1Sw { control, callback })
@@ -16448,7 +20734,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IntRcvr2SwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IntRcvr2Sw { control, callback })
@@ -16462,7 +20748,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IntRcvr3SwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IntRcvr3Sw { control, callback })
@@ -16476,7 +20762,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(IntRecvr4SwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IntRecvr4Sw { control, callback })
@@ -16504,7 +20790,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(InverterSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::InverterSw { control, callback })
@@ -16518,7 +20804,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(JtsnBtnValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::JtsnBtn { control, callback })
@@ -16532,7 +20818,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(JtsnCoverValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::JtsnCover { control, callback })
@@ -16546,7 +20832,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(LdgLightSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::LdgLightSw { control, callback })
@@ -16560,7 +20846,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(LdgLightSw2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::LdgLightSw2 { control, callback })
@@ -16574,7 +20860,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(LdgLtCtrlValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::LdgLtCtrl { control, callback })
@@ -16588,7 +20874,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(LdgLtCtrl2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::LdgLtCtrl2 { control, callback })
@@ -16602,7 +20888,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(LowRpmAudioValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::LowRpmAudio { control, callback })
@@ -16630,7 +20916,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(MainFuelSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MainFuelSw { control, callback })
@@ -16644,7 +20930,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(MainGenCoverValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MainGenCover { control, callback })
@@ -16672,7 +20958,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(MainGenSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MainGenSw { control, callback })
@@ -16700,7 +20986,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(MasterArmSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MasterArmSw { control, callback })
@@ -16728,7 +21014,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(NavLtsSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::NavLtsSw { control, callback })
@@ -16742,7 +21028,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(NonEssBusSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::NonEssBusSw { control, callback })
@@ -16756,7 +21042,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(NvgPosLtsValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::NvgPosLts { control, callback })
@@ -17022,7 +21308,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(PitotHeatValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::PitotHeat { control, callback })
@@ -17036,7 +21322,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(PosLtsSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::PosLtsSw { control, callback })
@@ -17078,7 +21364,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(RadarAltPwrValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::RadarAltPwr { control, callback })
@@ -17092,7 +21378,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(RadarAltTestValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::RadarAltTest { control, callback })
@@ -17106,7 +21392,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(RadioIcsSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::RadioIcsSw { control, callback })
@@ -17344,7 +21630,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(RocketPairValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::RocketPair { control, callback })
@@ -17358,7 +21644,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(RocketResetValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::RocketReset { control, callback })
@@ -17372,7 +21658,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(RocketSelValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::RocketSel { control, callback })
@@ -17456,7 +21742,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(SearchLightSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::SearchLightSw { control, callback })
@@ -17470,7 +21756,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(SearchLightSw2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::SearchLightSw2 { control, callback })
@@ -17498,7 +21784,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(SightArmPltValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::SightArmPlt { control, callback })
@@ -17554,7 +21840,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(SightLampSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::SightLampSw { control, callback })
@@ -17568,7 +21854,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(SightPwrPltValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::SightPwrPlt { control, callback })
@@ -17596,7 +21882,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(StarterGenSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::StarterGenSw { control, callback })
@@ -17624,7 +21910,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(TestFuelGaugeBtnValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::TestFuelGaugeBtn { control, callback })
@@ -17666,7 +21952,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(ThrottleStopValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::ThrottleStop { control, callback })
@@ -17680,7 +21966,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(ThrottleStop2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::ThrottleStop2 { control, callback })
@@ -17736,7 +22022,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(TrimCpltValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::TrimCplt { control, callback })
@@ -17750,7 +22036,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(TrimPltValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::TrimPlt { control, callback })
@@ -17792,7 +22078,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(UhfFunctionValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UhfFunction { control, callback })
@@ -17806,7 +22092,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(UhfModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UhfMode { control, callback })
@@ -17848,7 +22134,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(UhfSquelchSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UhfSquelchSw { control, callback })
@@ -17918,7 +22204,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(VhfcommPwrValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::VhfcommPwr { control, callback })
@@ -17932,7 +22218,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(VhfcommTestSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::VhfcommTestSw { control, callback })
@@ -17960,7 +22246,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(VhffmFreq1IntValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::VhffmFreq1Int { control, callback })
@@ -17988,7 +22274,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(VhffmFreq2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::VhffmFreq2 { control, callback })
@@ -18002,7 +22288,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(VhffmFreq3Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::VhffmFreq3 { control, callback })
@@ -18016,7 +22302,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(VhffmFreq4IntValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::VhffmFreq4Int { control, callback })
@@ -18044,7 +22330,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(VhffmModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::VhffmMode { control, callback })
@@ -18058,7 +22344,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(VhffmSquelchValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::VhffmSquelch { control, callback })
@@ -18128,7 +22414,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(VhfnavPwrValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::VhfnavPwr { control, callback })
@@ -18212,7 +22498,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
-        F: FnMut(u16) + 'a,
+        F: FnMut(WiperSelValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::WiperSel { control, callback })
