@@ -16,10 +16,10 @@ pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
 
 /// AC GEN 1 Current
 /// Output: gauge position
-pub struct AcGen1Current(AnalogGauge);
+pub struct AcGen1Current(AnalogGauge<5134, 65535, 0>);
 impl AcGen1Current {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5134, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -41,10 +41,10 @@ impl Control for AcGen1Current {
 
 /// AC GEN 2 Current
 /// Output: gauge position
-pub struct AcGen2Current(AnalogGauge);
+pub struct AcGen2Current(AnalogGauge<5136, 65535, 0>);
 impl AcGen2Current {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5136, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -66,10 +66,10 @@ impl Control for AcGen2Current {
 
 /// AC Voltage
 /// Output: gauge position
-pub struct AcV(AnalogGauge);
+pub struct AcV(AnalogGauge<5230, 65535, 0>);
 impl AcV {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5230, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -113,10 +113,10 @@ impl core::convert::TryFrom<u16> for AcVmSrcValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct AcVmSrc(Selector);
+pub struct AcVmSrc(Selector<5294, 24, 3>);
 impl AcVmSrc {
     pub const fn new() -> Self {
-        Self(Selector::new(5294, 24, 3))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -138,10 +138,10 @@ impl Control for AcVmSrc {
 
 /// AC Voltage
 /// Output: gauge position
-pub struct AcVoltage(AnalogGauge);
+pub struct AcVoltage(AnalogGauge<5122, 65535, 0>);
 impl AcVoltage {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5122, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -185,10 +185,10 @@ impl core::convert::TryFrom<u16> for AdfBandValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct AdfBand(Selector);
+pub struct AdfBand(Selector<5372, 192, 6>);
 impl AdfBand {
     pub const fn new() -> Self {
-        Self(Selector::new(5372, 192, 6))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -231,10 +231,10 @@ impl core::convert::TryFrom<u16> for AdfBfoSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct AdfBfoSw(Selector);
+pub struct AdfBfoSw(Selector<5372, 8, 3>);
 impl AdfBfoSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5372, 8, 3))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -256,10 +256,10 @@ impl Control for AdfBfoSw {
 
 /// ADF Frequency
 /// Output: gauge position
-pub struct AdfFreq(AnalogGauge);
+pub struct AdfFreq(AnalogGauge<5158, 65535, 0>);
 impl AdfFreq {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5158, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -283,10 +283,10 @@ impl Control for AdfFreq {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct AdfGain(LimitedDial);
+pub struct AdfGain(LimitedDial<5374, 65535, 0>);
 impl AdfGain {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5374, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -334,10 +334,10 @@ impl core::convert::TryFrom<u16> for AdfLoopLrValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct AdfLoopLr(Selector);
+pub struct AdfLoopLr(Selector<5372, 7, 0>);
 impl AdfLoopLr {
     pub const fn new() -> Self {
-        Self(Selector::new(5372, 7, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -383,10 +383,10 @@ impl core::convert::TryFrom<u16> for AdfModeValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct AdfMode(Selector);
+pub struct AdfMode(Selector<5372, 48, 4>);
 impl AdfMode {
     pub const fn new() -> Self {
-        Self(Selector::new(5372, 48, 4))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -408,10 +408,10 @@ impl Control for AdfMode {
 
 /// ADF Signal Level
 /// Output: gauge position
-pub struct AdfSignal(AnalogGauge);
+pub struct AdfSignal(AnalogGauge<5160, 65535, 0>);
 impl AdfSignal {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5160, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -434,10 +434,10 @@ impl Control for AdfSignal {
 /// ADF Tune
 /// Input: turn the dial left or right
 /// Output: the rotation of the knob in the cockpit (not the value that is controlled by this knob!)
-pub struct AdfTune(AnalogDial);
+pub struct AdfTune(AnalogDial<5376, 65535, 0>);
 impl AdfTune {
     pub const fn new() -> Self {
-        Self(AnalogDial::new(5376, 65535, 0))
+        Self(AnalogDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -480,10 +480,10 @@ impl core::convert::TryFrom<u16> for AdfVorSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct AdfVorSw(Selector);
+pub struct AdfVorSw(Selector<5378, 512, 9>);
 impl AdfVorSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5378, 512, 9))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -505,10 +505,10 @@ impl Control for AdfVorSw {
 
 /// Attitude Pitch Shift
 /// Output: gauge position
-pub struct AdiPitchShift(AnalogGauge);
+pub struct AdiPitchShift(AnalogGauge<5266, 65535, 0>);
 impl AdiPitchShift {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5266, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -532,10 +532,10 @@ impl Control for AdiPitchShift {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct AdiPitchTrim(LimitedDial);
+pub struct AdiPitchTrim(LimitedDial<5324, 65535, 0>);
 impl AdiPitchTrim {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5324, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -559,10 +559,10 @@ impl Control for AdiPitchTrim {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct AdiPitchTrimCplt(LimitedDial);
+pub struct AdiPitchTrimCplt(LimitedDial<5320, 65535, 0>);
 impl AdiPitchTrimCplt {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5320, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -586,10 +586,10 @@ impl Control for AdiPitchTrimCplt {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct AdiRollTrim(LimitedDial);
+pub struct AdiRollTrim(LimitedDial<5322, 65535, 0>);
 impl AdiRollTrim {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5322, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -612,10 +612,10 @@ impl Control for AdiRollTrim {
 /// Copilot Altimeter Pressure Adjustment
 /// Input: turn the dial left or right
 /// Output: the rotation of the knob in the cockpit (not the value that is controlled by this knob!)
-pub struct AltAdjCplt(AnalogDial);
+pub struct AltAdjCplt(AnalogDial<5326, 65535, 0>);
 impl AltAdjCplt {
     pub const fn new() -> Self {
-        Self(AnalogDial::new(5326, 65535, 0))
+        Self(AnalogDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -638,10 +638,10 @@ impl Control for AltAdjCplt {
 /// Pilot Altimeter Pressure Adjustment
 /// Input: turn the dial left or right
 /// Output: the rotation of the knob in the cockpit (not the value that is controlled by this knob!)
-pub struct AltAdjPlt(AnalogDial);
+pub struct AltAdjPlt(AnalogDial<5328, 65535, 0>);
 impl AltAdjPlt {
     pub const fn new() -> Self {
-        Self(AnalogDial::new(5328, 65535, 0))
+        Self(AnalogDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -663,10 +663,10 @@ impl Control for AltAdjPlt {
 
 /// Anti-Ice Amperemeter
 /// Output: gauge position
-pub struct AntiIceAmp(AnalogGauge);
+pub struct AntiIceAmp(AnalogGauge<5138, 65535, 0>);
 impl AntiIceAmp {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5138, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -709,10 +709,10 @@ impl core::convert::TryFrom<u16> for AnticollLtsSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct AnticollLtsSw(Selector);
+pub struct AnticollLtsSw(Selector<5372, 16384, 14>);
 impl AnticollLtsSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5372, 16384, 14))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -734,10 +734,10 @@ impl Control for AnticollLtsSw {
 
 /// ARMED Indicator (red)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ArmedInd(Led);
+pub struct ArmedInd(Led<5142, 16, 4>);
 impl ArmedInd {
     pub const fn new() -> Self {
-        Self(Led::new(5142, 16, 4))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -780,10 +780,10 @@ impl core::convert::TryFrom<u16> for BatSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct BatSw(Selector);
+pub struct BatSw(Selector<5142, 8192, 13>);
 impl BatSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5142, 8192, 13))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -826,10 +826,10 @@ impl core::convert::TryFrom<u16> for BeaconSensingSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct BeaconSensingSw(Selector);
+pub struct BeaconSensingSw(Selector<5356, 32768, 15>);
 impl BeaconSensingSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5356, 32768, 15))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -853,10 +853,10 @@ impl Control for BeaconSensingSw {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct BeaconVol(LimitedDial);
+pub struct BeaconVol(LimitedDial<5370, 65535, 0>);
 impl BeaconVol {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5370, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -904,10 +904,10 @@ impl core::convert::TryFrom<u16> for BleedAirSwValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct BleedAirSw(Selector);
+pub struct BleedAirSw(Selector<5378, 448, 6>);
 impl BleedAirSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5378, 448, 6))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -931,10 +931,10 @@ impl Control for BleedAirSw {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct BrtConsole(LimitedDial);
+pub struct BrtConsole(LimitedDial<5380, 65535, 0>);
 impl BrtConsole {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5380, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -958,10 +958,10 @@ impl Control for BrtConsole {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct BrtCopilot(LimitedDial);
+pub struct BrtCopilot(LimitedDial<5388, 65535, 0>);
 impl BrtCopilot {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5388, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -985,10 +985,10 @@ impl Control for BrtCopilot {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct BrtEngine(LimitedDial);
+pub struct BrtEngine(LimitedDial<5386, 65535, 0>);
 impl BrtEngine {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5386, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1012,10 +1012,10 @@ impl Control for BrtEngine {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct BrtPed(LimitedDial);
+pub struct BrtPed(LimitedDial<5382, 65535, 0>);
 impl BrtPed {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5382, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1039,10 +1039,10 @@ impl Control for BrtPed {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct BrtPilot(LimitedDial);
+pub struct BrtPilot(LimitedDial<5390, 65535, 0>);
 impl BrtPilot {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5390, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1066,10 +1066,10 @@ impl Control for BrtPilot {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct BrtSec(LimitedDial);
+pub struct BrtSec(LimitedDial<5384, 65535, 0>);
 impl BrtSec {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5384, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1112,10 +1112,10 @@ impl core::convert::TryFrom<u16> for CargoRelCpValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CargoRelCp(Selector);
+pub struct CargoRelCp(Selector<5432, 256, 8>);
 impl CargoRelCp {
     pub const fn new() -> Self {
-        Self(Selector::new(5432, 256, 8))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1158,10 +1158,10 @@ impl core::convert::TryFrom<u16> for CargoRelPValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CargoRelP(Selector);
+pub struct CargoRelP(Selector<5432, 128, 7>);
 impl CargoRelP {
     pub const fn new() -> Self {
-        Self(Selector::new(5432, 128, 7))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1204,10 +1204,10 @@ impl core::convert::TryFrom<u16> for CargoRelSafeValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CargoRelSafe(Selector);
+pub struct CargoRelSafe(Selector<5432, 512, 9>);
 impl CargoRelSafe {
     pub const fn new() -> Self {
-        Self(Selector::new(5432, 512, 9))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1250,10 +1250,10 @@ impl core::convert::TryFrom<u16> for Cb28vValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct Cb28v(Selector);
+pub struct Cb28v(Selector<5302, 1024, 10>);
 impl Cb28v {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 1024, 10))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1296,10 +1296,10 @@ impl core::convert::TryFrom<u16> for CbAirValveValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbAirValve(Selector);
+pub struct CbAirValve(Selector<5298, 1024, 10>);
 impl CbAirValve {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 1024, 10))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1342,10 +1342,10 @@ impl core::convert::TryFrom<u16> for CbAmRadioValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbAmRadio(Selector);
+pub struct CbAmRadio(Selector<5296, 32, 5>);
 impl CbAmRadio {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 32, 5))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1388,10 +1388,10 @@ impl core::convert::TryFrom<u16> for CbAntiIceValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbAntiIce(Selector);
+pub struct CbAntiIce(Selector<5298, 8192, 13>);
 impl CbAntiIce {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 8192, 13))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1434,10 +1434,10 @@ impl core::convert::TryFrom<u16> for CbAnticollValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbAnticoll(Selector);
+pub struct CbAnticoll(Selector<5298, 1, 0>);
 impl CbAnticoll {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 1, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1480,10 +1480,10 @@ impl core::convert::TryFrom<u16> for CbArc102Value {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbArc102(Selector);
+pub struct CbArc102(Selector<5294, 32768, 15>);
 impl CbArc102 {
     pub const fn new() -> Self {
-        Self(Selector::new(5294, 32768, 15))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1526,10 +1526,10 @@ impl core::convert::TryFrom<u16> for CbCableValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbCable(Selector);
+pub struct CbCable(Selector<5296, 256, 8>);
 impl CbCable {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 256, 8))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1572,10 +1572,10 @@ impl core::convert::TryFrom<u16> for CbCautionLtsValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbCautionLts(Selector);
+pub struct CbCautionLts(Selector<5298, 32, 5>);
 impl CbCautionLts {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 32, 5))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1618,10 +1618,10 @@ impl core::convert::TryFrom<u16> for CbCockpitLtsValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbCockpitLts(Selector);
+pub struct CbCockpitLts(Selector<5298, 16, 4>);
 impl CbCockpitLts {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 16, 4))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1664,10 +1664,10 @@ impl core::convert::TryFrom<u16> for CbConsoleLtsValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbConsoleLts(Selector);
+pub struct CbConsoleLts(Selector<5298, 64, 6>);
 impl CbConsoleLts {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 64, 6))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1710,10 +1710,10 @@ impl core::convert::TryFrom<u16> for CbCpltAttd1Value {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbCpltAttd1(Selector);
+pub struct CbCpltAttd1(Selector<5302, 64, 6>);
 impl CbCpltAttd1 {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 64, 6))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1756,10 +1756,10 @@ impl core::convert::TryFrom<u16> for CbCpltAttd2Value {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbCpltAttd2(Selector);
+pub struct CbCpltAttd2(Selector<5302, 128, 7>);
 impl CbCpltAttd2 {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 128, 7))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1802,10 +1802,10 @@ impl core::convert::TryFrom<u16> for CbCrsindValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbCrsind(Selector);
+pub struct CbCrsind(Selector<5304, 1, 0>);
 impl CbCrsind {
     pub const fn new() -> Self {
-        Self(Selector::new(5304, 1, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1848,10 +1848,10 @@ impl core::convert::TryFrom<u16> for CbDomeLtsValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbDomeLts(Selector);
+pub struct CbDomeLts(Selector<5298, 8, 3>);
 impl CbDomeLts {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 8, 3))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1894,10 +1894,10 @@ impl core::convert::TryFrom<u16> for CbEngValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbEng(Selector);
+pub struct CbEng(Selector<5302, 32768, 15>);
 impl CbEng {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 32768, 15))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1940,10 +1940,10 @@ impl core::convert::TryFrom<u16> for CbFailRelayValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbFailRelay(Selector);
+pub struct CbFailRelay(Selector<5302, 2048, 11>);
 impl CbFailRelay {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 2048, 11))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -1986,10 +1986,10 @@ impl core::convert::TryFrom<u16> for CbFireValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbFire(Selector);
+pub struct CbFire(Selector<5298, 16384, 14>);
 impl CbFire {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 16384, 14))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2032,10 +2032,10 @@ impl core::convert::TryFrom<u16> for CbFm2RadioValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbFm2Radio(Selector);
+pub struct CbFm2Radio(Selector<5296, 16, 4>);
 impl CbFm2Radio {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 16, 4))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2078,10 +2078,10 @@ impl core::convert::TryFrom<u16> for CbFmRadioValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbFmRadio(Selector);
+pub struct CbFmRadio(Selector<5296, 4, 2>);
 impl CbFmRadio {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 4, 2))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2124,10 +2124,10 @@ impl core::convert::TryFrom<u16> for CbFuelValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbFuel(Selector);
+pub struct CbFuel(Selector<5302, 4096, 12>);
 impl CbFuel {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 4096, 12))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2170,10 +2170,10 @@ impl core::convert::TryFrom<u16> for CbFuelQtyValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbFuelQty(Selector);
+pub struct CbFuelQty(Selector<5302, 512, 9>);
 impl CbFuelQty {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 512, 9))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2216,10 +2216,10 @@ impl core::convert::TryFrom<u16> for CbFuelTransValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbFuelTrans(Selector);
+pub struct CbFuelTrans(Selector<5300, 16384, 14>);
 impl CbFuelTrans {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 16384, 14))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2262,10 +2262,10 @@ impl core::convert::TryFrom<u16> for CbFuelValvesValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbFuelValves(Selector);
+pub struct CbFuelValves(Selector<5300, 32768, 15>);
 impl CbFuelValves {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 32768, 15))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2308,10 +2308,10 @@ impl core::convert::TryFrom<u16> for CbFusLtsValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbFusLts(Selector);
+pub struct CbFusLts(Selector<5298, 2, 1>);
 impl CbFusLts {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 2, 1))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2354,10 +2354,10 @@ impl core::convert::TryFrom<u16> for CbGenBusValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbGenBus(Selector);
+pub struct CbGenBus(Selector<5300, 512, 9>);
 impl CbGenBus {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 512, 9))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2400,10 +2400,10 @@ impl core::convert::TryFrom<u16> for CbGovValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbGov(Selector);
+pub struct CbGov(Selector<5300, 2048, 11>);
 impl CbGov {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 2048, 11))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2446,10 +2446,10 @@ impl core::convert::TryFrom<u16> for CbGyroValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbGyro(Selector);
+pub struct CbGyro(Selector<5302, 256, 8>);
 impl CbGyro {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 256, 8))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2492,10 +2492,10 @@ impl core::convert::TryFrom<u16> for CbHeatedBlanket1Value {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbHeatedBlanket1(Selector);
+pub struct CbHeatedBlanket1(Selector<5302, 1, 0>);
 impl CbHeatedBlanket1 {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 1, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2538,10 +2538,10 @@ impl core::convert::TryFrom<u16> for CbHeatedBlanket2Value {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbHeatedBlanket2(Selector);
+pub struct CbHeatedBlanket2(Selector<5302, 2, 1>);
 impl CbHeatedBlanket2 {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 2, 1))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2584,10 +2584,10 @@ impl core::convert::TryFrom<u16> for CbHfAntValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbHfAnt(Selector);
+pub struct CbHfAnt(Selector<5296, 1, 0>);
 impl CbHfAnt {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 1, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2630,10 +2630,10 @@ impl core::convert::TryFrom<u16> for CbHfArc102Value {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbHfArc102(Selector);
+pub struct CbHfArc102(Selector<5296, 2, 1>);
 impl CbHfArc102 {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 2, 1))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2676,10 +2676,10 @@ impl core::convert::TryFrom<u16> for CbHookValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbHook(Selector);
+pub struct CbHook(Selector<5300, 16, 4>);
 impl CbHook {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 16, 4))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2722,10 +2722,10 @@ impl core::convert::TryFrom<u16> for CbHydctlValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbHydctl(Selector);
+pub struct CbHydctl(Selector<5300, 4, 2>);
 impl CbHydctl {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 4, 2))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2768,10 +2768,10 @@ impl core::convert::TryFrom<u16> for CbIdleStopValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbIdleStop(Selector);
+pub struct CbIdleStop(Selector<5300, 4096, 12>);
 impl CbIdleStop {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 4096, 12))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2814,10 +2814,10 @@ impl core::convert::TryFrom<u16> for CbIffApx1Value {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbIffApx1(Selector);
+pub struct CbIffApx1(Selector<5294, 128, 7>);
 impl CbIffApx1 {
     pub const fn new() -> Self {
-        Self(Selector::new(5294, 128, 7))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2860,10 +2860,10 @@ impl core::convert::TryFrom<u16> for CbIffApx2Value {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbIffApx2(Selector);
+pub struct CbIffApx2(Selector<5294, 256, 8>);
 impl CbIffApx2 {
     pub const fn new() -> Self {
-        Self(Selector::new(5294, 256, 8))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2906,10 +2906,10 @@ impl core::convert::TryFrom<u16> for CbIgnValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbIgn(Selector);
+pub struct CbIgn(Selector<5302, 8, 3>);
 impl CbIgn {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 8, 3))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2952,10 +2952,10 @@ impl core::convert::TryFrom<u16> for CbInstLtsValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbInstLts(Selector);
+pub struct CbInstLts(Selector<5298, 128, 7>);
 impl CbInstLts {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 128, 7))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -2998,10 +2998,10 @@ impl core::convert::TryFrom<u16> for CbInstSecLtsValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbInstSecLts(Selector);
+pub struct CbInstSecLts(Selector<5298, 256, 8>);
 impl CbInstSecLts {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 256, 8))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3044,10 +3044,10 @@ impl core::convert::TryFrom<u16> for CbIntCpltValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbIntCplt(Selector);
+pub struct CbIntCplt(Selector<5294, 8192, 13>);
 impl CbIntCplt {
     pub const fn new() -> Self {
-        Self(Selector::new(5294, 8192, 13))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3090,10 +3090,10 @@ impl core::convert::TryFrom<u16> for CbIntPltValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbIntPlt(Selector);
+pub struct CbIntPlt(Selector<5294, 16384, 14>);
 impl CbIntPlt {
     pub const fn new() -> Self {
-        Self(Selector::new(5294, 16384, 14))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3136,10 +3136,10 @@ impl core::convert::TryFrom<u16> for CbInvtrValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbInvtr(Selector);
+pub struct CbInvtr(Selector<5300, 128, 7>);
 impl CbInvtr {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 128, 7))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3182,10 +3182,10 @@ impl core::convert::TryFrom<u16> for CbJtsnValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbJtsn(Selector);
+pub struct CbJtsn(Selector<5300, 32, 5>);
 impl CbJtsn {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 32, 5))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3228,10 +3228,10 @@ impl core::convert::TryFrom<u16> for CbKy20Value {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbKy20(Selector);
+pub struct CbKy20(Selector<5296, 2048, 11>);
 impl CbKy20 {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 2048, 11))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3274,10 +3274,10 @@ impl core::convert::TryFrom<u16> for CbLdgltsValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbLdglts(Selector);
+pub struct CbLdglts(Selector<5296, 16384, 14>);
 impl CbLdglts {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 16384, 14))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3320,10 +3320,10 @@ impl core::convert::TryFrom<u16> for CbLfNavValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbLfNav(Selector);
+pub struct CbLfNav(Selector<5294, 4096, 12>);
 impl CbLfNav {
     pub const fn new() -> Self {
-        Self(Selector::new(5294, 4096, 12))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3366,10 +3366,10 @@ impl core::convert::TryFrom<u16> for CbLhFuelValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbLhFuel(Selector);
+pub struct CbLhFuel(Selector<5298, 32768, 15>);
 impl CbLhFuel {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 32768, 15))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3412,10 +3412,10 @@ impl core::convert::TryFrom<u16> for CbMainInvtrValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbMainInvtr(Selector);
+pub struct CbMainInvtr(Selector<5300, 256, 8>);
 impl CbMainInvtr {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 256, 8))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3458,10 +3458,10 @@ impl core::convert::TryFrom<u16> for CbMarkerBeaconValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbMarkerBeacon(Selector);
+pub struct CbMarkerBeacon(Selector<5294, 1024, 10>);
 impl CbMarkerBeacon {
     pub const fn new() -> Self {
-        Self(Selector::new(5294, 1024, 10))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3504,10 +3504,10 @@ impl core::convert::TryFrom<u16> for CbNavLtsValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbNavLts(Selector);
+pub struct CbNavLts(Selector<5298, 4, 2>);
 impl CbNavLts {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 4, 2))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3550,10 +3550,10 @@ impl core::convert::TryFrom<u16> for CbOutletValveValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbOutletValve(Selector);
+pub struct CbOutletValve(Selector<5298, 512, 9>);
 impl CbOutletValve {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 512, 9))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3596,10 +3596,10 @@ impl core::convert::TryFrom<u16> for CbPitotTubeValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbPitotTube(Selector);
+pub struct CbPitotTube(Selector<5296, 64, 6>);
 impl CbPitotTube {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 64, 6))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3642,10 +3642,10 @@ impl core::convert::TryFrom<u16> for CbPltAttd1Value {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbPltAttd1(Selector);
+pub struct CbPltAttd1(Selector<5302, 16, 4>);
 impl CbPltAttd1 {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 16, 4))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3688,10 +3688,10 @@ impl core::convert::TryFrom<u16> for CbPltAttd2Value {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbPltAttd2(Selector);
+pub struct CbPltAttd2(Selector<5302, 32, 5>);
 impl CbPltAttd2 {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 32, 5))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3734,10 +3734,10 @@ impl core::convert::TryFrom<u16> for CbPorxWarnValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbPorxWarn(Selector);
+pub struct CbPorxWarn(Selector<5294, 512, 9>);
 impl CbPorxWarn {
     pub const fn new() -> Self {
-        Self(Selector::new(5294, 512, 9))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3780,10 +3780,10 @@ impl core::convert::TryFrom<u16> for CbRescueContValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbRescueCont(Selector);
+pub struct CbRescueCont(Selector<5296, 128, 7>);
 impl CbRescueCont {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 128, 7))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3826,10 +3826,10 @@ impl core::convert::TryFrom<u16> for CbRescuePwrValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbRescuePwr(Selector);
+pub struct CbRescuePwr(Selector<5298, 2048, 11>);
 impl CbRescuePwr {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 2048, 11))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3872,10 +3872,10 @@ impl core::convert::TryFrom<u16> for CbRhFuelValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbRhFuel(Selector);
+pub struct CbRhFuel(Selector<5300, 8192, 13>);
 impl CbRhFuel {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 8192, 13))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3918,10 +3918,10 @@ impl core::convert::TryFrom<u16> for CbRpmWarnValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbRpmWarn(Selector);
+pub struct CbRpmWarn(Selector<5298, 4096, 12>);
 impl CbRpmWarn {
     pub const fn new() -> Self {
-        Self(Selector::new(5298, 4096, 12))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -3964,10 +3964,10 @@ impl core::convert::TryFrom<u16> for CbSlCtlValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbSlCtl(Selector);
+pub struct CbSlCtl(Selector<5296, 32768, 15>);
 impl CbSlCtl {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 32768, 15))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4010,10 +4010,10 @@ impl core::convert::TryFrom<u16> for CbSlPwrValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbSlPwr(Selector);
+pub struct CbSlPwr(Selector<5296, 8192, 13>);
 impl CbSlPwr {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 8192, 13))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4056,10 +4056,10 @@ impl core::convert::TryFrom<u16> for CbSpareInvtrValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbSpareInvtr(Selector);
+pub struct CbSpareInvtr(Selector<5300, 64, 6>);
 impl CbSpareInvtr {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 64, 6))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4102,10 +4102,10 @@ impl core::convert::TryFrom<u16> for CbStarterValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbStarter(Selector);
+pub struct CbStarter(Selector<5296, 4096, 12>);
 impl CbStarter {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 4096, 12))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4148,10 +4148,10 @@ impl core::convert::TryFrom<u16> for CbStbyGenValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbStbyGen(Selector);
+pub struct CbStbyGen(Selector<5300, 1024, 10>);
 impl CbStbyGen {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 1024, 10))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4194,10 +4194,10 @@ impl core::convert::TryFrom<u16> for CbTempValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbTemp(Selector);
+pub struct CbTemp(Selector<5300, 2, 1>);
 impl CbTemp {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 2, 1))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4240,10 +4240,10 @@ impl core::convert::TryFrom<u16> for CbTorqValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbTorq(Selector);
+pub struct CbTorq(Selector<5302, 8192, 13>);
 impl CbTorq {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 8192, 13))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4286,10 +4286,10 @@ impl core::convert::TryFrom<u16> for CbTrimValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbTrim(Selector);
+pub struct CbTrim(Selector<5300, 8, 3>);
 impl CbTrim {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 8, 3))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4332,10 +4332,10 @@ impl core::convert::TryFrom<u16> for CbTurnSlipValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbTurnSlip(Selector);
+pub struct CbTurnSlip(Selector<5300, 1, 0>);
 impl CbTurnSlip {
     pub const fn new() -> Self {
-        Self(Selector::new(5300, 1, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4378,10 +4378,10 @@ impl core::convert::TryFrom<u16> for CbUhfRadioValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbUhfRadio(Selector);
+pub struct CbUhfRadio(Selector<5296, 8, 3>);
 impl CbUhfRadio {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 8, 3))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4424,10 +4424,10 @@ impl core::convert::TryFrom<u16> for CbVhfNavValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbVhfNav(Selector);
+pub struct CbVhfNav(Selector<5294, 2048, 11>);
 impl CbVhfNav {
     pub const fn new() -> Self {
-        Self(Selector::new(5294, 2048, 11))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4470,10 +4470,10 @@ impl core::convert::TryFrom<u16> for CbVmValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbVm(Selector);
+pub struct CbVm(Selector<5302, 4, 2>);
 impl CbVm {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 4, 2))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4516,10 +4516,10 @@ impl core::convert::TryFrom<u16> for CbWiperCpltValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbWiperCplt(Selector);
+pub struct CbWiperCplt(Selector<5296, 512, 9>);
 impl CbWiperCplt {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 512, 9))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4562,10 +4562,10 @@ impl core::convert::TryFrom<u16> for CbWiperPltValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbWiperPlt(Selector);
+pub struct CbWiperPlt(Selector<5296, 1024, 10>);
 impl CbWiperPlt {
     pub const fn new() -> Self {
-        Self(Selector::new(5296, 1024, 10))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4608,10 +4608,10 @@ impl core::convert::TryFrom<u16> for CbXmsnValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CbXmsn(Selector);
+pub struct CbXmsn(Selector<5302, 16384, 14>);
 impl CbXmsn {
     pub const fn new() -> Self {
-        Self(Selector::new(5302, 16384, 14))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4654,10 +4654,10 @@ impl core::convert::TryFrom<u16> for ChipDetSwValue {
 /// Chip Detector Rocker Switch
 /// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
 /// Output: selector position
-pub struct ChipDetSw(Selector);
+pub struct ChipDetSw(Selector<5310, 192, 6>);
 impl ChipDetSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5310, 192, 6))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4679,10 +4679,10 @@ impl Control for ChipDetSw {
 
 /// Rotating Course Card
 /// Output: gauge position
-pub struct CiCourseCard(AnalogGauge);
+pub struct CiCourseCard(AnalogGauge<5152, 65535, 0>);
 impl CiCourseCard {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5152, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4704,10 +4704,10 @@ impl Control for CiCourseCard {
 
 /// From Marker
 /// Output: gauge position
-pub struct CiFrom(AnalogGauge);
+pub struct CiFrom(AnalogGauge<5150, 65535, 0>);
 impl CiFrom {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5150, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4729,10 +4729,10 @@ impl Control for CiFrom {
 
 /// Horizontal Bar
 /// Output: gauge position
-pub struct CiHbar(AnalogGauge);
+pub struct CiHbar(AnalogGauge<5146, 65535, 0>);
 impl CiHbar {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5146, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4754,10 +4754,10 @@ impl Control for CiHbar {
 
 /// Horizontal OFF Warning Flag
 /// Output: gauge position
-pub struct CiHoff(AnalogGauge);
+pub struct CiHoff(AnalogGauge<5156, 65535, 0>);
 impl CiHoff {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5156, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4779,10 +4779,10 @@ impl Control for CiHoff {
 
 /// To Marker
 /// Output: gauge position
-pub struct CiTo(AnalogGauge);
+pub struct CiTo(AnalogGauge<5148, 65535, 0>);
 impl CiTo {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5148, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4804,10 +4804,10 @@ impl Control for CiTo {
 
 /// Vertical Bar
 /// Output: gauge position
-pub struct CiVbar(AnalogGauge);
+pub struct CiVbar(AnalogGauge<5144, 65535, 0>);
 impl CiVbar {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5144, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4829,10 +4829,10 @@ impl Control for CiVbar {
 
 /// Vertical OFF Warning Flag
 /// Output: gauge position
-pub struct CiVoff(AnalogGauge);
+pub struct CiVoff(AnalogGauge<5154, 65535, 0>);
 impl CiVoff {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5154, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -4854,10 +4854,10 @@ impl Control for CiVoff {
 
 /// ENGINE OIL PRESS (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClA0(Led);
+pub struct ClA0(Led<5140, 1, 0>);
 impl ClA0 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 1, 0))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -4879,10 +4879,10 @@ impl Control for ClA0 {
 
 /// AUX FUEL LOW (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClA1(Led);
+pub struct ClA1(Led<5140, 1024, 10>);
 impl ClA1 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 1024, 10))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -4904,10 +4904,10 @@ impl Control for ClA1 {
 
 /// ENGINE ICING (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClB0(Led);
+pub struct ClB0(Led<5140, 2, 1>);
 impl ClB0 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 2, 1))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -4929,10 +4929,10 @@ impl Control for ClB0 {
 
 /// XMSN OIL PRESS (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClB1(Led);
+pub struct ClB1(Led<5140, 2048, 11>);
 impl ClB1 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 2048, 11))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -4954,10 +4954,10 @@ impl Control for ClB1 {
 
 /// ENGINE ICE JET (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClC0(Led);
+pub struct ClC0(Led<5140, 4, 2>);
 impl ClC0 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 4, 2))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -4979,10 +4979,10 @@ impl Control for ClC0 {
 
 /// XMSN OIL HOT (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClC1(Led);
+pub struct ClC1(Led<5140, 4096, 12>);
 impl ClC1 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 4096, 12))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -5004,10 +5004,10 @@ impl Control for ClC1 {
 
 /// ENGINE CHIP DET (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClD0(Led);
+pub struct ClD0(Led<5140, 8, 3>);
 impl ClD0 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 8, 3))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -5029,10 +5029,10 @@ impl Control for ClD0 {
 
 /// HYD PRESSURE (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClD1(Led);
+pub struct ClD1(Led<5140, 8192, 13>);
 impl ClD1 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 8192, 13))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -5054,10 +5054,10 @@ impl Control for ClD1 {
 
 /// LEFT FUEL BOOST (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClE0(Led);
+pub struct ClE0(Led<5140, 16, 4>);
 impl ClE0 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 16, 4))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -5079,10 +5079,10 @@ impl Control for ClE0 {
 
 /// ENGINE INLET AIR (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClE1(Led);
+pub struct ClE1(Led<5140, 16384, 14>);
 impl ClE1 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 16384, 14))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -5104,10 +5104,10 @@ impl Control for ClE1 {
 
 /// RIGHT FUEL BOOST (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClF0(Led);
+pub struct ClF0(Led<5140, 32, 5>);
 impl ClF0 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 32, 5))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -5129,10 +5129,10 @@ impl Control for ClF0 {
 
 /// INST INVERTER (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClF1(Led);
+pub struct ClF1(Led<5140, 32768, 15>);
 impl ClF1 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 32768, 15))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -5154,10 +5154,10 @@ impl Control for ClF1 {
 
 /// ENG FUEL PUMP (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClG0(Led);
+pub struct ClG0(Led<5140, 64, 6>);
 impl ClG0 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 64, 6))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -5179,10 +5179,10 @@ impl Control for ClG0 {
 
 /// DC GENERATOR (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClG1(Led);
+pub struct ClG1(Led<5142, 1, 0>);
 impl ClG1 {
     pub const fn new() -> Self {
-        Self(Led::new(5142, 1, 0))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -5204,10 +5204,10 @@ impl Control for ClG1 {
 
 /// 20 MIN FUEL (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClH0(Led);
+pub struct ClH0(Led<5140, 128, 7>);
 impl ClH0 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 128, 7))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -5229,10 +5229,10 @@ impl Control for ClH0 {
 
 /// EXTERNAL POWER (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClH1(Led);
+pub struct ClH1(Led<5142, 2, 1>);
 impl ClH1 {
     pub const fn new() -> Self {
-        Self(Led::new(5142, 2, 1))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -5254,10 +5254,10 @@ impl Control for ClH1 {
 
 /// FUEL FILTER (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClI0(Led);
+pub struct ClI0(Led<5140, 256, 8>);
 impl ClI0 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 256, 8))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -5279,10 +5279,10 @@ impl Control for ClI0 {
 
 /// CHIP DETECTOR (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClI1(Led);
+pub struct ClI1(Led<5142, 4, 2>);
 impl ClI1 {
     pub const fn new() -> Self {
-        Self(Led::new(5142, 4, 2))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -5304,10 +5304,10 @@ impl Control for ClI1 {
 
 /// GOV EMER (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClJ0(Led);
+pub struct ClJ0(Led<5140, 512, 9>);
 impl ClJ0 {
     pub const fn new() -> Self {
-        Self(Led::new(5140, 512, 9))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -5329,10 +5329,10 @@ impl Control for ClJ0 {
 
 /// IFF (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct ClJ1(Led);
+pub struct ClJ1(Led<5142, 8, 3>);
 impl ClJ1 {
     pub const fn new() -> Self {
-        Self(Led::new(5142, 8, 3))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -5355,10 +5355,10 @@ impl Control for ClJ1 {
 /// Adjustment Dial
 /// Input: turn the dial left or right
 /// Output: the rotation of the knob in the cockpit (not the value that is controlled by this knob!)
-pub struct ClockAdjust(AnalogDial);
+pub struct ClockAdjust(AnalogDial<5316, 65535, 0>);
 impl ClockAdjust {
     pub const fn new() -> Self {
-        Self(AnalogDial::new(5316, 65535, 0))
+        Self(AnalogDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -5381,10 +5381,10 @@ impl Control for ClockAdjust {
 /// Adjustment Dial Pull
 /// Input: toggle switch state
 /// Output: selector position
-pub struct ClockAdjustPull(Selector);
+pub struct ClockAdjustPull(Selector<5308, 32768, 15>);
 impl ClockAdjustPull {
     pub const fn new() -> Self {
-        Self(Selector::new(5308, 32768, 15))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -5406,10 +5406,10 @@ impl Control for ClockAdjustPull {
 
 /// Clock Hours
 /// Output: gauge position
-pub struct ClockH(AnalogGauge);
+pub struct ClockH(AnalogGauge<5240, 65535, 0>);
 impl ClockH {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5240, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -5431,10 +5431,10 @@ impl Control for ClockH {
 
 /// Clock Seconds
 /// Output: gauge position
-pub struct ClockM(AnalogGauge);
+pub struct ClockM(AnalogGauge<5242, 65535, 0>);
 impl ClockM {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5242, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -5456,10 +5456,10 @@ impl Control for ClockM {
 
 /// Clock Seconds
 /// Output: gauge position
-pub struct ClockS(AnalogGauge);
+pub struct ClockS(AnalogGauge<5244, 65535, 0>);
 impl ClockS {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5244, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -5502,10 +5502,10 @@ impl core::convert::TryFrom<u16> for ClpBrightDimSwValue {
 /// Bright/Dim Rocker Switch
 /// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
 /// Output: selector position
-pub struct ClpBrightDimSw(Selector);
+pub struct ClpBrightDimSw(Selector<5304, 384, 7>);
 impl ClpBrightDimSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5304, 384, 7))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -5548,10 +5548,10 @@ impl core::convert::TryFrom<u16> for ClpResetTestSwValue {
 /// Test/Reset Rocker Switch
 /// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
 /// Output: selector position
-pub struct ClpResetTestSw(Selector);
+pub struct ClpResetTestSw(Selector<5304, 96, 5>);
 impl ClpResetTestSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5304, 96, 5))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -5594,10 +5594,10 @@ impl core::convert::TryFrom<u16> for CmArmSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CmArmSw(Selector);
+pub struct CmArmSw(Selector<5406, 16, 4>);
 impl CmArmSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5406, 16, 4))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -5640,10 +5640,10 @@ impl core::convert::TryFrom<u16> for CmArmedTestValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CmArmedTest(Selector);
+pub struct CmArmedTest(Selector<5406, 128, 7>);
 impl CmArmedTest {
     pub const fn new() -> Self {
-        Self(Selector::new(5406, 128, 7))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -5665,10 +5665,10 @@ impl Control for CmArmedTest {
 
 /// Chaff Counter Display (Number)
 /// Output: Chaff Counter Display (Number)
-pub struct CmChaffcntDisplay(Metadata);
+pub struct CmChaffcntDisplay(Metadata<5418, 32256, 9>);
 impl CmChaffcntDisplay {
     pub const fn new() -> Self {
-        Self(Metadata::new(5418, 32256, 9))
+        Self(Metadata::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -5690,10 +5690,10 @@ impl Control for CmChaffcntDisplay {
 
 /// Chaff Counter (String)
 /// Output: Chaff Counter (String)
-pub struct CmChaffcntDisplayStr(Display<2>);
+pub struct CmChaffcntDisplayStr(Display<5410, 2>);
 impl CmChaffcntDisplayStr {
     pub const fn new() -> Self {
-        Self(Display::<2>::new(5410, 2))
+        Self(Display::new())
     }
     pub fn value(&self) -> &[u8] {
         self.0.value()
@@ -5736,10 +5736,10 @@ impl core::convert::TryFrom<u16> for CmChaffcntResetValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CmChaffcntReset(Selector);
+pub struct CmChaffcntReset(Selector<5406, 512, 9>);
 impl CmChaffcntReset {
     pub const fn new() -> Self {
-        Self(Selector::new(5406, 512, 9))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -5782,10 +5782,10 @@ impl core::convert::TryFrom<u16> for CmFlareBtnValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CmFlareBtn(Selector);
+pub struct CmFlareBtn(Selector<5406, 64, 6>);
 impl CmFlareBtn {
     pub const fn new() -> Self {
-        Self(Selector::new(5406, 64, 6))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -5807,10 +5807,10 @@ impl Control for CmFlareBtn {
 
 /// Flare Counter Display (Number)
 /// Output: Flare Counter Display (Number)
-pub struct CmFlarecntDisplay(Metadata);
+pub struct CmFlarecntDisplay(Metadata<5418, 504, 3>);
 impl CmFlarecntDisplay {
     pub const fn new() -> Self {
-        Self(Metadata::new(5418, 504, 3))
+        Self(Metadata::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -5832,10 +5832,10 @@ impl Control for CmFlarecntDisplay {
 
 /// Flare Counter (String)
 /// Output: Flare Counter (String)
-pub struct CmFlarecntDisplayStr(Display<2>);
+pub struct CmFlarecntDisplayStr(Display<5408, 2>);
 impl CmFlarecntDisplayStr {
     pub const fn new() -> Self {
-        Self(Display::<2>::new(5408, 2))
+        Self(Display::new())
     }
     pub fn value(&self) -> &[u8] {
         self.0.value()
@@ -5878,10 +5878,10 @@ impl core::convert::TryFrom<u16> for CmFlarecntResetValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CmFlarecntReset(Selector);
+pub struct CmFlarecntReset(Selector<5406, 256, 8>);
 impl CmFlarecntReset {
     pub const fn new() -> Self {
-        Self(Selector::new(5406, 256, 8))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -5924,10 +5924,10 @@ impl core::convert::TryFrom<u16> for CmManPgrmSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CmManPgrmSw(Selector);
+pub struct CmManPgrmSw(Selector<5406, 32, 5>);
 impl CmManPgrmSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5406, 32, 5))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -5970,10 +5970,10 @@ impl core::convert::TryFrom<u16> for CmRippleCoverValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CmRippleCover(Selector);
+pub struct CmRippleCover(Selector<5406, 4, 2>);
 impl CmRippleCover {
     pub const fn new() -> Self {
-        Self(Selector::new(5406, 4, 2))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6016,10 +6016,10 @@ impl core::convert::TryFrom<u16> for CmRippleSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CmRippleSw(Selector);
+pub struct CmRippleSw(Selector<5406, 8, 3>);
 impl CmRippleSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5406, 8, 3))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6041,10 +6041,10 @@ impl Control for CmRippleSw {
 
 /// Console Light
 /// Output: gauge position
-pub struct ConsoleLight(AnalogGauge);
+pub struct ConsoleLight(AnalogGauge<5274, 65535, 0>);
 impl ConsoleLight {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5274, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6087,10 +6087,10 @@ impl core::convert::TryFrom<u16> for CpltAdiCageValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct CpltAdiCage(Selector);
+pub struct CpltAdiCage(Selector<5310, 16384, 14>);
 impl CpltAdiCage {
     pub const fn new() -> Self {
-        Self(Selector::new(5310, 16384, 14))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6113,10 +6113,10 @@ impl Control for CpltAdiCage {
 /// CDI CRS Selector Knob
 /// Input: turn the dial left or right
 /// Output: the rotation of the knob in the cockpit (not the value that is controlled by this knob!)
-pub struct CrsKnob(AnalogDial);
+pub struct CrsKnob(AnalogDial<5396, 65535, 0>);
 impl CrsKnob {
     pub const fn new() -> Self {
-        Self(AnalogDial::new(5396, 65535, 0))
+        Self(AnalogDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6138,10 +6138,10 @@ impl Control for CrsKnob {
 
 /// DC Battery 1 Current
 /// Output: gauge position
-pub struct DcBat1Current(AnalogGauge);
+pub struct DcBat1Current(AnalogGauge<5124, 65535, 0>);
 impl DcBat1Current {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5124, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6163,10 +6163,10 @@ impl Control for DcBat1Current {
 
 /// DC Battery 2 Current
 /// Output: gauge position
-pub struct DcBat2Current(AnalogGauge);
+pub struct DcBat2Current(AnalogGauge<5126, 65535, 0>);
 impl DcBat2Current {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5126, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6188,10 +6188,10 @@ impl Control for DcBat2Current {
 
 /// DC Voltage
 /// Output: gauge position
-pub struct DcV(AnalogGauge);
+pub struct DcV(AnalogGauge<5228, 65535, 0>);
 impl DcV {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5228, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6239,10 +6239,10 @@ impl core::convert::TryFrom<u16> for DcVmSrcValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct DcVmSrc(Selector);
+pub struct DcVmSrc(Selector<5294, 7, 0>);
 impl DcVmSrc {
     pub const fn new() -> Self {
-        Self(Selector::new(5294, 7, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6264,10 +6264,10 @@ impl Control for DcVmSrc {
 
 /// DC Voltage
 /// Output: gauge position
-pub struct DcVoltage(AnalogGauge);
+pub struct DcVoltage(AnalogGauge<5120, 65535, 0>);
 impl DcVoltage {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5120, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6289,10 +6289,10 @@ impl Control for DcVoltage {
 
 /// DC VU 1 Current
 /// Output: gauge position
-pub struct DcVu1Current(AnalogGauge);
+pub struct DcVu1Current(AnalogGauge<5128, 65535, 0>);
 impl DcVu1Current {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5128, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6314,10 +6314,10 @@ impl Control for DcVu1Current {
 
 /// DC VU 2 Current
 /// Output: gauge position
-pub struct DcVu2Current(AnalogGauge);
+pub struct DcVu2Current(AnalogGauge<5130, 65535, 0>);
 impl DcVu2Current {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5130, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6339,10 +6339,10 @@ impl Control for DcVu2Current {
 
 /// DC VU 3 Current
 /// Output: gauge position
-pub struct DcVu3Current(AnalogGauge);
+pub struct DcVu3Current(AnalogGauge<5132, 65535, 0>);
 impl DcVu3Current {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5132, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6364,10 +6364,10 @@ impl Control for DcVu3Current {
 
 /// Dome Light
 /// Output: gauge position
-pub struct DomeLight(AnalogGauge);
+pub struct DomeLight(AnalogGauge<5276, 65535, 0>);
 impl DomeLight {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5276, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6389,10 +6389,10 @@ impl Control for DomeLight {
 
 /// Dome Light Green
 /// Output: gauge position
-pub struct DomeLightGreen(AnalogGauge);
+pub struct DomeLightGreen(AnalogGauge<5278, 65535, 0>);
 impl DomeLightGreen {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5278, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6436,10 +6436,10 @@ impl core::convert::TryFrom<u16> for DomeLightSwValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct DomeLightSw(Selector);
+pub struct DomeLightSw(Selector<5378, 48, 4>);
 impl DomeLightSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5378, 48, 4))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6482,10 +6482,10 @@ impl core::convert::TryFrom<u16> for DoorLPtrValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct DoorLPtr(Selector);
+pub struct DoorLPtr(Selector<5406, 8192, 13>);
 impl DoorLPtr {
     pub const fn new() -> Self {
-        Self(Selector::new(5406, 8192, 13))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6528,10 +6528,10 @@ impl core::convert::TryFrom<u16> for DoorRPtrValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct DoorRPtr(Selector);
+pub struct DoorRPtr(Selector<5406, 16384, 14>);
 impl DoorRPtr {
     pub const fn new() -> Self {
-        Self(Selector::new(5406, 16384, 14))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6574,10 +6574,10 @@ impl core::convert::TryFrom<u16> for EmerGovSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct EmerGovSw(Selector);
+pub struct EmerGovSw(Selector<5310, 256, 8>);
 impl EmerGovSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5310, 256, 8))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6620,10 +6620,10 @@ impl core::convert::TryFrom<u16> for EngDeiceValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct EngDeice(Selector);
+pub struct EngDeice(Selector<5310, 16, 4>);
 impl EngDeice {
     pub const fn new() -> Self {
-        Self(Selector::new(5310, 16, 4))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6645,10 +6645,10 @@ impl Control for EngDeice {
 
 /// Engine Oil Pressure
 /// Output: gauge position
-pub struct EngOilPress(AnalogGauge);
+pub struct EngOilPress(AnalogGauge<5204, 65535, 0>);
 impl EngOilPress {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5204, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6670,10 +6670,10 @@ impl Control for EngOilPress {
 
 /// Engine Oil Temperature
 /// Output: gauge position
-pub struct EngOilTemp(AnalogGauge);
+pub struct EngOilTemp(AnalogGauge<5206, 65535, 0>);
 impl EngOilTemp {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5206, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6695,10 +6695,10 @@ impl Control for EngOilTemp {
 
 /// Engine RPM
 /// Output: gauge position
-pub struct EngRpm(AnalogGauge);
+pub struct EngRpm(AnalogGauge<5218, 65535, 0>);
 impl EngRpm {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5218, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6720,10 +6720,10 @@ impl Control for EngRpm {
 
 /// Exhaust Temperature
 /// Output: gauge position
-pub struct ExhaustTemp(AnalogGauge);
+pub struct ExhaustTemp(AnalogGauge<5216, 65535, 0>);
 impl ExhaustTemp {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5216, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6745,10 +6745,10 @@ impl Control for ExhaustTemp {
 
 /// Left Position Light (red)
 /// Output: Left Position Light (red)
-pub struct ExtPositionLightLeft(Metadata);
+pub struct ExtPositionLightLeft(Metadata<5406, 32768, 15>);
 impl ExtPositionLightLeft {
     pub const fn new() -> Self {
-        Self(Metadata::new(5406, 32768, 15))
+        Self(Metadata::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6770,10 +6770,10 @@ impl Control for ExtPositionLightLeft {
 
 /// Right Position Light (green)
 /// Output: Right Position Light (green)
-pub struct ExtPositionLightRight(Metadata);
+pub struct ExtPositionLightRight(Metadata<5418, 1, 0>);
 impl ExtPositionLightRight {
     pub const fn new() -> Self {
-        Self(Metadata::new(5418, 1, 0))
+        Self(Metadata::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6795,10 +6795,10 @@ impl Control for ExtPositionLightRight {
 
 /// Strobe Light
 /// Output: Strobe Light
-pub struct ExtStrobe(Metadata);
+pub struct ExtStrobe(Metadata<5418, 2, 1>);
 impl ExtStrobe {
     pub const fn new() -> Self {
-        Self(Metadata::new(5418, 2, 1))
+        Self(Metadata::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6820,10 +6820,10 @@ impl Control for ExtStrobe {
 
 /// Weight ON Skids
 /// Output: Weight ON Skids
-pub struct ExtWowSkid(Metadata);
+pub struct ExtWowSkid(Metadata<5418, 4, 2>);
 impl ExtWowSkid {
     pub const fn new() -> Self {
-        Self(Metadata::new(5418, 4, 2))
+        Self(Metadata::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6845,10 +6845,10 @@ impl Control for ExtWowSkid {
 
 /// FIRE Warning Light (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct FireInd(Led);
+pub struct FireInd(Led<5142, 64, 6>);
 impl FireInd {
     pub const fn new() -> Self {
-        Self(Led::new(5142, 64, 6))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -6891,10 +6891,10 @@ impl core::convert::TryFrom<u16> for FireTestBtnValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct FireTestBtn(Selector);
+pub struct FireTestBtn(Selector<5310, 8192, 13>);
 impl FireTestBtn {
     pub const fn new() -> Self {
-        Self(Selector::new(5310, 8192, 13))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6937,10 +6937,10 @@ impl core::convert::TryFrom<u16> for ForceTrimSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct ForceTrimSw(Selector);
+pub struct ForceTrimSw(Selector<5310, 1024, 10>);
 impl ForceTrimSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5310, 1024, 10))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6962,10 +6962,10 @@ impl Control for ForceTrimSw {
 
 /// Fuel Pressure
 /// Output: gauge position
-pub struct FuelPress(AnalogGauge);
+pub struct FuelPress(AnalogGauge<5236, 65535, 0>);
 impl FuelPress {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5236, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -6987,10 +6987,10 @@ impl Control for FuelPress {
 
 /// Fuel Quantity
 /// Output: gauge position
-pub struct FuelQty(AnalogGauge);
+pub struct FuelQty(AnalogGauge<5238, 65535, 0>);
 impl FuelQty {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5238, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7012,10 +7012,10 @@ impl Control for FuelQty {
 
 /// Gas Producer RPM
 /// Output: gauge position
-pub struct GasRpm(AnalogGauge);
+pub struct GasRpm(AnalogGauge<5224, 65535, 0>);
 impl GasRpm {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5224, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7037,10 +7037,10 @@ impl Control for GasRpm {
 
 /// Gas Producer RPM Tenths
 /// Output: gauge position
-pub struct GasRpmT(AnalogGauge);
+pub struct GasRpmT(AnalogGauge<5222, 65535, 0>);
 impl GasRpmT {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5222, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7061,10 +7061,10 @@ impl Control for GasRpmT {
 }
 
 /// Output: gauge position
-pub struct GmcAnnunciator(AnalogGauge);
+pub struct GmcAnnunciator(AnalogGauge<5170, 65535, 0>);
 impl GmcAnnunciator {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5170, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7086,10 +7086,10 @@ impl Control for GmcAnnunciator {
 
 /// GMC Course Pointer 1
 /// Output: gauge position
-pub struct GmcCrs1(AnalogGauge);
+pub struct GmcCrs1(AnalogGauge<5162, 65535, 0>);
 impl GmcCrs1 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5162, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7111,10 +7111,10 @@ impl Control for GmcCrs1 {
 
 /// GMC Course Pointer 2
 /// Output: gauge position
-pub struct GmcCrs2(AnalogGauge);
+pub struct GmcCrs2(AnalogGauge<5164, 65535, 0>);
 impl GmcCrs2 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5164, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7136,10 +7136,10 @@ impl Control for GmcCrs2 {
 
 /// GMC Heading
 /// Output: gauge position
-pub struct GmcHdg(AnalogGauge);
+pub struct GmcHdg(AnalogGauge<5168, 65535, 0>);
 impl GmcHdg {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5168, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7161,10 +7161,10 @@ impl Control for GmcHdg {
 
 /// GMC Heading Marker
 /// Output: gauge position
-pub struct GmcHdgMarker(AnalogGauge);
+pub struct GmcHdgMarker(AnalogGauge<5166, 65535, 0>);
 impl GmcHdgMarker {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5166, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7185,10 +7185,10 @@ impl Control for GmcHdgMarker {
 }
 
 /// Output: gauge position
-pub struct GmcPwrfail(AnalogGauge);
+pub struct GmcPwrfail(AnalogGauge<5172, 65535, 0>);
 impl GmcPwrfail {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5172, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7231,10 +7231,10 @@ impl core::convert::TryFrom<u16> for GovRpmSwValue {
 /// Governor RPM Rocker Switch
 /// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
 /// Output: selector position
-pub struct GovRpmSw(Selector);
+pub struct GovRpmSw(Selector<5310, 6144, 11>);
 impl GovRpmSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5310, 6144, 11))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7277,10 +7277,10 @@ impl core::convert::TryFrom<u16> for GovRpmSw2Value {
 /// Copilot Governor RPM Rocker Switch
 /// Input: set the switch position -- 0 = held left/down, 1 = centered, 2 = held right/up
 /// Output: selector position
-pub struct GovRpmSw2(Selector);
+pub struct GovRpmSw2(Selector<5432, 3, 0>);
 impl GovRpmSw2 {
     pub const fn new() -> Self {
-        Self(Selector::new(5432, 3, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7324,10 +7324,10 @@ impl core::convert::TryFrom<u16> for GunSelValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct GunSel(Selector);
+pub struct GunSel(Selector<5378, 24576, 13>);
 impl GunSel {
     pub const fn new() -> Self {
-        Self(Selector::new(5378, 24576, 13))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7370,10 +7370,10 @@ impl core::convert::TryFrom<u16> for GyroModeSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct GyroModeSw(Selector);
+pub struct GyroModeSw(Selector<5378, 1024, 10>);
 impl GyroModeSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5378, 1024, 10))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7396,10 +7396,10 @@ impl Control for GyroModeSw {
 /// HDG SET Knob
 /// Input: turn the dial left or right
 /// Output: the rotation of the knob in the cockpit (not the value that is controlled by this knob!)
-pub struct HdgSet(AnalogDial);
+pub struct HdgSet(AnalogDial<5392, 65535, 0>);
 impl HdgSet {
     pub const fn new() -> Self {
-        Self(AnalogDial::new(5392, 65535, 0))
+        Self(AnalogDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7422,10 +7422,10 @@ impl Control for HdgSet {
 /// Compass Synchronizing
 /// Input: turn the dial left or right
 /// Output: the rotation of the knob in the cockpit (not the value that is controlled by this knob!)
-pub struct HdgSync(AnalogDial);
+pub struct HdgSync(AnalogDial<5394, 65535, 0>);
 impl HdgSync {
     pub const fn new() -> Self {
-        Self(AnalogDial::new(5394, 65535, 0))
+        Self(AnalogDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7468,10 +7468,10 @@ impl core::convert::TryFrom<u16> for HydContSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct HydContSw(Selector);
+pub struct HydContSw(Selector<5310, 512, 9>);
 impl HydContSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5310, 512, 9))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7493,10 +7493,10 @@ impl Control for HydContSw {
 
 /// IAS Front
 /// Output: gauge position
-pub struct IasNose(AnalogGauge);
+pub struct IasNose(AnalogGauge<5212, 65535, 0>);
 impl IasNose {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5212, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7518,10 +7518,10 @@ impl Control for IasNose {
 
 /// IAS Roof
 /// Output: gauge position
-pub struct IasRoof(AnalogGauge);
+pub struct IasRoof(AnalogGauge<5214, 65535, 0>);
 impl IasRoof {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5214, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7544,10 +7544,10 @@ impl Control for IasRoof {
 /// IFF Code: ZERO - B - A - (HOLD)
 /// Input: switch to previous or next state
 /// Output: selector position
-pub struct IffCode(Selector);
+pub struct IffCode(Selector<5304, 6144, 11>);
 impl IffCode {
     pub const fn new() -> Self {
-        Self(Selector::new(5304, 6144, 11))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7595,10 +7595,10 @@ impl core::convert::TryFrom<u16> for IffMasterValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct IffMaster(Selector);
+pub struct IffMaster(Selector<5304, 57344, 13>);
 impl IffMaster {
     pub const fn new() -> Self {
-        Self(Selector::new(5304, 57344, 13))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7642,10 +7642,10 @@ impl core::convert::TryFrom<u16> for IffMicIdentValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct IffMicIdent(Selector);
+pub struct IffMicIdent(Selector<5306, 12288, 12>);
 impl IffMicIdent {
     pub const fn new() -> Self {
-        Self(Selector::new(5306, 12288, 12))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7699,10 +7699,10 @@ impl core::convert::TryFrom<u16> for IffMode1Wheel1Value {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct IffMode1Wheel1(Selector);
+pub struct IffMode1Wheel1(Selector<5308, 7, 0>);
 impl IffMode1Wheel1 {
     pub const fn new() -> Self {
-        Self(Selector::new(5308, 7, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7748,10 +7748,10 @@ impl core::convert::TryFrom<u16> for IffMode1Wheel2Value {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct IffMode1Wheel2(Selector);
+pub struct IffMode1Wheel2(Selector<5308, 24, 3>);
 impl IffMode1Wheel2 {
     pub const fn new() -> Self {
-        Self(Selector::new(5308, 24, 3))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7805,10 +7805,10 @@ impl core::convert::TryFrom<u16> for IffMode3aWheel1Value {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct IffMode3aWheel1(Selector);
+pub struct IffMode3aWheel1(Selector<5308, 224, 5>);
 impl IffMode3aWheel1 {
     pub const fn new() -> Self {
-        Self(Selector::new(5308, 224, 5))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7862,10 +7862,10 @@ impl core::convert::TryFrom<u16> for IffMode3aWheel2Value {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct IffMode3aWheel2(Selector);
+pub struct IffMode3aWheel2(Selector<5308, 1792, 8>);
 impl IffMode3aWheel2 {
     pub const fn new() -> Self {
-        Self(Selector::new(5308, 1792, 8))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7919,10 +7919,10 @@ impl core::convert::TryFrom<u16> for IffMode3aWheel3Value {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct IffMode3aWheel3(Selector);
+pub struct IffMode3aWheel3(Selector<5308, 14336, 11>);
 impl IffMode3aWheel3 {
     pub const fn new() -> Self {
-        Self(Selector::new(5308, 14336, 11))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -7976,10 +7976,10 @@ impl core::convert::TryFrom<u16> for IffMode3aWheel4Value {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct IffMode3aWheel4(Selector);
+pub struct IffMode3aWheel4(Selector<5310, 7, 0>);
 impl IffMode3aWheel4 {
     pub const fn new() -> Self {
-        Self(Selector::new(5310, 7, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8022,10 +8022,10 @@ impl core::convert::TryFrom<u16> for IffOnOutValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct IffOnOut(Selector);
+pub struct IffOnOut(Selector<5306, 16384, 14>);
 impl IffOnOut {
     pub const fn new() -> Self {
-        Self(Selector::new(5306, 16384, 14))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8069,10 +8069,10 @@ impl core::convert::TryFrom<u16> for IffOutAudioLightValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct IffOutAudioLight(Selector);
+pub struct IffOutAudioLight(Selector<5306, 3, 0>);
 impl IffOutAudioLight {
     pub const fn new() -> Self {
-        Self(Selector::new(5306, 3, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8116,10 +8116,10 @@ impl core::convert::TryFrom<u16> for IffRadtestValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct IffRadtest(Selector);
+pub struct IffRadtest(Selector<5306, 3072, 10>);
 impl IffRadtest {
     pub const fn new() -> Self {
-        Self(Selector::new(5306, 3072, 10))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8143,10 +8143,10 @@ impl Control for IffRadtest {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct IffReplyDim(LimitedDial);
+pub struct IffReplyDim(LimitedDial<5312, 65535, 0>);
 impl IffReplyDim {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5312, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8168,10 +8168,10 @@ impl Control for IffReplyDim {
 
 /// IFF Reply Indicator Lamp (green)
 /// Output: 0 if light is off, 1 if light is on
-pub struct IffReplyInd(Led);
+pub struct IffReplyInd(Led<5142, 512, 9>);
 impl IffReplyInd {
     pub const fn new() -> Self {
-        Self(Led::new(5142, 512, 9))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -8214,10 +8214,10 @@ impl core::convert::TryFrom<u16> for IffReplyTestValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct IffReplyTest(Selector);
+pub struct IffReplyTest(Selector<5306, 32768, 15>);
 impl IffReplyTest {
     pub const fn new() -> Self {
-        Self(Selector::new(5306, 32768, 15))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8241,10 +8241,10 @@ impl Control for IffReplyTest {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct IffTestDim(LimitedDial);
+pub struct IffTestDim(LimitedDial<5314, 65535, 0>);
 impl IffTestDim {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5314, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8266,10 +8266,10 @@ impl Control for IffTestDim {
 
 /// IFF Test Indicator Lamp (green)
 /// Output: 0 if light is off, 1 if light is on
-pub struct IffTestInd(Led);
+pub struct IffTestInd(Led<5142, 1024, 10>);
 impl IffTestInd {
     pub const fn new() -> Self {
-        Self(Led::new(5142, 1024, 10))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -8313,10 +8313,10 @@ impl core::convert::TryFrom<u16> for IffTestM1Value {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct IffTestM1(Selector);
+pub struct IffTestM1(Selector<5306, 12, 2>);
 impl IffTestM1 {
     pub const fn new() -> Self {
-        Self(Selector::new(5306, 12, 2))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8360,10 +8360,10 @@ impl core::convert::TryFrom<u16> for IffTestM2Value {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct IffTestM2(Selector);
+pub struct IffTestM2(Selector<5306, 48, 4>);
 impl IffTestM2 {
     pub const fn new() -> Self {
-        Self(Selector::new(5306, 48, 4))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8407,10 +8407,10 @@ impl core::convert::TryFrom<u16> for IffTestM3Value {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct IffTestM3(Selector);
+pub struct IffTestM3(Selector<5306, 192, 6>);
 impl IffTestM3 {
     pub const fn new() -> Self {
-        Self(Selector::new(5306, 192, 6))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8454,10 +8454,10 @@ impl core::convert::TryFrom<u16> for IffTestM4Value {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct IffTestM4(Selector);
+pub struct IffTestM4(Selector<5306, 768, 8>);
 impl IffTestM4 {
     pub const fn new() -> Self {
-        Self(Selector::new(5306, 768, 8))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8500,10 +8500,10 @@ impl core::convert::TryFrom<u16> for IffTestTestValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct IffTestTest(Selector);
+pub struct IffTestTest(Selector<5308, 16384, 14>);
 impl IffTestTest {
     pub const fn new() -> Self {
-        Self(Selector::new(5308, 16384, 14))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8546,10 +8546,10 @@ impl core::convert::TryFrom<u16> for IntIntSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct IntIntSw(Selector);
+pub struct IntIntSw(Selector<5330, 8192, 13>);
 impl IntIntSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5330, 8192, 13))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8599,10 +8599,10 @@ impl core::convert::TryFrom<u16> for IntModeValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct IntMode(Selector);
+pub struct IntMode(Selector<5340, 1792, 8>);
 impl IntMode {
     pub const fn new() -> Self {
-        Self(Selector::new(5340, 1792, 8))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8645,10 +8645,10 @@ impl core::convert::TryFrom<u16> for IntNavSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct IntNavSw(Selector);
+pub struct IntNavSw(Selector<5330, 16384, 14>);
 impl IntNavSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5330, 16384, 14))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8691,10 +8691,10 @@ impl core::convert::TryFrom<u16> for IntRcvr1SwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct IntRcvr1Sw(Selector);
+pub struct IntRcvr1Sw(Selector<5330, 512, 9>);
 impl IntRcvr1Sw {
     pub const fn new() -> Self {
-        Self(Selector::new(5330, 512, 9))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8737,10 +8737,10 @@ impl core::convert::TryFrom<u16> for IntRcvr2SwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct IntRcvr2Sw(Selector);
+pub struct IntRcvr2Sw(Selector<5330, 1024, 10>);
 impl IntRcvr2Sw {
     pub const fn new() -> Self {
-        Self(Selector::new(5330, 1024, 10))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8783,10 +8783,10 @@ impl core::convert::TryFrom<u16> for IntRcvr3SwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct IntRcvr3Sw(Selector);
+pub struct IntRcvr3Sw(Selector<5330, 2048, 11>);
 impl IntRcvr3Sw {
     pub const fn new() -> Self {
-        Self(Selector::new(5330, 2048, 11))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8829,10 +8829,10 @@ impl core::convert::TryFrom<u16> for IntRecvr4SwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct IntRecvr4Sw(Selector);
+pub struct IntRecvr4Sw(Selector<5330, 4096, 12>);
 impl IntRecvr4Sw {
     pub const fn new() -> Self {
-        Self(Selector::new(5330, 4096, 12))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8856,10 +8856,10 @@ impl Control for IntRecvr4Sw {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct IntVol(LimitedDial);
+pub struct IntVol(LimitedDial<5342, 65535, 0>);
 impl IntVol {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5342, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8903,10 +8903,10 @@ impl core::convert::TryFrom<u16> for InverterSwValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct InverterSw(Selector);
+pub struct InverterSw(Selector<5294, 96, 5>);
 impl InverterSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5294, 96, 5))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8949,10 +8949,10 @@ impl core::convert::TryFrom<u16> for JtsnBtnValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct JtsnBtn(Selector);
+pub struct JtsnBtn(Selector<5398, 64, 6>);
 impl JtsnBtn {
     pub const fn new() -> Self {
-        Self(Selector::new(5398, 64, 6))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -8995,10 +8995,10 @@ impl core::convert::TryFrom<u16> for JtsnCoverValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct JtsnCover(Selector);
+pub struct JtsnCover(Selector<5398, 32, 5>);
 impl JtsnCover {
     pub const fn new() -> Self {
-        Self(Selector::new(5398, 32, 5))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9041,10 +9041,10 @@ impl core::convert::TryFrom<u16> for LdgLightSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct LdgLightSw(Selector);
+pub struct LdgLightSw(Selector<5372, 32768, 15>);
 impl LdgLightSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5372, 32768, 15))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9087,10 +9087,10 @@ impl core::convert::TryFrom<u16> for LdgLightSw2Value {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct LdgLightSw2(Selector);
+pub struct LdgLightSw2(Selector<5432, 4, 2>);
 impl LdgLightSw2 {
     pub const fn new() -> Self {
-        Self(Selector::new(5432, 4, 2))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9134,10 +9134,10 @@ impl core::convert::TryFrom<u16> for LdgLtCtrlValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct LdgLtCtrl(Selector);
+pub struct LdgLtCtrl(Selector<5378, 12, 2>);
 impl LdgLtCtrl {
     pub const fn new() -> Self {
-        Self(Selector::new(5378, 12, 2))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9181,10 +9181,10 @@ impl core::convert::TryFrom<u16> for LdgLtCtrl2Value {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct LdgLtCtrl2(Selector);
+pub struct LdgLtCtrl2(Selector<5432, 96, 5>);
 impl LdgLtCtrl2 {
     pub const fn new() -> Self {
-        Self(Selector::new(5432, 96, 5))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9227,10 +9227,10 @@ impl core::convert::TryFrom<u16> for LowRpmAudioValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct LowRpmAudio(Selector);
+pub struct LowRpmAudio(Selector<5310, 32, 5>);
 impl LowRpmAudio {
     pub const fn new() -> Self {
-        Self(Selector::new(5310, 32, 5))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9252,10 +9252,10 @@ impl Control for LowRpmAudio {
 
 /// Low RPM Warning Light (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct LowRpmInd(Led);
+pub struct LowRpmInd(Led<5142, 128, 7>);
 impl LowRpmInd {
     pub const fn new() -> Self {
-        Self(Led::new(5142, 128, 7))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -9298,10 +9298,10 @@ impl core::convert::TryFrom<u16> for MainFuelSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct MainFuelSw(Selector);
+pub struct MainFuelSw(Selector<5304, 512, 9>);
 impl MainFuelSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5304, 512, 9))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9344,10 +9344,10 @@ impl core::convert::TryFrom<u16> for MainGenCoverValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct MainGenCover(Selector);
+pub struct MainGenCover(Selector<5304, 16, 4>);
 impl MainGenCover {
     pub const fn new() -> Self {
-        Self(Selector::new(5304, 16, 4))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9369,10 +9369,10 @@ impl Control for MainGenCover {
 
 /// Main Generator Load
 /// Output: gauge position
-pub struct MainGenLoad(AnalogGauge);
+pub struct MainGenLoad(AnalogGauge<5232, 65535, 0>);
 impl MainGenLoad {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5232, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9416,10 +9416,10 @@ impl core::convert::TryFrom<u16> for MainGenSwValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct MainGenSw(Selector);
+pub struct MainGenSw(Selector<5304, 12, 2>);
 impl MainGenSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5304, 12, 2))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9441,10 +9441,10 @@ impl Control for MainGenSw {
 
 /// Marker Beacon
 /// Output: gauge position
-pub struct MarkerBeacon(AnalogGauge);
+pub struct MarkerBeacon(AnalogGauge<5268, 65535, 0>);
 impl MarkerBeacon {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5268, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9488,10 +9488,10 @@ impl core::convert::TryFrom<u16> for MasterArmSwValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct MasterArmSw(Selector);
+pub struct MasterArmSw(Selector<5378, 6144, 11>);
 impl MasterArmSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5378, 6144, 11))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9513,10 +9513,10 @@ impl Control for MasterArmSw {
 
 /// MASTER CAUTION Light (yellow)
 /// Output: 0 if light is off, 1 if light is on
-pub struct MasterCautionInd(Led);
+pub struct MasterCautionInd(Led<5142, 256, 8>);
 impl MasterCautionInd {
     pub const fn new() -> Self {
-        Self(Led::new(5142, 256, 8))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -9560,10 +9560,10 @@ impl core::convert::TryFrom<u16> for NavLtsSwValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct NavLtsSw(Selector);
+pub struct NavLtsSw(Selector<5372, 6144, 11>);
 impl NavLtsSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5372, 6144, 11))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9606,10 +9606,10 @@ impl core::convert::TryFrom<u16> for NonEssBusSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct NonEssBusSw(Selector);
+pub struct NonEssBusSw(Selector<5142, 32768, 15>);
 impl NonEssBusSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5142, 32768, 15))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9659,10 +9659,10 @@ impl core::convert::TryFrom<u16> for NvgPosLtsValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct NvgPosLts(Selector);
+pub struct NvgPosLts(Selector<5372, 1792, 8>);
 impl NvgPosLts {
     pub const fn new() -> Self {
-        Self(Selector::new(5372, 1792, 8))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9684,10 +9684,10 @@ impl Control for NvgPosLts {
 
 /// Off Warning Flag
 /// Output: gauge position
-pub struct OadiOff(AnalogGauge);
+pub struct OadiOff(AnalogGauge<5264, 65535, 0>);
 impl OadiOff {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5264, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9709,10 +9709,10 @@ impl Control for OadiOff {
 
 /// Pitch
 /// Output: gauge position
-pub struct OadiPitch(AnalogGauge);
+pub struct OadiPitch(AnalogGauge<5262, 65535, 0>);
 impl OadiPitch {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5262, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9734,10 +9734,10 @@ impl Control for OadiPitch {
 
 /// Roll
 /// Output: gauge position
-pub struct OadiRoll(AnalogGauge);
+pub struct OadiRoll(AnalogGauge<5260, 65535, 0>);
 impl OadiRoll {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5260, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9759,10 +9759,10 @@ impl Control for OadiRoll {
 
 /// 100 Foot Counter
 /// Output: gauge position
-pub struct Oalt100(AnalogGauge);
+pub struct Oalt100(AnalogGauge<5186, 65535, 0>);
 impl Oalt100 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5186, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9784,10 +9784,10 @@ impl Control for Oalt100 {
 
 /// 1000 Foot Counter
 /// Output: gauge position
-pub struct Oalt1000(AnalogGauge);
+pub struct Oalt1000(AnalogGauge<5184, 65535, 0>);
 impl Oalt1000 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5184, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9809,10 +9809,10 @@ impl Control for Oalt1000 {
 
 /// 10000 Foot Counter
 /// Output: gauge position
-pub struct Oalt10000(AnalogGauge);
+pub struct Oalt10000(AnalogGauge<5182, 65535, 0>);
 impl Oalt10000 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5182, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9834,10 +9834,10 @@ impl Control for Oalt10000 {
 
 /// Code Off Flag
 /// Output: gauge position
-pub struct OaltCodeOffFlag(AnalogGauge);
+pub struct OaltCodeOffFlag(AnalogGauge<5194, 65535, 0>);
 impl OaltCodeOffFlag {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5194, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9859,10 +9859,10 @@ impl Control for OaltCodeOffFlag {
 
 /// Pressure Drum Counter 0
 /// Output: gauge position
-pub struct OaltPress0(AnalogGauge);
+pub struct OaltPress0(AnalogGauge<5192, 65535, 0>);
 impl OaltPress0 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5192, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9884,10 +9884,10 @@ impl Control for OaltPress0 {
 
 /// Pressure Drum Counter 1
 /// Output: gauge position
-pub struct OaltPress1(AnalogGauge);
+pub struct OaltPress1(AnalogGauge<5190, 65535, 0>);
 impl OaltPress1 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5190, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9909,10 +9909,10 @@ impl Control for OaltPress1 {
 
 /// Pressure Drum Counter 2
 /// Output: gauge position
-pub struct OaltPress2(AnalogGauge);
+pub struct OaltPress2(AnalogGauge<5188, 65535, 0>);
 impl OaltPress2 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5188, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9934,10 +9934,10 @@ impl Control for OaltPress2 {
 
 /// Altimeter Pointer
 /// Output: gauge position
-pub struct OaltPtr(AnalogGauge);
+pub struct OaltPtr(AnalogGauge<5180, 65535, 0>);
 impl OaltPtr {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5180, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9959,10 +9959,10 @@ impl Control for OaltPtr {
 
 /// Off Warning Flag
 /// Output: gauge position
-pub struct PadiOff(AnalogGauge);
+pub struct PadiOff(AnalogGauge<5258, 65535, 0>);
 impl PadiOff {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5258, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -9984,10 +9984,10 @@ impl Control for PadiOff {
 
 /// Pitch
 /// Output: gauge position
-pub struct PadiPitch(AnalogGauge);
+pub struct PadiPitch(AnalogGauge<5256, 65535, 0>);
 impl PadiPitch {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5256, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10009,10 +10009,10 @@ impl Control for PadiPitch {
 
 /// Roll
 /// Output: gauge position
-pub struct PadiRoll(AnalogGauge);
+pub struct PadiRoll(AnalogGauge<5254, 65535, 0>);
 impl PadiRoll {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5254, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10034,10 +10034,10 @@ impl Control for PadiRoll {
 
 /// 100 Foot Counter
 /// Output: gauge position
-pub struct Palt100(AnalogGauge);
+pub struct Palt100(AnalogGauge<5200, 65535, 0>);
 impl Palt100 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5200, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10059,10 +10059,10 @@ impl Control for Palt100 {
 
 /// 1000 Foot Counter
 /// Output: gauge position
-pub struct Palt1000(AnalogGauge);
+pub struct Palt1000(AnalogGauge<5198, 65535, 0>);
 impl Palt1000 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5198, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10084,10 +10084,10 @@ impl Control for Palt1000 {
 
 /// 10000 Foot Counter
 /// Output: gauge position
-pub struct Palt10000(AnalogGauge);
+pub struct Palt10000(AnalogGauge<5196, 65535, 0>);
 impl Palt10000 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5196, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10109,10 +10109,10 @@ impl Control for Palt10000 {
 
 /// Pressure Indicator
 /// Output: gauge position
-pub struct PaltPress(AnalogGauge);
+pub struct PaltPress(AnalogGauge<5202, 65535, 0>);
 impl PaltPress {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5202, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10155,10 +10155,10 @@ impl core::convert::TryFrom<u16> for PitotHeatValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct PitotHeat(Selector);
+pub struct PitotHeat(Selector<5304, 2, 1>);
 impl PitotHeat {
     pub const fn new() -> Self {
-        Self(Selector::new(5304, 2, 1))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10201,10 +10201,10 @@ impl core::convert::TryFrom<u16> for PosLtsSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct PosLtsSw(Selector);
+pub struct PosLtsSw(Selector<5372, 8192, 13>);
 impl PosLtsSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5372, 8192, 13))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10227,10 +10227,10 @@ impl Control for PosLtsSw {
 /// Radar Altimeter High Setting
 /// Input: turn the dial left or right
 /// Output: the rotation of the knob in the cockpit (not the value that is controlled by this knob!)
-pub struct RadarAltHi(AnalogDial);
+pub struct RadarAltHi(AnalogDial<5414, 65535, 0>);
 impl RadarAltHi {
     pub const fn new() -> Self {
-        Self(AnalogDial::new(5414, 65535, 0))
+        Self(AnalogDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10253,10 +10253,10 @@ impl Control for RadarAltHi {
 /// Radar Altimeter Low Setting
 /// Input: turn the dial left or right
 /// Output: the rotation of the knob in the cockpit (not the value that is controlled by this knob!)
-pub struct RadarAltLo(AnalogDial);
+pub struct RadarAltLo(AnalogDial<5412, 65535, 0>);
 impl RadarAltLo {
     pub const fn new() -> Self {
-        Self(AnalogDial::new(5412, 65535, 0))
+        Self(AnalogDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10299,10 +10299,10 @@ impl core::convert::TryFrom<u16> for RadarAltPwrValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct RadarAltPwr(Selector);
+pub struct RadarAltPwr(Selector<5406, 1024, 10>);
 impl RadarAltPwr {
     pub const fn new() -> Self {
-        Self(Selector::new(5406, 1024, 10))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10345,10 +10345,10 @@ impl core::convert::TryFrom<u16> for RadarAltTestValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct RadarAltTest(Selector);
+pub struct RadarAltTest(Selector<5406, 2048, 11>);
 impl RadarAltTest {
     pub const fn new() -> Self {
-        Self(Selector::new(5406, 2048, 11))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10391,10 +10391,10 @@ impl core::convert::TryFrom<u16> for RadioIcsSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct RadioIcsSw(Selector);
+pub struct RadioIcsSw(Selector<5330, 32768, 15>);
 impl RadioIcsSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5330, 32768, 15))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10416,10 +10416,10 @@ impl Control for RadioIcsSw {
 
 /// Radar Altimeter 1.Digit
 /// Output: gauge position
-pub struct RaltDigit1(AnalogGauge);
+pub struct RaltDigit1(AnalogGauge<5422, 65535, 0>);
 impl RaltDigit1 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5422, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10441,10 +10441,10 @@ impl Control for RaltDigit1 {
 
 /// Radar Altimeter 2.Digit
 /// Output: gauge position
-pub struct RaltDigit2(AnalogGauge);
+pub struct RaltDigit2(AnalogGauge<5424, 65535, 0>);
 impl RaltDigit2 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5424, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10466,10 +10466,10 @@ impl Control for RaltDigit2 {
 
 /// Radar Altimeter 3.Digit
 /// Output: gauge position
-pub struct RaltDigit3(AnalogGauge);
+pub struct RaltDigit3(AnalogGauge<5426, 65535, 0>);
 impl RaltDigit3 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5426, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10491,10 +10491,10 @@ impl Control for RaltDigit3 {
 
 /// Radar Altimeter 4.Digit
 /// Output: gauge position
-pub struct RaltDigit4(AnalogGauge);
+pub struct RaltDigit4(AnalogGauge<5428, 65535, 0>);
 impl RaltDigit4 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5428, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10516,10 +10516,10 @@ impl Control for RaltDigit4 {
 
 /// Radar Altitude Display (Number)
 /// Output: Radar Altitude Display (Number)
-pub struct RaltDisplay(Metadata);
+pub struct RaltDisplay(Metadata<5420, 65535, 0>);
 impl RaltDisplay {
     pub const fn new() -> Self {
-        Self(Metadata::new(5420, 65535, 0))
+        Self(Metadata::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10541,10 +10541,10 @@ impl Control for RaltDisplay {
 
 /// Display (String)
 /// Output: Display (String)
-pub struct RaltDisplayStr(Display<4>);
+pub struct RaltDisplayStr(Display<5290, 4>);
 impl RaltDisplayStr {
     pub const fn new() -> Self {
-        Self(Display::<4>::new(5290, 4))
+        Self(Display::new())
     }
     pub fn value(&self) -> &[u8] {
         self.0.value()
@@ -10566,10 +10566,10 @@ impl Control for RaltDisplayStr {
 
 /// HI Index
 /// Output: gauge position
-pub struct RaltHiIdx(AnalogGauge);
+pub struct RaltHiIdx(AnalogGauge<5288, 65535, 0>);
 impl RaltHiIdx {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5288, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10591,10 +10591,10 @@ impl Control for RaltHiIdx {
 
 /// HI Lamp (blue)
 /// Output: 0 if light is off, 1 if light is on
-pub struct RaltHiLamp(Led);
+pub struct RaltHiLamp(Led<5142, 4096, 12>);
 impl RaltHiLamp {
     pub const fn new() -> Self {
-        Self(Led::new(5142, 4096, 12))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -10616,10 +10616,10 @@ impl Control for RaltHiLamp {
 
 /// LO Index
 /// Output: gauge position
-pub struct RaltLoIdx(AnalogGauge);
+pub struct RaltLoIdx(AnalogGauge<5286, 65535, 0>);
 impl RaltLoIdx {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5286, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10641,10 +10641,10 @@ impl Control for RaltLoIdx {
 
 /// LO Lamp (blue)
 /// Output: 0 if light is off, 1 if light is on
-pub struct RaltLoLamp(Led);
+pub struct RaltLoLamp(Led<5142, 2048, 11>);
 impl RaltLoLamp {
     pub const fn new() -> Self {
-        Self(Led::new(5142, 2048, 11))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -10666,10 +10666,10 @@ impl Control for RaltLoLamp {
 
 /// Needle
 /// Output: gauge position
-pub struct RaltNeedle(AnalogGauge);
+pub struct RaltNeedle(AnalogGauge<5282, 65535, 0>);
 impl RaltNeedle {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5282, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10691,10 +10691,10 @@ impl Control for RaltNeedle {
 
 /// Off Warning Flag
 /// Output: gauge position
-pub struct RaltOff(AnalogGauge);
+pub struct RaltOff(AnalogGauge<5284, 65535, 0>);
 impl RaltOff {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5284, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10716,10 +10716,10 @@ impl Control for RaltOff {
 
 /// RamTemp
 /// Output: gauge position
-pub struct RamTemp(AnalogGauge);
+pub struct RamTemp(AnalogGauge<5280, 65535, 0>);
 impl RamTemp {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5280, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10741,10 +10741,10 @@ impl Control for RamTemp {
 
 /// RMI Course Pointer 1
 /// Output: gauge position
-pub struct RmiCrs1(AnalogGauge);
+pub struct RmiCrs1(AnalogGauge<5174, 65535, 0>);
 impl RmiCrs1 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5174, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10766,10 +10766,10 @@ impl Control for RmiCrs1 {
 
 /// RMI Course Pointer 2
 /// Output: gauge position
-pub struct RmiCrs2(AnalogGauge);
+pub struct RmiCrs2(AnalogGauge<5176, 65535, 0>);
 impl RmiCrs2 {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5176, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10791,10 +10791,10 @@ impl Control for RmiCrs2 {
 
 /// RMI Heading
 /// Output: gauge position
-pub struct RmiHdg(AnalogGauge);
+pub struct RmiHdg(AnalogGauge<5178, 65535, 0>);
 impl RmiHdg {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5178, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10848,10 +10848,10 @@ impl core::convert::TryFrom<u16> for RocketPairValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct RocketPair(Selector);
+pub struct RocketPair(Selector<5398, 28, 2>);
 impl RocketPair {
     pub const fn new() -> Self {
-        Self(Selector::new(5398, 28, 2))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10894,10 +10894,10 @@ impl core::convert::TryFrom<u16> for RocketResetValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct RocketReset(Selector);
+pub struct RocketReset(Selector<5378, 32768, 15>);
 impl RocketReset {
     pub const fn new() -> Self {
-        Self(Selector::new(5378, 32768, 15))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10941,10 +10941,10 @@ impl core::convert::TryFrom<u16> for RocketSelValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct RocketSel(Selector);
+pub struct RocketSel(Selector<5398, 3, 0>);
 impl RocketSel {
     pub const fn new() -> Self {
-        Self(Selector::new(5398, 3, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10966,10 +10966,10 @@ impl Control for RocketSel {
 
 /// Rotor RPM
 /// Output: gauge position
-pub struct RotorRpm(AnalogGauge);
+pub struct RotorRpm(AnalogGauge<5220, 65535, 0>);
 impl RotorRpm {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5220, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -10991,10 +10991,10 @@ impl Control for RotorRpm {
 
 /// SAFE Indicator (green)
 /// Output: 0 if light is off, 1 if light is on
-pub struct SafeInd(Led);
+pub struct SafeInd(Led<5142, 32, 5>);
 impl SafeInd {
     pub const fn new() -> Self {
-        Self(Led::new(5142, 32, 5))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -11016,10 +11016,10 @@ impl Control for SafeInd {
 
 /// Standby Compass Bank
 /// Output: gauge position
-pub struct SbyCompassBank(AnalogGauge);
+pub struct SbyCompassBank(AnalogGauge<5438, 65535, 0>);
 impl SbyCompassBank {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5438, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11041,10 +11041,10 @@ impl Control for SbyCompassBank {
 
 /// Standby Compass Heading
 /// Output: gauge position
-pub struct SbyCompassHdg(AnalogGauge);
+pub struct SbyCompassHdg(AnalogGauge<5434, 65535, 0>);
 impl SbyCompassHdg {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5434, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11066,10 +11066,10 @@ impl Control for SbyCompassHdg {
 
 /// Standby Compass Pitch
 /// Output: gauge position
-pub struct SbyCompassPitch(AnalogGauge);
+pub struct SbyCompassPitch(AnalogGauge<5436, 65535, 0>);
 impl SbyCompassPitch {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5436, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11113,10 +11113,10 @@ impl core::convert::TryFrom<u16> for SearchLightSwValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct SearchLightSw(Selector);
+pub struct SearchLightSw(Selector<5378, 3, 0>);
 impl SearchLightSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5378, 3, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11160,10 +11160,10 @@ impl core::convert::TryFrom<u16> for SearchLightSw2Value {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct SearchLightSw2(Selector);
+pub struct SearchLightSw2(Selector<5432, 24, 3>);
 impl SearchLightSw2 {
     pub const fn new() -> Self {
-        Self(Selector::new(5432, 24, 3))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11185,10 +11185,10 @@ impl Control for SearchLightSw2 {
 
 /// Side Slip
 /// Output: gauge position
-pub struct Sideslip(AnalogGauge);
+pub struct Sideslip(AnalogGauge<5248, 65535, 0>);
 impl Sideslip {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5248, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11231,10 +11231,10 @@ impl core::convert::TryFrom<u16> for SightArmPltValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct SightArmPlt(Selector);
+pub struct SightArmPlt(Selector<5398, 512, 9>);
 impl SightArmPlt {
     pub const fn new() -> Self {
-        Self(Selector::new(5398, 512, 9))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11258,10 +11258,10 @@ impl Control for SightArmPlt {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct SightElevPlt(LimitedDial);
+pub struct SightElevPlt(LimitedDial<5404, 65535, 0>);
 impl SightElevPlt {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5404, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11285,10 +11285,10 @@ impl Control for SightElevPlt {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct SightIntenCplt(LimitedDial);
+pub struct SightIntenCplt(LimitedDial<5400, 65535, 0>);
 impl SightIntenCplt {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5400, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11312,10 +11312,10 @@ impl Control for SightIntenCplt {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct SightIntenPlt(LimitedDial);
+pub struct SightIntenPlt(LimitedDial<5402, 65535, 0>);
 impl SightIntenPlt {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5402, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11359,10 +11359,10 @@ impl core::convert::TryFrom<u16> for SightLampSwValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct SightLampSw(Selector);
+pub struct SightLampSw(Selector<5398, 384, 7>);
 impl SightLampSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5398, 384, 7))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11405,10 +11405,10 @@ impl core::convert::TryFrom<u16> for SightPwrPltValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct SightPwrPlt(Selector);
+pub struct SightPwrPlt(Selector<5398, 1024, 10>);
 impl SightPwrPlt {
     pub const fn new() -> Self {
-        Self(Selector::new(5398, 1024, 10))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11430,10 +11430,10 @@ impl Control for SightPwrPlt {
 
 /// SIGHTS_FOR_CIVIL / controllers.Civil_Heli
 /// Output: gauge position
-pub struct SightsForCivil(AnalogGauge);
+pub struct SightsForCivil(AnalogGauge<5416, 65535, 0>);
 impl SightsForCivil {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5416, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11476,10 +11476,10 @@ impl core::convert::TryFrom<u16> for StarterGenSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct StarterGenSw(Selector);
+pub struct StarterGenSw(Selector<5142, 16384, 14>);
 impl StarterGenSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5142, 16384, 14))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11501,10 +11501,10 @@ impl Control for StarterGenSw {
 
 /// STBY Generator Load
 /// Output: gauge position
-pub struct StbyGenLoad(AnalogGauge);
+pub struct StbyGenLoad(AnalogGauge<5234, 65535, 0>);
 impl StbyGenLoad {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5234, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11547,10 +11547,10 @@ impl core::convert::TryFrom<u16> for TestFuelGaugeBtnValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct TestFuelGaugeBtn(Selector);
+pub struct TestFuelGaugeBtn(Selector<5304, 1024, 10>);
 impl TestFuelGaugeBtn {
     pub const fn new() -> Self {
-        Self(Selector::new(5304, 1024, 10))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11574,10 +11574,10 @@ impl Control for TestFuelGaugeBtn {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct Throttle(LimitedDial);
+pub struct Throttle(LimitedDial<5318, 65535, 0>);
 impl Throttle {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5318, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11601,10 +11601,10 @@ impl Control for Throttle {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct Throttle2(LimitedDial);
+pub struct Throttle2(LimitedDial<5430, 65535, 0>);
 impl Throttle2 {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5430, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11647,10 +11647,10 @@ impl core::convert::TryFrom<u16> for ThrottleStopValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct ThrottleStop(Selector);
+pub struct ThrottleStop(Selector<5310, 8, 3>);
 impl ThrottleStop {
     pub const fn new() -> Self {
-        Self(Selector::new(5310, 8, 3))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11693,10 +11693,10 @@ impl core::convert::TryFrom<u16> for ThrottleStop2Value {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct ThrottleStop2(Selector);
+pub struct ThrottleStop2(Selector<5418, 32768, 15>);
 impl ThrottleStop2 {
     pub const fn new() -> Self {
-        Self(Selector::new(5418, 32768, 15))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11718,10 +11718,10 @@ impl Control for ThrottleStop2 {
 
 /// Torque Pressure
 /// Output: gauge position
-pub struct TorquePress(AnalogGauge);
+pub struct TorquePress(AnalogGauge<5226, 65535, 0>);
 impl TorquePress {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5226, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11743,10 +11743,10 @@ impl Control for TorquePress {
 
 /// Transmission Oil Pressure
 /// Output: gauge position
-pub struct TransOilPress(AnalogGauge);
+pub struct TransOilPress(AnalogGauge<5208, 65535, 0>);
 impl TransOilPress {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5208, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11768,10 +11768,10 @@ impl Control for TransOilPress {
 
 /// Transmission Oil Temperature
 /// Output: gauge position
-pub struct TransOilTemp(AnalogGauge);
+pub struct TransOilTemp(AnalogGauge<5210, 65535, 0>);
 impl TransOilTemp {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5210, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11814,10 +11814,10 @@ impl core::convert::TryFrom<u16> for TrimCpltValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct TrimCplt(Selector);
+pub struct TrimCplt(Selector<5406, 2, 1>);
 impl TrimCplt {
     pub const fn new() -> Self {
-        Self(Selector::new(5406, 2, 1))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11860,10 +11860,10 @@ impl core::convert::TryFrom<u16> for TrimPltValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct TrimPlt(Selector);
+pub struct TrimPlt(Selector<5406, 1, 0>);
 impl TrimPlt {
     pub const fn new() -> Self {
-        Self(Selector::new(5406, 1, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11885,10 +11885,10 @@ impl Control for TrimPlt {
 
 /// Turn Indicator
 /// Output: gauge position
-pub struct TurnPtr(AnalogGauge);
+pub struct TurnPtr(AnalogGauge<5246, 65535, 0>);
 impl TurnPtr {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5246, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -11910,10 +11910,10 @@ impl Control for TurnPtr {
 
 /// UHF Frequency
 /// Output: UHF Frequency
-pub struct UhfFreq(Display<6>);
+pub struct UhfFreq(Display<5346, 6>);
 impl UhfFreq {
     pub const fn new() -> Self {
-        Self(Display::<6>::new(5346, 6))
+        Self(Display::new())
     }
     pub fn value(&self) -> &[u8] {
         self.0.value()
@@ -11959,10 +11959,10 @@ impl core::convert::TryFrom<u16> for UhfFunctionValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct UhfFunction(Selector);
+pub struct UhfFunction(Selector<5352, 12, 2>);
 impl UhfFunction {
     pub const fn new() -> Self {
-        Self(Selector::new(5352, 12, 2))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12006,10 +12006,10 @@ impl core::convert::TryFrom<u16> for UhfModeValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct UhfMode(Selector);
+pub struct UhfMode(Selector<5352, 3, 0>);
 impl UhfMode {
     pub const fn new() -> Self {
-        Self(Selector::new(5352, 3, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12033,10 +12033,10 @@ impl Control for UhfMode {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct UhfPresetInt(Selector);
+pub struct UhfPresetInt(Selector<5340, 63488, 11>);
 impl UhfPresetInt {
     pub const fn new() -> Self {
-        Self(Selector::new(5340, 63488, 11))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12060,10 +12060,10 @@ impl Control for UhfPresetInt {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: possible values: "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "13" "14" "15" "16" "17" "18" "19" "20"
-pub struct UhfPresetStr(Display<2>);
+pub struct UhfPresetStr(Display<5344, 2>);
 impl UhfPresetStr {
     pub const fn new() -> Self {
-        Self(Display::<2>::new(5344, 2))
+        Self(Display::new())
     }
     pub fn value(&self) -> &[u8] {
         self.0.value()
@@ -12106,10 +12106,10 @@ impl core::convert::TryFrom<u16> for UhfSquelchSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct UhfSquelchSw(Selector);
+pub struct UhfSquelchSw(Selector<5352, 16, 4>);
 impl UhfSquelchSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5352, 16, 4))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12133,10 +12133,10 @@ impl Control for UhfSquelchSw {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct UhfVol(LimitedDial);
+pub struct UhfVol(LimitedDial<5354, 65535, 0>);
 impl UhfVol {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5354, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12158,10 +12158,10 @@ impl Control for UhfVol {
 
 /// VHF Frequency
 /// Output: VHF Frequency
-pub struct VhfcommFreq(Display<7>);
+pub struct VhfcommFreq(Display<5334, 7>);
 impl VhfcommFreq {
     pub const fn new() -> Self {
-        Self(Display::<7>::new(5334, 7))
+        Self(Display::new())
     }
     pub fn value(&self) -> &[u8] {
         self.0.value()
@@ -12184,10 +12184,10 @@ impl Control for VhfcommFreq {
 /// VHF KHz Selector
 /// Input: switch to previous or next state
 /// Output: selector position
-pub struct VhfcommKhz(Selector);
+pub struct VhfcommKhz(Selector<5330, 480, 5>);
 impl VhfcommKhz {
     pub const fn new() -> Self {
-        Self(Selector::new(5330, 480, 5))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12210,10 +12210,10 @@ impl Control for VhfcommKhz {
 /// VHF MHz Selector
 /// Input: switch to previous or next state
 /// Output: selector position
-pub struct VhfcommMhz(Selector);
+pub struct VhfcommMhz(Selector<5330, 30, 1>);
 impl VhfcommMhz {
     pub const fn new() -> Self {
-        Self(Selector::new(5330, 30, 1))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12256,10 +12256,10 @@ impl core::convert::TryFrom<u16> for VhfcommPwrValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct VhfcommPwr(Selector);
+pub struct VhfcommPwr(Selector<5330, 1, 0>);
 impl VhfcommPwr {
     pub const fn new() -> Self {
-        Self(Selector::new(5330, 1, 0))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12302,10 +12302,10 @@ impl core::convert::TryFrom<u16> for VhfcommTestSwValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct VhfcommTestSw(Selector);
+pub struct VhfcommTestSw(Selector<5310, 32768, 15>);
 impl VhfcommTestSw {
     pub const fn new() -> Self {
-        Self(Selector::new(5310, 32768, 15))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12329,10 +12329,10 @@ impl Control for VhfcommTestSw {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct VhfcommVol(LimitedDial);
+pub struct VhfcommVol(LimitedDial<5332, 65535, 0>);
 impl VhfcommVol {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5332, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12380,10 +12380,10 @@ impl core::convert::TryFrom<u16> for VhffmFreq1IntValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct VhffmFreq1Int(Selector);
+pub struct VhffmFreq1Int(Selector<5352, 224, 5>);
 impl VhffmFreq1Int {
     pub const fn new() -> Self {
-        Self(Selector::new(5352, 224, 5))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12407,10 +12407,10 @@ impl Control for VhffmFreq1Int {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: possible values: "3" "4" "5" "6" "7"
-pub struct VhffmFreq1Str(Display<1>);
+pub struct VhffmFreq1Str(Display<5356, 1>);
 impl VhffmFreq1Str {
     pub const fn new() -> Self {
-        Self(Display::<1>::new(5356, 1))
+        Self(Display::new())
     }
     pub fn value(&self) -> &[u8] {
         self.0.value()
@@ -12468,10 +12468,10 @@ impl core::convert::TryFrom<u16> for VhffmFreq2Value {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct VhffmFreq2(Selector);
+pub struct VhffmFreq2(Selector<5352, 3840, 8>);
 impl VhffmFreq2 {
     pub const fn new() -> Self {
-        Self(Selector::new(5352, 3840, 8))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12529,10 +12529,10 @@ impl core::convert::TryFrom<u16> for VhffmFreq3Value {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct VhffmFreq3(Selector);
+pub struct VhffmFreq3(Selector<5352, 61440, 12>);
 impl VhffmFreq3 {
     pub const fn new() -> Self {
-        Self(Selector::new(5352, 61440, 12))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12575,10 +12575,10 @@ impl core::convert::TryFrom<u16> for VhffmFreq4IntValue {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: selector position
-pub struct VhffmFreq4Int(Selector);
+pub struct VhffmFreq4Int(Selector<5356, 256, 8>);
 impl VhffmFreq4Int {
     pub const fn new() -> Self {
-        Self(Selector::new(5356, 256, 8))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12603,10 +12603,10 @@ impl Control for VhffmFreq4Int {
 /// Input: set position
 /// Input: Toggle switch state
 /// Output: possible values: "0" "5"
-pub struct VhffmFreq4Str(Display<1>);
+pub struct VhffmFreq4Str(Display<5358, 1>);
 impl VhffmFreq4Str {
     pub const fn new() -> Self {
-        Self(Display::<1>::new(5358, 1))
+        Self(Display::new())
     }
     pub fn value(&self) -> &[u8] {
         self.0.value()
@@ -12652,10 +12652,10 @@ impl core::convert::TryFrom<u16> for VhffmModeValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct VhffmMode(Selector);
+pub struct VhffmMode(Selector<5356, 1536, 9>);
 impl VhffmMode {
     pub const fn new() -> Self {
-        Self(Selector::new(5356, 1536, 9))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12699,10 +12699,10 @@ impl core::convert::TryFrom<u16> for VhffmSquelchValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct VhffmSquelch(Selector);
+pub struct VhffmSquelch(Selector<5356, 6144, 11>);
 impl VhffmSquelch {
     pub const fn new() -> Self {
-        Self(Selector::new(5356, 6144, 11))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12726,10 +12726,10 @@ impl Control for VhffmSquelch {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct VhffmVol(LimitedDial);
+pub struct VhffmVol(LimitedDial<5360, 65535, 0>);
 impl VhffmVol {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5360, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12751,10 +12751,10 @@ impl Control for VhffmVol {
 
 /// VHF NAV Frequency
 /// Output: VHF NAV Frequency
-pub struct VhfnavFreq(Display<6>);
+pub struct VhfnavFreq(Display<5362, 6>);
 impl VhfnavFreq {
     pub const fn new() -> Self {
-        Self(Display::<6>::new(5362, 6))
+        Self(Display::new())
     }
     pub fn value(&self) -> &[u8] {
         self.0.value()
@@ -12777,10 +12777,10 @@ impl Control for VhfnavFreq {
 /// VHF NAV KHz Selector
 /// Input: switch to previous or next state
 /// Output: selector position
-pub struct VhfnavKhz(Selector);
+pub struct VhfnavKhz(Selector<5358, 61440, 12>);
 impl VhfnavKhz {
     pub const fn new() -> Self {
-        Self(Selector::new(5358, 61440, 12))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12803,10 +12803,10 @@ impl Control for VhfnavKhz {
 /// VHF NAV MHz Selector
 /// Input: switch to previous or next state
 /// Output: selector position
-pub struct VhfnavMhz(Selector);
+pub struct VhfnavMhz(Selector<5358, 3840, 8>);
 impl VhfnavMhz {
     pub const fn new() -> Self {
-        Self(Selector::new(5358, 3840, 8))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12850,10 +12850,10 @@ impl core::convert::TryFrom<u16> for VhfnavPwrValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct VhfnavPwr(Selector);
+pub struct VhfnavPwr(Selector<5356, 24576, 13>);
 impl VhfnavPwr {
     pub const fn new() -> Self {
-        Self(Selector::new(5356, 24576, 13))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12877,10 +12877,10 @@ impl Control for VhfnavPwr {
 /// Input: set the position of the dial
 /// Input: turn the dial left or right
 /// Output: position of the potentiometer
-pub struct VhfnavVol(LimitedDial);
+pub struct VhfnavVol(LimitedDial<5368, 65535, 0>);
 impl VhfnavVol {
     pub const fn new() -> Self {
-        Self(LimitedDial::new(5368, 65535, 0))
+        Self(LimitedDial::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12902,10 +12902,10 @@ impl Control for VhfnavVol {
 
 /// Vertical Velocity Indicator (Operator)
 /// Output: gauge position
-pub struct VviO(AnalogGauge);
+pub struct VviO(AnalogGauge<5252, 65535, 0>);
 impl VviO {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5252, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12927,10 +12927,10 @@ impl Control for VviO {
 
 /// Vertical Velocity Indicator (Pilot)
 /// Output: gauge position
-pub struct VviP(AnalogGauge);
+pub struct VviP(AnalogGauge<5250, 65535, 0>);
 impl VviP {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5250, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12952,10 +12952,10 @@ impl Control for VviP {
 
 /// Windshield Wiper (Operator)
 /// Output: gauge position
-pub struct WiperO(AnalogGauge);
+pub struct WiperO(AnalogGauge<5272, 65535, 0>);
 impl WiperO {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5272, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -12977,10 +12977,10 @@ impl Control for WiperO {
 
 /// Windshield Wiper (Pilot)
 /// Output: gauge position
-pub struct WiperP(AnalogGauge);
+pub struct WiperP(AnalogGauge<5270, 65535, 0>);
 impl WiperP {
     pub const fn new() -> Self {
-        Self(AnalogGauge::new(5270, 65535, 0))
+        Self(AnalogGauge::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -13024,10 +13024,10 @@ impl core::convert::TryFrom<u16> for WiperSelValue {
 /// Input: switch to previous or next state
 /// Input: set position
 /// Output: selector position
-pub struct WiperSel(Selector);
+pub struct WiperSel(Selector<5398, 6144, 11>);
 impl WiperSel {
     pub const fn new() -> Self {
-        Self(Selector::new(5398, 6144, 11))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -13050,10 +13050,10 @@ impl Control for WiperSel {
 /// Wiper Speed PARK - STOP - SLOW - MED - HIGH
 /// Input: switch to previous or next state
 /// Output: selector position
-pub struct WiperSpd(Selector);
+pub struct WiperSpd(Selector<5398, 57344, 13>);
 impl WiperSpd {
     pub const fn new() -> Self {
-        Self(Selector::new(5398, 57344, 13))
+        Self(Selector::new())
     }
     pub const fn value(&self) -> u16 {
         self.0.value()
@@ -13075,10 +13075,10 @@ impl Control for WiperSpd {
 
 /// X130 Armed Lamp (blue)
 /// Output: 0 if light is off, 1 if light is on
-pub struct X130Armed(Led);
+pub struct X130Armed(Led<5406, 4096, 12>);
 impl X130Armed {
     pub const fn new() -> Self {
-        Self(Led::new(5406, 4096, 12))
+        Self(Led::new())
     }
     pub const fn is_on(&self) -> bool {
         self.0.is_on()
@@ -17496,5040 +17496,5277 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
 
     pub fn register_ac_gen1_current<F>(
         &mut self,
-        control: AcGen1Current,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AcGen1Current { control, callback })
+            .push(RegisteredControl::AcGen1Current {
+                control: AcGen1Current::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ac_gen2_current<F>(
         &mut self,
-        control: AcGen2Current,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AcGen2Current { control, callback })
+            .push(RegisteredControl::AcGen2Current {
+                control: AcGen2Current::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ac_v<F>(
-        &mut self,
-        control: AcV,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ac_v<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AcV { control, callback })
+            .push(RegisteredControl::AcV {
+                control: AcV::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ac_vm_src<F>(
-        &mut self,
-        control: AcVmSrc,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ac_vm_src<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(AcVmSrcValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AcVmSrc { control, callback })
+            .push(RegisteredControl::AcVmSrc {
+                control: AcVmSrc::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ac_voltage<F>(
-        &mut self,
-        control: AcVoltage,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ac_voltage<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AcVoltage { control, callback })
+            .push(RegisteredControl::AcVoltage {
+                control: AcVoltage::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_adf_band<F>(
-        &mut self,
-        control: AdfBand,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_adf_band<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(AdfBandValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AdfBand { control, callback })
+            .push(RegisteredControl::AdfBand {
+                control: AdfBand::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_adf_bfo_sw<F>(
-        &mut self,
-        control: AdfBfoSw,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_adf_bfo_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(AdfBfoSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AdfBfoSw { control, callback })
+            .push(RegisteredControl::AdfBfoSw {
+                control: AdfBfoSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_adf_freq<F>(
-        &mut self,
-        control: AdfFreq,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_adf_freq<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AdfFreq { control, callback })
+            .push(RegisteredControl::AdfFreq {
+                control: AdfFreq::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_adf_gain<F>(
-        &mut self,
-        control: AdfGain,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_adf_gain<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AdfGain { control, callback })
+            .push(RegisteredControl::AdfGain {
+                control: AdfGain::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_adf_loop_lr<F>(
         &mut self,
-        control: AdfLoopLr,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(AdfLoopLrValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AdfLoopLr { control, callback })
+            .push(RegisteredControl::AdfLoopLr {
+                control: AdfLoopLr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_adf_mode<F>(
-        &mut self,
-        control: AdfMode,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_adf_mode<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(AdfModeValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AdfMode { control, callback })
+            .push(RegisteredControl::AdfMode {
+                control: AdfMode::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_adf_signal<F>(
-        &mut self,
-        control: AdfSignal,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_adf_signal<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AdfSignal { control, callback })
+            .push(RegisteredControl::AdfSignal {
+                control: AdfSignal::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_adf_tune<F>(
-        &mut self,
-        control: AdfTune,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_adf_tune<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AdfTune { control, callback })
+            .push(RegisteredControl::AdfTune {
+                control: AdfTune::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_adf_vor_sw<F>(
-        &mut self,
-        control: AdfVorSw,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_adf_vor_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(AdfVorSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AdfVorSw { control, callback })
+            .push(RegisteredControl::AdfVorSw {
+                control: AdfVorSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_adi_pitch_shift<F>(
         &mut self,
-        control: AdiPitchShift,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AdiPitchShift { control, callback })
+            .push(RegisteredControl::AdiPitchShift {
+                control: AdiPitchShift::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_adi_pitch_trim<F>(
         &mut self,
-        control: AdiPitchTrim,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AdiPitchTrim { control, callback })
+            .push(RegisteredControl::AdiPitchTrim {
+                control: AdiPitchTrim::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_adi_pitch_trim_cplt<F>(
         &mut self,
-        control: AdiPitchTrimCplt,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AdiPitchTrimCplt { control, callback })
+            .push(RegisteredControl::AdiPitchTrimCplt {
+                control: AdiPitchTrimCplt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_adi_roll_trim<F>(
         &mut self,
-        control: AdiRollTrim,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AdiRollTrim { control, callback })
+            .push(RegisteredControl::AdiRollTrim {
+                control: AdiRollTrim::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_alt_adj_cplt<F>(
         &mut self,
-        control: AltAdjCplt,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AltAdjCplt { control, callback })
+            .push(RegisteredControl::AltAdjCplt {
+                control: AltAdjCplt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_alt_adj_plt<F>(
         &mut self,
-        control: AltAdjPlt,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AltAdjPlt { control, callback })
+            .push(RegisteredControl::AltAdjPlt {
+                control: AltAdjPlt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_anti_ice_amp<F>(
         &mut self,
-        control: AntiIceAmp,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AntiIceAmp { control, callback })
+            .push(RegisteredControl::AntiIceAmp {
+                control: AntiIceAmp::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_anticoll_lts_sw<F>(
         &mut self,
-        control: AnticollLtsSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(AnticollLtsSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::AnticollLtsSw { control, callback })
+            .push(RegisteredControl::AnticollLtsSw {
+                control: AnticollLtsSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_armed_ind<F>(
-        &mut self,
-        control: ArmedInd,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_armed_ind<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ArmedInd { control, callback })
+            .push(RegisteredControl::ArmedInd {
+                control: ArmedInd::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_bat_sw<F>(
-        &mut self,
-        control: BatSw,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_bat_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(BatSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::BatSw { control, callback })
+            .push(RegisteredControl::BatSw {
+                control: BatSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_beacon_sensing_sw<F>(
         &mut self,
-        control: BeaconSensingSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(BeaconSensingSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::BeaconSensingSw { control, callback })
+            .push(RegisteredControl::BeaconSensingSw {
+                control: BeaconSensingSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_beacon_vol<F>(
-        &mut self,
-        control: BeaconVol,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_beacon_vol<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::BeaconVol { control, callback })
+            .push(RegisteredControl::BeaconVol {
+                control: BeaconVol::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_bleed_air_sw<F>(
         &mut self,
-        control: BleedAirSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(BleedAirSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::BleedAirSw { control, callback })
+            .push(RegisteredControl::BleedAirSw {
+                control: BleedAirSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_brt_console<F>(
         &mut self,
-        control: BrtConsole,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::BrtConsole { control, callback })
+            .push(RegisteredControl::BrtConsole {
+                control: BrtConsole::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_brt_copilot<F>(
         &mut self,
-        control: BrtCopilot,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::BrtCopilot { control, callback })
+            .push(RegisteredControl::BrtCopilot {
+                control: BrtCopilot::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_brt_engine<F>(
-        &mut self,
-        control: BrtEngine,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_brt_engine<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::BrtEngine { control, callback })
+            .push(RegisteredControl::BrtEngine {
+                control: BrtEngine::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_brt_ped<F>(
-        &mut self,
-        control: BrtPed,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_brt_ped<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::BrtPed { control, callback })
+            .push(RegisteredControl::BrtPed {
+                control: BrtPed::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_brt_pilot<F>(
-        &mut self,
-        control: BrtPilot,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_brt_pilot<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::BrtPilot { control, callback })
+            .push(RegisteredControl::BrtPilot {
+                control: BrtPilot::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_brt_sec<F>(
-        &mut self,
-        control: BrtSec,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_brt_sec<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::BrtSec { control, callback })
+            .push(RegisteredControl::BrtSec {
+                control: BrtSec::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cargo_rel_cp<F>(
         &mut self,
-        control: CargoRelCp,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CargoRelCpValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CargoRelCp { control, callback })
+            .push(RegisteredControl::CargoRelCp {
+                control: CargoRelCp::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cargo_rel_p<F>(
         &mut self,
-        control: CargoRelP,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CargoRelPValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CargoRelP { control, callback })
+            .push(RegisteredControl::CargoRelP {
+                control: CargoRelP::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cargo_rel_safe<F>(
         &mut self,
-        control: CargoRelSafe,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CargoRelSafeValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CargoRelSafe { control, callback })
+            .push(RegisteredControl::CargoRelSafe {
+                control: CargoRelSafe::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb28v<F>(
-        &mut self,
-        control: Cb28v,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb28v<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(Cb28vValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::Cb28v { control, callback })
+            .push(RegisteredControl::Cb28v {
+                control: Cb28v::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_air_valve<F>(
         &mut self,
-        control: CbAirValve,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbAirValveValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbAirValve { control, callback })
+            .push(RegisteredControl::CbAirValve {
+                control: CbAirValve::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_am_radio<F>(
         &mut self,
-        control: CbAmRadio,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbAmRadioValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbAmRadio { control, callback })
+            .push(RegisteredControl::CbAmRadio {
+                control: CbAmRadio::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_anti_ice<F>(
         &mut self,
-        control: CbAntiIce,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbAntiIceValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbAntiIce { control, callback })
+            .push(RegisteredControl::CbAntiIce {
+                control: CbAntiIce::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_anticoll<F>(
         &mut self,
-        control: CbAnticoll,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbAnticollValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbAnticoll { control, callback })
+            .push(RegisteredControl::CbAnticoll {
+                control: CbAnticoll::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_arc102<F>(
-        &mut self,
-        control: CbArc102,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_arc102<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbArc102Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbArc102 { control, callback })
+            .push(RegisteredControl::CbArc102 {
+                control: CbArc102::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_cable<F>(
-        &mut self,
-        control: CbCable,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_cable<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbCableValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbCable { control, callback })
+            .push(RegisteredControl::CbCable {
+                control: CbCable::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_caution_lts<F>(
         &mut self,
-        control: CbCautionLts,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbCautionLtsValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbCautionLts { control, callback })
+            .push(RegisteredControl::CbCautionLts {
+                control: CbCautionLts::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_cockpit_lts<F>(
         &mut self,
-        control: CbCockpitLts,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbCockpitLtsValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbCockpitLts { control, callback })
+            .push(RegisteredControl::CbCockpitLts {
+                control: CbCockpitLts::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_console_lts<F>(
         &mut self,
-        control: CbConsoleLts,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbConsoleLtsValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbConsoleLts { control, callback })
+            .push(RegisteredControl::CbConsoleLts {
+                control: CbConsoleLts::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_cplt_attd1<F>(
         &mut self,
-        control: CbCpltAttd1,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbCpltAttd1Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbCpltAttd1 { control, callback })
+            .push(RegisteredControl::CbCpltAttd1 {
+                control: CbCpltAttd1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_cplt_attd2<F>(
         &mut self,
-        control: CbCpltAttd2,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbCpltAttd2Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbCpltAttd2 { control, callback })
+            .push(RegisteredControl::CbCpltAttd2 {
+                control: CbCpltAttd2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_crsind<F>(
-        &mut self,
-        control: CbCrsind,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_crsind<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbCrsindValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbCrsind { control, callback })
+            .push(RegisteredControl::CbCrsind {
+                control: CbCrsind::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_dome_lts<F>(
         &mut self,
-        control: CbDomeLts,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbDomeLtsValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbDomeLts { control, callback })
+            .push(RegisteredControl::CbDomeLts {
+                control: CbDomeLts::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_eng<F>(
-        &mut self,
-        control: CbEng,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_eng<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbEngValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbEng { control, callback })
+            .push(RegisteredControl::CbEng {
+                control: CbEng::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_fail_relay<F>(
         &mut self,
-        control: CbFailRelay,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbFailRelayValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbFailRelay { control, callback })
+            .push(RegisteredControl::CbFailRelay {
+                control: CbFailRelay::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_fire<F>(
-        &mut self,
-        control: CbFire,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_fire<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbFireValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbFire { control, callback })
+            .push(RegisteredControl::CbFire {
+                control: CbFire::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_fm2_radio<F>(
         &mut self,
-        control: CbFm2Radio,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbFm2RadioValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbFm2Radio { control, callback })
+            .push(RegisteredControl::CbFm2Radio {
+                control: CbFm2Radio::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_fm_radio<F>(
         &mut self,
-        control: CbFmRadio,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbFmRadioValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbFmRadio { control, callback })
+            .push(RegisteredControl::CbFmRadio {
+                control: CbFmRadio::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_fuel<F>(
-        &mut self,
-        control: CbFuel,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_fuel<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbFuelValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbFuel { control, callback })
+            .push(RegisteredControl::CbFuel {
+                control: CbFuel::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_fuel_qty<F>(
         &mut self,
-        control: CbFuelQty,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbFuelQtyValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbFuelQty { control, callback })
+            .push(RegisteredControl::CbFuelQty {
+                control: CbFuelQty::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_fuel_trans<F>(
         &mut self,
-        control: CbFuelTrans,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbFuelTransValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbFuelTrans { control, callback })
+            .push(RegisteredControl::CbFuelTrans {
+                control: CbFuelTrans::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_fuel_valves<F>(
         &mut self,
-        control: CbFuelValves,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbFuelValvesValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbFuelValves { control, callback })
+            .push(RegisteredControl::CbFuelValves {
+                control: CbFuelValves::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_fus_lts<F>(
-        &mut self,
-        control: CbFusLts,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_fus_lts<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbFusLtsValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbFusLts { control, callback })
+            .push(RegisteredControl::CbFusLts {
+                control: CbFusLts::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_gen_bus<F>(
-        &mut self,
-        control: CbGenBus,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_gen_bus<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbGenBusValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbGenBus { control, callback })
+            .push(RegisteredControl::CbGenBus {
+                control: CbGenBus::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_gov<F>(
-        &mut self,
-        control: CbGov,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_gov<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbGovValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbGov { control, callback })
+            .push(RegisteredControl::CbGov {
+                control: CbGov::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_gyro<F>(
-        &mut self,
-        control: CbGyro,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_gyro<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbGyroValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbGyro { control, callback })
+            .push(RegisteredControl::CbGyro {
+                control: CbGyro::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_heated_blanket1<F>(
         &mut self,
-        control: CbHeatedBlanket1,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbHeatedBlanket1Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbHeatedBlanket1 { control, callback })
+            .push(RegisteredControl::CbHeatedBlanket1 {
+                control: CbHeatedBlanket1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_heated_blanket2<F>(
         &mut self,
-        control: CbHeatedBlanket2,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbHeatedBlanket2Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbHeatedBlanket2 { control, callback })
+            .push(RegisteredControl::CbHeatedBlanket2 {
+                control: CbHeatedBlanket2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_hf_ant<F>(
-        &mut self,
-        control: CbHfAnt,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_hf_ant<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbHfAntValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbHfAnt { control, callback })
+            .push(RegisteredControl::CbHfAnt {
+                control: CbHfAnt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_hf_arc102<F>(
         &mut self,
-        control: CbHfArc102,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbHfArc102Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbHfArc102 { control, callback })
+            .push(RegisteredControl::CbHfArc102 {
+                control: CbHfArc102::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_hook<F>(
-        &mut self,
-        control: CbHook,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_hook<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbHookValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbHook { control, callback })
+            .push(RegisteredControl::CbHook {
+                control: CbHook::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_hydctl<F>(
-        &mut self,
-        control: CbHydctl,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_hydctl<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbHydctlValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbHydctl { control, callback })
+            .push(RegisteredControl::CbHydctl {
+                control: CbHydctl::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_idle_stop<F>(
         &mut self,
-        control: CbIdleStop,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbIdleStopValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbIdleStop { control, callback })
+            .push(RegisteredControl::CbIdleStop {
+                control: CbIdleStop::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_iff_apx1<F>(
         &mut self,
-        control: CbIffApx1,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbIffApx1Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbIffApx1 { control, callback })
+            .push(RegisteredControl::CbIffApx1 {
+                control: CbIffApx1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_iff_apx2<F>(
         &mut self,
-        control: CbIffApx2,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbIffApx2Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbIffApx2 { control, callback })
+            .push(RegisteredControl::CbIffApx2 {
+                control: CbIffApx2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_ign<F>(
-        &mut self,
-        control: CbIgn,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_ign<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbIgnValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbIgn { control, callback })
+            .push(RegisteredControl::CbIgn {
+                control: CbIgn::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_inst_lts<F>(
         &mut self,
-        control: CbInstLts,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbInstLtsValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbInstLts { control, callback })
+            .push(RegisteredControl::CbInstLts {
+                control: CbInstLts::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_inst_sec_lts<F>(
         &mut self,
-        control: CbInstSecLts,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbInstSecLtsValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbInstSecLts { control, callback })
+            .push(RegisteredControl::CbInstSecLts {
+                control: CbInstSecLts::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_int_cplt<F>(
         &mut self,
-        control: CbIntCplt,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbIntCpltValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbIntCplt { control, callback })
+            .push(RegisteredControl::CbIntCplt {
+                control: CbIntCplt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_int_plt<F>(
-        &mut self,
-        control: CbIntPlt,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_int_plt<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbIntPltValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbIntPlt { control, callback })
+            .push(RegisteredControl::CbIntPlt {
+                control: CbIntPlt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_invtr<F>(
-        &mut self,
-        control: CbInvtr,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_invtr<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbInvtrValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbInvtr { control, callback })
+            .push(RegisteredControl::CbInvtr {
+                control: CbInvtr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_jtsn<F>(
-        &mut self,
-        control: CbJtsn,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_jtsn<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbJtsnValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbJtsn { control, callback })
+            .push(RegisteredControl::CbJtsn {
+                control: CbJtsn::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_ky20<F>(
-        &mut self,
-        control: CbKy20,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_ky20<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbKy20Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbKy20 { control, callback })
+            .push(RegisteredControl::CbKy20 {
+                control: CbKy20::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_ldglts<F>(
-        &mut self,
-        control: CbLdglts,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_ldglts<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbLdgltsValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbLdglts { control, callback })
+            .push(RegisteredControl::CbLdglts {
+                control: CbLdglts::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_lf_nav<F>(
-        &mut self,
-        control: CbLfNav,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_lf_nav<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbLfNavValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbLfNav { control, callback })
+            .push(RegisteredControl::CbLfNav {
+                control: CbLfNav::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_lh_fuel<F>(
-        &mut self,
-        control: CbLhFuel,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_lh_fuel<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbLhFuelValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbLhFuel { control, callback })
+            .push(RegisteredControl::CbLhFuel {
+                control: CbLhFuel::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_main_invtr<F>(
         &mut self,
-        control: CbMainInvtr,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbMainInvtrValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbMainInvtr { control, callback })
+            .push(RegisteredControl::CbMainInvtr {
+                control: CbMainInvtr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_marker_beacon<F>(
         &mut self,
-        control: CbMarkerBeacon,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbMarkerBeaconValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbMarkerBeacon { control, callback })
+            .push(RegisteredControl::CbMarkerBeacon {
+                control: CbMarkerBeacon::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_nav_lts<F>(
-        &mut self,
-        control: CbNavLts,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_nav_lts<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbNavLtsValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbNavLts { control, callback })
+            .push(RegisteredControl::CbNavLts {
+                control: CbNavLts::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_outlet_valve<F>(
         &mut self,
-        control: CbOutletValve,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbOutletValveValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbOutletValve { control, callback })
+            .push(RegisteredControl::CbOutletValve {
+                control: CbOutletValve::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_pitot_tube<F>(
         &mut self,
-        control: CbPitotTube,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbPitotTubeValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbPitotTube { control, callback })
+            .push(RegisteredControl::CbPitotTube {
+                control: CbPitotTube::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_plt_attd1<F>(
         &mut self,
-        control: CbPltAttd1,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbPltAttd1Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbPltAttd1 { control, callback })
+            .push(RegisteredControl::CbPltAttd1 {
+                control: CbPltAttd1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_plt_attd2<F>(
         &mut self,
-        control: CbPltAttd2,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbPltAttd2Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbPltAttd2 { control, callback })
+            .push(RegisteredControl::CbPltAttd2 {
+                control: CbPltAttd2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_porx_warn<F>(
         &mut self,
-        control: CbPorxWarn,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbPorxWarnValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbPorxWarn { control, callback })
+            .push(RegisteredControl::CbPorxWarn {
+                control: CbPorxWarn::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_rescue_cont<F>(
         &mut self,
-        control: CbRescueCont,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbRescueContValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbRescueCont { control, callback })
+            .push(RegisteredControl::CbRescueCont {
+                control: CbRescueCont::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_rescue_pwr<F>(
         &mut self,
-        control: CbRescuePwr,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbRescuePwrValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbRescuePwr { control, callback })
+            .push(RegisteredControl::CbRescuePwr {
+                control: CbRescuePwr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_rh_fuel<F>(
-        &mut self,
-        control: CbRhFuel,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_rh_fuel<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbRhFuelValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbRhFuel { control, callback })
+            .push(RegisteredControl::CbRhFuel {
+                control: CbRhFuel::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_rpm_warn<F>(
         &mut self,
-        control: CbRpmWarn,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbRpmWarnValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbRpmWarn { control, callback })
+            .push(RegisteredControl::CbRpmWarn {
+                control: CbRpmWarn::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_sl_ctl<F>(
-        &mut self,
-        control: CbSlCtl,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_sl_ctl<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbSlCtlValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbSlCtl { control, callback })
+            .push(RegisteredControl::CbSlCtl {
+                control: CbSlCtl::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_sl_pwr<F>(
-        &mut self,
-        control: CbSlPwr,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_sl_pwr<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbSlPwrValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbSlPwr { control, callback })
+            .push(RegisteredControl::CbSlPwr {
+                control: CbSlPwr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_spare_invtr<F>(
         &mut self,
-        control: CbSpareInvtr,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbSpareInvtrValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbSpareInvtr { control, callback })
+            .push(RegisteredControl::CbSpareInvtr {
+                control: CbSpareInvtr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_starter<F>(
-        &mut self,
-        control: CbStarter,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_starter<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbStarterValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbStarter { control, callback })
+            .push(RegisteredControl::CbStarter {
+                control: CbStarter::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_stby_gen<F>(
         &mut self,
-        control: CbStbyGen,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbStbyGenValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbStbyGen { control, callback })
+            .push(RegisteredControl::CbStbyGen {
+                control: CbStbyGen::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_temp<F>(
-        &mut self,
-        control: CbTemp,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_temp<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbTempValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbTemp { control, callback })
+            .push(RegisteredControl::CbTemp {
+                control: CbTemp::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_torq<F>(
-        &mut self,
-        control: CbTorq,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_torq<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbTorqValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbTorq { control, callback })
+            .push(RegisteredControl::CbTorq {
+                control: CbTorq::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_trim<F>(
-        &mut self,
-        control: CbTrim,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_trim<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbTrimValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbTrim { control, callback })
+            .push(RegisteredControl::CbTrim {
+                control: CbTrim::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_turn_slip<F>(
         &mut self,
-        control: CbTurnSlip,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbTurnSlipValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbTurnSlip { control, callback })
+            .push(RegisteredControl::CbTurnSlip {
+                control: CbTurnSlip::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_uhf_radio<F>(
         &mut self,
-        control: CbUhfRadio,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbUhfRadioValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbUhfRadio { control, callback })
+            .push(RegisteredControl::CbUhfRadio {
+                control: CbUhfRadio::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_vhf_nav<F>(
-        &mut self,
-        control: CbVhfNav,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_vhf_nav<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbVhfNavValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbVhfNav { control, callback })
+            .push(RegisteredControl::CbVhfNav {
+                control: CbVhfNav::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_vm<F>(
-        &mut self,
-        control: CbVm,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_vm<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbVmValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbVm { control, callback })
+            .push(RegisteredControl::CbVm {
+                control: CbVm::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_wiper_cplt<F>(
         &mut self,
-        control: CbWiperCplt,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbWiperCpltValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbWiperCplt { control, callback })
+            .push(RegisteredControl::CbWiperCplt {
+                control: CbWiperCplt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cb_wiper_plt<F>(
         &mut self,
-        control: CbWiperPlt,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbWiperPltValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbWiperPlt { control, callback })
+            .push(RegisteredControl::CbWiperPlt {
+                control: CbWiperPlt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cb_xmsn<F>(
-        &mut self,
-        control: CbXmsn,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cb_xmsn<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CbXmsnValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CbXmsn { control, callback })
+            .push(RegisteredControl::CbXmsn {
+                control: CbXmsn::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_chip_det_sw<F>(
         &mut self,
-        control: ChipDetSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ChipDetSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ChipDetSw { control, callback })
+            .push(RegisteredControl::ChipDetSw {
+                control: ChipDetSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ci_course_card<F>(
         &mut self,
-        control: CiCourseCard,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CiCourseCard { control, callback })
+            .push(RegisteredControl::CiCourseCard {
+                control: CiCourseCard::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ci_from<F>(
-        &mut self,
-        control: CiFrom,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ci_from<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CiFrom { control, callback })
+            .push(RegisteredControl::CiFrom {
+                control: CiFrom::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ci_hbar<F>(
-        &mut self,
-        control: CiHbar,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ci_hbar<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CiHbar { control, callback })
+            .push(RegisteredControl::CiHbar {
+                control: CiHbar::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ci_hoff<F>(
-        &mut self,
-        control: CiHoff,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ci_hoff<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CiHoff { control, callback })
+            .push(RegisteredControl::CiHoff {
+                control: CiHoff::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ci_to<F>(
-        &mut self,
-        control: CiTo,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ci_to<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CiTo { control, callback })
+            .push(RegisteredControl::CiTo {
+                control: CiTo::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ci_vbar<F>(
-        &mut self,
-        control: CiVbar,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ci_vbar<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CiVbar { control, callback })
+            .push(RegisteredControl::CiVbar {
+                control: CiVbar::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ci_voff<F>(
-        &mut self,
-        control: CiVoff,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ci_voff<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CiVoff { control, callback })
+            .push(RegisteredControl::CiVoff {
+                control: CiVoff::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_a0<F>(
-        &mut self,
-        control: ClA0,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_a0<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClA0 { control, callback })
+            .push(RegisteredControl::ClA0 {
+                control: ClA0::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_a1<F>(
-        &mut self,
-        control: ClA1,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_a1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClA1 { control, callback })
+            .push(RegisteredControl::ClA1 {
+                control: ClA1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_b0<F>(
-        &mut self,
-        control: ClB0,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_b0<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClB0 { control, callback })
+            .push(RegisteredControl::ClB0 {
+                control: ClB0::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_b1<F>(
-        &mut self,
-        control: ClB1,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_b1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClB1 { control, callback })
+            .push(RegisteredControl::ClB1 {
+                control: ClB1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_c0<F>(
-        &mut self,
-        control: ClC0,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_c0<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClC0 { control, callback })
+            .push(RegisteredControl::ClC0 {
+                control: ClC0::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_c1<F>(
-        &mut self,
-        control: ClC1,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_c1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClC1 { control, callback })
+            .push(RegisteredControl::ClC1 {
+                control: ClC1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_d0<F>(
-        &mut self,
-        control: ClD0,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_d0<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClD0 { control, callback })
+            .push(RegisteredControl::ClD0 {
+                control: ClD0::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_d1<F>(
-        &mut self,
-        control: ClD1,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_d1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClD1 { control, callback })
+            .push(RegisteredControl::ClD1 {
+                control: ClD1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_e0<F>(
-        &mut self,
-        control: ClE0,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_e0<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClE0 { control, callback })
+            .push(RegisteredControl::ClE0 {
+                control: ClE0::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_e1<F>(
-        &mut self,
-        control: ClE1,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_e1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClE1 { control, callback })
+            .push(RegisteredControl::ClE1 {
+                control: ClE1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_f0<F>(
-        &mut self,
-        control: ClF0,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_f0<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClF0 { control, callback })
+            .push(RegisteredControl::ClF0 {
+                control: ClF0::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_f1<F>(
-        &mut self,
-        control: ClF1,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_f1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClF1 { control, callback })
+            .push(RegisteredControl::ClF1 {
+                control: ClF1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_g0<F>(
-        &mut self,
-        control: ClG0,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_g0<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClG0 { control, callback })
+            .push(RegisteredControl::ClG0 {
+                control: ClG0::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_g1<F>(
-        &mut self,
-        control: ClG1,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_g1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClG1 { control, callback })
+            .push(RegisteredControl::ClG1 {
+                control: ClG1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_h0<F>(
-        &mut self,
-        control: ClH0,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_h0<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClH0 { control, callback })
+            .push(RegisteredControl::ClH0 {
+                control: ClH0::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_h1<F>(
-        &mut self,
-        control: ClH1,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_h1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClH1 { control, callback })
+            .push(RegisteredControl::ClH1 {
+                control: ClH1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_i0<F>(
-        &mut self,
-        control: ClI0,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_i0<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClI0 { control, callback })
+            .push(RegisteredControl::ClI0 {
+                control: ClI0::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_i1<F>(
-        &mut self,
-        control: ClI1,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_i1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClI1 { control, callback })
+            .push(RegisteredControl::ClI1 {
+                control: ClI1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_j0<F>(
-        &mut self,
-        control: ClJ0,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_j0<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClJ0 { control, callback })
+            .push(RegisteredControl::ClJ0 {
+                control: ClJ0::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cl_j1<F>(
-        &mut self,
-        control: ClJ1,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cl_j1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClJ1 { control, callback })
+            .push(RegisteredControl::ClJ1 {
+                control: ClJ1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_clock_adjust<F>(
         &mut self,
-        control: ClockAdjust,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClockAdjust { control, callback })
+            .push(RegisteredControl::ClockAdjust {
+                control: ClockAdjust::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_clock_adjust_pull<F>(
         &mut self,
-        control: ClockAdjustPull,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClockAdjustPull { control, callback })
+            .push(RegisteredControl::ClockAdjustPull {
+                control: ClockAdjustPull::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_clock_h<F>(
-        &mut self,
-        control: ClockH,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_clock_h<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClockH { control, callback })
+            .push(RegisteredControl::ClockH {
+                control: ClockH::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_clock_m<F>(
-        &mut self,
-        control: ClockM,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_clock_m<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClockM { control, callback })
+            .push(RegisteredControl::ClockM {
+                control: ClockM::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_clock_s<F>(
-        &mut self,
-        control: ClockS,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_clock_s<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClockS { control, callback })
+            .push(RegisteredControl::ClockS {
+                control: ClockS::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_clp_bright_dim_sw<F>(
         &mut self,
-        control: ClpBrightDimSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ClpBrightDimSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClpBrightDimSw { control, callback })
+            .push(RegisteredControl::ClpBrightDimSw {
+                control: ClpBrightDimSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_clp_reset_test_sw<F>(
         &mut self,
-        control: ClpResetTestSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ClpResetTestSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ClpResetTestSw { control, callback })
+            .push(RegisteredControl::ClpResetTestSw {
+                control: ClpResetTestSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cm_arm_sw<F>(
-        &mut self,
-        control: CmArmSw,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cm_arm_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CmArmSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CmArmSw { control, callback })
+            .push(RegisteredControl::CmArmSw {
+                control: CmArmSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cm_armed_test<F>(
         &mut self,
-        control: CmArmedTest,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CmArmedTestValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CmArmedTest { control, callback })
+            .push(RegisteredControl::CmArmedTest {
+                control: CmArmedTest::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cm_chaffcnt_display<F>(
         &mut self,
-        control: CmChaffcntDisplay,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CmChaffcntDisplay { control, callback })
+            .push(RegisteredControl::CmChaffcntDisplay {
+                control: CmChaffcntDisplay::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cm_chaffcnt_display_str<F>(
         &mut self,
-        control: CmChaffcntDisplayStr,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CmChaffcntDisplayStr { control, callback })
+            .push(RegisteredControl::CmChaffcntDisplayStr {
+                control: CmChaffcntDisplayStr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cm_chaffcnt_reset<F>(
         &mut self,
-        control: CmChaffcntReset,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CmChaffcntResetValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CmChaffcntReset { control, callback })
+            .push(RegisteredControl::CmChaffcntReset {
+                control: CmChaffcntReset::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cm_flare_btn<F>(
         &mut self,
-        control: CmFlareBtn,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CmFlareBtnValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CmFlareBtn { control, callback })
+            .push(RegisteredControl::CmFlareBtn {
+                control: CmFlareBtn::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cm_flarecnt_display<F>(
         &mut self,
-        control: CmFlarecntDisplay,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CmFlarecntDisplay { control, callback })
+            .push(RegisteredControl::CmFlarecntDisplay {
+                control: CmFlarecntDisplay::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cm_flarecnt_display_str<F>(
         &mut self,
-        control: CmFlarecntDisplayStr,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CmFlarecntDisplayStr { control, callback })
+            .push(RegisteredControl::CmFlarecntDisplayStr {
+                control: CmFlarecntDisplayStr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cm_flarecnt_reset<F>(
         &mut self,
-        control: CmFlarecntReset,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CmFlarecntResetValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CmFlarecntReset { control, callback })
+            .push(RegisteredControl::CmFlarecntReset {
+                control: CmFlarecntReset::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cm_man_pgrm_sw<F>(
         &mut self,
-        control: CmManPgrmSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CmManPgrmSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CmManPgrmSw { control, callback })
+            .push(RegisteredControl::CmManPgrmSw {
+                control: CmManPgrmSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cm_ripple_cover<F>(
         &mut self,
-        control: CmRippleCover,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CmRippleCoverValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CmRippleCover { control, callback })
+            .push(RegisteredControl::CmRippleCover {
+                control: CmRippleCover::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cm_ripple_sw<F>(
         &mut self,
-        control: CmRippleSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CmRippleSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CmRippleSw { control, callback })
+            .push(RegisteredControl::CmRippleSw {
+                control: CmRippleSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_console_light<F>(
         &mut self,
-        control: ConsoleLight,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ConsoleLight { control, callback })
+            .push(RegisteredControl::ConsoleLight {
+                control: ConsoleLight::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_cplt_adi_cage<F>(
         &mut self,
-        control: CpltAdiCage,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(CpltAdiCageValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CpltAdiCage { control, callback })
+            .push(RegisteredControl::CpltAdiCage {
+                control: CpltAdiCage::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_crs_knob<F>(
-        &mut self,
-        control: CrsKnob,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_crs_knob<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::CrsKnob { control, callback })
+            .push(RegisteredControl::CrsKnob {
+                control: CrsKnob::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_dc_bat1_current<F>(
         &mut self,
-        control: DcBat1Current,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::DcBat1Current { control, callback })
+            .push(RegisteredControl::DcBat1Current {
+                control: DcBat1Current::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_dc_bat2_current<F>(
         &mut self,
-        control: DcBat2Current,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::DcBat2Current { control, callback })
+            .push(RegisteredControl::DcBat2Current {
+                control: DcBat2Current::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_dc_v<F>(
-        &mut self,
-        control: DcV,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_dc_v<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::DcV { control, callback })
+            .push(RegisteredControl::DcV {
+                control: DcV::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_dc_vm_src<F>(
-        &mut self,
-        control: DcVmSrc,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_dc_vm_src<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(DcVmSrcValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::DcVmSrc { control, callback })
+            .push(RegisteredControl::DcVmSrc {
+                control: DcVmSrc::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_dc_voltage<F>(
-        &mut self,
-        control: DcVoltage,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_dc_voltage<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::DcVoltage { control, callback })
+            .push(RegisteredControl::DcVoltage {
+                control: DcVoltage::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_dc_vu1_current<F>(
         &mut self,
-        control: DcVu1Current,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::DcVu1Current { control, callback })
+            .push(RegisteredControl::DcVu1Current {
+                control: DcVu1Current::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_dc_vu2_current<F>(
         &mut self,
-        control: DcVu2Current,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::DcVu2Current { control, callback })
+            .push(RegisteredControl::DcVu2Current {
+                control: DcVu2Current::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_dc_vu3_current<F>(
         &mut self,
-        control: DcVu3Current,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::DcVu3Current { control, callback })
+            .push(RegisteredControl::DcVu3Current {
+                control: DcVu3Current::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_dome_light<F>(
-        &mut self,
-        control: DomeLight,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_dome_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::DomeLight { control, callback })
+            .push(RegisteredControl::DomeLight {
+                control: DomeLight::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_dome_light_green<F>(
         &mut self,
-        control: DomeLightGreen,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::DomeLightGreen { control, callback })
+            .push(RegisteredControl::DomeLightGreen {
+                control: DomeLightGreen::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_dome_light_sw<F>(
         &mut self,
-        control: DomeLightSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(DomeLightSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::DomeLightSw { control, callback })
+            .push(RegisteredControl::DomeLightSw {
+                control: DomeLightSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_door_l_ptr<F>(
-        &mut self,
-        control: DoorLPtr,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_door_l_ptr<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(DoorLPtrValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::DoorLPtr { control, callback })
+            .push(RegisteredControl::DoorLPtr {
+                control: DoorLPtr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_door_r_ptr<F>(
-        &mut self,
-        control: DoorRPtr,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_door_r_ptr<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(DoorRPtrValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::DoorRPtr { control, callback })
+            .push(RegisteredControl::DoorRPtr {
+                control: DoorRPtr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_emer_gov_sw<F>(
         &mut self,
-        control: EmerGovSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(EmerGovSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::EmerGovSw { control, callback })
+            .push(RegisteredControl::EmerGovSw {
+                control: EmerGovSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_eng_deice<F>(
-        &mut self,
-        control: EngDeice,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_eng_deice<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(EngDeiceValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::EngDeice { control, callback })
+            .push(RegisteredControl::EngDeice {
+                control: EngDeice::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_eng_oil_press<F>(
         &mut self,
-        control: EngOilPress,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::EngOilPress { control, callback })
+            .push(RegisteredControl::EngOilPress {
+                control: EngOilPress::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_eng_oil_temp<F>(
         &mut self,
-        control: EngOilTemp,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::EngOilTemp { control, callback })
+            .push(RegisteredControl::EngOilTemp {
+                control: EngOilTemp::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_eng_rpm<F>(
-        &mut self,
-        control: EngRpm,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_eng_rpm<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::EngRpm { control, callback })
+            .push(RegisteredControl::EngRpm {
+                control: EngRpm::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_exhaust_temp<F>(
         &mut self,
-        control: ExhaustTemp,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ExhaustTemp { control, callback })
+            .push(RegisteredControl::ExhaustTemp {
+                control: ExhaustTemp::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ext_position_light_left<F>(
         &mut self,
-        control: ExtPositionLightLeft,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ExtPositionLightLeft { control, callback })
+            .push(RegisteredControl::ExtPositionLightLeft {
+                control: ExtPositionLightLeft::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ext_position_light_right<F>(
         &mut self,
-        control: ExtPositionLightRight,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ExtPositionLightRight { control, callback })
+            .push(RegisteredControl::ExtPositionLightRight {
+                control: ExtPositionLightRight::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ext_strobe<F>(
-        &mut self,
-        control: ExtStrobe,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ext_strobe<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ExtStrobe { control, callback })
+            .push(RegisteredControl::ExtStrobe {
+                control: ExtStrobe::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ext_wow_skid<F>(
         &mut self,
-        control: ExtWowSkid,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ExtWowSkid { control, callback })
+            .push(RegisteredControl::ExtWowSkid {
+                control: ExtWowSkid::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_fire_ind<F>(
-        &mut self,
-        control: FireInd,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_fire_ind<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::FireInd { control, callback })
+            .push(RegisteredControl::FireInd {
+                control: FireInd::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_fire_test_btn<F>(
         &mut self,
-        control: FireTestBtn,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(FireTestBtnValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::FireTestBtn { control, callback })
+            .push(RegisteredControl::FireTestBtn {
+                control: FireTestBtn::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_force_trim_sw<F>(
         &mut self,
-        control: ForceTrimSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ForceTrimSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ForceTrimSw { control, callback })
+            .push(RegisteredControl::ForceTrimSw {
+                control: ForceTrimSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_fuel_press<F>(
-        &mut self,
-        control: FuelPress,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_fuel_press<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::FuelPress { control, callback })
+            .push(RegisteredControl::FuelPress {
+                control: FuelPress::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_fuel_qty<F>(
-        &mut self,
-        control: FuelQty,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_fuel_qty<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::FuelQty { control, callback })
+            .push(RegisteredControl::FuelQty {
+                control: FuelQty::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_gas_rpm<F>(
-        &mut self,
-        control: GasRpm,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_gas_rpm<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::GasRpm { control, callback })
+            .push(RegisteredControl::GasRpm {
+                control: GasRpm::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_gas_rpm_t<F>(
-        &mut self,
-        control: GasRpmT,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_gas_rpm_t<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::GasRpmT { control, callback })
+            .push(RegisteredControl::GasRpmT {
+                control: GasRpmT::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_gmc_annunciator<F>(
         &mut self,
-        control: GmcAnnunciator,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::GmcAnnunciator { control, callback })
+            .push(RegisteredControl::GmcAnnunciator {
+                control: GmcAnnunciator::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_gmc_crs1<F>(
-        &mut self,
-        control: GmcCrs1,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_gmc_crs1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::GmcCrs1 { control, callback })
+            .push(RegisteredControl::GmcCrs1 {
+                control: GmcCrs1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_gmc_crs2<F>(
-        &mut self,
-        control: GmcCrs2,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_gmc_crs2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::GmcCrs2 { control, callback })
+            .push(RegisteredControl::GmcCrs2 {
+                control: GmcCrs2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_gmc_hdg<F>(
-        &mut self,
-        control: GmcHdg,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_gmc_hdg<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::GmcHdg { control, callback })
+            .push(RegisteredControl::GmcHdg {
+                control: GmcHdg::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_gmc_hdg_marker<F>(
         &mut self,
-        control: GmcHdgMarker,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::GmcHdgMarker { control, callback })
+            .push(RegisteredControl::GmcHdgMarker {
+                control: GmcHdgMarker::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_gmc_pwrfail<F>(
         &mut self,
-        control: GmcPwrfail,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::GmcPwrfail { control, callback })
+            .push(RegisteredControl::GmcPwrfail {
+                control: GmcPwrfail::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_gov_rpm_sw<F>(
-        &mut self,
-        control: GovRpmSw,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_gov_rpm_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(GovRpmSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::GovRpmSw { control, callback })
+            .push(RegisteredControl::GovRpmSw {
+                control: GovRpmSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_gov_rpm_sw2<F>(
         &mut self,
-        control: GovRpmSw2,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(GovRpmSw2Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::GovRpmSw2 { control, callback })
+            .push(RegisteredControl::GovRpmSw2 {
+                control: GovRpmSw2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_gun_sel<F>(
-        &mut self,
-        control: GunSel,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_gun_sel<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(GunSelValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::GunSel { control, callback })
+            .push(RegisteredControl::GunSel {
+                control: GunSel::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_gyro_mode_sw<F>(
         &mut self,
-        control: GyroModeSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(GyroModeSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::GyroModeSw { control, callback })
+            .push(RegisteredControl::GyroModeSw {
+                control: GyroModeSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hdg_set<F>(
-        &mut self,
-        control: HdgSet,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_hdg_set<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::HdgSet { control, callback })
+            .push(RegisteredControl::HdgSet {
+                control: HdgSet::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hdg_sync<F>(
-        &mut self,
-        control: HdgSync,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_hdg_sync<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::HdgSync { control, callback })
+            .push(RegisteredControl::HdgSync {
+                control: HdgSync::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_hyd_cont_sw<F>(
         &mut self,
-        control: HydContSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(HydContSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::HydContSw { control, callback })
+            .push(RegisteredControl::HydContSw {
+                control: HydContSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ias_nose<F>(
-        &mut self,
-        control: IasNose,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ias_nose<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IasNose { control, callback })
+            .push(RegisteredControl::IasNose {
+                control: IasNose::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ias_roof<F>(
-        &mut self,
-        control: IasRoof,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ias_roof<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IasRoof { control, callback })
+            .push(RegisteredControl::IasRoof {
+                control: IasRoof::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_iff_code<F>(
-        &mut self,
-        control: IffCode,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_iff_code<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffCode { control, callback })
+            .push(RegisteredControl::IffCode {
+                control: IffCode::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_iff_master<F>(
-        &mut self,
-        control: IffMaster,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_iff_master<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffMasterValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffMaster { control, callback })
+            .push(RegisteredControl::IffMaster {
+                control: IffMaster::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_mic_ident<F>(
         &mut self,
-        control: IffMicIdent,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffMicIdentValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffMicIdent { control, callback })
+            .push(RegisteredControl::IffMicIdent {
+                control: IffMicIdent::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_mode1_wheel1<F>(
         &mut self,
-        control: IffMode1Wheel1,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffMode1Wheel1Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffMode1Wheel1 { control, callback })
+            .push(RegisteredControl::IffMode1Wheel1 {
+                control: IffMode1Wheel1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_mode1_wheel2<F>(
         &mut self,
-        control: IffMode1Wheel2,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffMode1Wheel2Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffMode1Wheel2 { control, callback })
+            .push(RegisteredControl::IffMode1Wheel2 {
+                control: IffMode1Wheel2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_mode3a_wheel1<F>(
         &mut self,
-        control: IffMode3aWheel1,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffMode3aWheel1Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffMode3aWheel1 { control, callback })
+            .push(RegisteredControl::IffMode3aWheel1 {
+                control: IffMode3aWheel1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_mode3a_wheel2<F>(
         &mut self,
-        control: IffMode3aWheel2,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffMode3aWheel2Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffMode3aWheel2 { control, callback })
+            .push(RegisteredControl::IffMode3aWheel2 {
+                control: IffMode3aWheel2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_mode3a_wheel3<F>(
         &mut self,
-        control: IffMode3aWheel3,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffMode3aWheel3Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffMode3aWheel3 { control, callback })
+            .push(RegisteredControl::IffMode3aWheel3 {
+                control: IffMode3aWheel3::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_mode3a_wheel4<F>(
         &mut self,
-        control: IffMode3aWheel4,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffMode3aWheel4Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffMode3aWheel4 { control, callback })
+            .push(RegisteredControl::IffMode3aWheel4 {
+                control: IffMode3aWheel4::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_iff_on_out<F>(
-        &mut self,
-        control: IffOnOut,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_iff_on_out<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffOnOutValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffOnOut { control, callback })
+            .push(RegisteredControl::IffOnOut {
+                control: IffOnOut::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_out_audio_light<F>(
         &mut self,
-        control: IffOutAudioLight,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffOutAudioLightValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffOutAudioLight { control, callback })
+            .push(RegisteredControl::IffOutAudioLight {
+                control: IffOutAudioLight::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_radtest<F>(
         &mut self,
-        control: IffRadtest,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffRadtestValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffRadtest { control, callback })
+            .push(RegisteredControl::IffRadtest {
+                control: IffRadtest::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_reply_dim<F>(
         &mut self,
-        control: IffReplyDim,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffReplyDim { control, callback })
+            .push(RegisteredControl::IffReplyDim {
+                control: IffReplyDim::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_reply_ind<F>(
         &mut self,
-        control: IffReplyInd,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffReplyInd { control, callback })
+            .push(RegisteredControl::IffReplyInd {
+                control: IffReplyInd::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_reply_test<F>(
         &mut self,
-        control: IffReplyTest,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffReplyTestValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffReplyTest { control, callback })
+            .push(RegisteredControl::IffReplyTest {
+                control: IffReplyTest::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_test_dim<F>(
         &mut self,
-        control: IffTestDim,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffTestDim { control, callback })
+            .push(RegisteredControl::IffTestDim {
+                control: IffTestDim::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_test_ind<F>(
         &mut self,
-        control: IffTestInd,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffTestInd { control, callback })
+            .push(RegisteredControl::IffTestInd {
+                control: IffTestInd::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_test_m1<F>(
         &mut self,
-        control: IffTestM1,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffTestM1Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffTestM1 { control, callback })
+            .push(RegisteredControl::IffTestM1 {
+                control: IffTestM1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_test_m2<F>(
         &mut self,
-        control: IffTestM2,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffTestM2Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffTestM2 { control, callback })
+            .push(RegisteredControl::IffTestM2 {
+                control: IffTestM2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_test_m3<F>(
         &mut self,
-        control: IffTestM3,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffTestM3Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffTestM3 { control, callback })
+            .push(RegisteredControl::IffTestM3 {
+                control: IffTestM3::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_test_m4<F>(
         &mut self,
-        control: IffTestM4,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffTestM4Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffTestM4 { control, callback })
+            .push(RegisteredControl::IffTestM4 {
+                control: IffTestM4::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_iff_test_test<F>(
         &mut self,
-        control: IffTestTest,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IffTestTestValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IffTestTest { control, callback })
+            .push(RegisteredControl::IffTestTest {
+                control: IffTestTest::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_int_int_sw<F>(
-        &mut self,
-        control: IntIntSw,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_int_int_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IntIntSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IntIntSw { control, callback })
+            .push(RegisteredControl::IntIntSw {
+                control: IntIntSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_int_mode<F>(
-        &mut self,
-        control: IntMode,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_int_mode<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IntModeValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IntMode { control, callback })
+            .push(RegisteredControl::IntMode {
+                control: IntMode::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_int_nav_sw<F>(
-        &mut self,
-        control: IntNavSw,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_int_nav_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IntNavSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IntNavSw { control, callback })
+            .push(RegisteredControl::IntNavSw {
+                control: IntNavSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_int_rcvr1_sw<F>(
         &mut self,
-        control: IntRcvr1Sw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IntRcvr1SwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IntRcvr1Sw { control, callback })
+            .push(RegisteredControl::IntRcvr1Sw {
+                control: IntRcvr1Sw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_int_rcvr2_sw<F>(
         &mut self,
-        control: IntRcvr2Sw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IntRcvr2SwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IntRcvr2Sw { control, callback })
+            .push(RegisteredControl::IntRcvr2Sw {
+                control: IntRcvr2Sw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_int_rcvr3_sw<F>(
         &mut self,
-        control: IntRcvr3Sw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IntRcvr3SwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IntRcvr3Sw { control, callback })
+            .push(RegisteredControl::IntRcvr3Sw {
+                control: IntRcvr3Sw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_int_recvr4_sw<F>(
         &mut self,
-        control: IntRecvr4Sw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(IntRecvr4SwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IntRecvr4Sw { control, callback })
+            .push(RegisteredControl::IntRecvr4Sw {
+                control: IntRecvr4Sw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_int_vol<F>(
-        &mut self,
-        control: IntVol,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_int_vol<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::IntVol { control, callback })
+            .push(RegisteredControl::IntVol {
+                control: IntVol::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_inverter_sw<F>(
         &mut self,
-        control: InverterSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(InverterSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::InverterSw { control, callback })
+            .push(RegisteredControl::InverterSw {
+                control: InverterSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jtsn_btn<F>(
-        &mut self,
-        control: JtsnBtn,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_jtsn_btn<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(JtsnBtnValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::JtsnBtn { control, callback })
+            .push(RegisteredControl::JtsnBtn {
+                control: JtsnBtn::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jtsn_cover<F>(
-        &mut self,
-        control: JtsnCover,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_jtsn_cover<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(JtsnCoverValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::JtsnCover { control, callback })
+            .push(RegisteredControl::JtsnCover {
+                control: JtsnCover::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ldg_light_sw<F>(
         &mut self,
-        control: LdgLightSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(LdgLightSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::LdgLightSw { control, callback })
+            .push(RegisteredControl::LdgLightSw {
+                control: LdgLightSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ldg_light_sw2<F>(
         &mut self,
-        control: LdgLightSw2,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(LdgLightSw2Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::LdgLightSw2 { control, callback })
+            .push(RegisteredControl::LdgLightSw2 {
+                control: LdgLightSw2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ldg_lt_ctrl<F>(
         &mut self,
-        control: LdgLtCtrl,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(LdgLtCtrlValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::LdgLtCtrl { control, callback })
+            .push(RegisteredControl::LdgLtCtrl {
+                control: LdgLtCtrl::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ldg_lt_ctrl2<F>(
         &mut self,
-        control: LdgLtCtrl2,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(LdgLtCtrl2Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::LdgLtCtrl2 { control, callback })
+            .push(RegisteredControl::LdgLtCtrl2 {
+                control: LdgLtCtrl2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_low_rpm_audio<F>(
         &mut self,
-        control: LowRpmAudio,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(LowRpmAudioValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::LowRpmAudio { control, callback })
+            .push(RegisteredControl::LowRpmAudio {
+                control: LowRpmAudio::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_low_rpm_ind<F>(
         &mut self,
-        control: LowRpmInd,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::LowRpmInd { control, callback })
+            .push(RegisteredControl::LowRpmInd {
+                control: LowRpmInd::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_main_fuel_sw<F>(
         &mut self,
-        control: MainFuelSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(MainFuelSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::MainFuelSw { control, callback })
+            .push(RegisteredControl::MainFuelSw {
+                control: MainFuelSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_main_gen_cover<F>(
         &mut self,
-        control: MainGenCover,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(MainGenCoverValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::MainGenCover { control, callback })
+            .push(RegisteredControl::MainGenCover {
+                control: MainGenCover::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_main_gen_load<F>(
         &mut self,
-        control: MainGenLoad,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::MainGenLoad { control, callback })
+            .push(RegisteredControl::MainGenLoad {
+                control: MainGenLoad::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_main_gen_sw<F>(
         &mut self,
-        control: MainGenSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(MainGenSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::MainGenSw { control, callback })
+            .push(RegisteredControl::MainGenSw {
+                control: MainGenSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_marker_beacon<F>(
         &mut self,
-        control: MarkerBeacon,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::MarkerBeacon { control, callback })
+            .push(RegisteredControl::MarkerBeacon {
+                control: MarkerBeacon::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_master_arm_sw<F>(
         &mut self,
-        control: MasterArmSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(MasterArmSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::MasterArmSw { control, callback })
+            .push(RegisteredControl::MasterArmSw {
+                control: MasterArmSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_master_caution_ind<F>(
         &mut self,
-        control: MasterCautionInd,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::MasterCautionInd { control, callback })
+            .push(RegisteredControl::MasterCautionInd {
+                control: MasterCautionInd::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_nav_lts_sw<F>(
-        &mut self,
-        control: NavLtsSw,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_nav_lts_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(NavLtsSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::NavLtsSw { control, callback })
+            .push(RegisteredControl::NavLtsSw {
+                control: NavLtsSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_non_ess_bus_sw<F>(
         &mut self,
-        control: NonEssBusSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(NonEssBusSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::NonEssBusSw { control, callback })
+            .push(RegisteredControl::NonEssBusSw {
+                control: NonEssBusSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_nvg_pos_lts<F>(
         &mut self,
-        control: NvgPosLts,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(NvgPosLtsValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::NvgPosLts { control, callback })
+            .push(RegisteredControl::NvgPosLts {
+                control: NvgPosLts::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_oadi_off<F>(
-        &mut self,
-        control: OadiOff,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_oadi_off<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::OadiOff { control, callback })
+            .push(RegisteredControl::OadiOff {
+                control: OadiOff::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_oadi_pitch<F>(
-        &mut self,
-        control: OadiPitch,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_oadi_pitch<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::OadiPitch { control, callback })
+            .push(RegisteredControl::OadiPitch {
+                control: OadiPitch::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_oadi_roll<F>(
-        &mut self,
-        control: OadiRoll,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_oadi_roll<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::OadiRoll { control, callback })
+            .push(RegisteredControl::OadiRoll {
+                control: OadiRoll::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_oalt100<F>(
-        &mut self,
-        control: Oalt100,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_oalt100<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::Oalt100 { control, callback })
+            .push(RegisteredControl::Oalt100 {
+                control: Oalt100::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_oalt1000<F>(
-        &mut self,
-        control: Oalt1000,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_oalt1000<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::Oalt1000 { control, callback })
+            .push(RegisteredControl::Oalt1000 {
+                control: Oalt1000::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_oalt10000<F>(
-        &mut self,
-        control: Oalt10000,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_oalt10000<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::Oalt10000 { control, callback })
+            .push(RegisteredControl::Oalt10000 {
+                control: Oalt10000::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_oalt_code_off_flag<F>(
         &mut self,
-        control: OaltCodeOffFlag,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::OaltCodeOffFlag { control, callback })
+            .push(RegisteredControl::OaltCodeOffFlag {
+                control: OaltCodeOffFlag::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_oalt_press0<F>(
         &mut self,
-        control: OaltPress0,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::OaltPress0 { control, callback })
+            .push(RegisteredControl::OaltPress0 {
+                control: OaltPress0::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_oalt_press1<F>(
         &mut self,
-        control: OaltPress1,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::OaltPress1 { control, callback })
+            .push(RegisteredControl::OaltPress1 {
+                control: OaltPress1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_oalt_press2<F>(
         &mut self,
-        control: OaltPress2,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::OaltPress2 { control, callback })
+            .push(RegisteredControl::OaltPress2 {
+                control: OaltPress2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_oalt_ptr<F>(
-        &mut self,
-        control: OaltPtr,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_oalt_ptr<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::OaltPtr { control, callback })
+            .push(RegisteredControl::OaltPtr {
+                control: OaltPtr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_padi_off<F>(
-        &mut self,
-        control: PadiOff,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_padi_off<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::PadiOff { control, callback })
+            .push(RegisteredControl::PadiOff {
+                control: PadiOff::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_padi_pitch<F>(
-        &mut self,
-        control: PadiPitch,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_padi_pitch<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::PadiPitch { control, callback })
+            .push(RegisteredControl::PadiPitch {
+                control: PadiPitch::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_padi_roll<F>(
-        &mut self,
-        control: PadiRoll,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_padi_roll<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::PadiRoll { control, callback })
+            .push(RegisteredControl::PadiRoll {
+                control: PadiRoll::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_palt100<F>(
-        &mut self,
-        control: Palt100,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_palt100<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::Palt100 { control, callback })
+            .push(RegisteredControl::Palt100 {
+                control: Palt100::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_palt1000<F>(
-        &mut self,
-        control: Palt1000,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_palt1000<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::Palt1000 { control, callback })
+            .push(RegisteredControl::Palt1000 {
+                control: Palt1000::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_palt10000<F>(
-        &mut self,
-        control: Palt10000,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_palt10000<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::Palt10000 { control, callback })
+            .push(RegisteredControl::Palt10000 {
+                control: Palt10000::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_palt_press<F>(
-        &mut self,
-        control: PaltPress,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_palt_press<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::PaltPress { control, callback })
+            .push(RegisteredControl::PaltPress {
+                control: PaltPress::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_pitot_heat<F>(
-        &mut self,
-        control: PitotHeat,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_pitot_heat<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(PitotHeatValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::PitotHeat { control, callback })
+            .push(RegisteredControl::PitotHeat {
+                control: PitotHeat::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_pos_lts_sw<F>(
-        &mut self,
-        control: PosLtsSw,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_pos_lts_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(PosLtsSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::PosLtsSw { control, callback })
+            .push(RegisteredControl::PosLtsSw {
+                control: PosLtsSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_radar_alt_hi<F>(
         &mut self,
-        control: RadarAltHi,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RadarAltHi { control, callback })
+            .push(RegisteredControl::RadarAltHi {
+                control: RadarAltHi::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_radar_alt_lo<F>(
         &mut self,
-        control: RadarAltLo,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RadarAltLo { control, callback })
+            .push(RegisteredControl::RadarAltLo {
+                control: RadarAltLo::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_radar_alt_pwr<F>(
         &mut self,
-        control: RadarAltPwr,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(RadarAltPwrValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RadarAltPwr { control, callback })
+            .push(RegisteredControl::RadarAltPwr {
+                control: RadarAltPwr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_radar_alt_test<F>(
         &mut self,
-        control: RadarAltTest,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(RadarAltTestValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RadarAltTest { control, callback })
+            .push(RegisteredControl::RadarAltTest {
+                control: RadarAltTest::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_radio_ics_sw<F>(
         &mut self,
-        control: RadioIcsSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(RadioIcsSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RadioIcsSw { control, callback })
+            .push(RegisteredControl::RadioIcsSw {
+                control: RadioIcsSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ralt_digit1<F>(
         &mut self,
-        control: RaltDigit1,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RaltDigit1 { control, callback })
+            .push(RegisteredControl::RaltDigit1 {
+                control: RaltDigit1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ralt_digit2<F>(
         &mut self,
-        control: RaltDigit2,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RaltDigit2 { control, callback })
+            .push(RegisteredControl::RaltDigit2 {
+                control: RaltDigit2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ralt_digit3<F>(
         &mut self,
-        control: RaltDigit3,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RaltDigit3 { control, callback })
+            .push(RegisteredControl::RaltDigit3 {
+                control: RaltDigit3::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ralt_digit4<F>(
         &mut self,
-        control: RaltDigit4,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RaltDigit4 { control, callback })
+            .push(RegisteredControl::RaltDigit4 {
+                control: RaltDigit4::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ralt_display<F>(
         &mut self,
-        control: RaltDisplay,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RaltDisplay { control, callback })
+            .push(RegisteredControl::RaltDisplay {
+                control: RaltDisplay::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ralt_display_str<F>(
         &mut self,
-        control: RaltDisplayStr,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RaltDisplayStr { control, callback })
+            .push(RegisteredControl::RaltDisplayStr {
+                control: RaltDisplayStr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ralt_hi_idx<F>(
         &mut self,
-        control: RaltHiIdx,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RaltHiIdx { control, callback })
+            .push(RegisteredControl::RaltHiIdx {
+                control: RaltHiIdx::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ralt_hi_lamp<F>(
         &mut self,
-        control: RaltHiLamp,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RaltHiLamp { control, callback })
+            .push(RegisteredControl::RaltHiLamp {
+                control: RaltHiLamp::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ralt_lo_idx<F>(
         &mut self,
-        control: RaltLoIdx,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RaltLoIdx { control, callback })
+            .push(RegisteredControl::RaltLoIdx {
+                control: RaltLoIdx::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ralt_lo_lamp<F>(
         &mut self,
-        control: RaltLoLamp,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RaltLoLamp { control, callback })
+            .push(RegisteredControl::RaltLoLamp {
+                control: RaltLoLamp::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_ralt_needle<F>(
         &mut self,
-        control: RaltNeedle,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RaltNeedle { control, callback })
+            .push(RegisteredControl::RaltNeedle {
+                control: RaltNeedle::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ralt_off<F>(
-        &mut self,
-        control: RaltOff,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ralt_off<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RaltOff { control, callback })
+            .push(RegisteredControl::RaltOff {
+                control: RaltOff::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ram_temp<F>(
-        &mut self,
-        control: RamTemp,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ram_temp<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RamTemp { control, callback })
+            .push(RegisteredControl::RamTemp {
+                control: RamTemp::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rmi_crs1<F>(
-        &mut self,
-        control: RmiCrs1,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_rmi_crs1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RmiCrs1 { control, callback })
+            .push(RegisteredControl::RmiCrs1 {
+                control: RmiCrs1::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rmi_crs2<F>(
-        &mut self,
-        control: RmiCrs2,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_rmi_crs2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RmiCrs2 { control, callback })
+            .push(RegisteredControl::RmiCrs2 {
+                control: RmiCrs2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rmi_hdg<F>(
-        &mut self,
-        control: RmiHdg,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_rmi_hdg<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RmiHdg { control, callback })
+            .push(RegisteredControl::RmiHdg {
+                control: RmiHdg::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_rocket_pair<F>(
         &mut self,
-        control: RocketPair,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(RocketPairValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RocketPair { control, callback })
+            .push(RegisteredControl::RocketPair {
+                control: RocketPair::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_rocket_reset<F>(
         &mut self,
-        control: RocketReset,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(RocketResetValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RocketReset { control, callback })
+            .push(RegisteredControl::RocketReset {
+                control: RocketReset::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rocket_sel<F>(
-        &mut self,
-        control: RocketSel,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_rocket_sel<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(RocketSelValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RocketSel { control, callback })
+            .push(RegisteredControl::RocketSel {
+                control: RocketSel::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rotor_rpm<F>(
-        &mut self,
-        control: RotorRpm,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_rotor_rpm<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::RotorRpm { control, callback })
+            .push(RegisteredControl::RotorRpm {
+                control: RotorRpm::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_safe_ind<F>(
-        &mut self,
-        control: SafeInd,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_safe_ind<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::SafeInd { control, callback })
+            .push(RegisteredControl::SafeInd {
+                control: SafeInd::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_sby_compass_bank<F>(
         &mut self,
-        control: SbyCompassBank,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::SbyCompassBank { control, callback })
+            .push(RegisteredControl::SbyCompassBank {
+                control: SbyCompassBank::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_sby_compass_hdg<F>(
         &mut self,
-        control: SbyCompassHdg,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::SbyCompassHdg { control, callback })
+            .push(RegisteredControl::SbyCompassHdg {
+                control: SbyCompassHdg::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_sby_compass_pitch<F>(
         &mut self,
-        control: SbyCompassPitch,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::SbyCompassPitch { control, callback })
+            .push(RegisteredControl::SbyCompassPitch {
+                control: SbyCompassPitch::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_search_light_sw<F>(
         &mut self,
-        control: SearchLightSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(SearchLightSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::SearchLightSw { control, callback })
+            .push(RegisteredControl::SearchLightSw {
+                control: SearchLightSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_search_light_sw2<F>(
         &mut self,
-        control: SearchLightSw2,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(SearchLightSw2Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::SearchLightSw2 { control, callback })
+            .push(RegisteredControl::SearchLightSw2 {
+                control: SearchLightSw2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_sideslip<F>(
-        &mut self,
-        control: Sideslip,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_sideslip<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::Sideslip { control, callback })
+            .push(RegisteredControl::Sideslip {
+                control: Sideslip::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_sight_arm_plt<F>(
         &mut self,
-        control: SightArmPlt,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(SightArmPltValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::SightArmPlt { control, callback })
+            .push(RegisteredControl::SightArmPlt {
+                control: SightArmPlt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_sight_elev_plt<F>(
         &mut self,
-        control: SightElevPlt,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::SightElevPlt { control, callback })
+            .push(RegisteredControl::SightElevPlt {
+                control: SightElevPlt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_sight_inten_cplt<F>(
         &mut self,
-        control: SightIntenCplt,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::SightIntenCplt { control, callback })
+            .push(RegisteredControl::SightIntenCplt {
+                control: SightIntenCplt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_sight_inten_plt<F>(
         &mut self,
-        control: SightIntenPlt,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::SightIntenPlt { control, callback })
+            .push(RegisteredControl::SightIntenPlt {
+                control: SightIntenPlt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_sight_lamp_sw<F>(
         &mut self,
-        control: SightLampSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(SightLampSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::SightLampSw { control, callback })
+            .push(RegisteredControl::SightLampSw {
+                control: SightLampSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_sight_pwr_plt<F>(
         &mut self,
-        control: SightPwrPlt,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(SightPwrPltValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::SightPwrPlt { control, callback })
+            .push(RegisteredControl::SightPwrPlt {
+                control: SightPwrPlt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_sights_for_civil<F>(
         &mut self,
-        control: SightsForCivil,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::SightsForCivil { control, callback })
+            .push(RegisteredControl::SightsForCivil {
+                control: SightsForCivil::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_starter_gen_sw<F>(
         &mut self,
-        control: StarterGenSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(StarterGenSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::StarterGenSw { control, callback })
+            .push(RegisteredControl::StarterGenSw {
+                control: StarterGenSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_stby_gen_load<F>(
         &mut self,
-        control: StbyGenLoad,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::StbyGenLoad { control, callback })
+            .push(RegisteredControl::StbyGenLoad {
+                control: StbyGenLoad::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_test_fuel_gauge_btn<F>(
         &mut self,
-        control: TestFuelGaugeBtn,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(TestFuelGaugeBtnValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::TestFuelGaugeBtn { control, callback })
+            .push(RegisteredControl::TestFuelGaugeBtn {
+                control: TestFuelGaugeBtn::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_throttle<F>(
-        &mut self,
-        control: Throttle,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_throttle<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::Throttle { control, callback })
+            .push(RegisteredControl::Throttle {
+                control: Throttle::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_throttle2<F>(
-        &mut self,
-        control: Throttle2,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_throttle2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::Throttle2 { control, callback })
+            .push(RegisteredControl::Throttle2 {
+                control: Throttle2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_throttle_stop<F>(
         &mut self,
-        control: ThrottleStop,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ThrottleStopValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ThrottleStop { control, callback })
+            .push(RegisteredControl::ThrottleStop {
+                control: ThrottleStop::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_throttle_stop2<F>(
         &mut self,
-        control: ThrottleStop2,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ThrottleStop2Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::ThrottleStop2 { control, callback })
+            .push(RegisteredControl::ThrottleStop2 {
+                control: ThrottleStop2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_torque_press<F>(
         &mut self,
-        control: TorquePress,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::TorquePress { control, callback })
+            .push(RegisteredControl::TorquePress {
+                control: TorquePress::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_trans_oil_press<F>(
         &mut self,
-        control: TransOilPress,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::TransOilPress { control, callback })
+            .push(RegisteredControl::TransOilPress {
+                control: TransOilPress::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_trans_oil_temp<F>(
         &mut self,
-        control: TransOilTemp,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::TransOilTemp { control, callback })
+            .push(RegisteredControl::TransOilTemp {
+                control: TransOilTemp::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_trim_cplt<F>(
-        &mut self,
-        control: TrimCplt,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_trim_cplt<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(TrimCpltValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::TrimCplt { control, callback })
+            .push(RegisteredControl::TrimCplt {
+                control: TrimCplt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_trim_plt<F>(
-        &mut self,
-        control: TrimPlt,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_trim_plt<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(TrimPltValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::TrimPlt { control, callback })
+            .push(RegisteredControl::TrimPlt {
+                control: TrimPlt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_turn_ptr<F>(
-        &mut self,
-        control: TurnPtr,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_turn_ptr<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::TurnPtr { control, callback })
+            .push(RegisteredControl::TurnPtr {
+                control: TurnPtr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_uhf_freq<F>(
-        &mut self,
-        control: UhfFreq,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_uhf_freq<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
-            .push(RegisteredControl::UhfFreq { control, callback })
+            .push(RegisteredControl::UhfFreq {
+                control: UhfFreq::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_uhf_function<F>(
         &mut self,
-        control: UhfFunction,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(UhfFunctionValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::UhfFunction { control, callback })
+            .push(RegisteredControl::UhfFunction {
+                control: UhfFunction::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_uhf_mode<F>(
-        &mut self,
-        control: UhfMode,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_uhf_mode<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(UhfModeValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::UhfMode { control, callback })
+            .push(RegisteredControl::UhfMode {
+                control: UhfMode::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_uhf_preset_int<F>(
         &mut self,
-        control: UhfPresetInt,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::UhfPresetInt { control, callback })
+            .push(RegisteredControl::UhfPresetInt {
+                control: UhfPresetInt::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_uhf_preset_str<F>(
         &mut self,
-        control: UhfPresetStr,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
-            .push(RegisteredControl::UhfPresetStr { control, callback })
+            .push(RegisteredControl::UhfPresetStr {
+                control: UhfPresetStr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_uhf_squelch_sw<F>(
         &mut self,
-        control: UhfSquelchSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(UhfSquelchSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::UhfSquelchSw { control, callback })
+            .push(RegisteredControl::UhfSquelchSw {
+                control: UhfSquelchSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_uhf_vol<F>(
-        &mut self,
-        control: UhfVol,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_uhf_vol<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::UhfVol { control, callback })
+            .push(RegisteredControl::UhfVol {
+                control: UhfVol::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_vhfcomm_freq<F>(
         &mut self,
-        control: VhfcommFreq,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhfcommFreq { control, callback })
+            .push(RegisteredControl::VhfcommFreq {
+                control: VhfcommFreq::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_vhfcomm_khz<F>(
         &mut self,
-        control: VhfcommKhz,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhfcommKhz { control, callback })
+            .push(RegisteredControl::VhfcommKhz {
+                control: VhfcommKhz::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_vhfcomm_mhz<F>(
         &mut self,
-        control: VhfcommMhz,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhfcommMhz { control, callback })
+            .push(RegisteredControl::VhfcommMhz {
+                control: VhfcommMhz::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_vhfcomm_pwr<F>(
         &mut self,
-        control: VhfcommPwr,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(VhfcommPwrValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhfcommPwr { control, callback })
+            .push(RegisteredControl::VhfcommPwr {
+                control: VhfcommPwr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_vhfcomm_test_sw<F>(
         &mut self,
-        control: VhfcommTestSw,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(VhfcommTestSwValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhfcommTestSw { control, callback })
+            .push(RegisteredControl::VhfcommTestSw {
+                control: VhfcommTestSw::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_vhfcomm_vol<F>(
         &mut self,
-        control: VhfcommVol,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhfcommVol { control, callback })
+            .push(RegisteredControl::VhfcommVol {
+                control: VhfcommVol::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_vhffm_freq1_int<F>(
         &mut self,
-        control: VhffmFreq1Int,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(VhffmFreq1IntValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhffmFreq1Int { control, callback })
+            .push(RegisteredControl::VhffmFreq1Int {
+                control: VhffmFreq1Int::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_vhffm_freq1_str<F>(
         &mut self,
-        control: VhffmFreq1Str,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhffmFreq1Str { control, callback })
+            .push(RegisteredControl::VhffmFreq1Str {
+                control: VhffmFreq1Str::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_vhffm_freq2<F>(
         &mut self,
-        control: VhffmFreq2,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(VhffmFreq2Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhffmFreq2 { control, callback })
+            .push(RegisteredControl::VhffmFreq2 {
+                control: VhffmFreq2::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_vhffm_freq3<F>(
         &mut self,
-        control: VhffmFreq3,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(VhffmFreq3Value) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhffmFreq3 { control, callback })
+            .push(RegisteredControl::VhffmFreq3 {
+                control: VhffmFreq3::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_vhffm_freq4_int<F>(
         &mut self,
-        control: VhffmFreq4Int,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(VhffmFreq4IntValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhffmFreq4Int { control, callback })
+            .push(RegisteredControl::VhffmFreq4Int {
+                control: VhffmFreq4Int::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_vhffm_freq4_str<F>(
         &mut self,
-        control: VhffmFreq4Str,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhffmFreq4Str { control, callback })
+            .push(RegisteredControl::VhffmFreq4Str {
+                control: VhffmFreq4Str::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_vhffm_mode<F>(
-        &mut self,
-        control: VhffmMode,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_vhffm_mode<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(VhffmModeValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhffmMode { control, callback })
+            .push(RegisteredControl::VhffmMode {
+                control: VhffmMode::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_vhffm_squelch<F>(
         &mut self,
-        control: VhffmSquelch,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(VhffmSquelchValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhffmSquelch { control, callback })
+            .push(RegisteredControl::VhffmSquelch {
+                control: VhffmSquelch::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_vhffm_vol<F>(
-        &mut self,
-        control: VhffmVol,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_vhffm_vol<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhffmVol { control, callback })
+            .push(RegisteredControl::VhffmVol {
+                control: VhffmVol::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
     pub fn register_vhfnav_freq<F>(
         &mut self,
-        control: VhfnavFreq,
         callback: &'a mut F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhfnavFreq { control, callback })
+            .push(RegisteredControl::VhfnavFreq {
+                control: VhfnavFreq::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_vhfnav_khz<F>(
-        &mut self,
-        control: VhfnavKhz,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_vhfnav_khz<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhfnavKhz { control, callback })
+            .push(RegisteredControl::VhfnavKhz {
+                control: VhfnavKhz::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_vhfnav_mhz<F>(
-        &mut self,
-        control: VhfnavMhz,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_vhfnav_mhz<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhfnavMhz { control, callback })
+            .push(RegisteredControl::VhfnavMhz {
+                control: VhfnavMhz::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_vhfnav_pwr<F>(
-        &mut self,
-        control: VhfnavPwr,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_vhfnav_pwr<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(VhfnavPwrValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhfnavPwr { control, callback })
+            .push(RegisteredControl::VhfnavPwr {
+                control: VhfnavPwr::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_vhfnav_vol<F>(
-        &mut self,
-        control: VhfnavVol,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_vhfnav_vol<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VhfnavVol { control, callback })
+            .push(RegisteredControl::VhfnavVol {
+                control: VhfnavVol::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_vvi_o<F>(
-        &mut self,
-        control: VviO,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_vvi_o<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VviO { control, callback })
+            .push(RegisteredControl::VviO {
+                control: VviO::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_vvi_p<F>(
-        &mut self,
-        control: VviP,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_vvi_p<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::VviP { control, callback })
+            .push(RegisteredControl::VviP {
+                control: VviP::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_wiper_o<F>(
-        &mut self,
-        control: WiperO,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_wiper_o<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::WiperO { control, callback })
+            .push(RegisteredControl::WiperO {
+                control: WiperO::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_wiper_p<F>(
-        &mut self,
-        control: WiperP,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_wiper_p<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::WiperP { control, callback })
+            .push(RegisteredControl::WiperP {
+                control: WiperP::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_wiper_sel<F>(
-        &mut self,
-        control: WiperSel,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_wiper_sel<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(WiperSelValue) + 'a,
     {
         self.controls
-            .push(RegisteredControl::WiperSel { control, callback })
+            .push(RegisteredControl::WiperSel {
+                control: WiperSel::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_wiper_spd<F>(
-        &mut self,
-        control: WiperSpd,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_wiper_spd<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
-            .push(RegisteredControl::WiperSpd { control, callback })
+            .push(RegisteredControl::WiperSpd {
+                control: WiperSpd::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_x130_armed<F>(
-        &mut self,
-        control: X130Armed,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_x130_armed<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
-            .push(RegisteredControl::X130Armed { control, callback })
+            .push(RegisteredControl::X130Armed {
+                control: X130Armed::new(),
+                callback,
+            })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }

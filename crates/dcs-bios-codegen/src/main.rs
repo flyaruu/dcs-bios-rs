@@ -233,9 +233,8 @@ fn generate_model(json: &str, model_name: &str) -> Result<String, Box<dyn std::e
     for control in &controls {
         writeln!(
             source,
-            "    pub fn register_{}<F>(&mut self, control: {}, callback: &'a mut F) -> Result<&mut Self, &'static str>",
-            snake_case(&control.name),
-            control.name
+            "    pub fn register_{}<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>",
+            snake_case(&control.name)
         )?;
         writeln!(
             source,
@@ -244,8 +243,8 @@ fn generate_model(json: &str, model_name: &str) -> Result<String, Box<dyn std::e
         )?;
         writeln!(
             source,
-            "        self.controls.push(RegisteredControl::{} {{ control, callback }}).map_err(|_| \"aircraft control capacity exceeded\")?;",
-            control.name
+            "        self.controls.push(RegisteredControl::{} {{ control: {}::new(), callback }}).map_err(|_| \"aircraft control capacity exceeded\")?;",
+            control.name, control.name
         )?;
         source.push_str("        Ok(self)\n    }\n\n");
     }
@@ -354,14 +353,11 @@ fn generated_control(
                 )
             };
             (
-                integer_base.to_string(),
+                format!("{integer_base}<{}, {}, {}>", output.address, mask, shift),
                 callback,
                 callback_argument,
                 commit_callback,
-                format!(
-                    "{integer_base}::new({}, {}, {})",
-                    output.address, mask, shift
-                ),
+                format!("{integer_base}::new()"),
                 if definition.control_type == "led" {
                     "is_on"
                 } else {
@@ -375,11 +371,11 @@ fn generated_control(
                 definition.identifier
             ))?;
             (
-                format!("Display<{length}>"),
+                format!("Display<{}, {length}>", output.address),
                 "DisplayCallback".to_string(),
                 "&[u8]".to_string(),
                 String::new(),
-                format!("Display::<{length}>::new({}, {length})", output.address),
+                "Display::new()".to_string(),
                 "display",
             )
         }

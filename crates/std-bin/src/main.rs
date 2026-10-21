@@ -1,6 +1,6 @@
 use std::net::UdpSocket;
 
-use dcs_bios_rs_generated::av8bna::{Av8bnaBuilder, JettMode, JettModeValue};
+use dcs_bios_rs_generated::av8bna::{Av8bnaBuilder, JettModeValue};
 
 fn main() {
     let mut latest_value = None;
@@ -11,9 +11,7 @@ fn main() {
     };
 
     let mut builder = Av8bnaBuilder::<2, 256>::new();
-    builder
-        .register_jett_mode(JettMode::new(), &mut callback)
-        .unwrap();
+    builder.register_jett_mode(&mut callback).unwrap();
     let mut av8bna = builder.build();
 
     // Make sure that DCS is configure to push data to the IP of my device:

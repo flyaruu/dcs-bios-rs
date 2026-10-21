@@ -1,65 +1,50 @@
 use crate::protocol::Packet;
 
-#[derive(Clone, Copy)]
-pub struct IntegerOutput {
-    pub address: u16,
-    pub mask: u16,
-    pub shift: u8,
-}
-
-#[derive(Clone, Copy)]
-pub struct StringOutput {
-    pub address: u16,
-    pub max_length: usize,
-}
-
 pub trait Control {
     fn accept(&mut self, packet: Packet<'_>);
     /// Commits the staged value and returns whether the public value changed.
     fn commit(&mut self) -> bool;
 }
 
-fn integer_value(output: IntegerOutput, packet: Packet<'_>) -> Option<u16> {
-    if output.address < packet.address || output.address.checked_add(2)? > packet.end_address() {
+fn integer_value<const ADDRESS: u16, const MASK: u16, const SHIFT: u8>(
+    packet: Packet<'_>,
+) -> Option<u16> {
+    if ADDRESS < packet.address || ADDRESS.checked_add(2)? > packet.end_address() {
         return None;
     }
-    let offset = usize::from(output.address - packet.address);
+    let offset = usize::from(ADDRESS - packet.address);
     let word = u16::from_le_bytes([packet.data[offset], packet.data[offset + 1]]);
-    Some((word & output.mask) >> output.shift)
+    Some((word & MASK) >> SHIFT)
 }
 
-fn overlaps(output: StringOutput, packet: Packet<'_>) -> Option<(usize, usize)> {
-    let start = core::cmp::max(output.address, packet.address);
+fn overlaps<const ADDRESS: u16, const MAX_LENGTH: usize>(
+    packet: Packet<'_>,
+) -> Option<(usize, usize)> {
+    let start = core::cmp::max(ADDRESS, packet.address);
     let end = core::cmp::min(
-        output.address.checked_add(output.max_length as u16)?,
+        ADDRESS.checked_add(MAX_LENGTH as u16)?,
         packet.end_address(),
     );
     if start >= end {
         return None;
     }
     Some((
-        usize::from(start - output.address),
+        usize::from(start - ADDRESS),
         usize::from(start - packet.address),
     ))
 }
 
 macro_rules! integer_control {
     ($name:ident) => {
-        pub struct $name {
-            output: IntegerOutput,
+        pub struct $name<const ADDRESS: u16, const MASK: u16, const SHIFT: u8> {
             value: u16,
             pending: u16,
             dirty: bool,
         }
 
-        impl $name {
-            pub const fn new(address: u16, mask: u16, shift: u8) -> Self {
+        impl<const ADDRESS: u16, const MASK: u16, const SHIFT: u8> $name<ADDRESS, MASK, SHIFT> {
+            pub const fn new() -> Self {
                 Self {
-                    output: IntegerOutput {
-                        address,
-                        mask,
-                        shift,
-                    },
                     value: 0,
                     pending: 0,
                     dirty: false,
@@ -71,9 +56,11 @@ macro_rules! integer_control {
             }
         }
 
-        impl Control for $name {
+        impl<const ADDRESS: u16, const MASK: u16, const SHIFT: u8> Control
+            for $name<ADDRESS, MASK, SHIFT>
+        {
             fn accept(&mut self, packet: Packet<'_>) {
-                if let Some(value) = integer_value(self.output, packet) {
+                if let Some(value) = integer_value::<ADDRESS, MASK, SHIFT>(packet) {
                     self.pending = value;
                     self.dirty = true;
                 }
@@ -100,21 +87,15 @@ integer_control!(AnalogDial);
 integer_control!(FixedStepDial);
 integer_control!(Metadata);
 
-pub struct Led {
-    output: IntegerOutput,
+pub struct Led<const ADDRESS: u16, const MASK: u16, const SHIFT: u8> {
     value: bool,
     pending: bool,
     dirty: bool,
 }
 
-impl Led {
-    pub const fn new(address: u16, mask: u16, shift: u8) -> Self {
+impl<const ADDRESS: u16, const MASK: u16, const SHIFT: u8> Led<ADDRESS, MASK, SHIFT> {
+    pub const fn new() -> Self {
         Self {
-            output: IntegerOutput {
-                address,
-                mask,
-                shift,
-            },
             value: false,
             pending: false,
             dirty: false,
@@ -126,9 +107,9 @@ impl Led {
     }
 }
 
-impl Control for Led {
+impl<const ADDRESS: u16, const MASK: u16, const SHIFT: u8> Control for Led<ADDRESS, MASK, SHIFT> {
     fn accept(&mut self, packet: Packet<'_>) {
-        if let Some(value) = integer_value(self.output, packet) {
+        if let Some(value) = integer_value::<ADDRESS, MASK, SHIFT>(packet) {
             self.pending = value != 0;
             self.dirty = true;
         }
@@ -146,21 +127,15 @@ impl Control for Led {
     }
 }
 
-pub struct Display<const N: usize> {
-    output: StringOutput,
+pub struct Display<const ADDRESS: u16, const N: usize> {
     value: [u8; N],
     pending: [u8; N],
     dirty: bool,
 }
 
-impl<const N: usize> Display<N> {
-    pub const fn new(address: u16, max_length: usize) -> Self {
-        assert!(max_length <= N);
+impl<const ADDRESS: u16, const N: usize> Display<ADDRESS, N> {
+    pub const fn new() -> Self {
         Self {
-            output: StringOutput {
-                address,
-                max_length,
-            },
             value: [b' '; N],
             pending: [b' '; N],
             dirty: false,
@@ -168,17 +143,14 @@ impl<const N: usize> Display<N> {
     }
 
     pub fn value(&self) -> &[u8] {
-        &self.value[..self.output.max_length]
+        &self.value
     }
 }
 
-impl<const N: usize> Control for Display<N> {
+impl<const ADDRESS: u16, const N: usize> Control for Display<ADDRESS, N> {
     fn accept(&mut self, packet: Packet<'_>) {
-        if let Some((output_offset, packet_offset)) = overlaps(self.output, packet) {
-            let count = core::cmp::min(
-                packet.data.len() - packet_offset,
-                self.output.max_length - output_offset,
-            );
+        if let Some((output_offset, packet_offset)) = overlaps::<ADDRESS, N>(packet) {
+            let count = core::cmp::min(packet.data.len() - packet_offset, N - output_offset);
             self.pending[output_offset..output_offset + count]
                 .copy_from_slice(&packet.data[packet_offset..packet_offset + count]);
             self.dirty = true;
