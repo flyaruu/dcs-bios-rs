@@ -187,3 +187,7 @@ cargo test --workspace --all-targets
 cargo check --workspace
 cargo fmt --all -- --check
 ```
+
+## License
+
+This project is licensed under the GNU General Public License, version 3 only. See [`LICENSE`](LICENSE) for the complete license text.
