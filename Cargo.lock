@@ -10,7 +10,7 @@ checksum = "1fd0f2584146f6f2ef48085050886acf353beff7305ebd1ae69500e27c67f64b"
 
 [[package]]
 name = "dcs-bios-codegen"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "dcs-bios-rs-lib",
  "serde",
@@ -19,7 +19,7 @@ dependencies = [
 
 [[package]]
 name = "dcs-bios-rs-generated"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "dcs-bios-rs-lib",
  "heapless",
@@ -27,14 +27,14 @@ dependencies = [
 
 [[package]]
 name = "dcs-bios-rs-lib"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "heapless",
 ]
 
 [[package]]
 name = "dcs-bios-rs-std-bin"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "dcs-bios-rs-generated",
  "dcs-bios-rs-lib",

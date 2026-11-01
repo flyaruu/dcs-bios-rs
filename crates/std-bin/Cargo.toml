@@ -2,7 +2,9 @@
 name = "dcs-bios-rs-std-bin"
 version.workspace = true
 edition.workspace = true
+license.workspace = true
+publish = false
 
 [dependencies]
-dcs-bios-rs-lib = { path = "../lib" }
-dcs-bios-rs-generated = { path = "../generated" }
+dcs-bios-rs-lib.workspace = true
+dcs-bios-rs-generated.workspace = true
