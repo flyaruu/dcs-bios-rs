@@ -3,6 +3,7 @@ name = "dcs-bios-rs-std-bin"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+description = "std-based UDP example application for consuming DCS-BIOS data"
 publish = false
 
 [dependencies]

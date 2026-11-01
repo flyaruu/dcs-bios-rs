@@ -3,6 +3,7 @@ name = "dcs-bios-rs-lib"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+description = "no_std DCS-BIOS protocol library for parsing aircraft data streams"
 
 [lib]
 path = "src/lib.rs"
