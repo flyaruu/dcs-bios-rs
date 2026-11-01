@@ -14,817 +14,865 @@ pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
 pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
 pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
 
-/// Left Position Light (red)
-/// Output: Left Position Light (red)
-pub struct ExtPositionLightLeft(Metadata<24602, 16384, 14>);
-impl ExtPositionLightLeft {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
+pub mod altitude {
+    use super::*;
+
+    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
+    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
+    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+
+    /// Altitude
+    /// Output: Altitude
+    pub struct Fc3Altitude(Display<24576, 6>);
+    impl Fc3Altitude {
+        pub const fn new() -> Self {
+            Self(Display::new())
+        }
+        pub fn value(&self) -> &[u8] {
+            self.0.value()
+        }
     }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
+    impl Default for Fc3Altitude {
+        fn default() -> Self {
+            Self::new()
+        }
     }
-}
-impl Default for ExtPositionLightLeft {
-    fn default() -> Self {
-        Self::new()
+    impl Control for Fc3Altitude {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
     }
-}
-impl Control for ExtPositionLightLeft {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
+
+    /// Altitude above Ground
+    /// Output: Altitude above Ground
+    pub struct Fc3AltitudeGround(Display<24582, 6>);
+    impl Fc3AltitudeGround {
+        pub const fn new() -> Self {
+            Self(Display::new())
+        }
+        pub fn value(&self) -> &[u8] {
+            self.0.value()
+        }
     }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
+    impl Default for Fc3AltitudeGround {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for Fc3AltitudeGround {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
+    }
+
+    /// Altitude above Sea Level
+    /// Output: Altitude above Sea Level
+    pub struct Fc3AltitudeSea(Display<24588, 6>);
+    impl Fc3AltitudeSea {
+        pub const fn new() -> Self {
+            Self(Display::new())
+        }
+        pub fn value(&self) -> &[u8] {
+            self.0.value()
+        }
+    }
+    impl Default for Fc3AltitudeSea {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for Fc3AltitudeSea {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
+    }
+
+    /// Radar Altitude
+    /// Output: Radar Altitude
+    pub struct Fc3RadarAltitude(Metadata<24602, 256, 8>);
+    impl Fc3RadarAltitude {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
+    }
+    impl Default for Fc3RadarAltitude {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for Fc3RadarAltitude {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
     }
 }
 
-/// Right Position Light (green)
-/// Output: Right Position Light (green)
-pub struct ExtPositionLightRight(Metadata<24602, 32768, 15>);
-impl ExtPositionLightRight {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
+pub mod bar {
+    use super::*;
+
+    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
+    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
+    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+
+    /// Fuel Bar
+    /// Output: Fuel Bar
+    pub struct Fc3FuelBar(Metadata<24602, 15872, 9>);
+    impl Fc3FuelBar {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
     }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
+    impl Default for Fc3FuelBar {
+        fn default() -> Self {
+            Self::new()
+        }
     }
-}
-impl Default for ExtPositionLightRight {
-    fn default() -> Self {
-        Self::new()
+    impl Control for Fc3FuelBar {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
     }
-}
-impl Control for ExtPositionLightRight {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
+
+    /// G Load Bar
+    /// Output: G Load Bar
+    pub struct Fc3GLoadBar(Metadata<24624, 31, 0>);
+    impl Fc3GLoadBar {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
     }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
+    impl Default for Fc3GLoadBar {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for Fc3GLoadBar {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
+    }
+
+    /// Vertical Velocity Bar
+    /// Output: Vertical Velocity Bar
+    pub struct Fc3VviBar(Metadata<24624, 992, 5>);
+    impl Fc3VviBar {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
+    }
+    impl Default for Fc3VviBar {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for Fc3VviBar {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
     }
 }
 
-/// Left Speed Brake
-/// Output: Left Speed Brake
-pub struct ExtSpeedBrakeLeft(Metadata<24634, 65535, 0>);
-impl ExtSpeedBrakeLeft {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
+pub mod externalaircraftmodel {
+    use super::*;
+
+    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
+    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
+    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+
+    /// Left Position Light (red)
+    /// Output: Left Position Light (red)
+    pub struct ExtPositionLightLeft(Metadata<24602, 16384, 14>);
+    impl ExtPositionLightLeft {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
     }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
+    impl Default for ExtPositionLightLeft {
+        fn default() -> Self {
+            Self::new()
+        }
     }
-}
-impl Default for ExtSpeedBrakeLeft {
-    fn default() -> Self {
-        Self::new()
+    impl Control for ExtPositionLightLeft {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
     }
-}
-impl Control for ExtSpeedBrakeLeft {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
+
+    /// Right Position Light (green)
+    /// Output: Right Position Light (green)
+    pub struct ExtPositionLightRight(Metadata<24602, 32768, 15>);
+    impl ExtPositionLightRight {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
     }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
+    impl Default for ExtPositionLightRight {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for ExtPositionLightRight {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
+    }
+
+    /// Left Speed Brake
+    /// Output: Left Speed Brake
+    pub struct ExtSpeedBrakeLeft(Metadata<24634, 65535, 0>);
+    impl ExtSpeedBrakeLeft {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
+    }
+    impl Default for ExtSpeedBrakeLeft {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for ExtSpeedBrakeLeft {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
+    }
+
+    /// Right Speed Brake
+    /// Output: Right Speed Brake
+    pub struct ExtSpeedBrakeRight(Metadata<24632, 65535, 0>);
+    impl ExtSpeedBrakeRight {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
+    }
+    impl Default for ExtSpeedBrakeRight {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for ExtSpeedBrakeRight {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
+    }
+
+    /// Strobe Light
+    /// Output: Strobe Light
+    pub struct ExtStrobe(Metadata<24624, 1024, 10>);
+    impl ExtStrobe {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
+    }
+    impl Default for ExtStrobe {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for ExtStrobe {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
+    }
+
+    /// Weight ON Wheels Left Gear
+    /// Output: Weight ON Wheels Left Gear
+    pub struct ExtWowLeft(Metadata<24624, 8192, 13>);
+    impl ExtWowLeft {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
+    }
+    impl Default for ExtWowLeft {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for ExtWowLeft {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
+    }
+
+    /// Weight ON Wheels Nose Gear
+    /// Output: Weight ON Wheels Nose Gear
+    pub struct ExtWowNose(Metadata<24624, 2048, 11>);
+    impl ExtWowNose {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
+    }
+    impl Default for ExtWowNose {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for ExtWowNose {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
+    }
+
+    /// Weight ON Wheels Right Gear
+    /// Output: Weight ON Wheels Right Gear
+    pub struct ExtWowRight(Metadata<24624, 4096, 12>);
+    impl ExtWowRight {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
+    }
+    impl Default for ExtWowRight {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for ExtWowRight {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
     }
 }
 
-/// Right Speed Brake
-/// Output: Right Speed Brake
-pub struct ExtSpeedBrakeRight(Metadata<24632, 65535, 0>);
-impl ExtSpeedBrakeRight {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
+pub mod float {
+    use super::*;
+
+    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
+    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
+    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+
+    /// ADI Bank
+    /// Output: ADI Bank
+    pub struct Fc3AdiBank(Metadata<24626, 255, 0>);
+    impl Fc3AdiBank {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
     }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
+    impl Default for Fc3AdiBank {
+        fn default() -> Self {
+            Self::new()
+        }
     }
-}
-impl Default for ExtSpeedBrakeRight {
-    fn default() -> Self {
-        Self::new()
+    impl Control for Fc3AdiBank {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
     }
-}
-impl Control for ExtSpeedBrakeRight {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
+
+    /// ADI Pitch
+    /// Output: ADI Pitch
+    pub struct Fc3AdiPitch(Metadata<24626, 65280, 8>);
+    impl Fc3AdiPitch {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
     }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
+    impl Default for Fc3AdiPitch {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for Fc3AdiPitch {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
+    }
+
+    /// ADI Yaw
+    /// Output: ADI Yaw
+    pub struct Fc3AdiYaw(Metadata<24628, 255, 0>);
+    impl Fc3AdiYaw {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
+    }
+    impl Default for Fc3AdiYaw {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for Fc3AdiYaw {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
+    }
+
+    /// Glide Deviation
+    /// Output: Glide Deviation
+    pub struct Fc3GlideDeviation(Metadata<24628, 65280, 8>);
+    impl Fc3GlideDeviation {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
+    }
+    impl Default for Fc3GlideDeviation {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for Fc3GlideDeviation {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
+    }
+
+    /// Side Deviation
+    /// Output: Side Deviation
+    pub struct Fc3SideDeviation(Metadata<24630, 255, 0>);
+    impl Fc3SideDeviation {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
+    }
+    impl Default for Fc3SideDeviation {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for Fc3SideDeviation {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
+    }
+
+    /// Slip Ball Position
+    /// Output: Slip Ball Position
+    pub struct Fc3SlipBallPosition(Metadata<24630, 65280, 8>);
+    impl Fc3SlipBallPosition {
+        pub const fn new() -> Self {
+            Self(Metadata::new())
+        }
+        pub const fn value(&self) -> u16 {
+            self.0.value()
+        }
+    }
+    impl Default for Fc3SlipBallPosition {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for Fc3SlipBallPosition {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
     }
 }
 
-/// Strobe Light
-/// Output: Strobe Light
-pub struct ExtStrobe(Metadata<24624, 1024, 10>);
-impl ExtStrobe {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
+pub mod speed {
+    use super::*;
+
+    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
+    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
+    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+
+    /// Indicated Airspeed
+    /// Output: Indicated Airspeed
+    pub struct Fc3IndicatedAirspeed(Display<24608, 4>);
+    impl Fc3IndicatedAirspeed {
+        pub const fn new() -> Self {
+            Self(Display::new())
+        }
+        pub fn value(&self) -> &[u8] {
+            self.0.value()
+        }
     }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
+    impl Default for Fc3IndicatedAirspeed {
+        fn default() -> Self {
+            Self::new()
+        }
     }
-}
-impl Default for ExtStrobe {
-    fn default() -> Self {
-        Self::new()
+    impl Control for Fc3IndicatedAirspeed {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
     }
-}
-impl Control for ExtStrobe {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
+
+    /// Mach Number
+    /// Output: Mach Number
+    pub struct Fc3MachNumber(Display<24612, 4>);
+    impl Fc3MachNumber {
+        pub const fn new() -> Self {
+            Self(Display::new())
+        }
+        pub fn value(&self) -> &[u8] {
+            self.0.value()
+        }
     }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
+    impl Default for Fc3MachNumber {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for Fc3MachNumber {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
+    }
+
+    /// True Airspeed
+    /// Output: True Airspeed
+    pub struct Fc3TrueAirspeed(Display<24616, 4>);
+    impl Fc3TrueAirspeed {
+        pub const fn new() -> Self {
+            Self(Display::new())
+        }
+        pub fn value(&self) -> &[u8] {
+            self.0.value()
+        }
+    }
+    impl Default for Fc3TrueAirspeed {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for Fc3TrueAirspeed {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
+    }
+
+    /// Vertical Velocity
+    /// Output: Vertical Velocity
+    pub struct Fc3VerticalVelocity(Display<24620, 4>);
+    impl Fc3VerticalVelocity {
+        pub const fn new() -> Self {
+            Self(Display::new())
+        }
+        pub fn value(&self) -> &[u8] {
+            self.0.value()
+        }
+    }
+    impl Default for Fc3VerticalVelocity {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for Fc3VerticalVelocity {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
     }
 }
 
-/// Weight ON Wheels Left Gear
-/// Output: Weight ON Wheels Left Gear
-pub struct ExtWowLeft(Metadata<24624, 8192, 13>);
-impl ExtWowLeft {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
-    }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
-    }
-}
-impl Default for ExtWowLeft {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for ExtWowLeft {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
+pub mod string {
+    use super::*;
 
-/// Weight ON Wheels Nose Gear
-/// Output: Weight ON Wheels Nose Gear
-pub struct ExtWowNose(Metadata<24624, 2048, 11>);
-impl ExtWowNose {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
-    }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
-    }
-}
-impl Default for ExtWowNose {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for ExtWowNose {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
+    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
+    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
+    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
 
-/// Weight ON Wheels Right Gear
-/// Output: Weight ON Wheels Right Gear
-pub struct ExtWowRight(Metadata<24624, 4096, 12>);
-impl ExtWowRight {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
+    /// Angle of Attack
+    /// Output: Angle of Attack
+    pub struct Fc3AngleOfAttack(Display<24594, 4>);
+    impl Fc3AngleOfAttack {
+        pub const fn new() -> Self {
+            Self(Display::new())
+        }
+        pub fn value(&self) -> &[u8] {
+            self.0.value()
+        }
     }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
+    impl Default for Fc3AngleOfAttack {
+        fn default() -> Self {
+            Self::new()
+        }
     }
-}
-impl Default for ExtWowRight {
-    fn default() -> Self {
-        Self::new()
+    impl Control for Fc3AngleOfAttack {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
     }
-}
-impl Control for ExtWowRight {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
 
-/// ADI Bank
-/// Output: ADI Bank
-pub struct Fc3AdiBank(Metadata<24626, 255, 0>);
-impl Fc3AdiBank {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
+    /// Fuel Remaining
+    /// Output: Fuel Remaining
+    pub struct Fc3FuelAll(Display<24598, 5>);
+    impl Fc3FuelAll {
+        pub const fn new() -> Self {
+            Self(Display::new())
+        }
+        pub fn value(&self) -> &[u8] {
+            self.0.value()
+        }
     }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
+    impl Default for Fc3FuelAll {
+        fn default() -> Self {
+            Self::new()
+        }
     }
-}
-impl Default for Fc3AdiBank {
-    fn default() -> Self {
-        Self::new()
+    impl Control for Fc3FuelAll {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
     }
-}
-impl Control for Fc3AdiBank {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
 
-/// ADI Pitch
-/// Output: ADI Pitch
-pub struct Fc3AdiPitch(Metadata<24626, 65280, 8>);
-impl Fc3AdiPitch {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
-    }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
-    }
-}
-impl Default for Fc3AdiPitch {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3AdiPitch {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// ADI Yaw
-/// Output: ADI Yaw
-pub struct Fc3AdiYaw(Metadata<24628, 255, 0>);
-impl Fc3AdiYaw {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
-    }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
-    }
-}
-impl Default for Fc3AdiYaw {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3AdiYaw {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// Altitude
-/// Output: Altitude
-pub struct Fc3Altitude(Display<24576, 6>);
-impl Fc3Altitude {
-    pub const fn new() -> Self {
-        Self(Display::new())
-    }
-    pub fn value(&self) -> &[u8] {
-        self.0.value()
-    }
-}
-impl Default for Fc3Altitude {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3Altitude {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// Altitude above Ground
-/// Output: Altitude above Ground
-pub struct Fc3AltitudeGround(Display<24582, 6>);
-impl Fc3AltitudeGround {
-    pub const fn new() -> Self {
-        Self(Display::new())
-    }
-    pub fn value(&self) -> &[u8] {
-        self.0.value()
-    }
-}
-impl Default for Fc3AltitudeGround {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3AltitudeGround {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// Altitude above Sea Level
-/// Output: Altitude above Sea Level
-pub struct Fc3AltitudeSea(Display<24588, 6>);
-impl Fc3AltitudeSea {
-    pub const fn new() -> Self {
-        Self(Display::new())
-    }
-    pub fn value(&self) -> &[u8] {
-        self.0.value()
-    }
-}
-impl Default for Fc3AltitudeSea {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3AltitudeSea {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// Angle of Attack
-/// Output: Angle of Attack
-pub struct Fc3AngleOfAttack(Display<24594, 4>);
-impl Fc3AngleOfAttack {
-    pub const fn new() -> Self {
-        Self(Display::new())
-    }
-    pub fn value(&self) -> &[u8] {
-        self.0.value()
-    }
-}
-impl Default for Fc3AngleOfAttack {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3AngleOfAttack {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// Fuel Remaining
-/// Output: Fuel Remaining
-pub struct Fc3FuelAll(Display<24598, 5>);
-impl Fc3FuelAll {
-    pub const fn new() -> Self {
-        Self(Display::new())
-    }
-    pub fn value(&self) -> &[u8] {
-        self.0.value()
-    }
-}
-impl Default for Fc3FuelAll {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3FuelAll {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// Fuel Bar
-/// Output: Fuel Bar
-pub struct Fc3FuelBar(Metadata<24602, 15872, 9>);
-impl Fc3FuelBar {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
-    }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
-    }
-}
-impl Default for Fc3FuelBar {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3FuelBar {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// G Load
-/// Output: G Load
-pub struct Fc3GLoad(Display<24604, 4>);
-impl Fc3GLoad {
-    pub const fn new() -> Self {
-        Self(Display::new())
-    }
-    pub fn value(&self) -> &[u8] {
-        self.0.value()
-    }
-}
-impl Default for Fc3GLoad {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3GLoad {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// G Load Bar
-/// Output: G Load Bar
-pub struct Fc3GLoadBar(Metadata<24624, 31, 0>);
-impl Fc3GLoadBar {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
-    }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
-    }
-}
-impl Default for Fc3GLoadBar {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3GLoadBar {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// Glide Deviation
-/// Output: Glide Deviation
-pub struct Fc3GlideDeviation(Metadata<24628, 65280, 8>);
-impl Fc3GlideDeviation {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
-    }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
-    }
-}
-impl Default for Fc3GlideDeviation {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3GlideDeviation {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// Indicated Airspeed
-/// Output: Indicated Airspeed
-pub struct Fc3IndicatedAirspeed(Display<24608, 4>);
-impl Fc3IndicatedAirspeed {
-    pub const fn new() -> Self {
-        Self(Display::new())
-    }
-    pub fn value(&self) -> &[u8] {
-        self.0.value()
-    }
-}
-impl Default for Fc3IndicatedAirspeed {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3IndicatedAirspeed {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// Mach Number
-/// Output: Mach Number
-pub struct Fc3MachNumber(Display<24612, 4>);
-impl Fc3MachNumber {
-    pub const fn new() -> Self {
-        Self(Display::new())
-    }
-    pub fn value(&self) -> &[u8] {
-        self.0.value()
-    }
-}
-impl Default for Fc3MachNumber {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3MachNumber {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// Radar Altitude
-/// Output: Radar Altitude
-pub struct Fc3RadarAltitude(Metadata<24602, 256, 8>);
-impl Fc3RadarAltitude {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
-    }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
-    }
-}
-impl Default for Fc3RadarAltitude {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3RadarAltitude {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// Side Deviation
-/// Output: Side Deviation
-pub struct Fc3SideDeviation(Metadata<24630, 255, 0>);
-impl Fc3SideDeviation {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
-    }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
-    }
-}
-impl Default for Fc3SideDeviation {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3SideDeviation {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// Slip Ball Position
-/// Output: Slip Ball Position
-pub struct Fc3SlipBallPosition(Metadata<24630, 65280, 8>);
-impl Fc3SlipBallPosition {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
-    }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
-    }
-}
-impl Default for Fc3SlipBallPosition {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3SlipBallPosition {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// True Airspeed
-/// Output: True Airspeed
-pub struct Fc3TrueAirspeed(Display<24616, 4>);
-impl Fc3TrueAirspeed {
-    pub const fn new() -> Self {
-        Self(Display::new())
-    }
-    pub fn value(&self) -> &[u8] {
-        self.0.value()
-    }
-}
-impl Default for Fc3TrueAirspeed {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3TrueAirspeed {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// Vertical Velocity
-/// Output: Vertical Velocity
-pub struct Fc3VerticalVelocity(Display<24620, 4>);
-impl Fc3VerticalVelocity {
-    pub const fn new() -> Self {
-        Self(Display::new())
-    }
-    pub fn value(&self) -> &[u8] {
-        self.0.value()
-    }
-}
-impl Default for Fc3VerticalVelocity {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3VerticalVelocity {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
-    }
-}
-
-/// Vertical Velocity Bar
-/// Output: Vertical Velocity Bar
-pub struct Fc3VviBar(Metadata<24624, 992, 5>);
-impl Fc3VviBar {
-    pub const fn new() -> Self {
-        Self(Metadata::new())
-    }
-    pub const fn value(&self) -> u16 {
-        self.0.value()
-    }
-}
-impl Default for Fc3VviBar {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-impl Control for Fc3VviBar {
-    fn accept(&mut self, packet: Packet<'_>) {
-        self.0.accept(packet);
-    }
-    fn commit(&mut self) -> bool {
-        self.0.commit()
+    /// G Load
+    /// Output: G Load
+    pub struct Fc3GLoad(Display<24604, 4>);
+    impl Fc3GLoad {
+        pub const fn new() -> Self {
+            Self(Display::new())
+        }
+        pub fn value(&self) -> &[u8] {
+            self.0.value()
+        }
+    }
+    impl Default for Fc3GLoad {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+    impl Control for Fc3GLoad {
+        fn accept(&mut self, packet: Packet<'_>) {
+            self.0.accept(packet);
+        }
+        fn commit(&mut self) -> bool {
+            self.0.commit()
+        }
     }
 }
 
 pub enum RegisteredControl<'a> {
     ExtPositionLightLeft {
-        control: ExtPositionLightLeft,
+        control: externalaircraftmodel::ExtPositionLightLeft,
         callback: IntegerCallback<'a>,
     },
     ExtPositionLightRight {
-        control: ExtPositionLightRight,
+        control: externalaircraftmodel::ExtPositionLightRight,
         callback: IntegerCallback<'a>,
     },
     ExtSpeedBrakeLeft {
-        control: ExtSpeedBrakeLeft,
+        control: externalaircraftmodel::ExtSpeedBrakeLeft,
         callback: IntegerCallback<'a>,
     },
     ExtSpeedBrakeRight {
-        control: ExtSpeedBrakeRight,
+        control: externalaircraftmodel::ExtSpeedBrakeRight,
         callback: IntegerCallback<'a>,
     },
     ExtStrobe {
-        control: ExtStrobe,
+        control: externalaircraftmodel::ExtStrobe,
         callback: IntegerCallback<'a>,
     },
     ExtWowLeft {
-        control: ExtWowLeft,
+        control: externalaircraftmodel::ExtWowLeft,
         callback: IntegerCallback<'a>,
     },
     ExtWowNose {
-        control: ExtWowNose,
+        control: externalaircraftmodel::ExtWowNose,
         callback: IntegerCallback<'a>,
     },
     ExtWowRight {
-        control: ExtWowRight,
+        control: externalaircraftmodel::ExtWowRight,
         callback: IntegerCallback<'a>,
     },
     Fc3AdiBank {
-        control: Fc3AdiBank,
+        control: float::Fc3AdiBank,
         callback: IntegerCallback<'a>,
     },
     Fc3AdiPitch {
-        control: Fc3AdiPitch,
+        control: float::Fc3AdiPitch,
         callback: IntegerCallback<'a>,
     },
     Fc3AdiYaw {
-        control: Fc3AdiYaw,
+        control: float::Fc3AdiYaw,
         callback: IntegerCallback<'a>,
     },
     Fc3Altitude {
-        control: Fc3Altitude,
+        control: altitude::Fc3Altitude,
         callback: DisplayCallback<'a>,
     },
     Fc3AltitudeGround {
-        control: Fc3AltitudeGround,
+        control: altitude::Fc3AltitudeGround,
         callback: DisplayCallback<'a>,
     },
     Fc3AltitudeSea {
-        control: Fc3AltitudeSea,
+        control: altitude::Fc3AltitudeSea,
         callback: DisplayCallback<'a>,
     },
     Fc3AngleOfAttack {
-        control: Fc3AngleOfAttack,
+        control: string::Fc3AngleOfAttack,
         callback: DisplayCallback<'a>,
     },
     Fc3FuelAll {
-        control: Fc3FuelAll,
+        control: string::Fc3FuelAll,
         callback: DisplayCallback<'a>,
     },
     Fc3FuelBar {
-        control: Fc3FuelBar,
+        control: bar::Fc3FuelBar,
         callback: IntegerCallback<'a>,
     },
     Fc3GLoad {
-        control: Fc3GLoad,
+        control: string::Fc3GLoad,
         callback: DisplayCallback<'a>,
     },
     Fc3GLoadBar {
-        control: Fc3GLoadBar,
+        control: bar::Fc3GLoadBar,
         callback: IntegerCallback<'a>,
     },
     Fc3GlideDeviation {
-        control: Fc3GlideDeviation,
+        control: float::Fc3GlideDeviation,
         callback: IntegerCallback<'a>,
     },
     Fc3IndicatedAirspeed {
-        control: Fc3IndicatedAirspeed,
+        control: speed::Fc3IndicatedAirspeed,
         callback: DisplayCallback<'a>,
     },
     Fc3MachNumber {
-        control: Fc3MachNumber,
+        control: speed::Fc3MachNumber,
         callback: DisplayCallback<'a>,
     },
     Fc3RadarAltitude {
-        control: Fc3RadarAltitude,
+        control: altitude::Fc3RadarAltitude,
         callback: IntegerCallback<'a>,
     },
     Fc3SideDeviation {
-        control: Fc3SideDeviation,
+        control: float::Fc3SideDeviation,
         callback: IntegerCallback<'a>,
     },
     Fc3SlipBallPosition {
-        control: Fc3SlipBallPosition,
+        control: float::Fc3SlipBallPosition,
         callback: IntegerCallback<'a>,
     },
     Fc3TrueAirspeed {
-        control: Fc3TrueAirspeed,
+        control: speed::Fc3TrueAirspeed,
         callback: DisplayCallback<'a>,
     },
     Fc3VerticalVelocity {
-        control: Fc3VerticalVelocity,
+        control: speed::Fc3VerticalVelocity,
         callback: DisplayCallback<'a>,
     },
     Fc3VviBar {
-        control: Fc3VviBar,
+        control: bar::Fc3VviBar,
         callback: IntegerCallback<'a>,
     },
 }
@@ -1033,7 +1081,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::ExtPositionLightLeft {
-                control: ExtPositionLightLeft::new(),
+                control: externalaircraftmodel::ExtPositionLightLeft::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1049,7 +1097,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::ExtPositionLightRight {
-                control: ExtPositionLightRight::new(),
+                control: externalaircraftmodel::ExtPositionLightRight::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1065,7 +1113,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::ExtSpeedBrakeLeft {
-                control: ExtSpeedBrakeLeft::new(),
+                control: externalaircraftmodel::ExtSpeedBrakeLeft::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1081,7 +1129,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::ExtSpeedBrakeRight {
-                control: ExtSpeedBrakeRight::new(),
+                control: externalaircraftmodel::ExtSpeedBrakeRight::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1094,7 +1142,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::ExtStrobe {
-                control: ExtStrobe::new(),
+                control: externalaircraftmodel::ExtStrobe::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1110,7 +1158,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::ExtWowLeft {
-                control: ExtWowLeft::new(),
+                control: externalaircraftmodel::ExtWowLeft::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1126,7 +1174,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::ExtWowNose {
-                control: ExtWowNose::new(),
+                control: externalaircraftmodel::ExtWowNose::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1142,7 +1190,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::ExtWowRight {
-                control: ExtWowRight::new(),
+                control: externalaircraftmodel::ExtWowRight::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1158,7 +1206,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3AdiBank {
-                control: Fc3AdiBank::new(),
+                control: float::Fc3AdiBank::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1174,7 +1222,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3AdiPitch {
-                control: Fc3AdiPitch::new(),
+                control: float::Fc3AdiPitch::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1190,7 +1238,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3AdiYaw {
-                control: Fc3AdiYaw::new(),
+                control: float::Fc3AdiYaw::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1206,7 +1254,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3Altitude {
-                control: Fc3Altitude::new(),
+                control: altitude::Fc3Altitude::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1222,7 +1270,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3AltitudeGround {
-                control: Fc3AltitudeGround::new(),
+                control: altitude::Fc3AltitudeGround::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1238,7 +1286,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3AltitudeSea {
-                control: Fc3AltitudeSea::new(),
+                control: altitude::Fc3AltitudeSea::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1254,7 +1302,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3AngleOfAttack {
-                control: Fc3AngleOfAttack::new(),
+                control: string::Fc3AngleOfAttack::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1270,7 +1318,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3FuelAll {
-                control: Fc3FuelAll::new(),
+                control: string::Fc3FuelAll::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1286,7 +1334,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3FuelBar {
-                control: Fc3FuelBar::new(),
+                control: bar::Fc3FuelBar::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1299,7 +1347,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3GLoad {
-                control: Fc3GLoad::new(),
+                control: string::Fc3GLoad::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1315,7 +1363,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3GLoadBar {
-                control: Fc3GLoadBar::new(),
+                control: bar::Fc3GLoadBar::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1331,7 +1379,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3GlideDeviation {
-                control: Fc3GlideDeviation::new(),
+                control: float::Fc3GlideDeviation::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1347,7 +1395,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3IndicatedAirspeed {
-                control: Fc3IndicatedAirspeed::new(),
+                control: speed::Fc3IndicatedAirspeed::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1363,7 +1411,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3MachNumber {
-                control: Fc3MachNumber::new(),
+                control: speed::Fc3MachNumber::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1379,7 +1427,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3RadarAltitude {
-                control: Fc3RadarAltitude::new(),
+                control: altitude::Fc3RadarAltitude::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1395,7 +1443,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3SideDeviation {
-                control: Fc3SideDeviation::new(),
+                control: float::Fc3SideDeviation::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1411,7 +1459,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3SlipBallPosition {
-                control: Fc3SlipBallPosition::new(),
+                control: float::Fc3SlipBallPosition::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1427,7 +1475,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3TrueAirspeed {
-                control: Fc3TrueAirspeed::new(),
+                control: speed::Fc3TrueAirspeed::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1443,7 +1491,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3VerticalVelocity {
-                control: Fc3VerticalVelocity::new(),
+                control: speed::Fc3VerticalVelocity::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
@@ -1459,7 +1507,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
     {
         self.controls
             .push(RegisteredControl::Fc3VviBar {
-                control: Fc3VviBar::new(),
+                control: bar::Fc3VviBar::new(),
                 callback,
             })
             .map_err(|_| "aircraft control capacity exceeded")?;

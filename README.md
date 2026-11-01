@@ -66,8 +66,8 @@ Registration happens during startup. After building the aircraft runtime, the ap
 
 ```rust
 use dcs_bios_rs_generated::av8bna::{
+    acp::JettModeValue,
     Av8bnaBuilder,
-    JettModeValue,
 };
 
 let mut on_jett_mode = |value: JettModeValue| {
@@ -128,10 +128,10 @@ The `model-definitions` directory contains DCS-BIOS JSON files for aircraft such
 - P-51D
 - UH-1H
 
-The generated crate exposes one module per aircraft, for example:
+- The generated crate exposes one module per aircraft, with JSON groups as submodules, for example:
 
 ```rust
-use dcs_bios_rs_generated::av8bna::Av8bnaBuilder;
+use dcs_bios_rs_generated::av8bna::{acp::JettModeValue, Av8bnaBuilder};
 use dcs_bios_rs_generated::a10c::A10cBuilder;
 ```
 

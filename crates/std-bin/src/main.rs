@@ -1,6 +1,6 @@
 use std::net::UdpSocket;
 
-use dcs_bios_rs_generated::av8bna::{Av8bnaBuilder, JettModeValue};
+use dcs_bios_rs_generated::av8bna::{Av8bnaBuilder, acp::JettModeValue};
 
 fn main() {
     let mut latest_value = None;

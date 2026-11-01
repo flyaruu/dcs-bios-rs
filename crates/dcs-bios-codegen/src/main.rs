@@ -39,6 +39,7 @@ type Model = BTreeMap<String, BTreeMap<String, ControlDefinition>>;
 
 struct GeneratedControl {
     name: String,
+    group_module: String,
     description: String,
     base: String,
     callback: String,
@@ -121,9 +122,11 @@ fn generate_model(json: &str, model_name: &str) -> Result<String, Box<dyn std::e
     let mut controls = Vec::new();
     let mut used_names = BTreeSet::new();
     for (group_name, group) in &model {
+        let group_module = module_case(group_name);
         for definition in group.values() {
             for (index, output) in definition.outputs.iter().enumerate() {
                 if let Some(mut control) = generated_control(definition, output, index)? {
+                    control.group_module = group_module.clone();
                     if used_names.contains(&control.name) {
                         let base_name = control.name.clone();
                         let group_suffix = pascal_case(group_name);
@@ -178,51 +181,74 @@ fn generate_model(json: &str, model_name: &str) -> Result<String, Box<dyn std::e
     source.push_str("pub type LedCallback<'a> = &'a mut dyn FnMut(bool);\n");
     source.push_str("pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);\n\n");
 
+    let mut groups = BTreeMap::<String, Vec<&GeneratedControl>>::new();
     for control in &controls {
-        if let Some(enum_definition) = &control.enum_definition {
-            source.push_str(enum_definition);
-            source.push('\n');
-        }
-        for line in control.description.lines() {
-            writeln!(source, "/// {line}")?;
-        }
-        writeln!(source, "pub struct {}({});", control.name, control.base)?;
-        writeln!(source, "impl {} {{", control.name)?;
-        writeln!(
-            source,
-            "    pub const fn new() -> Self {{ Self({}) }}",
-            control.constructor
-        )?;
-        match control.accessor {
-            "value" => writeln!(
+        groups
+            .entry(control.group_module.clone())
+            .or_default()
+            .push(control);
+    }
+    for (group_module, group_controls) in groups {
+        writeln!(source, "pub mod {group_module} {{")?;
+        source.push_str("    use super::*;\n\n");
+        source.push_str("    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);\n");
+        source.push_str("    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);\n");
+        source.push_str("    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);\n\n");
+        for control in group_controls {
+            if let Some(enum_definition) = &control.enum_definition {
+                for line in enum_definition.lines() {
+                    writeln!(source, "    {line}")?;
+                }
+                source.push('\n');
+            }
+            for line in control.description.lines() {
+                writeln!(source, "    /// {line}")?;
+            }
+            writeln!(source, "    pub struct {}({});", control.name, control.base)?;
+            writeln!(source, "    impl {} {{", control.name)?;
+            writeln!(
                 source,
-                "    pub const fn value(&self) -> u16 {{ self.0.value() }}"
-            )?,
-            "is_on" => writeln!(
-                source,
-                "    pub const fn is_on(&self) -> bool {{ self.0.is_on() }}"
-            )?,
-            "display" => writeln!(
-                source,
-                "    pub fn value(&self) -> &[u8] {{ self.0.value() }}"
-            )?,
-            _ => unreachable!(),
+                "        pub const fn new() -> Self {{ Self({}) }}",
+                control.constructor
+            )?;
+            match control.accessor {
+                "value" => writeln!(
+                    source,
+                    "        pub const fn value(&self) -> u16 {{ self.0.value() }}"
+                )?,
+                "is_on" => writeln!(
+                    source,
+                    "        pub const fn is_on(&self) -> bool {{ self.0.is_on() }}"
+                )?,
+                "display" => writeln!(
+                    source,
+                    "        pub fn value(&self) -> &[u8] {{ self.0.value() }}"
+                )?,
+                _ => unreachable!(),
+            }
+            source.push_str("    }\n");
+            writeln!(source, "    impl Default for {} {{", control.name)?;
+            source.push_str("        fn default() -> Self { Self::new() }\n    }\n");
+            writeln!(source, "    impl Control for {} {{", control.name)?;
+            source.push_str(
+                "        fn accept(&mut self, packet: Packet<'_>) { self.0.accept(packet); }\n",
+            );
+            source.push_str("        fn commit(&mut self) -> bool { self.0.commit() }\n    }\n\n");
         }
-        source.push_str("}\n");
-        writeln!(source, "impl Default for {} {{", control.name)?;
-        source.push_str("    fn default() -> Self { Self::new() }\n}\n");
-        writeln!(source, "impl Control for {} {{", control.name)?;
-        source
-            .push_str("    fn accept(&mut self, packet: Packet<'_>) { self.0.accept(packet); }\n");
-        source.push_str("    fn commit(&mut self) -> bool { self.0.commit() }\n}\n\n");
+        source.push_str("}\n\n");
     }
 
     source.push_str("pub enum RegisteredControl<'a> {\n");
     for control in &controls {
+        let callback = if control.enum_definition.is_some() {
+            format!("{}::{}", control.group_module, control.callback)
+        } else {
+            control.callback.clone()
+        };
         writeln!(
             source,
-            "    {} {{ control: {}, callback: {}<'a> }},",
-            control.name, control.name, control.callback
+            "    {} {{ control: {}::{}, callback: {}<'a> }},",
+            control.name, control.group_module, control.name, callback
         )?;
     }
     source.push_str("}\n\nimpl RegisteredControl<'_> {\n");
@@ -241,14 +267,22 @@ fn generate_model(json: &str, model_name: &str) -> Result<String, Box<dyn std::e
             "is_on" => "control.is_on()",
             _ => unreachable!(),
         };
+        let commit_callback = if control.enum_definition.is_some() {
+            control.commit_callback.replace(
+                &format!("<{}", control.callback_argument),
+                &format!("<{}::{}", control.group_module, control.callback_argument),
+            )
+        } else {
+            control.commit_callback.clone()
+        };
         writeln!(
             source,
             "            Self::{} {{ control, callback }} => if control.commit() {{ {} }},",
             control.name,
-            if control.commit_callback.is_empty() {
+            if commit_callback.is_empty() {
                 format!("callback({callback_value});")
             } else {
-                control.commit_callback.clone()
+                commit_callback
             }
         )?;
     }
@@ -265,20 +299,21 @@ fn generate_model(json: &str, model_name: &str) -> Result<String, Box<dyn std::e
     )?;
     source.push_str("    pub fn new() -> Self { Self { controls: Vec::new(), _packet_capacity: PhantomData } }\n\n");
     for control in &controls {
+        let callback_argument = if control.enum_definition.is_some() {
+            format!("{}::{}", control.group_module, control.callback_argument)
+        } else {
+            control.callback_argument.clone()
+        };
         writeln!(
             source,
             "    pub fn register_{}<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>",
             snake_case(&control.name)
         )?;
+        writeln!(source, "    where F: FnMut({}) + 'a {{", callback_argument)?;
         writeln!(
             source,
-            "    where F: FnMut({}) + 'a {{",
-            control.callback_argument
-        )?;
-        writeln!(
-            source,
-            "        self.controls.push(RegisteredControl::{} {{ control: {}::new(), callback }}).map_err(|_| \"aircraft control capacity exceeded\")?;",
-            control.name, control.name
+            "        self.controls.push(RegisteredControl::{} {{ control: {}::{}::new(), callback }}).map_err(|_| \"aircraft control capacity exceeded\")?;",
+            control.name, control.group_module, control.name
         )?;
         source.push_str("        Ok(self)\n    }\n\n");
     }
@@ -495,6 +530,7 @@ fn generated_control(
 
     Ok(Some(GeneratedControl {
         name,
+        group_module: String::new(),
         description,
         base,
         callback,
