@@ -3,6 +3,7 @@ name = "dcs-bios-rs-generated"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+readme = "README.md"
 description = "Generated no_std Rust bindings for DCS-BIOS aircraft model definitions"
 
 [dependencies]

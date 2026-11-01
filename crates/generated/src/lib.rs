@@ -13,4 +13,5 @@ pub mod fa18chornet;
 pub mod fc3;
 pub mod m2000c;
 pub mod p51d;
+pub mod sa342m;
 pub mod uh1h;
