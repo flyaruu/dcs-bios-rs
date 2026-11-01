@@ -1,4 +1,4 @@
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::env;
 use std::fmt::Write as _;
 use std::fs;
@@ -75,14 +75,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    fs::create_dir_all(&output_dir)?;
-    for entry in fs::read_dir(&output_dir)? {
-        let path = entry?.path();
-        if path.extension().and_then(|extension| extension.to_str()) == Some("rs") {
-            fs::remove_file(path)?;
-        }
-    }
-    let mut modules = Vec::new();
+    let mut generated_files = Vec::new();
     for entry in fs::read_dir(&input_dir)? {
         let entry = entry?;
         let path = entry.path();
@@ -95,8 +88,23 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             .ok_or("model definition has no valid file name")?;
         let module_name = module_case(model_name);
         let source = generate_model(&fs::read_to_string(&path)?, model_name)?;
+        generated_files.push((module_name, source));
+    }
+
+    fs::create_dir_all(&output_dir)?;
+    for entry in fs::read_dir(&output_dir)? {
+        let path = entry?.path();
+        if path.extension().and_then(|extension| extension.to_str()) == Some("rs") {
+            fs::remove_file(path)?;
+        }
+    }
+
+    let mut modules = generated_files
+        .iter()
+        .map(|(module_name, _)| module_name.clone())
+        .collect::<Vec<_>>();
+    for (module_name, source) in generated_files {
         fs::write(output_dir.join(format!("{module_name}.rs")), source)?;
-        modules.push(module_name);
     }
     modules.sort();
 
@@ -111,10 +119,36 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 fn generate_model(json: &str, model_name: &str) -> Result<String, Box<dyn std::error::Error>> {
     let model: Model = serde_json::from_str(json)?;
     let mut controls = Vec::new();
-    for group in model.values() {
+    let mut used_names = BTreeSet::new();
+    for (group_name, group) in &model {
         for definition in group.values() {
             for (index, output) in definition.outputs.iter().enumerate() {
-                if let Some(control) = generated_control(definition, output, index)? {
+                if let Some(mut control) = generated_control(definition, output, index)? {
+                    if used_names.contains(&control.name) {
+                        let base_name = control.name.clone();
+                        let group_suffix = pascal_case(group_name);
+                        control.name = format!("{base_name}{group_suffix}");
+                        let mut suffix_number = 2;
+                        while used_names.contains(&control.name) {
+                            control.name = format!("{base_name}{group_suffix}{suffix_number}");
+                            suffix_number += 1;
+                        }
+                        let old_value_name = format!("{base_name}Value");
+                        let new_value_name = format!("{}Value", control.name);
+                        control.callback =
+                            control.callback.replace(&old_value_name, &new_value_name);
+                        control.callback_argument = control
+                            .callback_argument
+                            .replace(&old_value_name, &new_value_name);
+                        control.commit_callback = control
+                            .commit_callback
+                            .replace(&old_value_name, &new_value_name);
+                        if let Some(enum_definition) = &mut control.enum_definition {
+                            *enum_definition =
+                                enum_definition.replace(&old_value_name, &new_value_name);
+                        }
+                    }
+                    used_names.insert(control.name.clone());
                     controls.push(control);
                 }
             }
@@ -302,14 +336,18 @@ fn generated_control(
         | "electrically_held_switch"
         | "action"
         | "3Pos_2Command_Switch"
-        | "3Pos_2Command_Switch_OpenClose" => "Selector",
+        | "3Pos_2Command_Switch_OpenClose"
+        | "toggle_switch"
+        | "emergency_parking_brake"
+        | "mission_computer_switch" => "Selector",
         "analog_gauge" => "AnalogGauge",
         "led" => "Led",
         "limited_dial" => "LimitedDial",
         "analog_dial" | "variable_step_dial" => "AnalogDial",
         "fixed_step_dial" => "FixedStepDial",
-        "metadata" => "Metadata",
-        "display" => "Display",
+        "metadata" | "frequency" => "Metadata",
+        // Some CommonData entries use `display` for numeric metadata outputs.
+        "display" => "Metadata",
         other => {
             return Err(format!(
                 "unsupported control_type {other:?} for {}",
