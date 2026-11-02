@@ -2,6 +2,8 @@
 
 //! Generated DCS-BIOS aircraft bindings.
 
+extern crate alloc;
+
 pub mod a10c;
 pub mod ajs37;
 pub mod av8bna;

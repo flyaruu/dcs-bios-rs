@@ -10,16 +10,16 @@ use dcs_bios_rs_lib::{
 };
 use heapless::Vec;
 
-pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
 pub mod aaa {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     /// COMM1 ARC-210 Frequency (string)
     /// Output: COMM1 ARC-210 Frequency (string)
@@ -75,16 +75,16 @@ pub mod aaa {
 pub mod acnip {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum AcnipModeValue {
         Select1,
         Select2,
     }
-    pub type AcnipModeValueCallback<'a> = &'a mut dyn FnMut(AcnipModeValue);
+    pub type AcnipModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(AcnipModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for AcnipModeValue {
         type Error = u16;
 
@@ -130,7 +130,7 @@ pub mod acnip {
         Select1,
         Select2,
     }
-    pub type AcnipRadioSelValueCallback<'a> = &'a mut dyn FnMut(AcnipRadioSelValue);
+    pub type AcnipRadioSelValueCallback<'a> = alloc::boxed::Box<dyn FnMut(AcnipRadioSelValue) + 'a>;
     impl core::convert::TryFrom<u16> for AcnipRadioSelValue {
         type Error = u16;
 
@@ -176,7 +176,7 @@ pub mod acnip {
         Select1,
         Select2,
     }
-    pub type Ky1ModeValueCallback<'a> = &'a mut dyn FnMut(Ky1ModeValue);
+    pub type Ky1ModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(Ky1ModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for Ky1ModeValue {
         type Error = u16;
 
@@ -222,7 +222,7 @@ pub mod acnip {
         Select1,
         Select2,
     }
-    pub type Ky1TypeValueCallback<'a> = &'a mut dyn FnMut(Ky1TypeValue);
+    pub type Ky1TypeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(Ky1TypeValue) + 'a>;
     impl core::convert::TryFrom<u16> for Ky1TypeValue {
         type Error = u16;
 
@@ -268,7 +268,7 @@ pub mod acnip {
         Select1,
         Select2,
     }
-    pub type Ky2ModeValueCallback<'a> = &'a mut dyn FnMut(Ky2ModeValue);
+    pub type Ky2ModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(Ky2ModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for Ky2ModeValue {
         type Error = u16;
 
@@ -314,7 +314,7 @@ pub mod acnip {
         Select1,
         Select2,
     }
-    pub type Ky2TypeValueCallback<'a> = &'a mut dyn FnMut(Ky2TypeValue);
+    pub type Ky2TypeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(Ky2TypeValue) + 'a>;
     impl core::convert::TryFrom<u16> for Ky2TypeValue {
         type Error = u16;
 
@@ -360,7 +360,7 @@ pub mod acnip {
         Select1,
         Select2,
     }
-    pub type Ky58CodeClearValueCallback<'a> = &'a mut dyn FnMut(Ky58CodeClearValue);
+    pub type Ky58CodeClearValueCallback<'a> = alloc::boxed::Box<dyn FnMut(Ky58CodeClearValue) + 'a>;
     impl core::convert::TryFrom<u16> for Ky58CodeClearValue {
         type Error = u16;
 
@@ -407,7 +407,7 @@ pub mod acnip {
         Select2,
         Select3,
     }
-    pub type Ky58CodeLoadValueCallback<'a> = &'a mut dyn FnMut(Ky58CodeLoadValue);
+    pub type Ky58CodeLoadValueCallback<'a> = alloc::boxed::Box<dyn FnMut(Ky58CodeLoadValue) + 'a>;
     impl core::convert::TryFrom<u16> for Ky58CodeLoadValue {
         type Error = u16;
 
@@ -452,9 +452,9 @@ pub mod acnip {
 pub mod acp {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum ArmControlValue {
@@ -462,7 +462,7 @@ pub mod acp {
         Select2,
         Select3,
     }
-    pub type ArmControlValueCallback<'a> = &'a mut dyn FnMut(ArmControlValue);
+    pub type ArmControlValueCallback<'a> = alloc::boxed::Box<dyn FnMut(ArmControlValue) + 'a>;
     impl core::convert::TryFrom<u16> for ArmControlValue {
         type Error = u16;
 
@@ -509,7 +509,7 @@ pub mod acp {
         Select2,
         Select3,
     }
-    pub type FuzeControlValueCallback<'a> = &'a mut dyn FnMut(FuzeControlValue);
+    pub type FuzeControlValueCallback<'a> = alloc::boxed::Box<dyn FnMut(FuzeControlValue) + 'a>;
     impl core::convert::TryFrom<u16> for FuzeControlValue {
         type Error = u16;
 
@@ -555,7 +555,7 @@ pub mod acp {
         Select1,
         Select2,
     }
-    pub type GndIrCoolValueCallback<'a> = &'a mut dyn FnMut(GndIrCoolValue);
+    pub type GndIrCoolValueCallback<'a> = alloc::boxed::Box<dyn FnMut(GndIrCoolValue) + 'a>;
     impl core::convert::TryFrom<u16> for GndIrCoolValue {
         type Error = u16;
 
@@ -604,7 +604,7 @@ pub mod acp {
         Select4,
         Select5,
     }
-    pub type JettModeValueCallback<'a> = &'a mut dyn FnMut(JettModeValue);
+    pub type JettModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(JettModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for JettModeValue {
         type Error = u16;
 
@@ -652,7 +652,7 @@ pub mod acp {
         Select1,
         Select2,
     }
-    pub type JettStation1ValueCallback<'a> = &'a mut dyn FnMut(JettStation1Value);
+    pub type JettStation1ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(JettStation1Value) + 'a>;
     impl core::convert::TryFrom<u16> for JettStation1Value {
         type Error = u16;
 
@@ -723,7 +723,7 @@ pub mod acp {
         Select1,
         Select2,
     }
-    pub type JettStation2ValueCallback<'a> = &'a mut dyn FnMut(JettStation2Value);
+    pub type JettStation2ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(JettStation2Value) + 'a>;
     impl core::convert::TryFrom<u16> for JettStation2Value {
         type Error = u16;
 
@@ -794,7 +794,7 @@ pub mod acp {
         Select1,
         Select2,
     }
-    pub type JettStation3ValueCallback<'a> = &'a mut dyn FnMut(JettStation3Value);
+    pub type JettStation3ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(JettStation3Value) + 'a>;
     impl core::convert::TryFrom<u16> for JettStation3Value {
         type Error = u16;
 
@@ -865,7 +865,7 @@ pub mod acp {
         Select1,
         Select2,
     }
-    pub type JettStation4ValueCallback<'a> = &'a mut dyn FnMut(JettStation4Value);
+    pub type JettStation4ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(JettStation4Value) + 'a>;
     impl core::convert::TryFrom<u16> for JettStation4Value {
         type Error = u16;
 
@@ -936,7 +936,7 @@ pub mod acp {
         Select1,
         Select2,
     }
-    pub type JettStation5ValueCallback<'a> = &'a mut dyn FnMut(JettStation5Value);
+    pub type JettStation5ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(JettStation5Value) + 'a>;
     impl core::convert::TryFrom<u16> for JettStation5Value {
         type Error = u16;
 
@@ -1007,7 +1007,7 @@ pub mod acp {
         Select1,
         Select2,
     }
-    pub type JettStation6ValueCallback<'a> = &'a mut dyn FnMut(JettStation6Value);
+    pub type JettStation6ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(JettStation6Value) + 'a>;
     impl core::convert::TryFrom<u16> for JettStation6Value {
         type Error = u16;
 
@@ -1078,7 +1078,7 @@ pub mod acp {
         Select1,
         Select2,
     }
-    pub type JettStation7ValueCallback<'a> = &'a mut dyn FnMut(JettStation7Value);
+    pub type JettStation7ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(JettStation7Value) + 'a>;
     impl core::convert::TryFrom<u16> for JettStation7Value {
         type Error = u16;
 
@@ -1149,7 +1149,7 @@ pub mod acp {
         Select1,
         Select2,
     }
-    pub type JettStoresValueCallback<'a> = &'a mut dyn FnMut(JettStoresValue);
+    pub type JettStoresValueCallback<'a> = alloc::boxed::Box<dyn FnMut(JettStoresValue) + 'a>;
     impl core::convert::TryFrom<u16> for JettStoresValue {
         type Error = u16;
 
@@ -1196,7 +1196,8 @@ pub mod acp {
         Select2,
         Select3,
     }
-    pub type MultiReleaseControlValueCallback<'a> = &'a mut dyn FnMut(MultiReleaseControlValue);
+    pub type MultiReleaseControlValueCallback<'a> =
+        alloc::boxed::Box<dyn FnMut(MultiReleaseControlValue) + 'a>;
     impl core::convert::TryFrom<u16> for MultiReleaseControlValue {
         type Error = u16;
 
@@ -1243,7 +1244,7 @@ pub mod acp {
         Select2,
         Select3,
     }
-    pub type QuantSel01ValueCallback<'a> = &'a mut dyn FnMut(QuantSel01Value);
+    pub type QuantSel01ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(QuantSel01Value) + 'a>;
     impl core::convert::TryFrom<u16> for QuantSel01Value {
         type Error = u16;
 
@@ -1290,7 +1291,7 @@ pub mod acp {
         Select2,
         Select3,
     }
-    pub type QuantSel10ValueCallback<'a> = &'a mut dyn FnMut(QuantSel10Value);
+    pub type QuantSel10ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(QuantSel10Value) + 'a>;
     impl core::convert::TryFrom<u16> for QuantSel10Value {
         type Error = u16;
 
@@ -1338,7 +1339,8 @@ pub mod acp {
         Select3,
         Select4,
     }
-    pub type ReleaseControlValueCallback<'a> = &'a mut dyn FnMut(ReleaseControlValue);
+    pub type ReleaseControlValueCallback<'a> =
+        alloc::boxed::Box<dyn FnMut(ReleaseControlValue) + 'a>;
     impl core::convert::TryFrom<u16> for ReleaseControlValue {
         type Error = u16;
 
@@ -1386,7 +1388,7 @@ pub mod acp {
         Select2,
         Select3,
     }
-    pub type ReleaseInt001ValueCallback<'a> = &'a mut dyn FnMut(ReleaseInt001Value);
+    pub type ReleaseInt001ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(ReleaseInt001Value) + 'a>;
     impl core::convert::TryFrom<u16> for ReleaseInt001Value {
         type Error = u16;
 
@@ -1433,7 +1435,7 @@ pub mod acp {
         Select2,
         Select3,
     }
-    pub type ReleaseInt010ValueCallback<'a> = &'a mut dyn FnMut(ReleaseInt010Value);
+    pub type ReleaseInt010ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(ReleaseInt010Value) + 'a>;
     impl core::convert::TryFrom<u16> for ReleaseInt010Value {
         type Error = u16;
 
@@ -1480,7 +1482,7 @@ pub mod acp {
         Select2,
         Select3,
     }
-    pub type ReleaseInt100ValueCallback<'a> = &'a mut dyn FnMut(ReleaseInt100Value);
+    pub type ReleaseInt100ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(ReleaseInt100Value) + 'a>;
     impl core::convert::TryFrom<u16> for ReleaseInt100Value {
         type Error = u16;
 
@@ -1525,16 +1527,16 @@ pub mod acp {
 pub mod bulkhead {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum MfsEmergLeverValue {
         Select1,
         Select2,
     }
-    pub type MfsEmergLeverValueCallback<'a> = &'a mut dyn FnMut(MfsEmergLeverValue);
+    pub type MfsEmergLeverValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MfsEmergLeverValue) + 'a>;
     impl core::convert::TryFrom<u16> for MfsEmergLeverValue {
         type Error = u16;
 
@@ -1580,7 +1582,7 @@ pub mod bulkhead {
         Select1,
         Select2,
     }
-    pub type StopwatchLapValueCallback<'a> = &'a mut dyn FnMut(StopwatchLapValue);
+    pub type StopwatchLapValueCallback<'a> = alloc::boxed::Box<dyn FnMut(StopwatchLapValue) + 'a>;
     impl core::convert::TryFrom<u16> for StopwatchLapValue {
         type Error = u16;
 
@@ -1626,7 +1628,8 @@ pub mod bulkhead {
         Select1,
         Select2,
     }
-    pub type StopwatchStartValueCallback<'a> = &'a mut dyn FnMut(StopwatchStartValue);
+    pub type StopwatchStartValueCallback<'a> =
+        alloc::boxed::Box<dyn FnMut(StopwatchStartValue) + 'a>;
     impl core::convert::TryFrom<u16> for StopwatchStartValue {
         type Error = u16;
 
@@ -1671,16 +1674,16 @@ pub mod bulkhead {
 pub mod bulkheadleft {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum DecsSwValue {
         Select1,
         Select2,
     }
-    pub type DecsSwValueCallback<'a> = &'a mut dyn FnMut(DecsSwValue);
+    pub type DecsSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(DecsSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for DecsSwValue {
         type Error = u16;
 
@@ -1726,7 +1729,7 @@ pub mod bulkheadleft {
         Select1,
         Select2,
     }
-    pub type FuelShutoffValueCallback<'a> = &'a mut dyn FnMut(FuelShutoffValue);
+    pub type FuelShutoffValueCallback<'a> = alloc::boxed::Box<dyn FnMut(FuelShutoffValue) + 'a>;
     impl core::convert::TryFrom<u16> for FuelShutoffValue {
         type Error = u16;
 
@@ -1773,7 +1776,7 @@ pub mod bulkheadleft {
         Select2,
         Select3,
     }
-    pub type SeatAdjValueCallback<'a> = &'a mut dyn FnMut(SeatAdjValue);
+    pub type SeatAdjValueCallback<'a> = alloc::boxed::Box<dyn FnMut(SeatAdjValue) + 'a>;
     impl core::convert::TryFrom<u16> for SeatAdjValue {
         type Error = u16;
 
@@ -1818,16 +1821,16 @@ pub mod bulkheadleft {
 pub mod canopy {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum CanopyHandLValue {
         Select1,
         Select2,
     }
-    pub type CanopyHandLValueCallback<'a> = &'a mut dyn FnMut(CanopyHandLValue);
+    pub type CanopyHandLValueCallback<'a> = alloc::boxed::Box<dyn FnMut(CanopyHandLValue) + 'a>;
     impl core::convert::TryFrom<u16> for CanopyHandLValue {
         type Error = u16;
 
@@ -1873,7 +1876,7 @@ pub mod canopy {
         Select1,
         Select2,
     }
-    pub type CanopyHandRValueCallback<'a> = &'a mut dyn FnMut(CanopyHandRValue);
+    pub type CanopyHandRValueCallback<'a> = alloc::boxed::Box<dyn FnMut(CanopyHandRValue) + 'a>;
     impl core::convert::TryFrom<u16> for CanopyHandRValue {
         type Error = u16;
 
@@ -1919,7 +1922,7 @@ pub mod canopy {
         Select1,
         Select2,
     }
-    pub type CanopyLockValueCallback<'a> = &'a mut dyn FnMut(CanopyLockValue);
+    pub type CanopyLockValueCallback<'a> = alloc::boxed::Box<dyn FnMut(CanopyLockValue) + 'a>;
     impl core::convert::TryFrom<u16> for CanopyLockValue {
         type Error = u16;
 
@@ -1990,7 +1993,7 @@ pub mod canopy {
         Select1,
         Select2,
     }
-    pub type MirrorToggleCValueCallback<'a> = &'a mut dyn FnMut(MirrorToggleCValue);
+    pub type MirrorToggleCValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MirrorToggleCValue) + 'a>;
     impl core::convert::TryFrom<u16> for MirrorToggleCValue {
         type Error = u16;
 
@@ -2036,7 +2039,7 @@ pub mod canopy {
         Select1,
         Select2,
     }
-    pub type MirrorToggleLValueCallback<'a> = &'a mut dyn FnMut(MirrorToggleLValue);
+    pub type MirrorToggleLValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MirrorToggleLValue) + 'a>;
     impl core::convert::TryFrom<u16> for MirrorToggleLValue {
         type Error = u16;
 
@@ -2082,7 +2085,7 @@ pub mod canopy {
         Select1,
         Select2,
     }
-    pub type MirrorToggleRValueCallback<'a> = &'a mut dyn FnMut(MirrorToggleRValue);
+    pub type MirrorToggleRValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MirrorToggleRValue) + 'a>;
     impl core::convert::TryFrom<u16> for MirrorToggleRValue {
         type Error = u16;
 
@@ -2127,16 +2130,16 @@ pub mod canopy {
 pub mod cockpit {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum HideStickValue {
         Select1,
         Select2,
     }
-    pub type HideStickValueCallback<'a> = &'a mut dyn FnMut(HideStickValue);
+    pub type HideStickValueCallback<'a> = alloc::boxed::Box<dyn FnMut(HideStickValue) + 'a>;
     impl core::convert::TryFrom<u16> for HideStickValue {
         type Error = u16;
 
@@ -2181,9 +2184,9 @@ pub mod cockpit {
 pub mod ecm {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum DecoyControlValue {
@@ -2193,7 +2196,7 @@ pub mod ecm {
         Select4,
         Select5,
     }
-    pub type DecoyControlValueCallback<'a> = &'a mut dyn FnMut(DecoyControlValue);
+    pub type DecoyControlValueCallback<'a> = alloc::boxed::Box<dyn FnMut(DecoyControlValue) + 'a>;
     impl core::convert::TryFrom<u16> for DecoyControlValue {
         type Error = u16;
 
@@ -2244,7 +2247,7 @@ pub mod ecm {
         Select4,
         Select5,
     }
-    pub type JammerControlValueCallback<'a> = &'a mut dyn FnMut(JammerControlValue);
+    pub type JammerControlValueCallback<'a> = alloc::boxed::Box<dyn FnMut(JammerControlValue) + 'a>;
     impl core::convert::TryFrom<u16> for JammerControlValue {
         type Error = u16;
 
@@ -2318,9 +2321,9 @@ pub mod ecm {
 pub mod ecs {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum CabinDefogValue {
@@ -2328,7 +2331,7 @@ pub mod ecs {
         Select2,
         Select3,
     }
-    pub type CabinDefogValueCallback<'a> = &'a mut dyn FnMut(CabinDefogValue);
+    pub type CabinDefogValueCallback<'a> = alloc::boxed::Box<dyn FnMut(CabinDefogValue) + 'a>;
     impl core::convert::TryFrom<u16> for CabinDefogValue {
         type Error = u16;
 
@@ -2375,7 +2378,8 @@ pub mod ecs {
         Select2,
         Select3,
     }
-    pub type CabinPressSwitchValueCallback<'a> = &'a mut dyn FnMut(CabinPressSwitchValue);
+    pub type CabinPressSwitchValueCallback<'a> =
+        alloc::boxed::Box<dyn FnMut(CabinPressSwitchValue) + 'a>;
     impl core::convert::TryFrom<u16> for CabinPressSwitchValue {
         type Error = u16;
 
@@ -2422,7 +2426,7 @@ pub mod ecs {
         Select2,
         Select3,
     }
-    pub type EcsAftValueCallback<'a> = &'a mut dyn FnMut(EcsAftValue);
+    pub type EcsAftValueCallback<'a> = alloc::boxed::Box<dyn FnMut(EcsAftValue) + 'a>;
     impl core::convert::TryFrom<u16> for EcsAftValue {
         type Error = u16;
 
@@ -2468,7 +2472,7 @@ pub mod ecs {
         Select1,
         Select2,
     }
-    pub type EcsFwdValueCallback<'a> = &'a mut dyn FnMut(EcsFwdValue);
+    pub type EcsFwdValueCallback<'a> = alloc::boxed::Box<dyn FnMut(EcsFwdValue) + 'a>;
     impl core::convert::TryFrom<u16> for EcsFwdValue {
         type Error = u16;
 
@@ -2540,9 +2544,9 @@ pub mod ecs {
 pub mod electricpanel {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum ApuGenSwValue {
@@ -2550,7 +2554,7 @@ pub mod electricpanel {
         Select2,
         Select3,
     }
-    pub type ApuGenSwValueCallback<'a> = &'a mut dyn FnMut(ApuGenSwValue);
+    pub type ApuGenSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(ApuGenSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for ApuGenSwValue {
         type Error = u16;
 
@@ -2597,7 +2601,7 @@ pub mod electricpanel {
         Select2,
         Select3,
     }
-    pub type BattSwValueCallback<'a> = &'a mut dyn FnMut(BattSwValue);
+    pub type BattSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(BattSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for BattSwValue {
         type Error = u16;
 
@@ -2643,7 +2647,7 @@ pub mod electricpanel {
         Select1,
         Select2,
     }
-    pub type DcTestSwValueCallback<'a> = &'a mut dyn FnMut(DcTestSwValue);
+    pub type DcTestSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(DcTestSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for DcTestSwValue {
         type Error = u16;
 
@@ -2689,7 +2693,7 @@ pub mod electricpanel {
         Select1,
         Select2,
     }
-    pub type EngStartSwValueCallback<'a> = &'a mut dyn FnMut(EngStartSwValue);
+    pub type EngStartSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(EngStartSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for EngStartSwValue {
         type Error = u16;
 
@@ -2736,7 +2740,7 @@ pub mod electricpanel {
         Select2,
         Select3,
     }
-    pub type GenSwValueCallback<'a> = &'a mut dyn FnMut(GenSwValue);
+    pub type GenSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(GenSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for GenSwValue {
         type Error = u16;
 
@@ -2781,16 +2785,16 @@ pub mod electricpanel {
 pub mod enginedisplay {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum EdpBitValue {
         Select1,
         Select2,
     }
-    pub type EdpBitValueCallback<'a> = &'a mut dyn FnMut(EdpBitValue);
+    pub type EdpBitValueCallback<'a> = alloc::boxed::Box<dyn FnMut(EdpBitValue) + 'a>;
     impl core::convert::TryFrom<u16> for EdpBitValue {
         type Error = u16;
 
@@ -2862,9 +2866,9 @@ pub mod enginedisplay {
 pub mod externalaircraftmodel {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     /// Formation Lights
     /// Output: Formation Lights
@@ -3070,16 +3074,17 @@ pub mod externalaircraftmodel {
 pub mod externallights {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum AntiCollLightsValue {
         Select1,
         Select2,
     }
-    pub type AntiCollLightsValueCallback<'a> = &'a mut dyn FnMut(AntiCollLightsValue);
+    pub type AntiCollLightsValueCallback<'a> =
+        alloc::boxed::Box<dyn FnMut(AntiCollLightsValue) + 'a>;
     impl core::convert::TryFrom<u16> for AntiCollLightsValue {
         type Error = u16;
 
@@ -3125,7 +3130,7 @@ pub mod externallights {
         Select1,
         Select2,
     }
-    pub type ExtAuxLightsValueCallback<'a> = &'a mut dyn FnMut(ExtAuxLightsValue);
+    pub type ExtAuxLightsValueCallback<'a> = alloc::boxed::Box<dyn FnMut(ExtAuxLightsValue) + 'a>;
     impl core::convert::TryFrom<u16> for ExtAuxLightsValue {
         type Error = u16;
 
@@ -3172,7 +3177,7 @@ pub mod externallights {
         Select2,
         Select3,
     }
-    pub type ExtLightsValueCallback<'a> = &'a mut dyn FnMut(ExtLightsValue);
+    pub type ExtLightsValueCallback<'a> = alloc::boxed::Box<dyn FnMut(ExtLightsValue) + 'a>;
     impl core::convert::TryFrom<u16> for ExtLightsValue {
         type Error = u16;
 
@@ -3246,7 +3251,8 @@ pub mod externallights {
         Select2,
         Select3,
     }
-    pub type LandingTaxiLightsValueCallback<'a> = &'a mut dyn FnMut(LandingTaxiLightsValue);
+    pub type LandingTaxiLightsValueCallback<'a> =
+        alloc::boxed::Box<dyn FnMut(LandingTaxiLightsValue) + 'a>;
     impl core::convert::TryFrom<u16> for LandingTaxiLightsValue {
         type Error = u16;
 
@@ -3293,7 +3299,7 @@ pub mod externallights {
         Select2,
         Select3,
     }
-    pub type PosLightsValueCallback<'a> = &'a mut dyn FnMut(PosLightsValue);
+    pub type PosLightsValueCallback<'a> = alloc::boxed::Box<dyn FnMut(PosLightsValue) + 'a>;
     impl core::convert::TryFrom<u16> for PosLightsValue {
         type Error = u16;
 
@@ -3338,9 +3344,9 @@ pub mod externallights {
 pub mod flightinstruments {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     /// Backup ADI Cage/Pitch Adjust Knob
     /// Input: set the position of the dial
@@ -3374,7 +3380,8 @@ pub mod flightinstruments {
         Select1,
         Select2,
     }
-    pub type BakAdiCagePullValueCallback<'a> = &'a mut dyn FnMut(BakAdiCagePullValue);
+    pub type BakAdiCagePullValueCallback<'a> =
+        alloc::boxed::Box<dyn FnMut(BakAdiCagePullValue) + 'a>;
     impl core::convert::TryFrom<u16> for BakAdiCagePullValue {
         type Error = u16;
 
@@ -3447,7 +3454,7 @@ pub mod flightinstruments {
         Select2,
         Select3,
     }
-    pub type NavCrsValueCallback<'a> = &'a mut dyn FnMut(NavCrsValue);
+    pub type NavCrsValueCallback<'a> = alloc::boxed::Box<dyn FnMut(NavCrsValue) + 'a>;
     impl core::convert::TryFrom<u16> for NavCrsValue {
         type Error = u16;
 
@@ -3492,9 +3499,9 @@ pub mod flightinstruments {
 pub mod floodlamps {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     /// Flood Left BH AFT Back
     /// Input: set the position of the dial
@@ -3770,9 +3777,9 @@ pub mod floodlamps {
 pub mod fuelpanel {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     /// Bingo Fuel Set Knob
     /// Input: rotate the knob left or right
@@ -3805,7 +3812,7 @@ pub mod fuelpanel {
         Select1,
         Select2,
     }
-    pub type FuelDumpLValueCallback<'a> = &'a mut dyn FnMut(FuelDumpLValue);
+    pub type FuelDumpLValueCallback<'a> = alloc::boxed::Box<dyn FnMut(FuelDumpLValue) + 'a>;
     impl core::convert::TryFrom<u16> for FuelDumpLValue {
         type Error = u16;
 
@@ -3851,7 +3858,7 @@ pub mod fuelpanel {
         Select1,
         Select2,
     }
-    pub type FuelDumpRValueCallback<'a> = &'a mut dyn FnMut(FuelDumpRValue);
+    pub type FuelDumpRValueCallback<'a> = alloc::boxed::Box<dyn FnMut(FuelDumpRValue) + 'a>;
     impl core::convert::TryFrom<u16> for FuelDumpRValue {
         type Error = u16;
 
@@ -3897,7 +3904,7 @@ pub mod fuelpanel {
         Select1,
         Select2,
     }
-    pub type FuelPropValueCallback<'a> = &'a mut dyn FnMut(FuelPropValue);
+    pub type FuelPropValueCallback<'a> = alloc::boxed::Box<dyn FnMut(FuelPropValue) + 'a>;
     impl core::convert::TryFrom<u16> for FuelPropValue {
         type Error = u16;
 
@@ -3944,7 +3951,7 @@ pub mod fuelpanel {
         Select2,
         Select3,
     }
-    pub type FuelPumpLValueCallback<'a> = &'a mut dyn FnMut(FuelPumpLValue);
+    pub type FuelPumpLValueCallback<'a> = alloc::boxed::Box<dyn FnMut(FuelPumpLValue) + 'a>;
     impl core::convert::TryFrom<u16> for FuelPumpLValue {
         type Error = u16;
 
@@ -3991,7 +3998,7 @@ pub mod fuelpanel {
         Select2,
         Select3,
     }
-    pub type FuelPumpRValueCallback<'a> = &'a mut dyn FnMut(FuelPumpRValue);
+    pub type FuelPumpRValueCallback<'a> = alloc::boxed::Box<dyn FnMut(FuelPumpRValue) + 'a>;
     impl core::convert::TryFrom<u16> for FuelPumpRValue {
         type Error = u16;
 
@@ -4042,7 +4049,7 @@ pub mod fuelpanel {
         Select6,
         Select7,
     }
-    pub type FuelSelValueCallback<'a> = &'a mut dyn FnMut(FuelSelValue);
+    pub type FuelSelValueCallback<'a> = alloc::boxed::Box<dyn FnMut(FuelSelValue) + 'a>;
     impl core::convert::TryFrom<u16> for FuelSelValue {
         type Error = u16;
 
@@ -4093,7 +4100,7 @@ pub mod fuelpanel {
         Select2,
         Select3,
     }
-    pub type ProbeValueCallback<'a> = &'a mut dyn FnMut(ProbeValue);
+    pub type ProbeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(ProbeValue) + 'a>;
     impl core::convert::TryFrom<u16> for ProbeValue {
         type Error = u16;
 
@@ -4138,9 +4145,9 @@ pub mod fuelpanel {
 pub mod gauges {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     /// ADI Bank
     /// Output: gauge position
@@ -6596,9 +6603,9 @@ pub mod gauges {
 pub mod gearflapscontrolpanel {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum AntiSkidValue {
@@ -6606,7 +6613,7 @@ pub mod gearflapscontrolpanel {
         Select2,
         Select3,
     }
-    pub type AntiSkidValueCallback<'a> = &'a mut dyn FnMut(AntiSkidValue);
+    pub type AntiSkidValueCallback<'a> = alloc::boxed::Box<dyn FnMut(AntiSkidValue) + 'a>;
     impl core::convert::TryFrom<u16> for AntiSkidValue {
         type Error = u16;
 
@@ -6652,7 +6659,7 @@ pub mod gearflapscontrolpanel {
         Select1,
         Select2,
     }
-    pub type EfcSwValueCallback<'a> = &'a mut dyn FnMut(EfcSwValue);
+    pub type EfcSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(EfcSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for EfcSwValue {
         type Error = u16;
 
@@ -6698,7 +6705,7 @@ pub mod gearflapscontrolpanel {
         Select1,
         Select2,
     }
-    pub type EmergJettValueCallback<'a> = &'a mut dyn FnMut(EmergJettValue);
+    pub type EmergJettValueCallback<'a> = alloc::boxed::Box<dyn FnMut(EmergJettValue) + 'a>;
     impl core::convert::TryFrom<u16> for EmergJettValue {
         type Error = u16;
 
@@ -6745,7 +6752,7 @@ pub mod gearflapscontrolpanel {
         Select2,
         Select3,
     }
-    pub type FlapModeValueCallback<'a> = &'a mut dyn FnMut(FlapModeValue);
+    pub type FlapModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(FlapModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for FlapModeValue {
         type Error = u16;
 
@@ -6792,7 +6799,7 @@ pub mod gearflapscontrolpanel {
         Select2,
         Select3,
     }
-    pub type FlapPowerValueCallback<'a> = &'a mut dyn FnMut(FlapPowerValue);
+    pub type FlapPowerValueCallback<'a> = alloc::boxed::Box<dyn FnMut(FlapPowerValue) + 'a>;
     impl core::convert::TryFrom<u16> for FlapPowerValue {
         type Error = u16;
 
@@ -6838,7 +6845,7 @@ pub mod gearflapscontrolpanel {
         Select1,
         Select2,
     }
-    pub type FlapsBitValueCallback<'a> = &'a mut dyn FnMut(FlapsBitValue);
+    pub type FlapsBitValueCallback<'a> = alloc::boxed::Box<dyn FnMut(FlapsBitValue) + 'a>;
     impl core::convert::TryFrom<u16> for FlapsBitValue {
         type Error = u16;
 
@@ -6884,7 +6891,7 @@ pub mod gearflapscontrolpanel {
         Select1,
         Select2,
     }
-    pub type H2oDumpValueCallback<'a> = &'a mut dyn FnMut(H2oDumpValue);
+    pub type H2oDumpValueCallback<'a> = alloc::boxed::Box<dyn FnMut(H2oDumpValue) + 'a>;
     impl core::convert::TryFrom<u16> for H2oDumpValue {
         type Error = u16;
 
@@ -6930,7 +6937,7 @@ pub mod gearflapscontrolpanel {
         Select1,
         Select2,
     }
-    pub type LgDownLockValueCallback<'a> = &'a mut dyn FnMut(LgDownLockValue);
+    pub type LgDownLockValueCallback<'a> = alloc::boxed::Box<dyn FnMut(LgDownLockValue) + 'a>;
     impl core::convert::TryFrom<u16> for LgDownLockValue {
         type Error = u16;
 
@@ -6976,7 +6983,7 @@ pub mod gearflapscontrolpanel {
         Select1,
         Select2,
     }
-    pub type LgEmergLeverValueCallback<'a> = &'a mut dyn FnMut(LgEmergLeverValue);
+    pub type LgEmergLeverValueCallback<'a> = alloc::boxed::Box<dyn FnMut(LgEmergLeverValue) + 'a>;
     impl core::convert::TryFrom<u16> for LgEmergLeverValue {
         type Error = u16;
 
@@ -7022,7 +7029,8 @@ pub mod gearflapscontrolpanel {
         Select1,
         Select2,
     }
-    pub type LgEmergbattLeverValueCallback<'a> = &'a mut dyn FnMut(LgEmergbattLeverValue);
+    pub type LgEmergbattLeverValueCallback<'a> =
+        alloc::boxed::Box<dyn FnMut(LgEmergbattLeverValue) + 'a>;
     impl core::convert::TryFrom<u16> for LgEmergbattLeverValue {
         type Error = u16;
 
@@ -7068,7 +7076,7 @@ pub mod gearflapscontrolpanel {
         Select1,
         Select2,
     }
-    pub type LgLeverValueCallback<'a> = &'a mut dyn FnMut(LgLeverValue);
+    pub type LgLeverValueCallback<'a> = alloc::boxed::Box<dyn FnMut(LgLeverValue) + 'a>;
     impl core::convert::TryFrom<u16> for LgLeverValue {
         type Error = u16;
 
@@ -7114,7 +7122,7 @@ pub mod gearflapscontrolpanel {
         Select1,
         Select2,
     }
-    pub type LidsSwValueCallback<'a> = &'a mut dyn FnMut(LidsSwValue);
+    pub type LidsSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(LidsSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for LidsSwValue {
         type Error = u16;
 
@@ -7160,7 +7168,7 @@ pub mod gearflapscontrolpanel {
         Select1,
         Select2,
     }
-    pub type O2SwValueCallback<'a> = &'a mut dyn FnMut(O2SwValue);
+    pub type O2SwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(O2SwValue) + 'a>;
     impl core::convert::TryFrom<u16> for O2SwValue {
         type Error = u16;
 
@@ -7206,7 +7214,7 @@ pub mod gearflapscontrolpanel {
         Select1,
         Select2,
     }
-    pub type RpmSwValueCallback<'a> = &'a mut dyn FnMut(RpmSwValue);
+    pub type RpmSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(RpmSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for RpmSwValue {
         type Error = u16;
 
@@ -7251,16 +7259,16 @@ pub mod gearflapscontrolpanel {
 pub mod h2o {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum CmbtValue {
         Select1,
         Select2,
     }
-    pub type CmbtValueCallback<'a> = &'a mut dyn FnMut(CmbtValue);
+    pub type CmbtValueCallback<'a> = alloc::boxed::Box<dyn FnMut(CmbtValue) + 'a>;
     impl core::convert::TryFrom<u16> for CmbtValue {
         type Error = u16;
 
@@ -7307,7 +7315,7 @@ pub mod h2o {
         Select2,
         Select3,
     }
-    pub type H2oModeValueCallback<'a> = &'a mut dyn FnMut(H2oModeValue);
+    pub type H2oModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(H2oModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for H2oModeValue {
         type Error = u16;
 
@@ -7352,16 +7360,16 @@ pub mod h2o {
 pub mod hudcontrol {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum HudAltValue {
         Select1,
         Select2,
     }
-    pub type HudAltValueCallback<'a> = &'a mut dyn FnMut(HudAltValue);
+    pub type HudAltValueCallback<'a> = alloc::boxed::Box<dyn FnMut(HudAltValue) + 'a>;
     impl core::convert::TryFrom<u16> for HudAltValue {
         type Error = u16;
 
@@ -7435,7 +7443,7 @@ pub mod hudcontrol {
         Select2,
         Select3,
     }
-    pub type HudModeValueCallback<'a> = &'a mut dyn FnMut(HudModeValue);
+    pub type HudModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(HudModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for HudModeValue {
         type Error = u16;
 
@@ -7482,7 +7490,7 @@ pub mod hudcontrol {
         Select2,
         Select3,
     }
-    pub type HudSymbolValueCallback<'a> = &'a mut dyn FnMut(HudSymbolValue);
+    pub type HudSymbolValueCallback<'a> = alloc::boxed::Box<dyn FnMut(HudSymbolValue) + 'a>;
     impl core::convert::TryFrom<u16> for HudSymbolValue {
         type Error = u16;
 
@@ -7581,9 +7589,9 @@ pub mod hudcontrol {
 pub mod ics {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     /// ICS Aux Volume Knob
     /// Input: set the position of the dial
@@ -7645,7 +7653,7 @@ pub mod ics {
         Select2,
         Select3,
     }
-    pub type IcsMicModeValueCallback<'a> = &'a mut dyn FnMut(IcsMicModeValue);
+    pub type IcsMicModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(IcsMicModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for IcsMicModeValue {
         type Error = u16;
 
@@ -7690,9 +7698,9 @@ pub mod ics {
 pub mod iff {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum IffCryptModeValue {
@@ -7700,7 +7708,7 @@ pub mod iff {
         Select2,
         Select3,
     }
-    pub type IffCryptModeValueCallback<'a> = &'a mut dyn FnMut(IffCryptModeValue);
+    pub type IffCryptModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(IffCryptModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for IffCryptModeValue {
         type Error = u16;
 
@@ -7746,7 +7754,7 @@ pub mod iff {
         Select1,
         Select2,
     }
-    pub type IffOperModeValueCallback<'a> = &'a mut dyn FnMut(IffOperModeValue);
+    pub type IffOperModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(IffOperModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for IffOperModeValue {
         type Error = u16;
 
@@ -7791,9 +7799,9 @@ pub mod iff {
 pub mod ins {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum InsModeValue {
@@ -7806,7 +7814,7 @@ pub mod ins {
         Select7,
         Select8,
     }
-    pub type InsModeValueCallback<'a> = &'a mut dyn FnMut(InsModeValue);
+    pub type InsModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(InsModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for InsModeValue {
         type Error = u16;
 
@@ -7856,9 +7864,9 @@ pub mod ins {
 pub mod intlight {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     /// Annunciator Lights
     /// Input: set the position of the dial
@@ -7893,7 +7901,7 @@ pub mod intlight {
         Select2,
         Select3,
     }
-    pub type CompLightValueCallback<'a> = &'a mut dyn FnMut(CompLightValue);
+    pub type CompLightValueCallback<'a> = alloc::boxed::Box<dyn FnMut(CompLightValue) + 'a>;
     impl core::convert::TryFrom<u16> for CompLightValue {
         type Error = u16;
 
@@ -8019,16 +8027,17 @@ pub mod intlight {
 pub mod masterarmamentpanel {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum LaunchFlareSalvoValue {
         Select1,
         Select2,
     }
-    pub type LaunchFlareSalvoValueCallback<'a> = &'a mut dyn FnMut(LaunchFlareSalvoValue);
+    pub type LaunchFlareSalvoValueCallback<'a> =
+        alloc::boxed::Box<dyn FnMut(LaunchFlareSalvoValue) + 'a>;
     impl core::convert::TryFrom<u16> for LaunchFlareSalvoValue {
         type Error = u16;
 
@@ -8074,7 +8083,7 @@ pub mod masterarmamentpanel {
         Select1,
         Select2,
     }
-    pub type MasterArmValueCallback<'a> = &'a mut dyn FnMut(MasterArmValue);
+    pub type MasterArmValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MasterArmValue) + 'a>;
     impl core::convert::TryFrom<u16> for MasterArmValue {
         type Error = u16;
 
@@ -8119,16 +8128,16 @@ pub mod masterarmamentpanel {
 pub mod mastermodes {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum AgSelValue {
         Select1,
         Select2,
     }
-    pub type AgSelValueCallback<'a> = &'a mut dyn FnMut(AgSelValue);
+    pub type AgSelValueCallback<'a> = alloc::boxed::Box<dyn FnMut(AgSelValue) + 'a>;
     impl core::convert::TryFrom<u16> for AgSelValue {
         type Error = u16;
 
@@ -8174,7 +8183,7 @@ pub mod mastermodes {
         Select1,
         Select2,
     }
-    pub type NavSelValueCallback<'a> = &'a mut dyn FnMut(NavSelValue);
+    pub type NavSelValueCallback<'a> = alloc::boxed::Box<dyn FnMut(NavSelValue) + 'a>;
     impl core::convert::TryFrom<u16> for NavSelValue {
         type Error = u16;
 
@@ -8220,7 +8229,7 @@ pub mod mastermodes {
         Select1,
         Select2,
     }
-    pub type VstolSelValueCallback<'a> = &'a mut dyn FnMut(VstolSelValue);
+    pub type VstolSelValueCallback<'a> = alloc::boxed::Box<dyn FnMut(VstolSelValue) + 'a>;
     impl core::convert::TryFrom<u16> for VstolSelValue {
         type Error = u16;
 
@@ -8265,16 +8274,16 @@ pub mod mastermodes {
 pub mod masterwarningpanel {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum MCautionValue {
         Select1,
         Select2,
     }
-    pub type MCautionValueCallback<'a> = &'a mut dyn FnMut(MCautionValue);
+    pub type MCautionValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MCautionValue) + 'a>;
     impl core::convert::TryFrom<u16> for MCautionValue {
         type Error = u16;
 
@@ -8320,7 +8329,7 @@ pub mod masterwarningpanel {
         Select1,
         Select2,
     }
-    pub type MWarningValueCallback<'a> = &'a mut dyn FnMut(MWarningValue);
+    pub type MWarningValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MWarningValue) + 'a>;
     impl core::convert::TryFrom<u16> for MWarningValue {
         type Error = u16;
 
@@ -8365,16 +8374,16 @@ pub mod masterwarningpanel {
 pub mod misc {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum DmtValue {
         Select1,
         Select2,
     }
-    pub type DmtValueCallback<'a> = &'a mut dyn FnMut(DmtValue);
+    pub type DmtValueCallback<'a> = alloc::boxed::Box<dyn FnMut(DmtValue) + 'a>;
     impl core::convert::TryFrom<u16> for DmtValue {
         type Error = u16;
 
@@ -8421,7 +8430,7 @@ pub mod misc {
         Select2,
         Select3,
     }
-    pub type DualCpuModeValueCallback<'a> = &'a mut dyn FnMut(DualCpuModeValue);
+    pub type DualCpuModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(DualCpuModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for DualCpuModeValue {
         type Error = u16;
 
@@ -8467,7 +8476,7 @@ pub mod misc {
         Select1,
         Select2,
     }
-    pub type FlirValueCallback<'a> = &'a mut dyn FnMut(FlirValue);
+    pub type FlirValueCallback<'a> = alloc::boxed::Box<dyn FnMut(FlirValue) + 'a>;
     impl core::convert::TryFrom<u16> for FlirValue {
         type Error = u16;
 
@@ -8514,7 +8523,7 @@ pub mod misc {
         Select2,
         Select3,
     }
-    pub type MissPcModeValueCallback<'a> = &'a mut dyn FnMut(MissPcModeValue);
+    pub type MissPcModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MissPcModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for MissPcModeValue {
         type Error = u16;
 
@@ -8560,7 +8569,7 @@ pub mod misc {
         Select1,
         Select2,
     }
-    pub type ProbeHeatModeValueCallback<'a> = &'a mut dyn FnMut(ProbeHeatModeValue);
+    pub type ProbeHeatModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(ProbeHeatModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for ProbeHeatModeValue {
         type Error = u16;
 
@@ -8606,7 +8615,8 @@ pub mod misc {
         Select1,
         Select2,
     }
-    pub type RecordSysDisplayValueCallback<'a> = &'a mut dyn FnMut(RecordSysDisplayValue);
+    pub type RecordSysDisplayValueCallback<'a> =
+        alloc::boxed::Box<dyn FnMut(RecordSysDisplayValue) + 'a>;
     impl core::convert::TryFrom<u16> for RecordSysDisplayValue {
         type Error = u16;
 
@@ -8652,7 +8662,7 @@ pub mod misc {
         Select1,
         Select2,
     }
-    pub type RecordSysModeValueCallback<'a> = &'a mut dyn FnMut(RecordSysModeValue);
+    pub type RecordSysModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(RecordSysModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for RecordSysModeValue {
         type Error = u16;
 
@@ -8697,16 +8707,16 @@ pub mod misc {
 pub mod mpcdleft {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum MpcdL1Value {
         Select1,
         Select2,
     }
-    pub type MpcdL1ValueCallback<'a> = &'a mut dyn FnMut(MpcdL1Value);
+    pub type MpcdL1ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL1Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL1Value {
         type Error = u16;
 
@@ -8752,7 +8762,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL10ValueCallback<'a> = &'a mut dyn FnMut(MpcdL10Value);
+    pub type MpcdL10ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL10Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL10Value {
         type Error = u16;
 
@@ -8798,7 +8808,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL11ValueCallback<'a> = &'a mut dyn FnMut(MpcdL11Value);
+    pub type MpcdL11ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL11Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL11Value {
         type Error = u16;
 
@@ -8844,7 +8854,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL12ValueCallback<'a> = &'a mut dyn FnMut(MpcdL12Value);
+    pub type MpcdL12ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL12Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL12Value {
         type Error = u16;
 
@@ -8890,7 +8900,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL13ValueCallback<'a> = &'a mut dyn FnMut(MpcdL13Value);
+    pub type MpcdL13ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL13Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL13Value {
         type Error = u16;
 
@@ -8936,7 +8946,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL14ValueCallback<'a> = &'a mut dyn FnMut(MpcdL14Value);
+    pub type MpcdL14ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL14Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL14Value {
         type Error = u16;
 
@@ -8982,7 +8992,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL15ValueCallback<'a> = &'a mut dyn FnMut(MpcdL15Value);
+    pub type MpcdL15ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL15Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL15Value {
         type Error = u16;
 
@@ -9028,7 +9038,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL16ValueCallback<'a> = &'a mut dyn FnMut(MpcdL16Value);
+    pub type MpcdL16ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL16Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL16Value {
         type Error = u16;
 
@@ -9074,7 +9084,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL17ValueCallback<'a> = &'a mut dyn FnMut(MpcdL17Value);
+    pub type MpcdL17ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL17Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL17Value {
         type Error = u16;
 
@@ -9120,7 +9130,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL18ValueCallback<'a> = &'a mut dyn FnMut(MpcdL18Value);
+    pub type MpcdL18ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL18Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL18Value {
         type Error = u16;
 
@@ -9166,7 +9176,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL19ValueCallback<'a> = &'a mut dyn FnMut(MpcdL19Value);
+    pub type MpcdL19ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL19Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL19Value {
         type Error = u16;
 
@@ -9212,7 +9222,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL2ValueCallback<'a> = &'a mut dyn FnMut(MpcdL2Value);
+    pub type MpcdL2ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL2Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL2Value {
         type Error = u16;
 
@@ -9258,7 +9268,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL20ValueCallback<'a> = &'a mut dyn FnMut(MpcdL20Value);
+    pub type MpcdL20ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL20Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL20Value {
         type Error = u16;
 
@@ -9304,7 +9314,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL3ValueCallback<'a> = &'a mut dyn FnMut(MpcdL3Value);
+    pub type MpcdL3ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL3Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL3Value {
         type Error = u16;
 
@@ -9350,7 +9360,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL4ValueCallback<'a> = &'a mut dyn FnMut(MpcdL4Value);
+    pub type MpcdL4ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL4Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL4Value {
         type Error = u16;
 
@@ -9396,7 +9406,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL5ValueCallback<'a> = &'a mut dyn FnMut(MpcdL5Value);
+    pub type MpcdL5ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL5Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL5Value {
         type Error = u16;
 
@@ -9442,7 +9452,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL6ValueCallback<'a> = &'a mut dyn FnMut(MpcdL6Value);
+    pub type MpcdL6ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL6Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL6Value {
         type Error = u16;
 
@@ -9488,7 +9498,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL7ValueCallback<'a> = &'a mut dyn FnMut(MpcdL7Value);
+    pub type MpcdL7ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL7Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL7Value {
         type Error = u16;
 
@@ -9534,7 +9544,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL8ValueCallback<'a> = &'a mut dyn FnMut(MpcdL8Value);
+    pub type MpcdL8ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL8Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL8Value {
         type Error = u16;
 
@@ -9580,7 +9590,7 @@ pub mod mpcdleft {
         Select1,
         Select2,
     }
-    pub type MpcdL9ValueCallback<'a> = &'a mut dyn FnMut(MpcdL9Value);
+    pub type MpcdL9ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdL9Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdL9Value {
         type Error = u16;
 
@@ -9654,7 +9664,7 @@ pub mod mpcdleft {
         Select2,
         Select3,
     }
-    pub type MpcdLContrastValueCallback<'a> = &'a mut dyn FnMut(MpcdLContrastValue);
+    pub type MpcdLContrastValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdLContrastValue) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdLContrastValue {
         type Error = u16;
 
@@ -9700,7 +9710,7 @@ pub mod mpcdleft {
         Select2,
         Select3,
     }
-    pub type MpcdLDayNightValueCallback<'a> = &'a mut dyn FnMut(MpcdLDayNightValue);
+    pub type MpcdLDayNightValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdLDayNightValue) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdLDayNightValue {
         type Error = u16;
 
@@ -9746,7 +9756,7 @@ pub mod mpcdleft {
         Select2,
         Select3,
     }
-    pub type MpcdLGainValueCallback<'a> = &'a mut dyn FnMut(MpcdLGainValue);
+    pub type MpcdLGainValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdLGainValue) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdLGainValue {
         type Error = u16;
 
@@ -9792,7 +9802,7 @@ pub mod mpcdleft {
         Select2,
         Select3,
     }
-    pub type MpcdLSymbolValueCallback<'a> = &'a mut dyn FnMut(MpcdLSymbolValue);
+    pub type MpcdLSymbolValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdLSymbolValue) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdLSymbolValue {
         type Error = u16;
 
@@ -9836,16 +9846,16 @@ pub mod mpcdleft {
 pub mod mpcdright {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum MpcdR1Value {
         Select1,
         Select2,
     }
-    pub type MpcdR1ValueCallback<'a> = &'a mut dyn FnMut(MpcdR1Value);
+    pub type MpcdR1ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR1Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR1Value {
         type Error = u16;
 
@@ -9891,7 +9901,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR10ValueCallback<'a> = &'a mut dyn FnMut(MpcdR10Value);
+    pub type MpcdR10ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR10Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR10Value {
         type Error = u16;
 
@@ -9937,7 +9947,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR11ValueCallback<'a> = &'a mut dyn FnMut(MpcdR11Value);
+    pub type MpcdR11ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR11Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR11Value {
         type Error = u16;
 
@@ -9983,7 +9993,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR12ValueCallback<'a> = &'a mut dyn FnMut(MpcdR12Value);
+    pub type MpcdR12ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR12Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR12Value {
         type Error = u16;
 
@@ -10029,7 +10039,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR13ValueCallback<'a> = &'a mut dyn FnMut(MpcdR13Value);
+    pub type MpcdR13ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR13Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR13Value {
         type Error = u16;
 
@@ -10075,7 +10085,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR14ValueCallback<'a> = &'a mut dyn FnMut(MpcdR14Value);
+    pub type MpcdR14ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR14Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR14Value {
         type Error = u16;
 
@@ -10121,7 +10131,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR15ValueCallback<'a> = &'a mut dyn FnMut(MpcdR15Value);
+    pub type MpcdR15ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR15Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR15Value {
         type Error = u16;
 
@@ -10167,7 +10177,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR16ValueCallback<'a> = &'a mut dyn FnMut(MpcdR16Value);
+    pub type MpcdR16ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR16Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR16Value {
         type Error = u16;
 
@@ -10213,7 +10223,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR17ValueCallback<'a> = &'a mut dyn FnMut(MpcdR17Value);
+    pub type MpcdR17ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR17Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR17Value {
         type Error = u16;
 
@@ -10259,7 +10269,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR18ValueCallback<'a> = &'a mut dyn FnMut(MpcdR18Value);
+    pub type MpcdR18ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR18Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR18Value {
         type Error = u16;
 
@@ -10305,7 +10315,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR19ValueCallback<'a> = &'a mut dyn FnMut(MpcdR19Value);
+    pub type MpcdR19ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR19Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR19Value {
         type Error = u16;
 
@@ -10351,7 +10361,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR2ValueCallback<'a> = &'a mut dyn FnMut(MpcdR2Value);
+    pub type MpcdR2ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR2Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR2Value {
         type Error = u16;
 
@@ -10397,7 +10407,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR20ValueCallback<'a> = &'a mut dyn FnMut(MpcdR20Value);
+    pub type MpcdR20ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR20Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR20Value {
         type Error = u16;
 
@@ -10443,7 +10453,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR3ValueCallback<'a> = &'a mut dyn FnMut(MpcdR3Value);
+    pub type MpcdR3ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR3Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR3Value {
         type Error = u16;
 
@@ -10489,7 +10499,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR4ValueCallback<'a> = &'a mut dyn FnMut(MpcdR4Value);
+    pub type MpcdR4ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR4Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR4Value {
         type Error = u16;
 
@@ -10535,7 +10545,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR5ValueCallback<'a> = &'a mut dyn FnMut(MpcdR5Value);
+    pub type MpcdR5ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR5Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR5Value {
         type Error = u16;
 
@@ -10581,7 +10591,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR6ValueCallback<'a> = &'a mut dyn FnMut(MpcdR6Value);
+    pub type MpcdR6ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR6Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR6Value {
         type Error = u16;
 
@@ -10627,7 +10637,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR7ValueCallback<'a> = &'a mut dyn FnMut(MpcdR7Value);
+    pub type MpcdR7ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR7Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR7Value {
         type Error = u16;
 
@@ -10673,7 +10683,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR8ValueCallback<'a> = &'a mut dyn FnMut(MpcdR8Value);
+    pub type MpcdR8ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR8Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR8Value {
         type Error = u16;
 
@@ -10719,7 +10729,7 @@ pub mod mpcdright {
         Select1,
         Select2,
     }
-    pub type MpcdR9ValueCallback<'a> = &'a mut dyn FnMut(MpcdR9Value);
+    pub type MpcdR9ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdR9Value) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdR9Value {
         type Error = u16;
 
@@ -10793,7 +10803,7 @@ pub mod mpcdright {
         Select2,
         Select3,
     }
-    pub type MpcdRContrastValueCallback<'a> = &'a mut dyn FnMut(MpcdRContrastValue);
+    pub type MpcdRContrastValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdRContrastValue) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdRContrastValue {
         type Error = u16;
 
@@ -10839,7 +10849,7 @@ pub mod mpcdright {
         Select2,
         Select3,
     }
-    pub type MpcdRDayNightValueCallback<'a> = &'a mut dyn FnMut(MpcdRDayNightValue);
+    pub type MpcdRDayNightValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdRDayNightValue) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdRDayNightValue {
         type Error = u16;
 
@@ -10885,7 +10895,7 @@ pub mod mpcdright {
         Select2,
         Select3,
     }
-    pub type MpcdRGainValueCallback<'a> = &'a mut dyn FnMut(MpcdRGainValue);
+    pub type MpcdRGainValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdRGainValue) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdRGainValue {
         type Error = u16;
 
@@ -10931,7 +10941,7 @@ pub mod mpcdright {
         Select2,
         Select3,
     }
-    pub type MpcdRSymbolValueCallback<'a> = &'a mut dyn FnMut(MpcdRSymbolValue);
+    pub type MpcdRSymbolValueCallback<'a> = alloc::boxed::Box<dyn FnMut(MpcdRSymbolValue) + 'a>;
     impl core::convert::TryFrom<u16> for MpcdRSymbolValue {
         type Error = u16;
 
@@ -10975,9 +10985,9 @@ pub mod mpcdright {
 pub mod odu {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     /// ODU Option 1 Select (string)
     /// Output: ODU Option 1 Select (string)
@@ -11234,7 +11244,7 @@ pub mod odu {
         Select1,
         Select2,
     }
-    pub type OduOpt1ValueCallback<'a> = &'a mut dyn FnMut(OduOpt1Value);
+    pub type OduOpt1ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(OduOpt1Value) + 'a>;
     impl core::convert::TryFrom<u16> for OduOpt1Value {
         type Error = u16;
 
@@ -11280,7 +11290,7 @@ pub mod odu {
         Select1,
         Select2,
     }
-    pub type OduOpt2ValueCallback<'a> = &'a mut dyn FnMut(OduOpt2Value);
+    pub type OduOpt2ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(OduOpt2Value) + 'a>;
     impl core::convert::TryFrom<u16> for OduOpt2Value {
         type Error = u16;
 
@@ -11326,7 +11336,7 @@ pub mod odu {
         Select1,
         Select2,
     }
-    pub type OduOpt3ValueCallback<'a> = &'a mut dyn FnMut(OduOpt3Value);
+    pub type OduOpt3ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(OduOpt3Value) + 'a>;
     impl core::convert::TryFrom<u16> for OduOpt3Value {
         type Error = u16;
 
@@ -11372,7 +11382,7 @@ pub mod odu {
         Select1,
         Select2,
     }
-    pub type OduOpt4ValueCallback<'a> = &'a mut dyn FnMut(OduOpt4Value);
+    pub type OduOpt4ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(OduOpt4Value) + 'a>;
     impl core::convert::TryFrom<u16> for OduOpt4Value {
         type Error = u16;
 
@@ -11418,7 +11428,7 @@ pub mod odu {
         Select1,
         Select2,
     }
-    pub type OduOpt5ValueCallback<'a> = &'a mut dyn FnMut(OduOpt5Value);
+    pub type OduOpt5ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(OduOpt5Value) + 'a>;
     impl core::convert::TryFrom<u16> for OduOpt5Value {
         type Error = u16;
 
@@ -11463,9 +11473,9 @@ pub mod odu {
 pub mod saahs {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum AfcSwValue {
@@ -11473,7 +11483,7 @@ pub mod saahs {
         Select2,
         Select3,
     }
-    pub type AfcSwValueCallback<'a> = &'a mut dyn FnMut(AfcSwValue);
+    pub type AfcSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(AfcSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for AfcSwValue {
         type Error = u16;
 
@@ -11519,7 +11529,7 @@ pub mod saahs {
         Select1,
         Select2,
     }
-    pub type AltHoldSwValueCallback<'a> = &'a mut dyn FnMut(AltHoldSwValue);
+    pub type AltHoldSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(AltHoldSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for AltHoldSwValue {
         type Error = u16;
 
@@ -11565,7 +11575,7 @@ pub mod saahs {
         Select1,
         Select2,
     }
-    pub type QFeelSwValueCallback<'a> = &'a mut dyn FnMut(QFeelSwValue);
+    pub type QFeelSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(QFeelSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for QFeelSwValue {
         type Error = u16;
 
@@ -11611,7 +11621,7 @@ pub mod saahs {
         Select1,
         Select2,
     }
-    pub type SasPitchValueCallback<'a> = &'a mut dyn FnMut(SasPitchValue);
+    pub type SasPitchValueCallback<'a> = alloc::boxed::Box<dyn FnMut(SasPitchValue) + 'a>;
     impl core::convert::TryFrom<u16> for SasPitchValue {
         type Error = u16;
 
@@ -11657,7 +11667,7 @@ pub mod saahs {
         Select1,
         Select2,
     }
-    pub type SasRollValueCallback<'a> = &'a mut dyn FnMut(SasRollValue);
+    pub type SasRollValueCallback<'a> = alloc::boxed::Box<dyn FnMut(SasRollValue) + 'a>;
     impl core::convert::TryFrom<u16> for SasRollValue {
         type Error = u16;
 
@@ -11703,7 +11713,7 @@ pub mod saahs {
         Select1,
         Select2,
     }
-    pub type SasYawValueCallback<'a> = &'a mut dyn FnMut(SasYawValue);
+    pub type SasYawValueCallback<'a> = alloc::boxed::Box<dyn FnMut(SasYawValue) + 'a>;
     impl core::convert::TryFrom<u16> for SasYawValue {
         type Error = u16;
 
@@ -11748,16 +11758,16 @@ pub mod saahs {
 pub mod seat {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum SeatSafeLeverValue {
         Select1,
         Select2,
     }
-    pub type SeatSafeLeverValueCallback<'a> = &'a mut dyn FnMut(SeatSafeLeverValue);
+    pub type SeatSafeLeverValueCallback<'a> = alloc::boxed::Box<dyn FnMut(SeatSafeLeverValue) + 'a>;
     impl core::convert::TryFrom<u16> for SeatSafeLeverValue {
         type Error = u16;
 
@@ -11802,16 +11812,16 @@ pub mod seat {
 pub mod throttle {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum EmsBValue {
         Select1,
         Select2,
     }
-    pub type EmsBValueCallback<'a> = &'a mut dyn FnMut(EmsBValue);
+    pub type EmsBValueCallback<'a> = alloc::boxed::Box<dyn FnMut(EmsBValue) + 'a>;
     impl core::convert::TryFrom<u16> for EmsBValue {
         type Error = u16;
 
@@ -11857,7 +11867,7 @@ pub mod throttle {
         Select1,
         Select2,
     }
-    pub type JptlSwValueCallback<'a> = &'a mut dyn FnMut(JptlSwValue);
+    pub type JptlSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(JptlSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for JptlSwValue {
         type Error = u16;
 
@@ -11903,7 +11913,7 @@ pub mod throttle {
         Select1,
         Select2,
     }
-    pub type ManFuelSwValueCallback<'a> = &'a mut dyn FnMut(ManFuelSwValue);
+    pub type ManFuelSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(ManFuelSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for ManFuelSwValue {
         type Error = u16;
 
@@ -12003,7 +12013,7 @@ pub mod throttle {
         Select1,
         Select2,
     }
-    pub type ParkBrakeLvValueCallback<'a> = &'a mut dyn FnMut(ParkBrakeLvValue);
+    pub type ParkBrakeLvValueCallback<'a> = alloc::boxed::Box<dyn FnMut(ParkBrakeLvValue) + 'a>;
     impl core::convert::TryFrom<u16> for ParkBrakeLvValue {
         type Error = u16;
 
@@ -12050,7 +12060,7 @@ pub mod throttle {
         Select2,
         Select3,
     }
-    pub type RudderTrimValueCallback<'a> = &'a mut dyn FnMut(RudderTrimValue);
+    pub type RudderTrimValueCallback<'a> = alloc::boxed::Box<dyn FnMut(RudderTrimValue) + 'a>;
     impl core::convert::TryFrom<u16> for RudderTrimValue {
         type Error = u16;
 
@@ -12123,7 +12133,8 @@ pub mod throttle {
         Select1,
         Select2,
     }
-    pub type ThrottCutoffLvValueCallback<'a> = &'a mut dyn FnMut(ThrottCutoffLvValue);
+    pub type ThrottCutoffLvValueCallback<'a> =
+        alloc::boxed::Box<dyn FnMut(ThrottCutoffLvValue) + 'a>;
     impl core::convert::TryFrom<u16> for ThrottCutoffLvValue {
         type Error = u16;
 
@@ -12195,9 +12206,9 @@ pub mod throttle {
 pub mod trim {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum TrimModeValue {
@@ -12205,7 +12216,7 @@ pub mod trim {
         Select2,
         Select3,
     }
-    pub type TrimModeValueCallback<'a> = &'a mut dyn FnMut(TrimModeValue);
+    pub type TrimModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(TrimModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for TrimModeValue {
         type Error = u16;
 
@@ -12252,7 +12263,7 @@ pub mod trim {
         Select2,
         Select3,
     }
-    pub type YawTrimSwValueCallback<'a> = &'a mut dyn FnMut(YawTrimSwValue);
+    pub type YawTrimSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(YawTrimSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for YawTrimSwValue {
         type Error = u16;
 
@@ -12297,16 +12308,16 @@ pub mod trim {
 pub mod ufc {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum UfcAltValue {
         Select1,
         Select2,
     }
-    pub type UfcAltValueCallback<'a> = &'a mut dyn FnMut(UfcAltValue);
+    pub type UfcAltValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcAltValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcAltValue {
         type Error = u16;
 
@@ -12352,7 +12363,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcB0ValueCallback<'a> = &'a mut dyn FnMut(UfcB0Value);
+    pub type UfcB0ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcB0Value) + 'a>;
     impl core::convert::TryFrom<u16> for UfcB0Value {
         type Error = u16;
 
@@ -12398,7 +12409,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcB1ValueCallback<'a> = &'a mut dyn FnMut(UfcB1Value);
+    pub type UfcB1ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcB1Value) + 'a>;
     impl core::convert::TryFrom<u16> for UfcB1Value {
         type Error = u16;
 
@@ -12444,7 +12455,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcB2ValueCallback<'a> = &'a mut dyn FnMut(UfcB2Value);
+    pub type UfcB2ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcB2Value) + 'a>;
     impl core::convert::TryFrom<u16> for UfcB2Value {
         type Error = u16;
 
@@ -12490,7 +12501,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcB3ValueCallback<'a> = &'a mut dyn FnMut(UfcB3Value);
+    pub type UfcB3ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcB3Value) + 'a>;
     impl core::convert::TryFrom<u16> for UfcB3Value {
         type Error = u16;
 
@@ -12536,7 +12547,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcB4ValueCallback<'a> = &'a mut dyn FnMut(UfcB4Value);
+    pub type UfcB4ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcB4Value) + 'a>;
     impl core::convert::TryFrom<u16> for UfcB4Value {
         type Error = u16;
 
@@ -12582,7 +12593,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcB5ValueCallback<'a> = &'a mut dyn FnMut(UfcB5Value);
+    pub type UfcB5ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcB5Value) + 'a>;
     impl core::convert::TryFrom<u16> for UfcB5Value {
         type Error = u16;
 
@@ -12628,7 +12639,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcB6ValueCallback<'a> = &'a mut dyn FnMut(UfcB6Value);
+    pub type UfcB6ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcB6Value) + 'a>;
     impl core::convert::TryFrom<u16> for UfcB6Value {
         type Error = u16;
 
@@ -12674,7 +12685,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcB7ValueCallback<'a> = &'a mut dyn FnMut(UfcB7Value);
+    pub type UfcB7ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcB7Value) + 'a>;
     impl core::convert::TryFrom<u16> for UfcB7Value {
         type Error = u16;
 
@@ -12720,7 +12731,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcB8ValueCallback<'a> = &'a mut dyn FnMut(UfcB8Value);
+    pub type UfcB8ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcB8Value) + 'a>;
     impl core::convert::TryFrom<u16> for UfcB8Value {
         type Error = u16;
 
@@ -12766,7 +12777,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcB9ValueCallback<'a> = &'a mut dyn FnMut(UfcB9Value);
+    pub type UfcB9ValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcB9Value) + 'a>;
     impl core::convert::TryFrom<u16> for UfcB9Value {
         type Error = u16;
 
@@ -12812,7 +12823,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcBeaconValueCallback<'a> = &'a mut dyn FnMut(UfcBeaconValue);
+    pub type UfcBeaconValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcBeaconValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcBeaconValue {
         type Error = u16;
 
@@ -12858,7 +12869,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcClearValueCallback<'a> = &'a mut dyn FnMut(UfcClearValue);
+    pub type UfcClearValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcClearValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcClearValue {
         type Error = u16;
 
@@ -12954,7 +12965,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcDashValueCallback<'a> = &'a mut dyn FnMut(UfcDashValue);
+    pub type UfcDashValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcDashValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcDashValue {
         type Error = u16;
 
@@ -13000,7 +13011,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcDotValueCallback<'a> = &'a mut dyn FnMut(UfcDotValue);
+    pub type UfcDotValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcDotValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcDotValue {
         type Error = u16;
 
@@ -13046,7 +13057,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcEmcomValueCallback<'a> = &'a mut dyn FnMut(UfcEmcomValue);
+    pub type UfcEmcomValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcEmcomValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcEmcomValue {
         type Error = u16;
 
@@ -13092,7 +13103,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcEnterValueCallback<'a> = &'a mut dyn FnMut(UfcEnterValue);
+    pub type UfcEnterValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcEnterValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcEnterValue {
         type Error = u16;
 
@@ -13138,7 +13149,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcIffValueCallback<'a> = &'a mut dyn FnMut(UfcIffValue);
+    pub type UfcIffValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcIffValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcIffValue {
         type Error = u16;
 
@@ -13184,7 +13195,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcIpValueCallback<'a> = &'a mut dyn FnMut(UfcIpValue);
+    pub type UfcIpValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcIpValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcIpValue {
         type Error = u16;
 
@@ -13230,7 +13241,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcOnoffValueCallback<'a> = &'a mut dyn FnMut(UfcOnoffValue);
+    pub type UfcOnoffValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcOnoffValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcOnoffValue {
         type Error = u16;
 
@@ -13276,7 +13287,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcSaveValueCallback<'a> = &'a mut dyn FnMut(UfcSaveValue);
+    pub type UfcSaveValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcSaveValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcSaveValue {
         type Error = u16;
 
@@ -13347,7 +13358,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcTacanValueCallback<'a> = &'a mut dyn FnMut(UfcTacanValue);
+    pub type UfcTacanValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcTacanValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcTacanValue {
         type Error = u16;
 
@@ -13393,7 +13404,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcTargetValueCallback<'a> = &'a mut dyn FnMut(UfcTargetValue);
+    pub type UfcTargetValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcTargetValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcTargetValue {
         type Error = u16;
 
@@ -13439,7 +13450,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcTimerValueCallback<'a> = &'a mut dyn FnMut(UfcTimerValue);
+    pub type UfcTimerValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcTimerValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcTimerValue {
         type Error = u16;
 
@@ -13485,7 +13496,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcWayValueCallback<'a> = &'a mut dyn FnMut(UfcWayValue);
+    pub type UfcWayValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcWayValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcWayValue {
         type Error = u16;
 
@@ -13531,7 +13542,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcWeaponValueCallback<'a> = &'a mut dyn FnMut(UfcWeaponValue);
+    pub type UfcWeaponValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcWeaponValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcWeaponValue {
         type Error = u16;
 
@@ -13577,7 +13588,7 @@ pub mod ufc {
         Select1,
         Select2,
     }
-    pub type UfcWeatherValueCallback<'a> = &'a mut dyn FnMut(UfcWeatherValue);
+    pub type UfcWeatherValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcWeatherValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcWeatherValue {
         type Error = u16;
 
@@ -13622,9 +13633,9 @@ pub mod ufc {
 pub mod uhfradio {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     #[derive(Clone, Copy, Debug, PartialEq, Eq)]
     pub enum BombsArmSwValue {
@@ -13636,7 +13647,7 @@ pub mod uhfradio {
         Select6,
         Select7,
     }
-    pub type BombsArmSwValueCallback<'a> = &'a mut dyn FnMut(BombsArmSwValue);
+    pub type BombsArmSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(BombsArmSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for BombsArmSwValue {
         type Error = u16;
 
@@ -13713,7 +13724,7 @@ pub mod uhfradio {
         Select1,
         Select2,
     }
-    pub type UfcCom1PullValueCallback<'a> = &'a mut dyn FnMut(UfcCom1PullValue);
+    pub type UfcCom1PullValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcCom1PullValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcCom1PullValue {
         type Error = u16;
 
@@ -13812,7 +13823,7 @@ pub mod uhfradio {
         Select1,
         Select2,
     }
-    pub type UfcCom2PullValueCallback<'a> = &'a mut dyn FnMut(UfcCom2PullValue);
+    pub type UfcCom2PullValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UfcCom2PullValue) + 'a>;
     impl core::convert::TryFrom<u16> for UfcCom2PullValue {
         type Error = u16;
 
@@ -13911,7 +13922,7 @@ pub mod uhfradio {
         Select1,
         Select2,
     }
-    pub type UhfAncPointValueCallback<'a> = &'a mut dyn FnMut(UhfAncPointValue);
+    pub type UhfAncPointValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UhfAncPointValue) + 'a>;
     impl core::convert::TryFrom<u16> for UhfAncPointValue {
         type Error = u16;
 
@@ -13957,7 +13968,7 @@ pub mod uhfradio {
         Select1,
         Select2,
     }
-    pub type UhfAncSwValueCallback<'a> = &'a mut dyn FnMut(UhfAncSwValue);
+    pub type UhfAncSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UhfAncSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for UhfAncSwValue {
         type Error = u16;
 
@@ -14029,7 +14040,7 @@ pub mod uhfradio {
         Select1,
         Select2,
     }
-    pub type UhfLoadSwValueCallback<'a> = &'a mut dyn FnMut(UhfLoadSwValue);
+    pub type UhfLoadSwValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UhfLoadSwValue) + 'a>;
     impl core::convert::TryFrom<u16> for UhfLoadSwValue {
         type Error = u16;
 
@@ -14080,7 +14091,7 @@ pub mod uhfradio {
         Select6,
         Select7,
     }
-    pub type UhfModeValueCallback<'a> = &'a mut dyn FnMut(UhfModeValue);
+    pub type UhfModeValueCallback<'a> = alloc::boxed::Box<dyn FnMut(UhfModeValue) + 'a>;
     impl core::convert::TryFrom<u16> for UhfModeValue {
         type Error = u16;
 
@@ -14156,9 +14167,9 @@ pub mod uhfradio {
 pub mod warningcautionandindicatorlights {
     use super::*;
 
-    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);
-    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);
-    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);
+    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;
+    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;
+    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;
 
     /// AAA Lamp
     /// Output: 0 if light is off, 1 if light is on
@@ -22104,1579 +22115,1405 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         }
     }
 
-    pub fn register_aaa_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_aaa_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::AaaLight {
                 control: warningcautionandindicatorlights::AaaLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_acnip_mode<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_acnip_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acnip::AcnipModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::AcnipMode {
                 control: acnip::AcnipMode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_acnip_radio_sel<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_acnip_radio_sel<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acnip::AcnipRadioSelValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::AcnipRadioSel {
                 control: acnip::AcnipRadioSel::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_adi_bank<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_adi_bank<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::AdiBank {
                 control: gauges::AdiBank::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_adi_flag<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_adi_flag<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::AdiFlag {
                 control: gauges::AdiFlag::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_adi_pitch<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_adi_pitch<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::AdiPitch {
                 control: gauges::AdiPitch::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_afc_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_afc_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(saahs::AfcSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::AfcSw {
                 control: saahs::AfcSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_afc_wlight<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_afc_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::AfcWlight {
                 control: warningcautionandindicatorlights::AfcWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_aft_bay_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_aft_bay_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::AftBayWlight {
                 control: warningcautionandindicatorlights::AftBayWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ag_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ag_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::AgLight {
                 control: warningcautionandindicatorlights::AgLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ag_sel<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ag_sel<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mastermodes::AgSelValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::AgSel {
                 control: mastermodes::AgSel::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ai_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ai_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::AiLight {
                 control: warningcautionandindicatorlights::AiLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_aileron_needle<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_aileron_needle<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::AileronNeedle {
                 control: gauges::AileronNeedle::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_alt10000ft_cnt<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_alt10000ft_cnt<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Alt10000ftCnt {
                 control: gauges::Alt10000ftCnt::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_alt1000ft_cnt<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_alt1000ft_cnt<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Alt1000ftCnt {
                 control: gauges::Alt1000ftCnt::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_alt100ft_cnt<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_alt100ft_cnt<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Alt100ftCnt {
                 control: gauges::Alt100ftCnt::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_alt_hold_sw<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_alt_hold_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(saahs::AltHoldSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::AltHoldSw {
                 control: saahs::AltHoldSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_alt_pointer<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_alt_pointer<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::AltPointer {
                 control: gauges::AltPointer::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_alt_pressure1<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_alt_pressure1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::AltPressure1 {
                 control: gauges::AltPressure1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_alt_pressure2<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_alt_pressure2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::AltPressure2 {
                 control: gauges::AltPressure2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_alt_pressure3<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_alt_pressure3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::AltPressure3 {
                 control: gauges::AltPressure3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_alt_pressure4<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_alt_pressure4<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::AltPressure4 {
                 control: gauges::AltPressure4::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_annunciator_lights<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_annunciator_lights<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::AnnunciatorLights {
                 control: intlight::AnnunciatorLights::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_anti_coll_lights<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_anti_coll_lights<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(externallights::AntiCollLightsValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::AntiCollLights {
                 control: externallights::AntiCollLights::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_anti_skid<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_anti_skid<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(gearflapscontrolpanel::AntiSkidValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::AntiSkid {
                 control: gearflapscontrolpanel::AntiSkid::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_aoa_flag<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_aoa_flag<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::AoaFlag {
                 control: gauges::AoaFlag::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_aoa_pointer<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_aoa_pointer<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::AoaPointer {
                 control: gauges::AoaPointer::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_apu_gen_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_apu_gen_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(electricpanel::ApuGenSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::ApuGenSw {
                 control: electricpanel::ApuGenSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_apu_gen_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_apu_gen_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::ApuGenWlight {
                 control: warningcautionandindicatorlights::ApuGenWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_apu_wlight<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_apu_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::ApuWlight {
                 control: warningcautionandindicatorlights::ApuWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_arm_control<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_arm_control<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::ArmControlValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::ArmControl {
                 control: acp::ArmControl::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_autflp_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_autflp_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::AutflpWlight {
                 control: warningcautionandindicatorlights::AutflpWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_av8bna_odu1_select<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_av8bna_odu1_select<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
             .push(RegisteredControl::Av8bnaOdu1Select {
                 control: odu::Av8bnaOdu1Select::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_av8bna_odu1_text<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_av8bna_odu1_text<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
             .push(RegisteredControl::Av8bnaOdu1Text {
                 control: odu::Av8bnaOdu1Text::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_av8bna_odu2_select<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_av8bna_odu2_select<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
             .push(RegisteredControl::Av8bnaOdu2Select {
                 control: odu::Av8bnaOdu2Select::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_av8bna_odu2_text<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_av8bna_odu2_text<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
             .push(RegisteredControl::Av8bnaOdu2Text {
                 control: odu::Av8bnaOdu2Text::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_av8bna_odu3_select<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_av8bna_odu3_select<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
             .push(RegisteredControl::Av8bnaOdu3Select {
                 control: odu::Av8bnaOdu3Select::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_av8bna_odu3_text<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_av8bna_odu3_text<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
             .push(RegisteredControl::Av8bnaOdu3Text {
                 control: odu::Av8bnaOdu3Text::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_av8bna_odu4_select<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_av8bna_odu4_select<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
             .push(RegisteredControl::Av8bnaOdu4Select {
                 control: odu::Av8bnaOdu4Select::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_av8bna_odu4_text<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_av8bna_odu4_text<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
             .push(RegisteredControl::Av8bnaOdu4Text {
                 control: odu::Av8bnaOdu4Text::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_av8bna_odu5_select<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_av8bna_odu5_select<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
             .push(RegisteredControl::Av8bnaOdu5Select {
                 control: odu::Av8bnaOdu5Select::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_av8bna_odu5_text<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_av8bna_odu5_text<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
             .push(RegisteredControl::Av8bnaOdu5Text {
                 control: odu::Av8bnaOdu5Text::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_av_bit_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_av_bit_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::AvBitWlight {
                 control: warningcautionandindicatorlights::AvBitWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_bak_adi_cage_knob<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_bak_adi_cage_knob<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::BakAdiCageKnob {
                 control: flightinstruments::BakAdiCageKnob::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_bak_adi_cage_pull<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_bak_adi_cage_pull<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(flightinstruments::BakAdiCagePullValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::BakAdiCagePull {
                 control: flightinstruments::BakAdiCagePull::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_baro_pressure<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_baro_pressure<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::BaroPressure {
                 control: flightinstruments::BaroPressure::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_batt_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_batt_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(electricpanel::BattSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::BattSw {
                 control: electricpanel::BattSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_bingo1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_bingo1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Bingo1 {
                 control: gauges::Bingo1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_bingo2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_bingo2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Bingo2 {
                 control: gauges::Bingo2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_bingo3<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_bingo3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Bingo3 {
                 control: gauges::Bingo3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_bingo4<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_bingo4<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Bingo4 {
                 control: gauges::Bingo4::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_bingo_light<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_bingo_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::BingoLight {
                 control: warningcautionandindicatorlights::BingoLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_bingo_set<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_bingo_set<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::BingoSet {
                 control: fuelpanel::BingoSet::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_bombs_arm_sw<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_bombs_arm_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(uhfradio::BombsArmSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::BombsArmSw {
                 control: uhfradio::BombsArmSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_brake1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_brake1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Brake1 {
                 control: gauges::Brake1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_brake2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_brake2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Brake2 {
                 control: gauges::Brake2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_brake3<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_brake3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Brake3 {
                 control: gauges::Brake3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_brake_accu<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_brake_accu<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::BrakeAccu {
                 control: gauges::BrakeAccu::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_c_aut<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_c_aut<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::CAut {
                 control: warningcautionandindicatorlights::CAut::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cabin_defog<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cabin_defog<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ecs::CabinDefogValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CabinDefog {
                 control: ecs::CabinDefog::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cabin_press<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cabin_press<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::CabinPress {
                 control: gauges::CabinPress::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cabin_press_switch<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cabin_press_switch<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ecs::CabinPressSwitchValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CabinPressSwitch {
                 control: ecs::CabinPressSwitch::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_canopy_hand_l<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_canopy_hand_l<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(canopy::CanopyHandLValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CanopyHandL {
                 control: canopy::CanopyHandL::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_canopy_hand_r<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_canopy_hand_r<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(canopy::CanopyHandRValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CanopyHandR {
                 control: canopy::CanopyHandR::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_canopy_lock<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_canopy_lock<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(canopy::CanopyLockValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CanopyLock {
                 control: canopy::CanopyLock::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_canopy_value<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_canopy_value<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::CanopyValue {
                 control: canopy::CanopyValue::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_canopy_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_canopy_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::CanopyWlight {
                 control: warningcautionandindicatorlights::CanopyWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_clock_hh<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_clock_hh<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::ClockHh {
                 control: gauges::ClockHh::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_clock_mm<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_clock_mm<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::ClockMm {
                 control: gauges::ClockMm::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_clock_ss<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_clock_ss<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::ClockSs {
                 control: gauges::ClockSs::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cmbt<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_cmbt<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(h2o::CmbtValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::Cmbt {
                 control: h2o::Cmbt::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cmbt_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_cmbt_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::CmbtLight {
                 control: warningcautionandindicatorlights::CmbtLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_comm1_string_freq<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_comm1_string_freq<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
             .push(RegisteredControl::Comm1StringFreq {
                 control: aaa::Comm1StringFreq::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_comm2_string_freq<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_comm2_string_freq<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
             .push(RegisteredControl::Comm2StringFreq {
                 control: aaa::Comm2StringFreq::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_comp_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_comp_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(intlight::CompLightValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::CompLight {
                 control: intlight::CompLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_compass_bank<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_compass_bank<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::CompassBank {
                 control: gauges::CompassBank::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_compass_lights<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_compass_lights<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::CompassLights {
                 control: gauges::CompassLights::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_compass_ns<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_compass_ns<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::CompassNs {
                 control: gauges::CompassNs::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_compass_ud<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_compass_ud<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::CompassUd {
                 control: gauges::CompassUd::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_console_lights<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_console_lights<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::ConsoleLights {
                 control: intlight::ConsoleLights::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_control15sek_light<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_control15sek_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::Control15sekLight {
                 control: warningcautionandindicatorlights::Control15sekLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cs_cool_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cs_cool_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::CsCoolWlight {
                 control: warningcautionandindicatorlights::CsCoolWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cw_jam_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cw_jam_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::CwJamWlight {
                 control: warningcautionandindicatorlights::CwJamWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cw_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_cw_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::CwLight {
                 control: warningcautionandindicatorlights::CwLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_cw_nogo_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_cw_nogo_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::CwNogoWlight {
                 control: warningcautionandindicatorlights::CwNogoWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_dc_test_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_dc_test_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(electricpanel::DcTestSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::DcTestSw {
                 control: electricpanel::DcTestSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_dc_wlight<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_dc_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::DcWlight {
                 control: warningcautionandindicatorlights::DcWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_decoy_control<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_decoy_control<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ecm::DecoyControlValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::DecoyControl {
                 control: ecm::DecoyControl::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_decs_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_decs_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bulkheadleft::DecsSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::DecsSw {
                 control: bulkheadleft::DecsSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_dep_res_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_dep_res_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::DepResWlight {
                 control: warningcautionandindicatorlights::DepResWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_dmt<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_dmt<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(misc::DmtValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::Dmt {
                 control: misc::Dmt::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_droop_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_droop_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::DroopWlight {
                 control: warningcautionandindicatorlights::DroopWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_dual_cpu_mode<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_dual_cpu_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(misc::DualCpuModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::DualCpuMode {
                 control: misc::DualCpuMode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_duct1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_duct1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Duct1 {
                 control: gauges::Duct1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_duct2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_duct2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Duct2 {
                 control: gauges::Duct2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_duct3<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_duct3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Duct3 {
                 control: gauges::Duct3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ecs_aft<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ecs_aft<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ecs::EcsAftValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::EcsAft {
                 control: ecs::EcsAft::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ecs_fwd<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ecs_fwd<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ecs::EcsFwdValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::EcsFwd {
                 control: ecs::EcsFwd::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_edp_bit<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_edp_bit<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(enginedisplay::EdpBitValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::EdpBit {
                 control: enginedisplay::EdpBit::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_edp_bright<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_edp_bright<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::EdpBright {
                 control: enginedisplay::EdpBright::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_efc_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_efc_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::EfcLight {
                 control: warningcautionandindicatorlights::EfcLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_efc_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_efc_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(gearflapscontrolpanel::EfcSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::EfcSw {
                 control: gearflapscontrolpanel::EfcSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_efc_wlight<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_efc_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::EfcWlight {
                 control: warningcautionandindicatorlights::EfcWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_emerg_jett<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_emerg_jett<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(gearflapscontrolpanel::EmergJettValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::EmergJett {
                 control: gearflapscontrolpanel::EmergJett::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ems_b<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ems_b<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(throttle::EmsBValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::EmsB {
                 control: throttle::EmsB::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_eng_exc_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_eng_exc_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::EngExcWlight {
                 control: warningcautionandindicatorlights::EngExcWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_eng_start_sw<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_eng_start_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(electricpanel::EngStartSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::EngStartSw {
                 control: electricpanel::EngStartSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ext_aux_lights<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ext_aux_lights<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(externallights::ExtAuxLightsValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::ExtAuxLights {
                 control: externallights::ExtAuxLights::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
@@ -23684,7 +23521,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
 
     pub fn register_ext_formation_lights<F>(
         &mut self,
-        callback: &'a mut F,
+        callback: F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
@@ -23692,20 +23529,20 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         self.controls
             .push(RegisteredControl::ExtFormationLights {
                 control: externalaircraftmodel::ExtFormationLights::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ext_lights<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ext_lights<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(externallights::ExtLightsValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::ExtLights {
                 control: externallights::ExtLights::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
@@ -23713,7 +23550,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
 
     pub fn register_ext_position_lights<F>(
         &mut self,
-        callback: &'a mut F,
+        callback: F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
@@ -23721,1283 +23558,1151 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         self.controls
             .push(RegisteredControl::ExtPositionLights {
                 control: externalaircraftmodel::ExtPositionLights::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ext_speed_brake<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ext_speed_brake<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::ExtSpeedBrake {
                 control: externalaircraftmodel::ExtSpeedBrake::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ext_strobe_tail<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ext_strobe_tail<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::ExtStrobeTail {
                 control: externalaircraftmodel::ExtStrobeTail::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ext_wow_left<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ext_wow_left<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::ExtWowLeft {
                 control: externalaircraftmodel::ExtWowLeft::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ext_wow_nose<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ext_wow_nose<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::ExtWowNose {
                 control: externalaircraftmodel::ExtWowNose::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ext_wow_right<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ext_wow_right<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::ExtWowRight {
                 control: externalaircraftmodel::ExtWowRight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ext_wow_tail<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ext_wow_tail<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::ExtWowTail {
                 control: externalaircraftmodel::ExtWowTail::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ff1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ff1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Ff1 {
                 control: gauges::Ff1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ff2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ff2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Ff2 {
                 control: gauges::Ff2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ff3<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ff3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Ff3 {
                 control: gauges::Ff3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_fire_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_fire_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::FireLight {
                 control: warningcautionandindicatorlights::FireLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flap_mode<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_flap_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(gearflapscontrolpanel::FlapModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::FlapMode {
                 control: gearflapscontrolpanel::FlapMode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flap_pos1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_flap_pos1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FlapPos1 {
                 control: gauges::FlapPos1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flap_pos2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_flap_pos2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FlapPos2 {
                 control: gauges::FlapPos2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flap_power<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_flap_power<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(gearflapscontrolpanel::FlapPowerValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::FlapPower {
                 control: gearflapscontrolpanel::FlapPower::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flaps1_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_flaps1_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::Flaps1Wlight {
                 control: warningcautionandindicatorlights::Flaps1Wlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flaps2_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_flaps2_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::Flaps2Wlight {
                 control: warningcautionandindicatorlights::Flaps2Wlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flaps_bit<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_flaps_bit<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(gearflapscontrolpanel::FlapsBitValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::FlapsBit {
                 control: gearflapscontrolpanel::FlapsBit::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flaps_light<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_flaps_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::FlapsLight {
                 control: warningcautionandindicatorlights::FlapsLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flir<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_flir<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(misc::FlirValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::Flir {
                 control: misc::Flir::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flood_l_bh_aft_b<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_flood_l_bh_aft_b<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FloodLBhAftB {
                 control: floodlamps::FloodLBhAftB::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flood_l_bh_aft_f<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_flood_l_bh_aft_f<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FloodLBhAftF {
                 control: floodlamps::FloodLBhAftF::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flood_l_bh_fwd<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_flood_l_bh_fwd<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FloodLBhFwd {
                 control: floodlamps::FloodLBhFwd::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flood_l_can_b<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_flood_l_can_b<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FloodLCanB {
                 control: floodlamps::FloodLCanB::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flood_l_can_t<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_flood_l_can_t<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FloodLCanT {
                 control: floodlamps::FloodLCanT::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flood_lights<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_flood_lights<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FloodLights {
                 control: gauges::FloodLights::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flood_lights_dial<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_flood_lights_dial<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FloodLightsDial {
                 control: intlight::FloodLightsDial::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flood_r_bh_aft_b<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_flood_r_bh_aft_b<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FloodRBhAftB {
                 control: floodlamps::FloodRBhAftB::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flood_r_bh_aft_f<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_flood_r_bh_aft_f<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FloodRBhAftF {
                 control: floodlamps::FloodRBhAftF::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flood_r_bh_fwd<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_flood_r_bh_fwd<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FloodRBhFwd {
                 control: floodlamps::FloodRBhFwd::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flood_r_can_b<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_flood_r_can_b<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FloodRCanB {
                 control: floodlamps::FloodRCanB::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_flood_r_can_t<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_flood_r_can_t<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FloodRCanT {
                 control: floodlamps::FloodRCanT::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_formation_lights<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_formation_lights<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FormationLights {
                 control: externallights::FormationLights::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_fuel_dump_l<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_fuel_dump_l<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(fuelpanel::FuelDumpLValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::FuelDumpL {
                 control: fuelpanel::FuelDumpL::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_fuel_dump_r<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_fuel_dump_r<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(fuelpanel::FuelDumpRValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::FuelDumpR {
                 control: fuelpanel::FuelDumpR::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_fuel_flag<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_fuel_flag<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::FuelFlag {
                 control: gauges::FuelFlag::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_fuel_prop<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_fuel_prop<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(fuelpanel::FuelPropValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::FuelProp {
                 control: fuelpanel::FuelProp::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_fuel_pump_l<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_fuel_pump_l<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(fuelpanel::FuelPumpLValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::FuelPumpL {
                 control: fuelpanel::FuelPumpL::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_fuel_pump_r<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_fuel_pump_r<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(fuelpanel::FuelPumpRValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::FuelPumpR {
                 control: fuelpanel::FuelPumpR::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_fuel_sel<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_fuel_sel<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(fuelpanel::FuelSelValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::FuelSel {
                 control: fuelpanel::FuelSel::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_fuel_shutoff<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_fuel_shutoff<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bulkheadleft::FuelShutoffValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::FuelShutoff {
                 control: bulkheadleft::FuelShutoff::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_fuz1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_fuz1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Fuz1 {
                 control: gauges::Fuz1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_fuz2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_fuz2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Fuz2 {
                 control: gauges::Fuz2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_fuze_control<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_fuze_control<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::FuzeControlValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::FuzeControl {
                 control: acp::FuzeControl::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_gear_lever_light<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_gear_lever_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::GearLeverLight {
                 control: warningcautionandindicatorlights::GearLeverLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_gear_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_gear_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::GearLight {
                 control: warningcautionandindicatorlights::GearLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_gen_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_gen_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::GenLight {
                 control: warningcautionandindicatorlights::GenLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_gen_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_gen_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(electricpanel::GenSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::GenSw {
                 control: electricpanel::GenSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_gnd_ir_cool<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_gnd_ir_cool<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::GndIrCoolValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::GndIrCool {
                 control: acp::GndIrCool::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_gps_wlight<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_gps_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::GpsWlight {
                 control: warningcautionandindicatorlights::GpsWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_h2o1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_h2o1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::H2o1 {
                 control: gauges::H2o1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_h2o2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_h2o2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::H2o2 {
                 control: gauges::H2o2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_h2o_control_light<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_h2o_control_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::H2oControlLight {
                 control: warningcautionandindicatorlights::H2oControlLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_h2o_dump<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_h2o_dump<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(gearflapscontrolpanel::H2oDumpValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::H2oDump {
                 control: gearflapscontrolpanel::H2oDump::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_h2o_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_h2o_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::H2oLight {
                 control: warningcautionandindicatorlights::H2oLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_h2o_mode<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_h2o_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(h2o::H2oModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::H2oMode {
                 control: h2o::H2oMode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_h2o_sel<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_h2o_sel<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::H2oSel {
                 control: warningcautionandindicatorlights::H2oSel::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hhyd_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_hhyd_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::HhydLight {
                 control: warningcautionandindicatorlights::HhydLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hide_stick<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_hide_stick<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(cockpit::HideStickValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::HideStick {
                 control: cockpit::HideStick::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hud_alt<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_hud_alt<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(hudcontrol::HudAltValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::HudAlt {
                 control: hudcontrol::HudAlt::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hud_bright<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_hud_bright<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::HudBright {
                 control: hudcontrol::HudBright::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hud_mode<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_hud_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(hudcontrol::HudModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::HudMode {
                 control: hudcontrol::HudMode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hud_symbol<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_hud_symbol<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(hudcontrol::HudSymbolValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::HudSymbol {
                 control: hudcontrol::HudSymbol::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hud_video_bright<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_hud_video_bright<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::HudVideoBright {
                 control: hudcontrol::HudVideoBright::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hud_video_contr<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_hud_video_contr<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::HudVideoContr {
                 control: hudcontrol::HudVideoContr::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hyd11<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_hyd11<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Hyd11 {
                 control: gauges::Hyd11::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hyd12<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_hyd12<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Hyd12 {
                 control: gauges::Hyd12::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hyd13<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_hyd13<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Hyd13 {
                 control: gauges::Hyd13::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hyd1_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_hyd1_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::Hyd1Wlight {
                 control: warningcautionandindicatorlights::Hyd1Wlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hyd21<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_hyd21<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Hyd21 {
                 control: gauges::Hyd21::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hyd22<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_hyd22<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Hyd22 {
                 control: gauges::Hyd22::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hyd23<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_hyd23<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Hyd23 {
                 control: gauges::Hyd23::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_hyd2_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_hyd2_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::Hyd2Wlight {
                 control: warningcautionandindicatorlights::Hyd2Wlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ics_aux_vol<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ics_aux_vol<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::IcsAuxVol {
                 control: ics::IcsAuxVol::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ics_gnd_vol<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ics_gnd_vol<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::IcsGndVol {
                 control: ics::IcsGndVol::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ics_mic_mode<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ics_mic_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ics::IcsMicModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IcsMicMode {
                 control: ics::IcsMicMode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_iff_crypt_mode<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_iff_crypt_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(iff::IffCryptModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffCryptMode {
                 control: iff::IffCryptMode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_iff_oper_mode<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_iff_oper_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(iff::IffOperModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffOperMode {
                 control: iff::IffOperMode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_iff_wlight<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_iff_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::IffWlight {
                 control: warningcautionandindicatorlights::IffWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ins_mode<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ins_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ins::InsModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::InsMode {
                 control: ins::InsMode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ins_wlight<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ins_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::InsWlight {
                 control: warningcautionandindicatorlights::InsWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_inst_lights<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_inst_lights<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::InstLights {
                 control: intlight::InstLights::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_invt1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_invt1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Invt1 {
                 control: gauges::Invt1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_invt2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_invt2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Invt2 {
                 control: gauges::Invt2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_invt3<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_invt3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Invt3 {
                 control: gauges::Invt3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jam_hot_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_jam_hot_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::JamHotWlight {
                 control: warningcautionandindicatorlights::JamHotWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jammer_control<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_jammer_control<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ecm::JammerControlValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::JammerControl {
                 control: ecm::JammerControl::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jett_mode<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_jett_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::JettModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::JettMode {
                 control: acp::JettMode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jett_station1<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_jett_station1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::JettStation1Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::JettStation1 {
                 control: acp::JettStation1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
@@ -25005,7 +24710,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
 
     pub fn register_jett_station1_light<F>(
         &mut self,
-        callback: &'a mut F,
+        callback: F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
@@ -25013,23 +24718,20 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         self.controls
             .push(RegisteredControl::JettStation1Light {
                 control: acp::JettStation1Light::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jett_station2<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_jett_station2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::JettStation2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::JettStation2 {
                 control: acp::JettStation2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
@@ -25037,7 +24739,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
 
     pub fn register_jett_station2_light<F>(
         &mut self,
-        callback: &'a mut F,
+        callback: F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
@@ -25045,23 +24747,20 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         self.controls
             .push(RegisteredControl::JettStation2Light {
                 control: acp::JettStation2Light::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jett_station3<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_jett_station3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::JettStation3Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::JettStation3 {
                 control: acp::JettStation3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
@@ -25069,7 +24768,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
 
     pub fn register_jett_station3_light<F>(
         &mut self,
-        callback: &'a mut F,
+        callback: F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
@@ -25077,23 +24776,20 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         self.controls
             .push(RegisteredControl::JettStation3Light {
                 control: acp::JettStation3Light::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jett_station4<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_jett_station4<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::JettStation4Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::JettStation4 {
                 control: acp::JettStation4::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
@@ -25101,7 +24797,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
 
     pub fn register_jett_station4_light<F>(
         &mut self,
-        callback: &'a mut F,
+        callback: F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
@@ -25109,23 +24805,20 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         self.controls
             .push(RegisteredControl::JettStation4Light {
                 control: acp::JettStation4Light::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jett_station5<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_jett_station5<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::JettStation5Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::JettStation5 {
                 control: acp::JettStation5::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
@@ -25133,7 +24826,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
 
     pub fn register_jett_station5_light<F>(
         &mut self,
-        callback: &'a mut F,
+        callback: F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
@@ -25141,23 +24834,20 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         self.controls
             .push(RegisteredControl::JettStation5Light {
                 control: acp::JettStation5Light::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jett_station6<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_jett_station6<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::JettStation6Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::JettStation6 {
                 control: acp::JettStation6::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
@@ -25165,7 +24855,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
 
     pub fn register_jett_station6_light<F>(
         &mut self,
-        callback: &'a mut F,
+        callback: F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
@@ -25173,23 +24863,20 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         self.controls
             .push(RegisteredControl::JettStation6Light {
                 control: acp::JettStation6Light::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jett_station7<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_jett_station7<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::JettStation7Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::JettStation7 {
                 control: acp::JettStation7::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
@@ -25197,7 +24884,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
 
     pub fn register_jett_station7_light<F>(
         &mut self,
-        callback: &'a mut F,
+        callback: F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
@@ -25205,204 +24892,189 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         self.controls
             .push(RegisteredControl::JettStation7Light {
                 control: acp::JettStation7Light::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jett_stores<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_jett_stores<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::JettStoresValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::JettStores {
                 control: acp::JettStores::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jpt1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_jpt1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Jpt1 {
                 control: gauges::Jpt1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jpt2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_jpt2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Jpt2 {
                 control: gauges::Jpt2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jpt3<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_jpt3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Jpt3 {
                 control: gauges::Jpt3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jptl_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_jptl_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::JptlLight {
                 control: warningcautionandindicatorlights::JptlLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_jptl_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_jptl_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(throttle::JptlSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::JptlSw {
                 control: throttle::JptlSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_knt_pointer_l<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_knt_pointer_l<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::KntPointerL {
                 control: gauges::KntPointerL::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_knt_pointer_s<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_knt_pointer_s<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::KntPointerS {
                 control: gauges::KntPointerS::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ky1_mode<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ky1_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acnip::Ky1ModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::Ky1Mode {
                 control: acnip::Ky1Mode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ky1_type<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ky1_type<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acnip::Ky1TypeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::Ky1Type {
                 control: acnip::Ky1Type::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ky2_mode<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ky2_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acnip::Ky2ModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::Ky2Mode {
                 control: acnip::Ky2Mode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ky2_type<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ky2_type<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acnip::Ky2TypeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::Ky2Type {
                 control: acnip::Ky2Type::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ky58_code_clear<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ky58_code_clear<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acnip::Ky58CodeClearValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::Ky58CodeClear {
                 control: acnip::Ky58CodeClear::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ky58_code_load<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ky58_code_load<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acnip::Ky58CodeLoadValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::Ky58CodeLoad {
                 control: acnip::Ky58CodeLoad::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
@@ -25410,7 +25082,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
 
     pub fn register_landing_taxi_lights<F>(
         &mut self,
-        callback: &'a mut F,
+        callback: F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(externallights::LandingTaxiLightsValue) + 'a,
@@ -25418,1299 +25090,1203 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         self.controls
             .push(RegisteredControl::LandingTaxiLights {
                 control: externallights::LandingTaxiLights::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_launch_flare_salvo<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_launch_flare_salvo<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(masterarmamentpanel::LaunchFlareSalvoValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::LaunchFlareSalvo {
                 control: masterarmamentpanel::LaunchFlareSalvo::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_law_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_law_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::LawLight {
                 control: warningcautionandindicatorlights::LawLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lbs_l1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_lbs_l1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::LbsL1 {
                 control: gauges::LbsL1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lbs_l2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_lbs_l2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::LbsL2 {
                 control: gauges::LbsL2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lbs_l3<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_lbs_l3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::LbsL3 {
                 control: gauges::LbsL3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lbs_l4<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_lbs_l4<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::LbsL4 {
                 control: gauges::LbsL4::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lbs_r1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_lbs_r1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::LbsR1 {
                 control: gauges::LbsR1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lbs_r2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_lbs_r2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::LbsR2 {
                 control: gauges::LbsR2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lbs_r3<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_lbs_r3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::LbsR3 {
                 control: gauges::LbsR3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lbs_r4<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_lbs_r4<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::LbsR4 {
                 control: gauges::LbsR4::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_left_gear_g<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_left_gear_g<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::LeftGearG {
                 control: warningcautionandindicatorlights::LeftGearG::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_left_gear_y<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_left_gear_y<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::LeftGearY {
                 control: warningcautionandindicatorlights::LeftGearY::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_left_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_left_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::LeftLight {
                 control: warningcautionandindicatorlights::LeftLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lfuel_light<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_lfuel_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::LfuelLight {
                 control: warningcautionandindicatorlights::LfuelLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lg_down_lock<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_lg_down_lock<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(gearflapscontrolpanel::LgDownLockValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::LgDownLock {
                 control: gearflapscontrolpanel::LgDownLock::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lg_emerg_lever<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_lg_emerg_lever<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(gearflapscontrolpanel::LgEmergLeverValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::LgEmergLever {
                 control: gearflapscontrolpanel::LgEmergLever::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lg_emergbatt_lever<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_lg_emergbatt_lever<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(gearflapscontrolpanel::LgEmergbattLeverValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::LgEmergbattLever {
                 control: gearflapscontrolpanel::LgEmergbattLever::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lg_lever<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_lg_lever<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(gearflapscontrolpanel::LgLeverValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::LgLever {
                 control: gearflapscontrolpanel::LgLever::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lids_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_lids_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(gearflapscontrolpanel::LidsSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::LidsSw {
                 control: gearflapscontrolpanel::LidsSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lids_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_lids_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::LidsWlight {
                 control: warningcautionandindicatorlights::LidsWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_line2_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_line2_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::Line2Wlight {
                 control: warningcautionandindicatorlights::Line2Wlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_line_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_line_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::LineWlight {
                 control: warningcautionandindicatorlights::LineWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_load_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_load_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::LoadWlight {
                 control: warningcautionandindicatorlights::LoadWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_lpump_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_lpump_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::LpumpWlight {
                 control: warningcautionandindicatorlights::LpumpWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ltank_light<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ltank_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::LtankLight {
                 control: warningcautionandindicatorlights::LtankLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ltrans_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ltrans_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::LtransWlight {
                 control: warningcautionandindicatorlights::LtransWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_m_caution<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_m_caution<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(masterwarningpanel::MCautionValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MCaution {
                 control: masterwarningpanel::MCaution::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_m_warning<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_m_warning<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(masterwarningpanel::MWarningValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MWarning {
                 control: masterwarningpanel::MWarning::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_main_gear_g<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_main_gear_g<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::MainGearG {
                 control: warningcautionandindicatorlights::MainGearG::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_main_gear_y<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_main_gear_y<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::MainGearY {
                 control: warningcautionandindicatorlights::MainGearY::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_man_fuel_sw<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_man_fuel_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(throttle::ManFuelSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::ManFuelSw {
                 control: throttle::ManFuelSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_master_arm<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_master_arm<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(masterarmamentpanel::MasterArmValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MasterArm {
                 control: masterarmamentpanel::MasterArm::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mc_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mc_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::McLight {
                 control: warningcautionandindicatorlights::McLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mfs_emerg_lever<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_mfs_emerg_lever<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bulkhead::MfsEmergLeverValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MfsEmergLever {
                 control: bulkhead::MfsEmergLever::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mfs_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mfs_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::MfsLight {
                 control: warningcautionandindicatorlights::MfsLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mip_lights<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mip_lights<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::MipLights {
                 control: gauges::MipLights::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mirror_toggle_c<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_mirror_toggle_c<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(canopy::MirrorToggleCValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MirrorToggleC {
                 control: canopy::MirrorToggleC::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mirror_toggle_l<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_mirror_toggle_l<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(canopy::MirrorToggleLValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MirrorToggleL {
                 control: canopy::MirrorToggleL::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mirror_toggle_r<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_mirror_toggle_r<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(canopy::MirrorToggleRValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MirrorToggleR {
                 control: canopy::MirrorToggleR::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_miss_pc_mode<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_miss_pc_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(misc::MissPcModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MissPcMode {
                 control: misc::MissPcMode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mode_gauge<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mode_gauge<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::ModeGauge {
                 control: gauges::ModeGauge::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL1Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL1 {
                 control: mpcdleft::MpcdL1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l10<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l10<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL10Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL10 {
                 control: mpcdleft::MpcdL10::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l11<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l11<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL11Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL11 {
                 control: mpcdleft::MpcdL11::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l12<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l12<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL12Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL12 {
                 control: mpcdleft::MpcdL12::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l13<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l13<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL13Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL13 {
                 control: mpcdleft::MpcdL13::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l14<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l14<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL14Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL14 {
                 control: mpcdleft::MpcdL14::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l15<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l15<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL15Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL15 {
                 control: mpcdleft::MpcdL15::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l16<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l16<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL16Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL16 {
                 control: mpcdleft::MpcdL16::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l17<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l17<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL17Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL17 {
                 control: mpcdleft::MpcdL17::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l18<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l18<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL18Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL18 {
                 control: mpcdleft::MpcdL18::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l19<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l19<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL19Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL19 {
                 control: mpcdleft::MpcdL19::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL2 {
                 control: mpcdleft::MpcdL2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l20<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l20<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL20Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL20 {
                 control: mpcdleft::MpcdL20::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l3<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL3Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL3 {
                 control: mpcdleft::MpcdL3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l4<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l4<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL4Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL4 {
                 control: mpcdleft::MpcdL4::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l5<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l5<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL5Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL5 {
                 control: mpcdleft::MpcdL5::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l6<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l6<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL6Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL6 {
                 control: mpcdleft::MpcdL6::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l7<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l7<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL7Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL7 {
                 control: mpcdleft::MpcdL7::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l8<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l8<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL8Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL8 {
                 control: mpcdleft::MpcdL8::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l9<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l9<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdL9Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdL9 {
                 control: mpcdleft::MpcdL9::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l_bright<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l_bright<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdLBright {
                 control: mpcdleft::MpcdLBright::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l_contrast<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l_contrast<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdLContrastValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdLContrast {
                 control: mpcdleft::MpcdLContrast::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l_day_night<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l_day_night<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdLDayNightValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdLDayNight {
                 control: mpcdleft::MpcdLDayNight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l_gain<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l_gain<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdLGainValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdLGain {
                 control: mpcdleft::MpcdLGain::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_l_symbol<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_l_symbol<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdleft::MpcdLSymbolValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdLSymbol {
                 control: mpcdleft::MpcdLSymbol::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR1Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR1 {
                 control: mpcdright::MpcdR1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r10<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r10<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR10Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR10 {
                 control: mpcdright::MpcdR10::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r11<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r11<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR11Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR11 {
                 control: mpcdright::MpcdR11::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r12<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r12<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR12Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR12 {
                 control: mpcdright::MpcdR12::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r13<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r13<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR13Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR13 {
                 control: mpcdright::MpcdR13::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r14<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r14<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR14Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR14 {
                 control: mpcdright::MpcdR14::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r15<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r15<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR15Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR15 {
                 control: mpcdright::MpcdR15::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r16<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r16<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR16Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR16 {
                 control: mpcdright::MpcdR16::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r17<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r17<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR17Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR17 {
                 control: mpcdright::MpcdR17::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r18<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r18<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR18Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR18 {
                 control: mpcdright::MpcdR18::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r19<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r19<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR19Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR19 {
                 control: mpcdright::MpcdR19::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR2 {
                 control: mpcdright::MpcdR2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r20<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r20<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR20Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR20 {
                 control: mpcdright::MpcdR20::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r3<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR3Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR3 {
                 control: mpcdright::MpcdR3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r4<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r4<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR4Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR4 {
                 control: mpcdright::MpcdR4::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r5<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r5<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR5Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR5 {
                 control: mpcdright::MpcdR5::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r6<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r6<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR6Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR6 {
                 control: mpcdright::MpcdR6::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r7<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r7<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR7Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR7 {
                 control: mpcdright::MpcdR7::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r8<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r8<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR8Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR8 {
                 control: mpcdright::MpcdR8::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r9<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r9<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdR9Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdR9 {
                 control: mpcdright::MpcdR9::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r_bright<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r_bright<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdRBright {
                 control: mpcdright::MpcdRBright::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r_contrast<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r_contrast<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdRContrastValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdRContrast {
                 control: mpcdright::MpcdRContrast::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r_day_night<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r_day_night<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdRDayNightValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdRDayNight {
                 control: mpcdright::MpcdRDayNight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r_gain<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r_gain<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdRGainValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdRGain {
                 control: mpcdright::MpcdRGain::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mpcd_r_symbol<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_mpcd_r_symbol<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mpcdright::MpcdRSymbolValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::MpcdRSymbol {
                 control: mpcdright::MpcdRSymbol::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mult_gauge<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mult_gauge<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::MultGauge {
                 control: gauges::MultGauge::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
@@ -26718,7 +26294,7 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
 
     pub fn register_multi_release_control<F>(
         &mut self,
-        callback: &'a mut F,
+        callback: F,
     ) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::MultiReleaseControlValue) + 'a,
@@ -26726,2037 +26302,1866 @@ impl<'a, const MAX_CONTROLS: usize, const MAX_PACKET_DATA: usize>
         self.controls
             .push(RegisteredControl::MultiReleaseControl {
                 control: acp::MultiReleaseControl::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_mw_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_mw_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::MwLight {
                 control: warningcautionandindicatorlights::MwLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_nav_crs<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_nav_crs<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(flightinstruments::NavCrsValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::NavCrs {
                 control: flightinstruments::NavCrs::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_nav_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_nav_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::NavLight {
                 control: warningcautionandindicatorlights::NavLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_nav_sel<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_nav_sel<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mastermodes::NavSelValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::NavSel {
                 control: mastermodes::NavSel::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_nose_gear_g<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_nose_gear_g<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::NoseGearG {
                 control: warningcautionandindicatorlights::NoseGearG::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_nose_gear_y<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_nose_gear_y<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::NoseGearY {
                 control: warningcautionandindicatorlights::NoseGearY::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_nozzle_friction<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_nozzle_friction<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::NozzleFriction {
                 control: throttle::NozzleFriction::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_nozzle_lever<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_nozzle_lever<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::NozzleLever {
                 control: throttle::NozzleLever::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_nozzle_pointer<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_nozzle_pointer<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::NozzlePointer {
                 control: gauges::NozzlePointer::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_nws_wlight<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_nws_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::NwsWlight {
                 control: warningcautionandindicatorlights::NwsWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_o2_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_o2_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(gearflapscontrolpanel::O2SwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::O2Sw {
                 control: gearflapscontrolpanel::O2Sw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_odu_opt1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_odu_opt1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(odu::OduOpt1Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::OduOpt1 {
                 control: odu::OduOpt1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_odu_opt2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_odu_opt2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(odu::OduOpt2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::OduOpt2 {
                 control: odu::OduOpt2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_odu_opt3<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_odu_opt3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(odu::OduOpt3Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::OduOpt3 {
                 control: odu::OduOpt3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_odu_opt4<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_odu_opt4<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(odu::OduOpt4Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::OduOpt4 {
                 control: odu::OduOpt4::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_odu_opt5<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_odu_opt5<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(odu::OduOpt5Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::OduOpt5 {
                 control: odu::OduOpt5::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_oil_wlight<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_oil_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::OilWlight {
                 control: warningcautionandindicatorlights::OilWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ot_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ot_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::OtLight {
                 control: warningcautionandindicatorlights::OtLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_oxy_wlight<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_oxy_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::OxyWlight {
                 control: warningcautionandindicatorlights::OxyWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_p_jam_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_p_jam_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::PJamWlight {
                 control: warningcautionandindicatorlights::PJamWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_p_nogo_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_p_nogo_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::PNogoWlight {
                 control: warningcautionandindicatorlights::PNogoWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_park_brake_lv<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_park_brake_lv<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(throttle::ParkBrakeLvValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::ParkBrakeLv {
                 control: throttle::ParkBrakeLv::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_pitch_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_pitch_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::PitchWlight {
                 control: warningcautionandindicatorlights::PitchWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_pos_lights<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_pos_lights<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(externallights::PosLightsValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::PosLights {
                 control: externallights::PosLights::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_probe<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_probe<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(fuelpanel::ProbeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::Probe {
                 control: fuelpanel::Probe::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_probe_heat_mode<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_probe_heat_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(misc::ProbeHeatModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::ProbeHeatMode {
                 control: misc::ProbeHeatMode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_prop_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_prop_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::PropWlight {
                 control: warningcautionandindicatorlights::PropWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_q_feel_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_q_feel_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(saahs::QFeelSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::QFeelSw {
                 control: saahs::QFeelSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_qty1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_qty1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Qty1 {
                 control: gauges::Qty1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_qty2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_qty2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Qty2 {
                 control: gauges::Qty2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_quant_sel01<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_quant_sel01<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::QuantSel01Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::QuantSel01 {
                 control: acp::QuantSel01::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_quant_sel10<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_quant_sel10<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::QuantSel10Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::QuantSel10 {
                 control: acp::QuantSel10::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ready_light<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ready_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::ReadyLight {
                 control: warningcautionandindicatorlights::ReadyLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_record_sys_display<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_record_sys_display<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(misc::RecordSysDisplayValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::RecordSysDisplay {
                 control: misc::RecordSysDisplay::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_record_sys_mode<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_record_sys_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(misc::RecordSysModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::RecordSysMode {
                 control: misc::RecordSysMode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_release_control<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_release_control<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::ReleaseControlValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::ReleaseControl {
                 control: acp::ReleaseControl::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_release_int001<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_release_int001<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::ReleaseInt001Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::ReleaseInt001 {
                 control: acp::ReleaseInt001::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_release_int010<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_release_int010<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::ReleaseInt010Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::ReleaseInt010 {
                 control: acp::ReleaseInt010::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_release_int100<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_release_int100<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(acp::ReleaseInt100Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::ReleaseInt100 {
                 control: acp::ReleaseInt100::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_reply_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_reply_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::ReplyWlight {
                 control: warningcautionandindicatorlights::ReplyWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rfuel_light<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_rfuel_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::RfuelLight {
                 control: warningcautionandindicatorlights::RfuelLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_right_gear_g<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_right_gear_g<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::RightGearG {
                 control: warningcautionandindicatorlights::RightGearG::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_right_gear_y<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_right_gear_y<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::RightGearY {
                 control: warningcautionandindicatorlights::RightGearY::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_right_light<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_right_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::RightLight {
                 control: warningcautionandindicatorlights::RightLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_roll_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_roll_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::RollWlight {
                 control: warningcautionandindicatorlights::RollWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rpm1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_rpm1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Rpm1 {
                 control: gauges::Rpm1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rpm2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_rpm2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Rpm2 {
                 control: gauges::Rpm2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rpm3<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_rpm3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Rpm3 {
                 control: gauges::Rpm3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rpm4<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_rpm4<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Rpm4 {
                 control: gauges::Rpm4::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rpm_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_rpm_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(gearflapscontrolpanel::RpmSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::RpmSw {
                 control: gearflapscontrolpanel::RpmSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rpump_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_rpump_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::RpumpWlight {
                 control: warningcautionandindicatorlights::RpumpWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rtank_light<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_rtank_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::RtankLight {
                 control: warningcautionandindicatorlights::RtankLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rtrans_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_rtrans_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::RtransWlight {
                 control: warningcautionandindicatorlights::RtransWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rudder_needle<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_rudder_needle<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::RudderNeedle {
                 control: gauges::RudderNeedle::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rudder_trim<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_rudder_trim<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(throttle::RudderTrimValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::RudderTrim {
                 control: throttle::RudderTrim::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_rwr_vol<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_rwr_vol<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::RwrVol {
                 control: ecm::RwrVol::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_sam_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_sam_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::SamLight {
                 control: warningcautionandindicatorlights::SamLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_sas_pitch<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_sas_pitch<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(saahs::SasPitchValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::SasPitch {
                 control: saahs::SasPitch::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_sas_roll<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_sas_roll<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(saahs::SasRollValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::SasRoll {
                 control: saahs::SasRoll::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_sas_yaw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_sas_yaw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(saahs::SasYawValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::SasYaw {
                 control: saahs::SasYaw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_seat_adj<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_seat_adj<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bulkheadleft::SeatAdjValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::SeatAdj {
                 control: bulkheadleft::SeatAdj::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_seat_safe_lever<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_seat_safe_lever<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(seat::SeatSafeLeverValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::SeatSafeLever {
                 control: seat::SeatSafeLever::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_sel_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_sel_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::SelLight {
                 control: warningcautionandindicatorlights::SelLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_set_flag1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_set_flag1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::SetFlag1 {
                 control: gauges::SetFlag1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_set_flag2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_set_flag2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::SetFlag2 {
                 control: gauges::SetFlag2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_set_flag3<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_set_flag3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::SetFlag3 {
                 control: gauges::SetFlag3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_set_flag4<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_set_flag4<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::SetFlag4 {
                 control: gauges::SetFlag4::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_set_flag5<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_set_flag5<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::SetFlag5 {
                 control: gauges::SetFlag5::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_set_flag6<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_set_flag6<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::SetFlag6 {
                 control: gauges::SetFlag6::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_set_flag7<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_set_flag7<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::SetFlag7 {
                 control: gauges::SetFlag7::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_sidepanel_lights<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_sidepanel_lights<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::SidepanelLights {
                 control: gauges::SidepanelLights::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_skid_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_skid_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::SkidWlight {
                 control: warningcautionandindicatorlights::SkidWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_slip_ind<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_slip_ind<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::SlipInd {
                 control: gauges::SlipInd::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_slip_turn_flag<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_slip_turn_flag<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::SlipTurnFlag {
                 control: gauges::SlipTurnFlag::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_spd_brk_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_spd_brk_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::SpdBrkWlight {
                 control: warningcautionandindicatorlights::SpdBrkWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_stab1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_stab1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Stab1 {
                 control: gauges::Stab1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_stab2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_stab2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Stab2 {
                 control: gauges::Stab2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_stab_arrow<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_stab_arrow<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::StabArrow {
                 control: gauges::StabArrow::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_stby_tr_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_stby_tr_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::StbyTrWlight {
                 control: warningcautionandindicatorlights::StbyTrWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_sto_lever<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_sto_lever<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::StoLever {
                 control: throttle::StoLever::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_sto_light<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_sto_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::StoLight {
                 control: warningcautionandindicatorlights::StoLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_stopwatch_lap<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_stopwatch_lap<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bulkhead::StopwatchLapValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::StopwatchLap {
                 control: bulkhead::StopwatchLap::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_stopwatch_start<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_stopwatch_start<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bulkhead::StopwatchStartValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::StopwatchStart {
                 control: bulkhead::StopwatchStart::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_temp_control<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_temp_control<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::TempControl {
                 control: ecs::TempControl::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_thrott_cutoff_lv<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_thrott_cutoff_lv<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(throttle::ThrottCutoffLvValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::ThrottCutoffLv {
                 control: throttle::ThrottCutoffLv::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_throttle_friction<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_throttle_friction<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::ThrottleFriction {
                 control: throttle::ThrottleFriction::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_tot_fuel1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_tot_fuel1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::TotFuel1 {
                 control: gauges::TotFuel1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_tot_fuel2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_tot_fuel2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::TotFuel2 {
                 control: gauges::TotFuel2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_tot_fuel3<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_tot_fuel3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::TotFuel3 {
                 control: gauges::TotFuel3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_tot_fuel4<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_tot_fuel4<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::TotFuel4 {
                 control: gauges::TotFuel4::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_tot_fuel5<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_tot_fuel5<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::TotFuel5 {
                 control: gauges::TotFuel5::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_trim_mode<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_trim_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(trim::TrimModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::TrimMode {
                 control: trim::TrimMode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_turn_indi<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_turn_indi<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::TurnIndi {
                 control: gauges::TurnIndi::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_alt<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_alt<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcAltValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcAlt {
                 control: ufc::UfcAlt::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_b0<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_b0<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcB0Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcB0 {
                 control: ufc::UfcB0::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_b1<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_b1<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcB1Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcB1 {
                 control: ufc::UfcB1::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_b2<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_b2<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcB2Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcB2 {
                 control: ufc::UfcB2::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_b3<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_b3<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcB3Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcB3 {
                 control: ufc::UfcB3::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_b4<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_b4<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcB4Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcB4 {
                 control: ufc::UfcB4::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_b5<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_b5<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcB5Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcB5 {
                 control: ufc::UfcB5::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_b6<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_b6<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcB6Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcB6 {
                 control: ufc::UfcB6::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_b7<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_b7<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcB7Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcB7 {
                 control: ufc::UfcB7::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_b8<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_b8<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcB8Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcB8 {
                 control: ufc::UfcB8::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_b9<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_b9<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcB9Value) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcB9 {
                 control: ufc::UfcB9::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_beacon<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_beacon<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcBeaconValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcBeacon {
                 control: ufc::UfcBeacon::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_bright<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_bright<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcBright {
                 control: uhfradio::UfcBright::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_clear<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_clear<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcClearValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcClear {
                 control: ufc::UfcClear::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_com1_pull<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_com1_pull<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(uhfradio::UfcCom1PullValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcCom1Pull {
                 control: uhfradio::UfcCom1Pull::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_com1_sel<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_com1_sel<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcCom1Sel {
                 control: uhfradio::UfcCom1Sel::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_com1_vol<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_com1_vol<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcCom1Vol {
                 control: uhfradio::UfcCom1Vol::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_com2_pull<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_com2_pull<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(uhfradio::UfcCom2PullValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcCom2Pull {
                 control: uhfradio::UfcCom2Pull::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_com2_sel<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_com2_sel<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcCom2Sel {
                 control: uhfradio::UfcCom2Sel::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_com2_vol<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_com2_vol<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcCom2Vol {
                 control: uhfradio::UfcCom2Vol::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_comm1_display<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_comm1_display<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcComm1Display {
                 control: ufc::UfcComm1Display::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_comm2_display<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_comm2_display<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcComm2Display {
                 control: ufc::UfcComm2Display::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_dash<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_dash<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcDashValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcDash {
                 control: ufc::UfcDash::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_dot<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_dot<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcDotValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcDot {
                 control: ufc::UfcDot::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_emcom<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_emcom<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcEmcomValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcEmcom {
                 control: ufc::UfcEmcom::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_enter<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_enter<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcEnterValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcEnter {
                 control: ufc::UfcEnter::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_iff<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_iff<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcIffValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcIff {
                 control: ufc::UfcIff::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_ip<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_ip<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcIpValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcIp {
                 control: ufc::UfcIp::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_onoff<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_onoff<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcOnoffValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcOnoff {
                 control: ufc::UfcOnoff::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_save<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_save<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcSaveValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcSave {
                 control: ufc::UfcSave::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_scratchpad<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_scratchpad<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(&[u8]) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcScratchpad {
                 control: ufc::UfcScratchpad::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_tacan<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_tacan<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcTacanValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcTacan {
                 control: ufc::UfcTacan::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_target<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_target<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcTargetValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcTarget {
                 control: ufc::UfcTarget::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_timer<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_timer<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcTimerValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcTimer {
                 control: ufc::UfcTimer::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_way<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_way<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcWayValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcWay {
                 control: ufc::UfcWay::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_weapon<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_weapon<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcWeaponValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcWeapon {
                 control: ufc::UfcWeapon::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_ufc_weather<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_ufc_weather<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(ufc::UfcWeatherValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UfcWeather {
                 control: ufc::UfcWeather::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_uhf_anc_point<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_uhf_anc_point<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(uhfradio::UhfAncPointValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UhfAncPoint {
                 control: uhfradio::UhfAncPoint::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_uhf_anc_sw<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_uhf_anc_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(uhfradio::UhfAncSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UhfAncSw {
                 control: uhfradio::UhfAncSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_uhf_freq<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_uhf_freq<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::UhfFreq {
                 control: uhfradio::UhfFreq::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_uhf_load_sw<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_uhf_load_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(uhfradio::UhfLoadSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UhfLoadSw {
                 control: uhfradio::UhfLoadSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_uhf_mode<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_uhf_mode<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(uhfradio::UhfModeValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::UhfMode {
                 control: uhfradio::UhfMode::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_uhf_vol<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_uhf_vol<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::UhfVol {
                 control: uhfradio::UhfVol::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_volt_meter<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_volt_meter<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::VoltMeter {
                 control: gauges::VoltMeter::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_vstol_light<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_vstol_light<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::VstolLight {
                 control: warningcautionandindicatorlights::VstolLight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_vstol_sel<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_vstol_sel<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(mastermodes::VstolSelValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::VstolSel {
                 control: mastermodes::VstolSel::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_vvi<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_vvi<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(u16) + 'a,
     {
         self.controls
             .push(RegisteredControl::Vvi {
                 control: gauges::Vvi::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_wsld_wlight<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_wsld_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::WsldWlight {
                 control: warningcautionandindicatorlights::WsldWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_yaw_trim_sw<F>(
-        &mut self,
-        callback: &'a mut F,
-    ) -> Result<&mut Self, &'static str>
+    pub fn register_yaw_trim_sw<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(trim::YawTrimSwValue) + 'a,
     {
         self.controls
             .push(RegisteredControl::YawTrimSw {
                 control: trim::YawTrimSw::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)
     }
 
-    pub fn register_yaw_wlight<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>
+    pub fn register_yaw_wlight<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>
     where
         F: FnMut(bool) + 'a,
     {
         self.controls
             .push(RegisteredControl::YawWlight {
                 control: warningcautionandindicatorlights::YawWlight::new(),
-                callback,
+                callback: alloc::boxed::Box::new(callback),
             })
             .map_err(|_| "aircraft control capacity exceeded")?;
         Ok(self)

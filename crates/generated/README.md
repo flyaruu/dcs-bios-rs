@@ -10,7 +10,22 @@ The bindings are generated code. Do not edit the files under `src/` manually; re
 ./generate-planes.sh
 ```
 
-The generated crate is `no_std` and does not perform network or serial I/O. Applications provide received DCS-BIOS bytes to the aircraft runtime through its `feed` method. Transport handling belongs in the application using this crate.
+The generated crate is `no_std` and does not perform network or serial I/O. It uses `alloc` to own registered callbacks, so the target must provide a global allocator. Applications provide received DCS-BIOS bytes to the aircraft runtime through its `feed` method. Transport handling belongs in the application using this crate. The protocol implementation and generic control types are provided by [`dcs-bios-rs-lib`](../lib).
+
+Each aircraft is exposed as a module, and the groups from its DCS-BIOS model definition are exposed as submodules. For example, AV-8BNA controls in the `ACP` group are available under `av8bna::acp`:
+
+```rust
+use dcs_bios_rs_generated::av8bna::{acp::JettModeValue, Av8bnaBuilder};
+
+let mut builder = Av8bnaBuilder::<4, 256>::new();
+builder.register_jett_mode(|value: JettModeValue| {
+    // Handle a changed JETT_MODE value.
+})?;
+let mut aircraft = builder.build();
+aircraft.feed(received_bytes)?;
+```
+
+The aircraft builder remains at the aircraft-module level, while control and selector types live in their corresponding group modules. Generated bindings are not re-exported at the aircraft root.
 
 ## Included models
 
@@ -27,13 +42,8 @@ The generated crate is `no_std` and does not perform network or serial I/O. Appl
 | FC3 | `fc3` |
 | M-2000C | `m2000c` |
 | P-51D | `p51d` |
+| SA342M | `sa342m` |
 | UH-1H | `uh1h` |
-
-For example, the AV-8BNA builder and a selector value can be imported with:
-
-```rust
-use dcs_bios_rs_generated::av8bna::{acp::JettModeValue, Av8bnaBuilder};
-```
 
 The model definitions are maintained by the DCS-BIOS project and may change as aircraft modules are updated. Regenerate the bindings when the model definitions change.
 

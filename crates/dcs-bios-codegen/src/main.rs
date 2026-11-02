@@ -109,7 +109,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     modules.sort();
 
-    let mut lib = String::from("#![no_std]\n\n//! Generated DCS-BIOS aircraft bindings.\n\n");
+    let mut lib = String::from(
+        "#![no_std]\n\n//! Generated DCS-BIOS aircraft bindings.\n\nextern crate alloc;\n\n",
+    );
     for module in modules {
         writeln!(lib, "pub mod {module};")?;
     }
@@ -177,9 +179,9 @@ fn generate_model(json: &str, model_name: &str) -> Result<String, Box<dyn std::e
          Led, LimitedDial, Metadata, Packet, ProtocolParser, Selector, Sink};\n\
          \n",
     );
-    source.push_str("pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);\n");
-    source.push_str("pub type LedCallback<'a> = &'a mut dyn FnMut(bool);\n");
-    source.push_str("pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);\n\n");
+    source.push_str("pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;\n");
+    source.push_str("pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;\n");
+    source.push_str("pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;\n\n");
 
     let mut groups = BTreeMap::<String, Vec<&GeneratedControl>>::new();
     for control in &controls {
@@ -191,9 +193,14 @@ fn generate_model(json: &str, model_name: &str) -> Result<String, Box<dyn std::e
     for (group_module, group_controls) in groups {
         writeln!(source, "pub mod {group_module} {{")?;
         source.push_str("    use super::*;\n\n");
-        source.push_str("    pub type IntegerCallback<'a> = &'a mut dyn FnMut(u16);\n");
-        source.push_str("    pub type LedCallback<'a> = &'a mut dyn FnMut(bool);\n");
-        source.push_str("    pub type DisplayCallback<'a> = &'a mut dyn FnMut(&[u8]);\n\n");
+        source.push_str(
+            "    pub type IntegerCallback<'a> = alloc::boxed::Box<dyn FnMut(u16) + 'a>;\n",
+        );
+        source
+            .push_str("    pub type LedCallback<'a> = alloc::boxed::Box<dyn FnMut(bool) + 'a>;\n");
+        source.push_str(
+            "    pub type DisplayCallback<'a> = alloc::boxed::Box<dyn FnMut(&[u8]) + 'a>;\n\n",
+        );
         for control in group_controls {
             if let Some(enum_definition) = &control.enum_definition {
                 for line in enum_definition.lines() {
@@ -306,13 +313,13 @@ fn generate_model(json: &str, model_name: &str) -> Result<String, Box<dyn std::e
         };
         writeln!(
             source,
-            "    pub fn register_{}<F>(&mut self, callback: &'a mut F) -> Result<&mut Self, &'static str>",
+            "    pub fn register_{}<F>(&mut self, callback: F) -> Result<&mut Self, &'static str>",
             snake_case(&control.name)
         )?;
         writeln!(source, "    where F: FnMut({}) + 'a {{", callback_argument)?;
         writeln!(
             source,
-            "        self.controls.push(RegisteredControl::{} {{ control: {}::{}::new(), callback }}).map_err(|_| \"aircraft control capacity exceeded\")?;",
+            "        self.controls.push(RegisteredControl::{} {{ control: {}::{}::new(), callback: alloc::boxed::Box::new(callback) }}).map_err(|_| \"aircraft control capacity exceeded\")?;",
             control.name, control.group_module, control.name
         )?;
         source.push_str("        Ok(self)\n    }\n\n");
@@ -499,7 +506,7 @@ fn generated_control(
         writeln!(definition_source, "}}")?;
         writeln!(
             definition_source,
-            "pub type {enum_name}Callback<'a> = &'a mut dyn FnMut({enum_name});"
+            "pub type {enum_name}Callback<'a> = alloc::boxed::Box<dyn FnMut({enum_name}) + 'a>;"
         )?;
         writeln!(
             definition_source,

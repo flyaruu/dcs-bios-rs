@@ -70,13 +70,11 @@ use dcs_bios_rs_generated::av8bna::{
     Av8bnaBuilder,
 };
 
-let mut on_jett_mode = |value: JettModeValue| {
+let mut builder = Av8bnaBuilder::<4, 256>::new();
+builder.register_jett_mode(|value: JettModeValue| {
     // Handle a changed selector value.
     println!("JETT_MODE: {:?}", value);
-};
-
-let mut builder = Av8bnaBuilder::<4, 256>::new();
-builder.register_jett_mode(&mut on_jett_mode)?;
+})?;
 
 let mut aircraft = builder.build();
 aircraft.feed(received_bytes)?;
@@ -128,7 +126,7 @@ The `model-definitions` directory contains DCS-BIOS JSON files for aircraft such
 - P-51D
 - UH-1H
 
-- The generated crate exposes one module per aircraft, with JSON groups as submodules, for example:
+- The generated crate exposes one module per aircraft, with JSON groups as submodules, for example. It uses `alloc` to own registered callbacks, while remaining `no_std`; the target must provide a global allocator.
 
 ```rust
 use dcs_bios_rs_generated::av8bna::{acp::JettModeValue, Av8bnaBuilder};
